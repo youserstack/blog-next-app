@@ -60,15 +60,12 @@ html {
   }
 
   main {
-    // padding-top: 60px; // 실제 헤더높이만큼 패딩을 준다.
+    // padding-top: 60px; // 실제 헤더높이만큼 패딩을 준다. => 자바스크립트 제어로 변경
 
     > section {
       min-height: 100vh;
-      padding: 2rem;
+      padding: 1rem;
       border: 1px dashed;
-      &:nth-of-type(1) {
-        min-height: calc(100vh - 60px);
-      }
     }
   }
 

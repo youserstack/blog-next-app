@@ -38,8 +38,11 @@ export default function Header() {
 
     const main = document.querySelector("main");
     if (!main) return;
-
     main.style.paddingTop = header.offsetHeight + "px";
+
+    const firstSection = document.querySelector("main > section:nth-of-type(1)") as HTMLElement;
+    if (!firstSection) return;
+    firstSection.style.minHeight = window.innerHeight - header.offsetHeight + "px";
   };
 
   useEffect(() => {
