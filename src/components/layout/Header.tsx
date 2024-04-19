@@ -1,12 +1,14 @@
 "use client";
 
+import SearchBar from "@/components/SearchBar";
+import UserArea from "@/components/layout/UserArea";
 import { useEffect, useRef, useState } from "react";
 
 export default function Header() {
   const ref = useRef<HTMLElement>(null);
   const [previousScrollY, setPreviousScrollY] = useState(0);
 
-  const handler = (e: any) => {
+  const handleScroll = (e: any) => {
     const header: HTMLElement | null = ref.current;
     if (!header) return;
 
@@ -26,16 +28,40 @@ export default function Header() {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handler);
-    return () => window.removeEventListener("scroll", handler);
-  }, [handler]);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
+  const handleResize = () => {
+    const header = ref.current;
+    if (!header) return;
+
+    const main = document.querySelector("main");
+    if (!main) return;
+
+    main.style.paddingTop = header.offsetHeight + "px";
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [handleResize]);
 
   return (
     <header ref={ref}>
-      <section className="header-upper">
-        <h1>header</h1>
-      </section>
-      <section></section>
+      <div className="header-upper-wrapper">
+        <section className="header-upper">
+          <h2>BLOG</h2>
+          <SearchBar />
+          <UserArea />
+        </section>
+      </div>
+      <div className="header-lower-wrapper">
+        <section className="header-lower">
+          <h3>asdasd</h3>
+        </section>
+      </div>
     </header>
   );
 }

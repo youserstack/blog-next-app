@@ -14,7 +14,6 @@ html {
   body {
   }
 
-  header,
   main,
   footer {
     width: 100%;
@@ -30,32 +29,46 @@ html {
   }
 
   header {
-    height: 70px;
+    width: 100%;
     position: fixed;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.5);
     transition: all 1s;
+    overflow: hidden;
 
-    > nav {
+    .header-upper,
+    .header-lower {
+      // padding-left: 160px;
+      // padding-right: 160px;
       height: 100%;
+      max-width: 1500px;
+      margin: auto;
+      padding: 0 1rem;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      gap: 2rem;
     }
 
-    .header-upper {
-      height: 40px;
-      background-color: green;
+    .header-upper-wrapper {
+      // height: 40px;
+      background-color: #777;
+    }
+
+    .header-lower-wrapper {
+      // height: 20px;
+      background-color: #aaa;
     }
   }
 
   main {
+    // padding-top: 60px; // 실제 헤더높이만큼 패딩을 준다.
+
     > section {
       min-height: 100vh;
       padding: 2rem;
-      padding-top: 70px;
       border: 1px dashed;
+      &:nth-of-type(1) {
+        min-height: calc(100vh - 60px);
+      }
     }
   }
 
@@ -116,5 +129,10 @@ html {
     cursor: pointer;
     border: none;
     padding: 10px;
+  }
+
+  input {
+    border: none;
+    outline: none;
   }
 }
