@@ -11,34 +11,15 @@
 
 // layout
 html {
-  body {
-  }
-
-  main,
-  footer {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-
-    > section {
-      width: 100%;
-      height: 100%;
-      max-width: 1000px;
-      margin: auto;
-    }
-  }
-
   header {
-    width: 100%;
     position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     transition: all 1s;
-    overflow: hidden;
 
     .header-upper,
     .header-lower {
-      // padding-left: 160px;
-      // padding-right: 160px;
       height: 100%;
       max-width: 1500px;
       margin: auto;
@@ -48,24 +29,24 @@ html {
       align-items: center;
     }
 
-    .header-upper-wrapper {
-      // height: 40px;
-      background-color: #777;
+    .header-upper-wrapper,
+    .header-lower-wrapper {
+      background-color: #222;
+      color: #eee;
     }
 
-    .header-lower-wrapper {
-      // height: 20px;
-      background-color: #aaa;
+    .header-upper {
+      gap: 1rem;
     }
   }
 
   main {
-    // padding-top: 60px; // 실제 헤더높이만큼 패딩을 준다. => 자바스크립트 제어로 변경
-
     > section {
+      max-width: 1000px;
       min-height: 100vh;
       padding: 1rem;
       border: 1px dashed;
+      margin: auto;
     }
   }
 
@@ -75,7 +56,6 @@ html {
     padding: 3rem;
 
     > section {
-      // size
       max-width: 1000px;
       width: 100%;
       // min-height: 20vh;
@@ -108,6 +88,7 @@ html {
 html {
   a {
     text-decoration: none;
+    color: inherit;
   }
 
   ul,

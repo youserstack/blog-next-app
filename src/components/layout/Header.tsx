@@ -1,6 +1,7 @@
 "use client";
 
 import SearchBar from "@/components/SearchBar";
+import Nav from "@/components/layout/Nav";
 import UserArea from "@/components/layout/UserArea";
 import { useEffect, useRef, useState } from "react";
 
@@ -62,7 +63,7 @@ export default function Header() {
       </div>
       <div className="header-lower-wrapper">
         <section className="header-lower">
-          <h3>asdasd</h3>
+          <Nav />
         </section>
       </div>
     </header>
