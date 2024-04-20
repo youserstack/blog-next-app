@@ -1,6 +1,14 @@
 export const navItems = [
   {
     label: "ai",
+    dropItems: [
+      {
+        label: "machine learning",
+      },
+      {
+        label: "deep learning",
+      },
+    ],
   },
   {
     label: "data",
@@ -16,23 +24,35 @@ export const navItems = [
     ],
   },
   {
+    label: "devOps",
+    dropItems: [
+      {
+        label: "docker",
+      },
+    ],
+  },
+  {
     label: "web",
     dropItems: [
       {
         label: "framework",
+        popupItems: [
+          {
+            label: "nextjs",
+          },
+          {
+            label: "reactjs",
+          },
+        ],
       },
       {
         label: "library",
+        popupItems: [
+          {
+            label: "next-auth",
+          },
+        ],
       },
     ],
   },
-  // {
-  //   label: "information",
-  // },
-  // {
-  //   label: "guestbook",
-  // },
-  // {
-  //   label: "tags",
-  // },
 ];

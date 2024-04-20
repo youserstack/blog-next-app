@@ -1,0 +1,12 @@
+.etc {
+  ul {
+    display: flex;
+
+    li {
+      &:hover {
+        background-color: #fff;
+        color: #000;
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import "../../styles/Nav.scss";
 import { navItems } from "@/data/navItems";
+import "../styles/Nav.scss";
 
 export default function Nav() {
   return (
@@ -29,16 +29,6 @@ export default function Nav() {
             </ul>
           </li>
         ))}
-
-        {/* <li className="nav-item">
-          <Link href={""}>Category</Link>
-        </li>
-        <li className="nav-item">
-          <Link href={""}>Guestbook</Link>
-        </li>
-        <li className="nav-item">
-          <Link href={""}>Tags</Link>
-        </li> */}
       </ul>
     </nav>
   );

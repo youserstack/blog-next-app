@@ -1,4 +1,4 @@
-import "../../styles/UserArea.scss";
+import "../styles/UserArea.scss";
 
 export default function UserArea() {
   return (
