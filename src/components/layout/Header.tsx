@@ -5,6 +5,7 @@ import Etc from "@/components/Etc";
 import Nav from "@/components/Nav";
 import UserArea from "@/components/UserArea";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 export default function Header() {
   const ref = useRef<HTMLElement>(null);
@@ -34,30 +35,13 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const handleResize = () => {
-    const header = ref.current;
-    if (!header) return;
-
-    const main = document.querySelector("main");
-    if (!main) return;
-    main.style.paddingTop = header.offsetHeight + "px";
-
-    const firstSection = document.querySelector("main > section:nth-of-type(1)") as HTMLElement;
-    if (!firstSection) return;
-    firstSection.style.minHeight = window.innerHeight - header.offsetHeight + "px";
-  };
-
-  useEffect(() => {
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [handleResize]);
-
   return (
     <header ref={ref}>
       <div className="header-upper-wrapper">
         <section className="header-upper">
-          <h2>BLOG</h2>
+          <h1>
+            <Link href={"/"}>blog</Link>
+          </h1>
           <SearchBar />
           <UserArea />
         </section>

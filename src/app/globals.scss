@@ -36,7 +36,13 @@ html {
     }
 
     .header-upper {
+      height: 40px;
       gap: 1rem;
+      overflow: hidden;
+    }
+
+    .header-lower {
+      height: 20px;
     }
 
     a {
@@ -55,6 +61,9 @@ html {
       padding: 1rem;
       border: 1px dashed;
       margin: auto;
+      &:first-of-type {
+        padding-top: calc(1rem + 60px);
+      }
     }
   }
 

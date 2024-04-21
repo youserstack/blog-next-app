@@ -6,21 +6,23 @@ export default function Nav() {
   return (
     <nav>
       <ul className="nav-items">
-        {navItems.map((item: any) => (
-          <li className="nav-item">
-            <Link href={""}>{item.label}</Link>
+        {navItems.map((navItem: any) => (
+          <li className="nav-item" key={navItem.label}>
+            <Link href={`/blog/${navItem.label}`}>{navItem.label}</Link>
 
             {/* drop */}
             <ul className="nav-drop-items">
-              {item.dropItems?.map((item: any) => (
-                <li className="nav-drop-item">
-                  <Link href={""}>{item.label}</Link>
+              {navItem.dropItems?.map((dropItem: any) => (
+                <li className="nav-drop-item" key={dropItem.label}>
+                  <Link href={`/blog/${navItem.label}/${dropItem.label}`}>{dropItem.label}</Link>
 
                   {/* popup */}
                   <ul className="nav-popup-items">
-                    {item.popupItems?.map((item: any) => (
-                      <li className="nav-popup-item">
-                        <Link href={""}>{item.label}</Link>
+                    {dropItem.popupItems?.map((popupItem: any) => (
+                      <li className="nav-popup-item" key={popupItem.label}>
+                        <Link href={`/blog/${navItem.label}/${dropItem.label}/${popupItem.label}`}>
+                          {popupItem.label}
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -32,53 +34,4 @@ export default function Nav() {
       </ul>
     </nav>
   );
-  // return (
-  //   <nav>
-  //     <ul className="nav-items">
-  //       <li className="nav-item">
-  //         <Link href={""}>Category</Link>
-
-  //         {/* drop */}
-  //         <ul className="nav-drop-items">
-  //           <li className="nav-drop-item">
-  //             <Link href={""}>Drop Menu</Link>
-
-  //             {/* popup */}
-  //             <ul className="nav-popup-items">
-  //               <li className="nav-popup-item">
-  //                 <Link href={""}>Popup Menu</Link>
-  //               </li>
-  //               <li className="nav-popup-item">
-  //                 <Link href={""}>Popup Menu</Link>
-  //               </li>
-  //             </ul>
-  //           </li>
-  //           <li className="nav-drop-item">
-  //             <Link href={""}>Drop Menu</Link>
-  //             <ul className="nav-popup-items">
-  //               <Link href={""}>Popup Menu</Link>
-  //               <Link href={""}>Popup Menu</Link>
-  //             </ul>
-  //           </li>
-  //           <li className="nav-drop-item">
-  //             <Link href={""}>Drop Menu</Link>
-  //             <ul className="nav-popup-items">
-  //               <Link href={""}>Popup Menu</Link>
-  //               <Link href={""}>Popup Menu</Link>
-  //             </ul>
-  //           </li>
-  //         </ul>
-  //       </li>
-  //       <li className="nav-item">
-  //         <Link href={""}>Category</Link>
-  //       </li>
-  //       <li className="nav-item">
-  //         <Link href={""}>Guestbook</Link>
-  //       </li>
-  //       <li className="nav-item">
-  //         <Link href={""}>Tags</Link>
-  //       </li>
-  //     </ul>
-  //   </nav>
-  // );
 }
