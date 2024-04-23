@@ -1,11 +1,28 @@
 .scroll-nav {
   position: sticky;
-  top: 0;
+  top: calc(60px + 1rem);
   width: 250px;
-  height: fit-content;
+  height: calc(100vh - 60px - 2rem);
+
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #eaeaea transparent;
+  scrollbar-gutter: stable;
+
   border: 1px solid red;
   padding: 1rem;
 
-  ul {
+  // @supports (position: sticky) {
+  //   position: sticky;
+  //   top: calc(60px + 1rem);
+  // }
+
+  .nav-items {
+    display: flex;
+    flex-direction: column;
+
+    .nav-drop-items {
+      display: none;
+    }
   }
 }

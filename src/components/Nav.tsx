@@ -4,7 +4,7 @@ import "../styles/Nav.scss";
 
 export default function Nav() {
   return (
-    <nav>
+    <nav className="nav">
       <ul className="nav-items">
         {navItems.map((navItem: any) => (
           <li className="nav-item" key={navItem.label}>

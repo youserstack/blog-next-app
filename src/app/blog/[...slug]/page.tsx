@@ -9,12 +9,10 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
   return (
     <main>
       <section>
-        {/* {params.slug.map((id: any) => (
-          <h1 key={id}>{id}</h1>
-        ))} */}
         <ScrollNav />
         <Article />
       </section>
+      <section></section>
     </main>
   );
 }
