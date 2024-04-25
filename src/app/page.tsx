@@ -1,19 +1,22 @@
-import Article from "@/components/Article";
-import ScrollNav from "@/components/ScrollNav";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 export default function Home() {
   const header = headers();
   const pathname = header.get("pathname");
   const url = header.get("url");
 
+  const cookieStore = cookies();
+  const allCookies = cookieStore.getAll();
+  // console.log({ allCookies });
+  // console.log("env.mongodb_uri : ", process.env.MONGODB_URL);
+
   return (
-    <main>
+    <main className="home-page">
       <section>
-        <ScrollNav />
-        <Article />
+        <h1>Home page</h1>
+        <h1>Home page</h1>
+        <h1>Home page</h1>
       </section>
-      <section></section>
     </main>
   );
 }

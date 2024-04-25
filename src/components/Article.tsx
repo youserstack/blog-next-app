@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import "../styles/Article.scss";
 import Link from "next/link";
+import React from "react";
 
 export default function Article() {
   const header = headers();
@@ -12,12 +13,10 @@ export default function Article() {
       <div className="content">
         {slugs?.map((v: string, i: number) => {
           return (
-            <>
-              <Link href={""} key={v}>
-                {v}
-              </Link>
+            <React.Fragment key={v}>
+              <Link href={""}>{v}</Link>
               {i !== slugs.length - 1 && <span>{">"}</span>}
-            </>
+            </React.Fragment>
           );
         })}
       </div>

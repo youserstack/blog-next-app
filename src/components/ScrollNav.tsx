@@ -7,19 +7,19 @@ export default function ScrollNav() {
     <nav className="scroll-nav">
       <ul className="nav-items">
         {navItems.map((navItem: any) => (
-          <li className="nav-item" key={navItem.label}>
+          <li className="nav-item" key={"scroll-" + navItem.label}>
             <Link href={`/blog/${navItem.label}`}>{navItem.label}</Link>
 
             {/* drop */}
             <ul className="nav-drop-items">
               {navItem.dropItems?.map((dropItem: any) => (
-                <li className="nav-drop-item" key={dropItem.label}>
+                <li className="nav-drop-item" key={"scroll-" + dropItem.label}>
                   <Link href={`/blog/${navItem.label}/${dropItem.label}`}>{dropItem.label}</Link>
 
                   {/* popup */}
                   <ul className="nav-popup-items">
                     {dropItem.popupItems?.map((popupItem: any) => (
-                      <li className="nav-popup-item" key={popupItem.label}>
+                      <li className="nav-popup-item" key={"scroll-" + popupItem.label}>
                         <Link href={`/blog/${navItem.label}/${dropItem.label}/${popupItem.label}`}>
                           {popupItem.label}
                         </Link>
@@ -33,7 +33,7 @@ export default function ScrollNav() {
         ))}
 
         {Array.from({ length: 30 }, (v: any, i: number) => (
-          <li>menu {i + 1}</li>
+          <li key={i}>menu {i + 1}</li>
         ))}
       </ul>
     </nav>
