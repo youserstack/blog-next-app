@@ -1,11 +1,10 @@
 import User from "@/lib/models/User";
 import { validateEmail, validatePassword } from "@/lib/utils/auth";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
 export async function POST(request: Request) {
   // Read data
   const { name, email, password } = await request.json();
-  // console.log({ name, email, password });
   if (!name || !email || !password) {
     return Response.json({ error: "missing payload" }, { status: 400 });
   }
@@ -16,11 +15,10 @@ export async function POST(request: Request) {
   }
 
   // Hash the password
-  const hash = bcrypt.hashSync(password, 8);
-  // console.log({ hash });
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   // Create a user in db
-  const newUser = await User.create({ name, email, password: hash });
+  const newUser = await User.create({ name, email, password: hashedPassword });
   // console.log({ newUser });
 
   return Response.json({ newUser });
