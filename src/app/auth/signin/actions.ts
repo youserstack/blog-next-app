@@ -21,12 +21,19 @@ export async function signin(prevState: any, formData: FormData) {
     body: JSON.stringify({ email, password }),
   });
   const result = await response.json();
-  console.log({ result });
+  console.log({ 토큰: result });
 
+  // Redirect to protected page
   if (response.ok) {
     const cookieStore = cookies();
-    cookieStore.set("refreshToken", result.refreshToken);
-    redirect("/");
+    cookieStore.set("refreshToken", result.refreshToken, {
+      secure: true,
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
+      path: "/",
+      sameSite: "strict",
+    });
+    redirect("/protected");
   } else {
     return result.error;
   }
