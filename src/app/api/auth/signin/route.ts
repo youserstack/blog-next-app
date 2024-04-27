@@ -1,7 +1,11 @@
 import User from "@/lib/models/User";
-import { validateEmail, validatePassword } from "@/lib/utils/auth";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  validateEmail,
+  validatePassword,
+} from "@/lib/utils/auth";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
   // Read data
@@ -29,11 +33,11 @@ export async function POST(request: Request) {
   }
 
   // Create jwt token
-  const jwtSecret: any = process.env.JWT_SECRET;
-  const accessToken = jwt.sign({ email, password }, jwtSecret, { expiresIn: "2h" });
-  console.log({ accessToken });
+  const payload = { email, password };
+  const accessToken = generateAccessToken(payload);
+  const refreshToken = generateRefreshToken(payload);
+  // console.log({ accessToken, refreshToken });
 
-  //
-
-  return Response.json({ message: "..." });
+  // Set response payload
+  return Response.json({ accessToken, refreshToken });
 }

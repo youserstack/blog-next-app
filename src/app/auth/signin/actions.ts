@@ -1,6 +1,7 @@
 "use server";
 
 import connectDB from "@/lib/config/connectDB";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signin(prevState: any, formData: FormData) {
@@ -23,6 +24,8 @@ export async function signin(prevState: any, formData: FormData) {
   console.log({ result });
 
   if (response.ok) {
+    const cookieStore = cookies();
+    cookieStore.set("refreshToken", result.refreshToken);
     redirect("/");
   } else {
     return result.error;

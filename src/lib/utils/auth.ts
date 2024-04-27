@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 export function validateEmail(email: string) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -8,4 +10,12 @@ export function validatePassword(password: string) {
   const passwordRegex =
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
   return passwordRegex.test(password);
+}
+
+export function generateAccessToken(payload: { email: string; password: string }) {
+  return jwt.sign(payload, process.env.JWT_ACCESSTOKEN_SECRET as string, { expiresIn: "2h" });
+}
+
+export function generateRefreshToken(payload: { email: string; password: string }) {
+  return jwt.sign(payload, process.env.JWT_REFRESHTOKEN_SECRET as string, { expiresIn: "1d" });
 }
