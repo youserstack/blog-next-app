@@ -8,7 +8,7 @@ export default function UserArea() {
   return (
     <div className="user-area">
       {refreshToken ? (
-        <Link href={"dashboard"}>dashboard</Link>
+        <Link href={"/dashboard"}>dashboard</Link>
       ) : (
         <>
           <Link href={"/auth/signin"}>sign in</Link>

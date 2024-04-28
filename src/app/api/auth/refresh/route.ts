@@ -7,10 +7,10 @@ import connectDB from "@/lib/config/connectDB";
 export async function GET(request: Request) {
   console.log("\n[api/auth/refresh]");
 
-  // Connect to db
+  // Connect to db (데이터베이스 연결)
   await connectDB();
 
-  // Read the token
+  // Read the token (토큰 추출)
   const refreshToken = cookies().get("refreshToken")?.value;
   if (!refreshToken) {
     console.log("no refreshToken");
@@ -18,39 +18,54 @@ export async function GET(request: Request) {
   }
   // console.log({ refreshToken });
 
-  // Validate it
-  try {
-    jwt.verify(refreshToken, process.env.JWT_REFRESHTOKEN_SECRET as string);
-  } catch (error) {
-    console.log({ error });
-    cookies().set("refreshToken", "", {
-      secure: true,
-      httpOnly: true,
-      maxAge: 0,
-      path: "/",
-      sameSite: "strict",
-    });
-    return Response.json({ error: "invalid refreshToken" }, { status: 401 });
-  }
-
-  // Lookup the user
+  // Lookup the user (유저 조회)
   const foundUser = await User.findOne({ refreshToken }).exec();
   if (!foundUser) {
-    console.log("not found");
-    cookies().delete("refreshToken");
-    console.log({ foundUser });
-    foundUser.refreshToken = "";
-    await foundUser.save();
-    return Response.json({ error: "unauthorized" }, { status: 401 });
+    console.log("no foundUser");
+
+    // 해킹된 토큰인지 검사
+    jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESHTOKEN_SECRET as string,
+      async (error: any, decoded: any) => {
+        if (error) {
+          console.log("verification error : ", { error });
+          return Response.json({ error: "forbidden" }, { status: 403 });
+        }
+
+        // if the refreshToken is not expired,
+        console.log("attempted refreshToken reuse");
+
+        // find the user in database
+        const hackedUser = await User.findOne({ email: decoded.email }).exec();
+        console.log({ hackedUser });
+
+        // save an empty refreshTokenArray in database
+        console.log("saving empty refreshTokenArray in database...");
+      }
+    );
+
+    return Response.json({ error: "forbidden" }, { status: 403 });
   }
   // console.log({ foundUser });
 
-  // Issue the new tokens
+  // Validate the token (토큰 검증)
+  try {
+    jwt.verify(refreshToken, process.env.JWT_REFRESHTOKEN_SECRET as string);
+  } catch (error) {
+    console.log("verification error : ", { error });
+    cookies().delete("refreshToken");
+    return Response.json({ error: "unauthorized" }, { status: 401 });
+  }
+
+  // Issue the new tokens (새로운 토큰 발급)
   const payload = { email: foundUser.email, password: foundUser.password };
   const newAccessToken = generateAccessToken(payload);
   const newRefreshToken = generateRefreshToken(payload);
 
-  // Set the tokens (database), (client cookie and payload)
+  // Set the tokens
+  // 데이터베이스에 리프레시 토큰 저장
+  // 쿠키에 리프레시 토큰 저장하고 페이로드에 액세스 토큰 저장
   foundUser.refreshToken = newRefreshToken;
   const savedUser = await foundUser.save();
   // console.log({ savedUser });
@@ -61,6 +76,6 @@ export async function GET(request: Request) {
     path: "/",
     sameSite: "strict",
   });
-  // console.log({ refreshToken, newRefreshToken });
+  console.log({ refreshToken, newRefreshToken });
   return Response.json({ accessToken: newAccessToken });
 }
