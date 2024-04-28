@@ -6,6 +6,7 @@ import {
   validatePassword,
 } from "@/lib/utils/auth";
 import bcrypt from "bcrypt";
+import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   // Read data
@@ -20,11 +21,11 @@ export async function POST(request: Request) {
   }
 
   // Lookup the user
-  const foundUser: any = await User.findOne({ email }).exec();
+  const foundUser = await User.findOne({ email }).exec();
   if (!foundUser) {
-    return Response.json({ error: "not found" }, { status: 401 });
+    return Response.json({ error: "unauthorized" }, { status: 401 });
   }
-  console.log({ foundUser });
+  // console.log({ foundUser });
 
   // Compare password
   const isCorrectPassword: any = await bcrypt.compare(password, foundUser.password);
@@ -38,6 +39,10 @@ export async function POST(request: Request) {
   const refreshToken = generateRefreshToken(payload);
   // console.log({ accessToken, refreshToken });
 
-  // Set response payload
+  // Set the tokens (database), (client cookie and payload)
+  foundUser.refreshToken = refreshToken;
+  const savedUser = await foundUser.save();
+  // console.log({ savedUser });
+
   return Response.json({ accessToken, refreshToken });
 }

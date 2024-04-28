@@ -1,4 +1,6 @@
 export default function Protected() {
+  console.log("\n[Protected-server-component]");
+
   return (
     <main>
       <section>

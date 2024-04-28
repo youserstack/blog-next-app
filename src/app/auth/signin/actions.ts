@@ -21,12 +21,11 @@ export async function signin(prevState: any, formData: FormData) {
     body: JSON.stringify({ email, password }),
   });
   const result = await response.json();
-  console.log({ 토큰: result });
+  console.log({ "로그인 결과": result });
 
   // Redirect to protected page
   if (response.ok) {
-    const cookieStore = cookies();
-    cookieStore.set("refreshToken", result.refreshToken, {
+    cookies().set("refreshToken", result.refreshToken, {
       secure: true,
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일

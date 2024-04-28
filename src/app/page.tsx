@@ -3,7 +3,6 @@ import { cookies, headers } from "next/headers";
 export default function Home() {
   const header = headers();
   const pathname = header.get("pathname");
-  const url = header.get("url");
 
   const cookieStore = cookies();
   const allCookies = cookieStore.getAll();
