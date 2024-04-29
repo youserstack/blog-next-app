@@ -22,7 +22,8 @@ export default async function middleware(request: NextRequest) {
     const secret = new TextEncoder().encode(process.env.JWT_REFRESHTOKEN_SECRET);
     try {
       const { payload } = await jwtVerify(refreshToken.value, secret, {});
-      console.log({ payload });
+      // console.log({ payload });
+      console.log("validated user");
     } catch (error) {
       console.log("\n[middleware]");
       console.log("invalid jwt refreshToken");

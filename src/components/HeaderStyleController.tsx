@@ -50,7 +50,7 @@ export default function HeaderStyleController() {
 
   useEffect(() => {
     handleRefreshAuth();
-  }, [handleRefreshAuth]);
+  }, []);
 
   return null;
 }

@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signin(prevState: any, formData: FormData) {
-  console.log("\nsignin-page > server-action");
+  console.log("\nsignin-action");
 
   // Connect to db
   await connectDB();
@@ -33,8 +33,9 @@ export async function signin(prevState: any, formData: FormData) {
       path: "/",
       sameSite: "strict",
     });
-    redirect("/protected");
+    // redirect("/protected");
+    return { status: "ok", accessToken: result.accessToken };
   } else {
-    return result.error;
+    return { status: "error", error: result.error };
   }
 }
