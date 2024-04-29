@@ -1,13 +1,5 @@
-import { cookies, headers } from "next/headers";
-
 export default function Home() {
-  const header = headers();
-  const pathname = header.get("pathname");
-
-  const cookieStore = cookies();
-  const allCookies = cookieStore.getAll();
-  // console.log({ allCookies });
-  // console.log("env.mongodb_uri : ", process.env.MONGODB_URL);
+  console.log("\n[Home]");
 
   return (
     <main className="home-page">

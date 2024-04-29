@@ -28,7 +28,8 @@ export async function signin(prevState: any, formData: FormData) {
     cookies().set("refreshToken", result.refreshToken, {
       secure: true,
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
+      // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
+      expires: Date.now() + 1000 * 60 * 60 * 24,
       path: "/",
       sameSite: "strict",
     });

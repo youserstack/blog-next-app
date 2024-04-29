@@ -18,6 +18,6 @@ export function generateAccessToken(payload: { email: string; password: string }
 }
 
 export function generateRefreshToken(payload: { email: string; password: string }) {
-  return jwt.sign(payload, process.env.JWT_REFRESHTOKEN_SECRET as string, { expiresIn: "10s" });
-  // return jwt.sign(payload, process.env.JWT_REFRESHTOKEN_SECRET as string, { expiresIn: "1d" });
+  // return jwt.sign(payload, process.env.JWT_REFRESHTOKEN_SECRET as string, { expiresIn: "10s" });
+  return jwt.sign(payload, process.env.JWT_REFRESHTOKEN_SECRET as string, { expiresIn: "1d" });
 }

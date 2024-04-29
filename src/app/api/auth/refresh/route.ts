@@ -72,10 +72,11 @@ export async function GET(request: Request) {
   cookies().set("refreshToken", newRefreshToken, {
     secure: true,
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
+    // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
+    expires: Date.now() + 1000 * 60 * 60 * 24,
     path: "/",
     sameSite: "strict",
   });
-  console.log({ refreshToken, newRefreshToken });
+  // console.log({ refreshToken, newRefreshToken });
   return Response.json({ accessToken: newAccessToken });
 }
