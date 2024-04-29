@@ -2,8 +2,8 @@
 
 import { signin } from "@/app/auth/signin/actions";
 import { useFormState } from "react-dom";
-import "./page.scss";
 import { useRouter } from "next/navigation";
+import "./page.scss";
 
 export default function Signin() {
   const [state, signinAction]: any = useFormState(signin, undefined);
@@ -11,7 +11,7 @@ export default function Signin() {
 
   if (state?.status === "ok") {
     localStorage.setItem("accessToken", state.accessToken);
-    router.push("/dashboard");
+    router.push("/protected");
   }
 
   return (

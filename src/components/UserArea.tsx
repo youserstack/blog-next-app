@@ -10,7 +10,7 @@ export default function UserArea() {
     <div className="user-area">
       {refreshToken ? (
         <>
-          <Link href={"/dashboard"}>dashboard</Link>
+          <Link href={"/protected"}>protected</Link>
           <SignOutButton />
         </>
       ) : (

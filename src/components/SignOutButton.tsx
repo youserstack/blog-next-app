@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import "../styles/SignOutButton.scss";
 
 export default function SignOutButton() {
   const router = useRouter();
@@ -23,5 +24,9 @@ export default function SignOutButton() {
     }
   };
 
-  return <button onClick={signout}>sign out</button>;
+  return (
+    <button className="sign-out-button" onClick={signout}>
+      sign out
+    </button>
+  );
 }

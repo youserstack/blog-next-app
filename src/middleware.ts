@@ -8,7 +8,15 @@ export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   console.log({ pathname });
 
-  const isProtectedPage = pathname.startsWith("/protected") || pathname.startsWith("/dashboard");
+  if (pathname.startsWith("/blog")) {
+    const headers = new Headers(request.headers);
+    headers.set("pathname", pathname);
+    // const mayKeys = Array.from(headers.keys());
+
+    return NextResponse.next({ request: { headers } });
+  }
+
+  const isProtectedPage = pathname.startsWith("/protected");
   if (isProtectedPage) {
     // Check for cookie
     const refreshToken: any = cookies().get("refreshToken");
@@ -49,6 +57,6 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/blog/:path*", "/protected/:path*", "/dashboard", "/auth/signin"],
+  matcher: ["/blog/:path*", "/protected/:path*", "/auth/signin"],
   // matcher: "/:path*",
 };
