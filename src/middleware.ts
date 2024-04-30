@@ -6,7 +6,7 @@ export default async function middleware(request: NextRequest) {
   console.log("\n[middleware]");
 
   const { pathname } = request.nextUrl;
-  console.log({ pathname });
+  // console.log({ pathname });
 
   if (pathname.startsWith("/blog")) {
     const headers = new Headers(request.headers);
