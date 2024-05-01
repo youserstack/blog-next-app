@@ -8,10 +8,25 @@ export const metadata: Metadata = {
 
 async function formAction(formData: FormData) {
   "use server";
+  // const test = formData.getAll();
+  // console.log({ test });
+  const category = formData.get("category");
   const title = formData.get("title");
   const content = formData.get("content");
+  const author = formData.get("author");
   const tags = formData.get("tags");
-  console.log({ title, content, tags });
+
+  try {
+    const response = await fetch(`${process.env.ROOT_URL}/api/post/create`, {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ category, title, content, author, tags }),
+    });
+    const data = await response.json();
+    console.log({ data });
+  } catch (error) {
+    console.log("fetching error : ", { error });
+  }
 }
 
 export default function PostCreate() {
@@ -22,12 +37,13 @@ export default function PostCreate() {
       <section>
         <h1>Post Create Page</h1>
         <form action={formAction}>
+          <input type="text" name="category" placeholder="category" />
           <input type="text" name="title" placeholder="title" />
           <textarea name="content" placeholder="content" />
+          <input type="text" name="author" placeholder="author" />
           <input type="text" name="tags" placeholder="tags" />
           <button type="submit">publish (게시하기)</button>
         </form>
-        <div className="something"></div>
       </section>
     </main>
   );

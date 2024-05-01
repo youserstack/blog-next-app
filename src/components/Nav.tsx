@@ -31,10 +31,6 @@ export default function Nav() {
             </ul>
           </li>
         ))}
-
-        <li className="nav-item">
-          <Link href={"/some"}>some</Link>
-        </li>
       </ul>
     </nav>
   );
