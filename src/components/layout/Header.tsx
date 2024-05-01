@@ -6,7 +6,7 @@ import Link from "next/link";
 import HeaderStyleController from "@/components/HeaderStyleController";
 
 export default function Header() {
-  console.log("[Header-client-component]");
+  console.log("[Header]:client");
 
   return (
     <header>

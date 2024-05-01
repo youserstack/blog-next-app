@@ -9,11 +9,13 @@
 :root {
   // light theme
   --backgroundColor: #fff;
+  --backgroundColor-offBlack: #222;
   --textColor: #000;
+  --textColor-offWhite: #eee;
 
   // dark theme
-  --backgroundColor-darkTheme: #000;
-  --textColor-darkTheme: #fff;
+  --backgroundColor__darkTheme: #000;
+  --textColor__darkTheme: #fff;
 }
 
 // layout
@@ -44,8 +46,8 @@ html {
 
     .header-upper-wrapper,
     .header-lower-wrapper {
-      background-color: #222;
-      color: #eee;
+      background-color: var(--backgroundColor-offBlack);
+      color: var(--textColor-offWhite);
     }
 
     .header-upper {
@@ -81,8 +83,8 @@ html {
   }
 
   footer {
-    background-color: #333;
-    color: #eee;
+    background-color: var(--backgroundColor-offBlack);
+    color: var(--textColor-offWhite);
     padding: 3rem;
 
     > section {

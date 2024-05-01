@@ -1,5 +1,5 @@
 export default function Home() {
-  console.log("\n[Home]");
+  console.log("\n[home-page]");
 
   return (
     <main className="home-page">

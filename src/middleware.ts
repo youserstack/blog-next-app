@@ -16,7 +16,7 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next({ request: { headers } });
   }
 
-  const isProtectedPage = pathname.startsWith("/protected");
+  const isProtectedPage = pathname.startsWith("/protected") || pathname.startsWith("/post");
   if (isProtectedPage) {
     // Check for cookie
     const refreshToken: any = cookies().get("refreshToken");
@@ -57,6 +57,6 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/blog/:path*", "/protected/:path*", "/auth/signin"],
+  matcher: ["/blog/:path*", "/post/:path*", "/protected/:path*", "/auth/signin"],
   // matcher: "/:path*",
 };
