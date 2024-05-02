@@ -23,7 +23,7 @@ export default async function Article() {
 
   // 클라이언트에서 요청하기 전에 서버에서 미리 호출하여 데이터를 가져온다.
   const { posts } = await getData(slugs);
-  console.log({ posts });
+  // console.log({ posts });
 
   return (
     <article>

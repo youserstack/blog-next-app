@@ -18,6 +18,37 @@
   --textColor__darkTheme: #fff;
 }
 
+// theme
+html {
+  body {
+    transition: all 1s;
+    &.light {
+      background-color: var(--backgroundColor);
+
+      .moving-ball {
+        left: 3px;
+        right: initial;
+      }
+    }
+    &.dark {
+      background-color: var(--backgroundColor__darkTheme);
+
+      .moving-ball {
+        left: initial;
+        right: 3px;
+      }
+    }
+  }
+
+  // body.light {
+  //   background-color: var(--backgroundColor);
+  // }
+
+  // body.dark {
+  //   background-color: var(--backgroundColor__darkTheme);
+  // }
+}
+
 // layout
 html {
   body {

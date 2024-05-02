@@ -2,6 +2,7 @@ import Link from "next/link";
 import "../styles/UserArea.scss";
 import { cookies } from "next/headers";
 import SignOutButton from "@/components/SignOutButton";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function UserArea() {
   const refreshToken = cookies().get("refreshToken");
@@ -19,6 +20,7 @@ export default function UserArea() {
           <Link href={"/auth/signup"}>sign up</Link>
         </>
       )}
+      <ThemeToggle />
     </div>
   );
 }
