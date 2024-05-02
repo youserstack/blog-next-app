@@ -14,18 +14,20 @@ async function getData(slugs: string[] | undefined) {
 }
 
 export default async function Article() {
+  // console.log("\n[Article]");
   const header = headers();
   const pathname = header.get("pathname");
   const slugs: string[] | undefined = pathname?.split("/").slice(1);
-  console.log({ slugs });
+  // console.log({ pathname });
+  // console.log({ slugs });
 
   // 클라이언트에서 요청하기 전에 서버에서 미리 호출하여 데이터를 가져온다.
-  const data = await getData(slugs);
-  console.log({ data });
+  const { posts } = await getData(slugs);
+  console.log({ posts });
 
   return (
     <article>
-      <div className="content">
+      <div className="breadcrumb">
         {slugs?.map((v: string, i: number) => {
           return (
             <React.Fragment key={v}>
@@ -34,6 +36,16 @@ export default async function Article() {
             </React.Fragment>
           );
         })}
+      </div>
+      <div className="content">
+        {posts.length > 0 &&
+          posts?.map((post: any) => (
+            <li key={post._id}>
+              <p>Title : {post.title}</p>
+              <p>Author : {post.author}</p>
+              <p>{post.content}</p>
+            </li>
+          ))}
       </div>
     </article>
   );

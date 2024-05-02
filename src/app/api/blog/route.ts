@@ -1,5 +1,6 @@
 import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
+import User from "@/lib/models/User";
 
 export async function POST(request: Request) {
   console.log("\n[api/blog]");
@@ -9,13 +10,21 @@ export async function POST(request: Request) {
 
   // Get data
   const slugs = await request.json();
-  // console.log({ slugs });
   const category = slugs.join("/");
-  console.log({ category });
+  // const decodedCategory = decodeURIComponent(category);
+  // console.log({ decodedCategory });
 
-  // Lookup the post
-  const foundPost = await Post.findOne({ category });
-  console.log({ foundPost });
+  // Lookup the posts
+  const foundPosts: any = await Post.find({ category }).populate("author").exec();
+  // console.log({ foundPosts });
+  // if (!foundPosts) return Response.json({ error: "not found posts" }, { status: 404 });
 
-  return Response.json({ message: "temp..." }, {});
+  // Modify the posts
+  let modifiedPosts: any = [];
+  for (let i = 0; i < foundPosts.length; i++) {
+    const post = foundPosts[i];
+    modifiedPosts.push({ ...post._doc, author: post.author ? post.author.name : "unknown" });
+  }
+
+  return Response.json({ posts: modifiedPosts }, {});
 }

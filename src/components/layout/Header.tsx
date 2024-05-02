@@ -6,8 +6,6 @@ import Link from "next/link";
 import HeaderStyleController from "@/components/HeaderStyleController";
 
 export default function Header() {
-  console.log("[Header]:client");
-
   return (
     <header>
       <div className="header-upper-wrapper">

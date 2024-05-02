@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
   // Get data
   const post = await request.json();
-  console.log({ post });
+  // console.log({ post });
 
   // Create a post
   const newPost = await Post.create({ ...post, author: foundUser._id });

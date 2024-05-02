@@ -11,7 +11,7 @@ import { createPost } from "@/app/post/create/actions";
 // };
 
 export default function PostCreate() {
-  // console.log("\n[post-create-page]");
+  console.log("\n[post-create-page]");
 
   const [state, formAction]: any = useFormState((prevState: any, formData: FormData) => {
     createPost(formData, localStorage.getItem("accessToken") as string);
@@ -29,13 +29,20 @@ export default function PostCreate() {
             formAction
           }
         >
-          <input type="text" name="category" placeholder="category" />
+          {/* <input type="text" name="category" placeholder="category" /> */}
+          <select name="category" id="category">
+            <option value="/web">web</option>
+            <option value="/web/framework">web/framework</option>
+            <option value="/web/library">web/library</option>
+          </select>
+
           <input type="text" name="title" placeholder="title" />
           <textarea name="content" placeholder="content" />
           <input type="text" name="author" placeholder="author" />
           <input type="text" name="tags" placeholder="tags" />
           <button type="submit">publish (게시하기)</button>
         </form>
+        {state && <p>{state}</p>}
       </section>
     </main>
   );
