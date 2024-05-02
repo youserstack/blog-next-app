@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
-import "../styles/Article.scss";
 import Link from "next/link";
 import React from "react";
+import "../styles/Article.scss";
 
 async function getData(slugs: string[] | undefined) {
   const response = await fetch(`${process.env.ROOT_URL}/api/blog`, {
@@ -16,8 +16,8 @@ async function getData(slugs: string[] | undefined) {
 export default async function Article() {
   // console.log("\n[Article]");
   const header = headers();
-  const pathname = header.get("pathname");
-  const slugs: string[] | undefined = pathname?.split("/").slice(1);
+  const pathname = header.get("pathname")?.replace("/blog", "");
+  const slugs: string[] | undefined = pathname?.split("/");
   // console.log({ pathname });
   // console.log({ slugs });
 
@@ -38,14 +38,15 @@ export default async function Article() {
         })}
       </div>
       <div className="content">
-        {posts.length > 0 &&
-          posts?.map((post: any) => (
-            <li key={post._id}>
+        <ul className="post-list">
+          {posts?.map((post: any) => (
+            <li className="post-item" key={post._id}>
               <p>Title : {post.title}</p>
               <p>Author : {post.author}</p>
-              <p>{post.content}</p>
+              <pre>{post.content}</pre>
             </li>
           ))}
+        </ul>
       </div>
     </article>
   );

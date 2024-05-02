@@ -22,7 +22,7 @@ export async function createPost(formData: FormData, accessToken: string) {
     body: JSON.stringify({ category, title, content, author, tags }),
   });
   const result = await response.json();
-  // console.log({ data });
+  // console.log({ result });
 
   if (response.ok) {
     // console.log("\n</createPost>");

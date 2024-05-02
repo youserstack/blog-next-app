@@ -11,6 +11,7 @@ export async function POST(request: Request) {
   // Get data
   const slugs = await request.json();
   const category = slugs.join("/");
+  // console.log({ category });
   // const decodedCategory = decodeURIComponent(category);
   // console.log({ decodedCategory });
 
@@ -21,10 +22,13 @@ export async function POST(request: Request) {
 
   // Modify the posts
   let modifiedPosts: any = [];
+  let temp = [];
   for (let i = 0; i < foundPosts.length; i++) {
     const post = foundPosts[i];
     modifiedPosts.push({ ...post._doc, author: post.author ? post.author.name : "unknown" });
+    temp.push(post.title);
   }
+  console.log({ postTitles: temp });
 
   return Response.json({ posts: modifiedPosts }, {});
 }
