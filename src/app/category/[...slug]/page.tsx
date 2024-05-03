@@ -10,14 +10,14 @@ import "./page.scss";
 //   }))
 // }
 
-export default async function Blog({ params }: { params: { slug: string[] } }) {
-  console.log("\n[blog/[...slug]]");
+export default async function Category({ params }: { params: { slug: string[] } }) {
+  console.log("\n[category/[...slug]]");
   // console.log({ params });
   // const response = await fetch("http://localhost:3000/api");
   // const data = await response.json();
 
   return (
-    <main className="blog-page">
+    <main className="category-page">
       <section>
         <ScrollNav />
         <Article />

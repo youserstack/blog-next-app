@@ -3,7 +3,7 @@ import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
 export async function POST(request: Request) {
-  console.log("\n[api/blog]");
+  console.log("\n[api/category]");
 
   // Connect to db
   await connectDB();

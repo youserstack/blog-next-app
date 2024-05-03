@@ -8,13 +8,15 @@ export default function Nav() {
       <ul className="nav-items">
         {navItems.map((navItem: any) => (
           <li className="nav-item" key={navItem.label}>
-            <Link href={`/blog/${navItem.label}`}>{navItem.label}</Link>
+            <Link href={`/category/${navItem.label}`}>{navItem.label}</Link>
 
             {/* drop */}
             <ul className="nav-drop-items">
               {navItem.dropItems?.map((dropItem: any) => (
                 <li className="nav-drop-item" key={dropItem.label}>
-                  <Link href={`/blog/${navItem.label}/${dropItem.label}`}>{dropItem.label}</Link>
+                  <Link href={`/category/${navItem.label}/${dropItem.label}`}>
+                    {dropItem.label}
+                  </Link>
 
                   {/* popup */}
                   {dropItem.popupItems?.length && (
@@ -22,7 +24,7 @@ export default function Nav() {
                       {dropItem.popupItems?.map((popupItem: any) => (
                         <li className="nav-popup-item" key={popupItem.label}>
                           <Link
-                            href={`/blog/${navItem.label}/${dropItem.label}/${popupItem.label}`}
+                            href={`/category/${navItem.label}/${dropItem.label}/${popupItem.label}`}
                           >
                             {popupItem.label}
                           </Link>

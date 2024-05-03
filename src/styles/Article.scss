@@ -21,6 +21,12 @@ article {
 
       .post-item {
         border: 1px solid;
+        display: flex;
+        gap: 1rem;
+
+        div {
+          flex: 1;
+        }
       }
     }
   }

@@ -26,6 +26,9 @@ const postSchema = new mongoose.Schema(
         ref: "Comment", // Comment 스키마와 연결
       },
     ],
+    image: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

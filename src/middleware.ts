@@ -10,7 +10,7 @@ export default async function middleware(request: NextRequest) {
 
   // blog 페이지 접속시, 헤더에 커스텀 데이터(경로)를 설정한다.
   // 컴포넌트에서 바로 헤더설정을 가져오는 편리함을 위해서 설정한다.
-  if (pathname.startsWith("/blog")) {
+  if (pathname.startsWith("/category")) {
     const headers = new Headers(request.headers);
     headers.set("pathname", pathname);
     // const mayKeys = Array.from(headers.keys());
@@ -59,6 +59,6 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/blog/:path*", "/post/:path*", "/protected/:path*", "/auth/signin"],
+  matcher: ["/category/:path*", "/post/:path*", "/protected/:path*", "/auth/signin"],
   // matcher: "/:path*",
 };
