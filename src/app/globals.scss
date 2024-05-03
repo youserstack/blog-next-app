@@ -9,6 +9,7 @@
 :root {
   --backgroundColor-black: #000;
   --backgroundColor-offBlack: #222;
+  --backgroundColor-darkGray: #444;
   --backgroundColor-white: #fff;
   --backgroundColor-offWhite: #eee;
 
@@ -35,8 +36,8 @@ html {
       }
     }
     &.dark {
-      background-color: var(--backgroundColor-offblack);
-      color: var(--foregroundColor-offwhite);
+      background-color: var(--backgroundColor-darkGray);
+      color: var(--foregroundColor-offWhite);
 
       .theme-toggle {
         background-color: var(--backgroundColor-black);

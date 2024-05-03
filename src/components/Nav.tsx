@@ -17,15 +17,19 @@ export default function Nav() {
                   <Link href={`/blog/${navItem.label}/${dropItem.label}`}>{dropItem.label}</Link>
 
                   {/* popup */}
-                  <ul className="nav-popup-items">
-                    {dropItem.popupItems?.map((popupItem: any) => (
-                      <li className="nav-popup-item" key={popupItem.label}>
-                        <Link href={`/blog/${navItem.label}/${dropItem.label}/${popupItem.label}`}>
-                          {popupItem.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  {dropItem.popupItems?.length && (
+                    <ul className="nav-popup-items">
+                      {dropItem.popupItems?.map((popupItem: any) => (
+                        <li className="nav-popup-item" key={popupItem.label}>
+                          <Link
+                            href={`/blog/${navItem.label}/${dropItem.label}/${popupItem.label}`}
+                          >
+                            {popupItem.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>

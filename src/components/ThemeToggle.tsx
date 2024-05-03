@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import "../styles/ThemeToggle.scss";
 import { IoIosMoon, IoIosSunny } from "react-icons/io";
+import "../styles/ThemeToggle.scss";
 
 export default function ThemeToggle() {
   // 브라우저의 로컬스토리지에서 컬러모드를 확인하고 없으면 기본값을 라이트모드로 설정한다.
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    setTheme(localStorage.getItem("theme") || "light");
+  }, []);
 
   // 운영체제의 컬러모드에 의한 브라우저의 컬러모드 변경
   useEffect(() => {
