@@ -7,55 +7,46 @@
 
 // variables
 :root {
-  // light theme
-  --backgroundColor: #fff;
+  --backgroundColor-black: #000;
   --backgroundColor-offBlack: #222;
-  --textColor: #000;
-  --textColor-offWhite: #eee;
+  --backgroundColor-white: #fff;
+  --backgroundColor-offWhite: #eee;
 
-  // dark theme
-  --backgroundColor__darkTheme: #000;
-  --textColor__darkTheme: #fff;
-  --backgroundColor-white__darkTheme: #fff;
+  --foregroundColor-black: #000;
+  --foregroundColor-offBlack: #222;
+  --foregroundColor-white: #fff;
+  --foregroundColor-offWhite: #eee;
 }
 
 // theme
 html {
   body {
-    transition: all 1s;
+    transition: background-color 1s;
     &.light {
-      background-color: var(--backgroundColor);
+      background-color: var(--backgroundColor-white);
+      color: var(--foregroundColor-black);
 
       .theme-toggle {
-        background-color: var(--backgroundColor);
+        background-color: var(--backgroundColor-white);
 
         .moving-ball {
-          background-color: var(--backgroundColor-offBlack);
-          transform: translateX(10px);
-        }
-      }
-    }
-    &.dark {
-      background-color: var(--backgroundColor__darkTheme);
-
-      .theme-toggle {
-        background-color: var(--backgroundColor__darkTheme);
-
-        .moving-ball {
-          background-color: var(--backgroundColor-white__darkTheme);
           transform: translateX(0);
         }
       }
     }
+    &.dark {
+      background-color: var(--backgroundColor-offblack);
+      color: var(--foregroundColor-offwhite);
+
+      .theme-toggle {
+        background-color: var(--backgroundColor-black);
+
+        .moving-ball {
+          transform: translateX(10px);
+        }
+      }
+    }
   }
-
-  // body.light {
-  //   background-color: var(--backgroundColor);
-  // }
-
-  // body.dark {
-  //   background-color: var(--backgroundColor__darkTheme);
-  // }
 }
 
 // layout
@@ -87,7 +78,7 @@ html {
     .header-upper-wrapper,
     .header-lower-wrapper {
       background-color: var(--backgroundColor-offBlack);
-      color: var(--textColor-offWhite);
+      color: var(--foregroundColor-offWhite);
     }
 
     .header-upper {
@@ -124,7 +115,7 @@ html {
 
   footer {
     background-color: var(--backgroundColor-offBlack);
-    color: var(--textColor-offWhite);
+    color: var(--foregroundColor-offWhite);
     padding: 3rem;
 
     > section {

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import "../styles/ThemeToggle.scss";
+import { IoIosMoon, IoIosSunny } from "react-icons/io";
 
 export default function ThemeToggle() {
   // 브라우저의 로컬스토리지에서 컬러모드를 확인하고 없으면 기본값을 라이트모드로 설정한다.
@@ -34,7 +35,9 @@ export default function ThemeToggle() {
 
   return (
     <div className="theme-toggle" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-      <div className="moving-ball"></div>
+      <div className="moving-ball">
+        {theme === "light" ? <IoIosSunny color="orange" /> : <IoIosMoon color="yellow" />}
+      </div>
     </div>
   );
 }
