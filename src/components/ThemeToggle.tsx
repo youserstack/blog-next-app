@@ -33,12 +33,7 @@ export default function ThemeToggle() {
   }, [theme]);
 
   return (
-    <div
-      className="theme-toggle"
-      onClick={() => {
-        setTheme(theme === "dark" ? "light" : "dark");
-      }}
-    >
+    <div className="theme-toggle" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
       <div className="moving-ball"></div>
     </div>
   );

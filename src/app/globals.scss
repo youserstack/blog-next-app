@@ -16,6 +16,7 @@
   // dark theme
   --backgroundColor__darkTheme: #000;
   --textColor__darkTheme: #fff;
+  --backgroundColor-white__darkTheme: #fff;
 }
 
 // theme
@@ -25,17 +26,25 @@ html {
     &.light {
       background-color: var(--backgroundColor);
 
-      .moving-ball {
-        left: 3px;
-        right: initial;
+      .theme-toggle {
+        background-color: var(--backgroundColor);
+
+        .moving-ball {
+          background-color: var(--backgroundColor-offBlack);
+          transform: translateX(10px);
+        }
       }
     }
     &.dark {
       background-color: var(--backgroundColor__darkTheme);
 
-      .moving-ball {
-        left: initial;
-        right: 3px;
+      .theme-toggle {
+        background-color: var(--backgroundColor__darkTheme);
+
+        .moving-ball {
+          background-color: var(--backgroundColor-white__darkTheme);
+          transform: translateX(0);
+        }
       }
     }
   }
