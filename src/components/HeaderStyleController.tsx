@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function HeaderStyleController() {
   // scroll
@@ -29,26 +29,27 @@ export default function HeaderStyleController() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+  }, []);
 
   // refresh auth
   const router = useRouter();
-  const handleRefreshAuth = async () => {
-    try {
-      const response = await fetch("/api/auth/refresh", { method: "get" });
-      const { accessToken } = await response.json();
-      if (response.ok && accessToken) {
-        window.localStorage.setItem("accessToken", accessToken);
-      } else {
-        window.localStorage.removeItem("accessToken");
-        router.push("/auth/signin");
-      }
-    } catch (error) {
-      console.log({ error });
-    }
-  };
 
   useEffect(() => {
+    const handleRefreshAuth = async () => {
+      try {
+        const response = await fetch("/api/auth/refresh", { method: "get" });
+        const { accessToken } = await response.json();
+        if (response.ok && accessToken) {
+          window.localStorage.setItem("accessToken", accessToken);
+        } else {
+          window.localStorage.removeItem("accessToken");
+          router.push("/auth/signin");
+        }
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+
     handleRefreshAuth();
   }, []);
 

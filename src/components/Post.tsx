@@ -13,16 +13,18 @@ async function getData(postId: any) {
 export default async function Post() {
   // breadcrumb
   const pathname = headers().get("pathname");
-  const segments = pathname?.split("/").slice(1);
+  const segments: any = pathname?.split("/").slice(1);
+  console.log({ segments });
 
   // content
-  const postId = segments?.pop();
+  const postId = segments[segments.length - 1];
   const { post } = await getData(postId);
 
   return (
     <article>
       <div className="breadcrumb">
         {segments?.map((v: string, i: number) => {
+          console.log({ v });
           return (
             <React.Fragment key={v}>
               <Link href={""}>{v}</Link>

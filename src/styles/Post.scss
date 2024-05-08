@@ -13,21 +13,5 @@ article {
     border: 1px solid;
     padding: 1rem;
     margin-top: 1rem;
-
-    .post-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-
-      .post-item {
-        border: 1px solid;
-        display: flex;
-        gap: 1rem;
-
-        div {
-          flex: 1;
-        }
-      }
-    }
   }
 }

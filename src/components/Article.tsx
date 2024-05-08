@@ -4,11 +4,11 @@ import React from "react";
 import Image from "next/image";
 import "../styles/Article.scss";
 
-async function getData(slugs: string[] | undefined) {
+async function getData(category: any) {
   const response = await fetch(`${process.env.ROOT_URL}/api/category`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(slugs),
+    body: JSON.stringify({ category }),
   });
   if (!response.ok) throw new Error("failed to fetch data");
   return response.json();
@@ -16,24 +16,22 @@ async function getData(slugs: string[] | undefined) {
 
 export default async function Article() {
   // console.log("\n[Article]");
-  const header = headers();
-  const pathname = header.get("pathname")?.replace("/category", "");
-  const slugs: string[] | undefined = pathname?.split("/");
-  // console.log({ pathname });
-  // console.log({ slugs });
 
-  // 클라이언트에서 요청하기 전에 서버에서 미리 호출하여 데이터를 가져온다.
-  const { posts } = await getData(slugs);
-  // console.log({ posts });
+  // breadcrumb
+  const pathname: any = headers().get("pathname")?.replace("/category", "");
+  const segments: any = pathname?.split("/");
+
+  // content
+  const { posts } = await getData(pathname);
 
   return (
     <article>
       <div className="breadcrumb">
-        {slugs?.map((v: string, i: number) => {
+        {segments?.map((v: string, i: number) => {
           return (
             <React.Fragment key={v}>
               <Link href={""}>{v}</Link>
-              {i !== slugs.length - 1 && <span>{">"}</span>}
+              {i !== segments.length - 1 && <span>{">"}</span>}
             </React.Fragment>
           );
         })}
