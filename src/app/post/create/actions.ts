@@ -16,7 +16,7 @@ export async function createPost(formData: FormData, accessToken: string) {
   const response = await fetch(`${process.env.ROOT_URL}/api/post/create`, {
     method: "post",
     headers: {
-      "content-type": "application/json",
+      "Content-Type": "application/json",
       authorization: `bearer ${accessToken}`,
     },
     body: JSON.stringify({ category, title, content, author, tags }),

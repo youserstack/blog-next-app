@@ -5,7 +5,7 @@ import User from "@/lib/models/User";
 import connectDB from "@/lib/config/connectDB";
 
 export async function GET(request: Request) {
-  console.log("\n[api/auth/refresh]");
+  // console.log("\n\x1b[32m[api/auth/refresh]\x1b[0m");
 
   // Connect to db (데이터베이스 연결)
   await connectDB();

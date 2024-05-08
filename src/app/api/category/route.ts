@@ -3,7 +3,7 @@ import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
 export async function POST(request: Request) {
-  console.log("\n[api/category]");
+  console.log("\n\x1b[32m[api/category]\x1b[0m");
 
   // Connect to db
   await connectDB();
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   // Get data
   const slugs = await request.json();
   const category = slugs.join("/");
-  // console.log({ category });
+  console.log({ category });
   // const decodedCategory = decodeURIComponent(category);
   // console.log({ decodedCategory });
 
