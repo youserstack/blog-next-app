@@ -9,13 +9,16 @@ async function getData(category: any) {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ category }),
+    cache: "no-store",
+    // cache: "no-cache",
+    // next: { revalidate: 0 },
   });
   if (!response.ok) throw new Error("failed to fetch data");
   return response.json();
 }
 
 export default async function PostListArticle() {
-  // console.log("\n[Article]");
+  console.log("\n[Article]");
 
   // breadcrumb
   const pathname: any = headers().get("pathname")?.replace("/category", "");
