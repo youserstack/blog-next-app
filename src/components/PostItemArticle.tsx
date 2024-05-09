@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
-import "../styles/Post.scss";
+import "../styles/PostItemArticle.scss";
 
 async function getData(postId: any) {
   const response = await fetch(`${process.env.ROOT_URL}/api/post/${postId}`);
@@ -10,7 +10,7 @@ async function getData(postId: any) {
   return response.json();
 }
 
-export default async function Post() {
+export default async function PostItemArticle() {
   // breadcrumb
   const pathname = headers().get("pathname");
   const segments: any = pathname?.split("/").slice(1);
@@ -21,10 +21,9 @@ export default async function Post() {
   const { post } = await getData(postId);
 
   return (
-    <article>
+    <article className="post-item-article">
       <div className="breadcrumb">
         {segments?.map((v: string, i: number) => {
-          console.log({ v });
           return (
             <React.Fragment key={v}>
               <Link href={""}>{v}</Link>

@@ -1,4 +1,4 @@
-import Article from "@/components/Article";
+import PostListArticle from "@/components/PostListArticle";
 import ScrollNav from "@/components/ScrollNav";
 import "./page.scss";
 
@@ -20,7 +20,7 @@ export default async function Category({ params }: { params: { slug: string[] } 
     <main className="category-page">
       <section>
         <ScrollNav />
-        <Article />
+        <PostListArticle />
       </section>
       <section></section>
     </main>

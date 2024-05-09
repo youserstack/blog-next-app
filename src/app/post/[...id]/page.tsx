@@ -1,5 +1,5 @@
 import ScrollNav from "@/components/ScrollNav";
-import Post from "@/components/Post";
+import PostItemArticle from "@/components/PostItemArticle";
 import "./page.scss";
 
 // export async function generateStaticParams() {
@@ -20,7 +20,7 @@ export default async function PostId({ params }: { params: { slug: string[] } })
     <main className="post-page">
       <section>
         <ScrollNav />
-        <Post />
+        <PostItemArticle />
       </section>
       <section></section>
     </main>

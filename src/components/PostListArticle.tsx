@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
-import "../styles/Article.scss";
+import "../styles/PostListArticle.scss";
 
 async function getData(category: any) {
   const response = await fetch(`${process.env.ROOT_URL}/api/category`, {
@@ -14,7 +14,7 @@ async function getData(category: any) {
   return response.json();
 }
 
-export default async function Article() {
+export default async function PostListArticle() {
   // console.log("\n[Article]");
 
   // breadcrumb
@@ -25,7 +25,7 @@ export default async function Article() {
   const { posts } = await getData(pathname);
 
   return (
-    <article>
+    <article className="post-list-article">
       <div className="breadcrumb">
         {segments?.map((v: string, i: number) => {
           return (
