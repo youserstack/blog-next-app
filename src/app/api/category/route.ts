@@ -9,11 +9,19 @@ export async function POST(request: Request) {
 
   // Get data
   const { category } = await request.json();
-  // console.log({ category });
+  console.log({ category });
 
   // Lookup the posts
-  const foundPosts: any = await Post.find({ category }).populate("author").exec();
-  // console.log({ foundPosts });
+  const foundPosts: any = await Post.find({
+    category: {
+      $regex: category,
+      $options: "i", // 대소문자 구분하지 않음
+    },
+  })
+    .populate("author")
+    .exec();
+  // const foundPosts: any = await Post.find({ category }).populate("author").exec();
+  console.log({ foundPosts });
 
   // Modify the posts
   let modifiedPosts: any = [];
