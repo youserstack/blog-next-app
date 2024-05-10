@@ -5,12 +5,12 @@ import { createPost } from "@/app/post/create/actions";
 import "./page.scss";
 
 export default function PostCreate() {
-  console.log("\n[post-create-page]");
+  // console.log("\n[post-create-page]");
 
   const [state, formAction]: any = useFormState((prevState: any, formData: FormData) => {
     createPost(formData, localStorage.getItem("accessToken") as string);
   }, undefined);
-  console.log({ state });
+  // console.log({ state });
 
   return (
     <main className="post-create-page">

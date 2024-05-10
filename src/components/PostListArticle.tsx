@@ -5,11 +5,12 @@ import Image from "next/image";
 import "../styles/PostListArticle.scss";
 
 async function getData(category: any) {
+  console.log({ cc: category });
   const response = await fetch(`${process.env.ROOT_URL}/api/category`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ category }),
-    cache: "no-store",
+    // cache: "no-store",
     // cache: "no-cache",
     // next: { revalidate: 0 },
   });

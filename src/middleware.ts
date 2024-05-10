@@ -8,23 +8,15 @@ export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   // console.log({ pathname });
 
-  // 퍼블릭 페이지인 경우에는 헤더에 커스텀 데이터를 설정한다.
-  // 서버 컴포넌트에서 database query 를 위한 http request url 을 헤더에 커스텀 데이터를 설정한다.
-  if (pathname.startsWith("/category") || pathname.startsWith("/post")) {
-    const headers = new Headers(request.headers);
-    headers.set("pathname", pathname);
-    return NextResponse.next({ request: { headers } });
-  }
-
   // 프로텍티드 페이지인 경우에는 인증된 사용자만 접근을 허용한다. (blog post 생성/수정/삭제)
   // 각각의 백엔드포인트에서는 accessToken으로 접근한 경우에만 허용한다.
-  const isProtectedPage = pathname.startsWith("/protected") || pathname.startsWith("/post/create");
+  const isProtectedPage = pathname.startsWith("/protected") || pathname === "/post/create";
   if (isProtectedPage) {
     // Check for cookie
     const refreshToken: any = cookies().get("refreshToken");
     if (!refreshToken) {
-      console.log("\n\x1b[32m[middleware]");
-      console.log("no refreshToken");
+      console.log("\n\x1b[31m[middleware]");
+      console.log("no refreshToken (리프레시 토큰 부재)");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
 
@@ -34,10 +26,10 @@ export default async function middleware(request: NextRequest) {
       const { payload } = await jwtVerify(refreshToken.value, secret, {});
       // console.log({ payload });
       console.log("\n\x1b[32m[middleware]");
-      console.log("validated user");
+      console.log("validated user (인증된 사용자)");
     } catch (error) {
-      console.log("\n\x1b[32m[middleware]");
-      console.log("invalid jwt refreshToken");
+      console.log("\n\x1b[31m[middleware]");
+      console.log("invalid jwt refreshToken (유효성 검사 에러)");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
   }
@@ -51,13 +43,20 @@ export default async function middleware(request: NextRequest) {
     const secret = new TextEncoder().encode(process.env.JWT_REFRESHTOKEN_SECRET);
     try {
       const { payload } = await jwtVerify(refreshToken.value, secret, {});
-      console.log({ payload });
+      // console.log({ payload });
+      console.log("\n\x1b[32m[middleware]");
+      console.log("validated user (인증된 사용자)");
       return NextResponse.redirect(new URL("/", request.url));
     } catch (error) {
       console.log("\n\x1b[32m[middleware]");
-      console.log("invalid jwt refreshToken");
+      console.log("invalid jwt refreshToken (유효성 검사 에러)");
     }
   }
+
+  // 서버 컴포넌트에서 database query 를 위한 http request url 을 헤더에 커스텀 데이터를 설정한다.
+  const headers = new Headers(request.headers);
+  headers.set("pathname", pathname);
+  return NextResponse.next({ request: { headers } });
 }
 
 export const config = {

@@ -62,4 +62,24 @@
       }
     }
   }
+
+  .popup-layout {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .popup {
+      width: 500px;
+      height: 500px;
+      border: 1px solid;
+      padding: 1rem;
+      background-color: #fff;
+      color: #000;
+    }
+  }
 }

@@ -1,8 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { navItems } from "@/data/navItems";
+import { useState } from "react";
 import "../styles/Nav.scss";
 
 export default function Nav() {
+  const [isClicked, setIsClicked] = useState(false);
+
   return (
     <nav className="nav">
       <ul className="nav-items">
@@ -37,7 +42,27 @@ export default function Nav() {
             </ul>
           </li>
         ))}
+
+        <li className="nav-item category-create">
+          <Link href={""} onClick={() => setIsClicked(true)}>
+            +
+          </Link>
+        </li>
       </ul>
+
+      {isClicked && (
+        <div className="popup-layout" onClick={() => setIsClicked(false)}>
+          <div className="popup" onClick={(e) => e.stopPropagation()}>
+            <h1>Category Create Form</h1>
+            <form action="">
+              <input type="text" name="category" />
+              <button type="submit" onClick={() => setIsClicked(false)}>
+                add
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
