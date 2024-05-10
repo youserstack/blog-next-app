@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
   // Get data
   const { category } = await request.json();
-  console.log({ category });
+  // console.log({ category });
 
   // Lookup the posts
   const foundPosts: any = await Post.find({
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     .populate("author")
     .exec();
   // const foundPosts: any = await Post.find({ category }).populate("author").exec();
-  console.log({ foundPosts });
+  // console.log({ foundPosts });
 
   // Modify the posts
   let modifiedPosts: any = [];

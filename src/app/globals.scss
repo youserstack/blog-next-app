@@ -34,6 +34,11 @@ html {
           transform: translateX(0);
         }
       }
+
+      .popup-layout .popup {
+        background-color: var(--backgroundColor-offBlack);
+        color: var(--foregroundColor-offWhite);
+      }
     }
     &.dark {
       background-color: var(--backgroundColor-darkGray);

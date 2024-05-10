@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { navItems } from "@/data/navItems";
-import { useState } from "react";
 import "../styles/Nav.scss";
 
 export default function Nav() {
-  const [isClicked, setIsClicked] = useState(false);
+  const handleClick = () => {
+    (document.querySelector(".popup-layout") as HTMLElement).style.display = "flex";
+  };
 
   return (
     <nav className="nav">
@@ -44,25 +45,11 @@ export default function Nav() {
         ))}
 
         <li className="nav-item category-create">
-          <Link href={""} onClick={() => setIsClicked(true)}>
+          <Link href={""} onClick={handleClick}>
             +
           </Link>
         </li>
       </ul>
-
-      {isClicked && (
-        <div className="popup-layout" onClick={() => setIsClicked(false)}>
-          <div className="popup" onClick={(e) => e.stopPropagation()}>
-            <h1>Category Create Form</h1>
-            <form action="">
-              <input type="text" name="category" />
-              <button type="submit" onClick={() => setIsClicked(false)}>
-                add
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </nav>
   );
 }

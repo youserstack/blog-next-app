@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function HeaderStyleController() {
   // scroll
@@ -14,11 +14,14 @@ export default function HeaderStyleController() {
     const currentScrollY = window.scrollY;
 
     if (window.scrollY <= 200) {
+      // console.log('scroll top area')
       header.style.transform = "translateY(0)";
     } else {
       if (currentScrollY > previousScrollY) {
+        // console.log("scroll down");
         header.style.transform = "translateY(-70px)";
       } else {
+        // console.log("scroll up");
         header.style.transform = "translateY(0)";
       }
     }
@@ -29,7 +32,7 @@ export default function HeaderStyleController() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  });
 
   // refresh auth
   const router = useRouter();
