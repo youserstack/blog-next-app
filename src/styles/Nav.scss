@@ -62,37 +62,4 @@
       }
     }
   }
-
-  .popup-layout {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .popup {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      border: 1px solid;
-      border-radius: 10px;
-      padding: 1rem;
-
-      form {
-        display: flex;
-        flex-direction: column;
-
-        input {
-          border: 1px solid;
-        }
-
-        button {
-          align-self: flex-end;
-        }
-      }
-    }
-  }
 }

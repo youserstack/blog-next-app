@@ -6,7 +6,7 @@ import "../styles/Nav.scss";
 
 export default function Nav() {
   const handleClick = () => {
-    (document.querySelector(".popup-layout") as HTMLElement).style.display = "flex";
+    (document.querySelector("html body .popup-layout") as HTMLElement).style.display = "flex";
   };
 
   return (

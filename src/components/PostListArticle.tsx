@@ -5,16 +5,18 @@ import Image from "next/image";
 import "../styles/PostListArticle.scss";
 
 async function getData(category: any) {
-  console.log({ cc: category });
+  console.log(process.env.ROOT_URL);
   const response = await fetch(`${process.env.ROOT_URL}/api/category`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ category }),
+    // 이하는 모두 동일
     // cache: "no-store",
     // cache: "no-cache",
     // next: { revalidate: 0 },
   });
-  if (!response.ok) throw new Error("failed to fetch data");
+  if (!response.ok) null;
+  // if (!response.ok) throw new Error("failed to fetch data");
   return response.json();
 }
 

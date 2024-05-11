@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent } from "react";
 import "../styles/Popup.scss";
 
 export default function Popup() {
@@ -11,10 +11,10 @@ export default function Popup() {
     const form = e.target as HTMLFormElement;
     const categoryInput = form.elements.namedItem("category") as HTMLInputElement;
     const category = categoryInput.value;
-    console.log({ form });
+    console.log({ category });
 
+    // Set display none
     const popupLayout = document.querySelector(".popup-layout") as HTMLElement;
-    // console.log({ popupLayout });
     popupLayout.style.display = "none";
   };
 

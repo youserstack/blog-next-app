@@ -3,6 +3,7 @@ import "./globals.scss";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Popup from "@/components/Popup";
+import Provider from "@/components/Provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,10 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Popup />
-        <Header />
-        {children}
-        <Footer />
+        <Provider>
+          <Popup />
+          <Header />
+          {children}
+          <Footer />
+        </Provider>
       </body>
     </html>
   );
