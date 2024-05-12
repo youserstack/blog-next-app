@@ -5,7 +5,6 @@ import Image from "next/image";
 import "../styles/PostListArticle.scss";
 
 async function getData(category: any) {
-  console.log(process.env.ROOT_URL);
   const response = await fetch(`${process.env.ROOT_URL}/api/posts/categorizedPosts`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -20,11 +19,12 @@ async function getData(category: any) {
 }
 
 export default async function PostListArticle() {
-  console.log("\n[Article]");
+  // console.log("\n[PostListArticle]");
 
   // breadcrumb
   const pathname: any = headers().get("pathname")?.replace("/categories", "");
-  const segments: any = pathname?.split("/");
+  const segments: any = pathname?.split("/").slice(1);
+  console.log({ pathname });
 
   // content
   const { posts } = await getData(pathname);
@@ -50,7 +50,7 @@ export default async function PostListArticle() {
                 <p>Title : {post.title}</p>
                 <p>Author : {post.author}</p>
                 <pre>{post.content}</pre>
-                <Link href={`/post/${post._id}`}>read more</Link>
+                <Link href={`/posts/${post._id}`}>read more</Link>
               </div>
               <div className="post-image">
                 {post.image ? <Image src={""} alt="sdf" /> : <h1>No Image</h1>}

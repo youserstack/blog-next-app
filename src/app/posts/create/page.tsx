@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormState } from "react-dom";
-import { createPost } from "@/app/post/create/actions";
+import { createPost } from "@/app/posts/create/actions";
 import "./page.scss";
 
 export default function PostCreate() {

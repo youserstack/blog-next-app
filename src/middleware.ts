@@ -10,7 +10,7 @@ export default async function middleware(request: NextRequest) {
 
   // 프로텍티드 페이지인 경우에는 인증된 사용자만 접근을 허용한다. (blog post 생성/수정/삭제)
   // 각각의 백엔드포인트에서는 accessToken으로 접근한 경우에만 허용한다.
-  const isProtectedPage = pathname.startsWith("/protected") || pathname.startsWith("/post/create");
+  const isProtectedPage = pathname.startsWith("/protected") || pathname.startsWith("/posts/create");
   if (isProtectedPage) {
     // Check for cookie
     const refreshToken: any = cookies().get("refreshToken");
@@ -63,7 +63,7 @@ export const config = {
   matcher: [
     "/auth/signin", // 공개
     "/categories/:path*", // 공개
-    "/post/:path*", // 포스트 읽기만 공개한다. 포스트 쓰기, 수정, 삭제는 인증된 사용자에게 공개한다. (accessToken으로 접근)
+    "/posts/:path*", // 포스트 읽기만 공개한다. 포스트 쓰기, 수정, 삭제는 인증된 사용자에게 공개한다. (accessToken으로 접근)
     "/protected/:path*", // 인증된 사용자에게 공개
   ],
   // matcher: "/:path*",

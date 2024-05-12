@@ -48,7 +48,7 @@ export default async function Nav() {
         ))}
 
         {categories.map((category: any) => (
-          <li>
+          <li key={category._id}>
             <Link href={""}>{category.name}</Link>
           </li>
         ))}

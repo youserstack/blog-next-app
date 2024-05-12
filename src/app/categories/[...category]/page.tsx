@@ -12,7 +12,6 @@ import "./page.scss";
 
 export default async function Category({ params }: { params: { category: string[] } }) {
   console.log("\n[categories/[...category]]");
-  console.log({ category: params.category });
   // const response = await fetch("http://localhost:3000/api");
   // const data = await response.json();
 
