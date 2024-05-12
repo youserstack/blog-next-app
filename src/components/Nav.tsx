@@ -48,12 +48,12 @@ export default async function Nav() {
         ))}
 
         {categories.map((category: any) => (
-          <li key={category._id}>
+          <li className="nav-item" key={category._id}>
             <Link href={""}>{category.name}</Link>
           </li>
         ))}
 
-        <CategoryCreateButton />
+        <CategoryCreateButton category={"/"} />
       </ul>
     </nav>
   );

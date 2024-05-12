@@ -7,6 +7,15 @@
   .breadcrumb {
     display: flex;
     gap: 10px;
+
+    .category-create {
+      display: flex;
+      gap: 10px;
+
+      button {
+        padding: 0 10px;
+      }
+    }
   }
 
   .content {

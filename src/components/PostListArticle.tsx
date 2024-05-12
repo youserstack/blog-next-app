@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import "../styles/PostListArticle.scss";
+import CategoryCreateButton from "@/components/CategoryCreateButton";
 
 async function getData(category: any) {
   const response = await fetch(`${process.env.ROOT_URL}/api/posts/categorizedPosts`, {
@@ -40,6 +41,11 @@ export default async function PostListArticle() {
             </React.Fragment>
           );
         })}
+
+        <div className="category-create">
+          <span>{">"}</span>
+          <CategoryCreateButton category={pathname} />
+        </div>
       </div>
       <div className="content">
         <ul className="post-list">
