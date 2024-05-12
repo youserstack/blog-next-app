@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 // 카테고리 스키마 정의
 const categorySchema = new mongoose.Schema({
-  type: {
+  name: {
     type: String,
     required: true,
   },
-  category: [
+  subcategories: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",

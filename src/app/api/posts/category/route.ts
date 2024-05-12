@@ -2,7 +2,7 @@ import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 
 export async function POST(request: Request) {
-  console.log("\n\x1b[32m[api/category]\x1b[0m");
+  console.log("\n\x1b[32m[api/posts/category]\x1b[0m");
 
   // Connect to db
   await connectDB();

@@ -20,6 +20,11 @@ export default function Header() {
       <div className="header-lower-wrapper">
         <section className="header-lower">
           <Nav />
+          {/* <Nav>
+            <ServerComponent
+            // 클라이언트컴포넌트 안에 서버컴포넌트를 배치하기 위한 children 프로퍼티에 <ServerComponent/> 컴포넌트를 선언한다.
+            />
+          </Nav> */}
           <Etc />
         </section>
       </div>

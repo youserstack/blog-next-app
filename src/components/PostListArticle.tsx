@@ -6,7 +6,7 @@ import "../styles/PostListArticle.scss";
 
 async function getData(category: any) {
   console.log(process.env.ROOT_URL);
-  const response = await fetch(`${process.env.ROOT_URL}/api/category`, {
+  const response = await fetch(`${process.env.ROOT_URL}/api/posts/category`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ category }),

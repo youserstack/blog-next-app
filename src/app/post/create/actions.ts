@@ -13,7 +13,7 @@ export async function createPost(formData: FormData, accessToken: string) {
   const tags = formData.get("tags");
   // const test = formData.getAll();
 
-  const response = await fetch(`${process.env.ROOT_URL}/api/post/create`, {
+  const response = await fetch(`${process.env.ROOT_URL}/api/posts/create`, {
     method: "post",
     headers: {
       "Content-Type": "application/json",

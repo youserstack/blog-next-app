@@ -5,7 +5,7 @@ import Image from "next/image";
 import "../styles/PostItemArticle.scss";
 
 async function getData(postId: any) {
-  const response = await fetch(`${process.env.ROOT_URL}/api/post/${postId}`);
+  const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`);
   if (!response.ok) throw new Error("failed to fetch data");
   return response.json();
 }

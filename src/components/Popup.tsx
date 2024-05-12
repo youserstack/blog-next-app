@@ -1,9 +1,12 @@
 "use client";
 
 import { FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import "../styles/Popup.scss";
 
 export default function Popup() {
+  const router = useRouter();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -12,6 +15,21 @@ export default function Popup() {
     const categoryInput = form.elements.namedItem("category") as HTMLInputElement;
     const category = categoryInput.value;
     console.log({ category });
+
+    try {
+      const response = await fetch(`${process.env.ROOT_URL}/api/category/create`, {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category }),
+      });
+      if (!response.ok) return;
+      router.refresh();
+
+      const { newCategory } = await response.json();
+      console.log({ newCategory });
+    } catch (error) {
+      console.log({ error });
+    }
 
     // Set display none
     const popupLayout = document.querySelector(".popup-layout") as HTMLElement;

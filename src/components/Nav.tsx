@@ -1,13 +1,19 @@
-"use client";
-
 import Link from "next/link";
 import { navItems } from "@/data/navItems";
 import "../styles/Nav.scss";
+import CategoryCreateButton from "@/components/CategoryCreateButton";
 
-export default function Nav() {
-  const handleClick = () => {
-    (document.querySelector("html body .popup-layout") as HTMLElement).style.display = "flex";
-  };
+async function getData() {
+  const response = await fetch(`${process.env.ROOT_URL}/api/posts/categories`);
+  if (!response.ok) throw new Error("failed to fetch data");
+
+  return response.json();
+}
+
+export default async function Nav() {
+  // { children }: { children: React.ReactNode }
+
+  const { categories } = await getData();
 
   return (
     <nav className="nav">
@@ -44,11 +50,13 @@ export default function Nav() {
           </li>
         ))}
 
-        <li className="nav-item category-create">
-          <Link href={""} onClick={handleClick}>
-            +
-          </Link>
-        </li>
+        {categories.map((category: any) => (
+          <li>
+            <Link href={""}>{category.name}</Link>
+          </li>
+        ))}
+
+        <CategoryCreateButton />
       </ul>
     </nav>
   );

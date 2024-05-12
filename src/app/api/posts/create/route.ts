@@ -4,7 +4,7 @@ import User from "@/lib/models/User";
 import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
-  console.log("\n\x1b[32m[api/post/create]\x1b[0m");
+  console.log("\n\x1b[32m[api/posts/create]\x1b[0m");
 
   // Connect to db
   await connectDB();
