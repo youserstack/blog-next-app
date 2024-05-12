@@ -2,7 +2,7 @@ import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
 
 export async function GET(request: Request) {
-  console.log("\n\x1b[32m[api/posts/categories]\x1b[0m");
+  console.log("\n\x1b[32m[api/categories]\x1b[0m");
 
   // Connect to db
   await connectDB();

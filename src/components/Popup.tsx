@@ -17,7 +17,7 @@ export default function Popup() {
     console.log({ category });
 
     try {
-      const response = await fetch(`${process.env.ROOT_URL}/api/category/create`, {
+      const response = await fetch(`${process.env.ROOT_URL}/api/categories/create`, {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ category }),

@@ -6,11 +6,11 @@ import "./page.scss";
 //   const posts = await fetch('https://.../posts').then((res) => res.json())
 
 //   return posts.map((post) => ({
-//     slug: post.slug,
+//     category: post.category,
 //   }))
 // }
 
-export default async function PostId({ params }: { params: { slug: string[] } }) {
+export default async function PostId({ params }: { params: { category: string[] } }) {
   console.log("\n[post/[...id]]");
   // console.log({ params });
   // const response = await fetch("http://localhost:3000/api");

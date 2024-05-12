@@ -62,7 +62,7 @@ export default async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/auth/signin", // 공개
-    "/category/:path*", // 공개
+    "/categories/:path*", // 공개
     "/post/:path*", // 포스트 읽기만 공개한다. 포스트 쓰기, 수정, 삭제는 인증된 사용자에게 공개한다. (accessToken으로 접근)
     "/protected/:path*", // 인증된 사용자에게 공개
   ],

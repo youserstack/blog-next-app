@@ -6,7 +6,7 @@ import "../styles/PostListArticle.scss";
 
 async function getData(category: any) {
   console.log(process.env.ROOT_URL);
-  const response = await fetch(`${process.env.ROOT_URL}/api/posts/category`, {
+  const response = await fetch(`${process.env.ROOT_URL}/api/posts/categorizedPosts`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ category }),
@@ -15,8 +15,7 @@ async function getData(category: any) {
     // cache: "no-cache",
     // next: { revalidate: 0 },
   });
-  if (!response.ok) null;
-  // if (!response.ok) throw new Error("failed to fetch data");
+  if (!response.ok) throw new Error("failed to fetch data");
   return response.json();
 }
 
@@ -24,7 +23,7 @@ export default async function PostListArticle() {
   console.log("\n[Article]");
 
   // breadcrumb
-  const pathname: any = headers().get("pathname")?.replace("/category", "");
+  const pathname: any = headers().get("pathname")?.replace("/categories", "");
   const segments: any = pathname?.split("/");
 
   // content

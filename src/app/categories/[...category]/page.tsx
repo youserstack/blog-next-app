@@ -6,13 +6,13 @@ import "./page.scss";
 //   const posts = await fetch('https://.../posts').then((res) => res.json())
 
 //   return posts.map((post) => ({
-//     slug: post.slug,
+//     category: post.category,
 //   }))
 // }
 
-export default async function Category({ params }: { params: { slug: string[] } }) {
-  console.log("\n[category/[...slug]]");
-  // console.log({ params });
+export default async function Category({ params }: { params: { category: string[] } }) {
+  console.log("\n[categories/[...category]]");
+  console.log({ category: params.category });
   // const response = await fetch("http://localhost:3000/api");
   // const data = await response.json();
 
