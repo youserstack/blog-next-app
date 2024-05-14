@@ -15,7 +15,7 @@ export default function PostCreate() {
   // console.log({ state });
 
   const { categories }: any = useContext(Context);
-  console.log({ categories });
+  // console.log({ categories });
 
   return (
     <main className="post-create-page">
@@ -23,6 +23,14 @@ export default function PostCreate() {
         <h1>Post Create Page</h1>
         <form action={formAction}>
           <select name="category" id="category">
+            {
+              // categories.map((category:any)=>(
+              //   <option value={`${category.name}/`}>
+              //     {category.name}/
+              //   </option>
+              // ))
+            }
+
             <option value="/web">web</option>
             <option value="/web/framework">web/framework</option>
             <option value="/web/framework/nextjs">web/framework/nextjs</option>

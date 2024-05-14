@@ -87,7 +87,7 @@ export default async function Nav() {
           </li>
         ))}
 
-        <CategoryCreateButton parentCategories={null} />
+        <CategoryCreateButton parentCategories={[]} />
       </ul>
 
       <CategoriesFetcher test={categories} />

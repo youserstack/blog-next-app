@@ -47,8 +47,8 @@ export async function POST(request: Request) {
   const { parentCategories, childCategory } = await request.json();
   console.log({ parentCategories, childCategory });
 
-  // 카테고리 0개 (parentCAtegories === null)
-  if (parentCategories.length === 0 || parentCategories === null) {
+  // 카테고리 0개 (parentCAtegories === [])
+  if (parentCategories.length === 0) {
     const newCategory = await Category.create({ name: childCategory });
     console.log({ newCategory });
     return Response.json({ newCategory }, { status: 200 });
