@@ -29,6 +29,7 @@ export default async function PostListArticle() {
 
   // content
   const { posts } = await getData(pathname);
+  console.log({ posts });
 
   return (
     <article className="post-list-article">
@@ -44,7 +45,7 @@ export default async function PostListArticle() {
 
         <div className="category-create">
           <span>{">"}</span>
-          <CategoryCreateButton category={pathname} />
+          <CategoryCreateButton parentCategories={segments} />
         </div>
       </div>
       <div className="content">

@@ -7,9 +7,7 @@ export async function GET(request: Request) {
   // Connect to db
   await connectDB();
 
-  const foundCategories = await Category.find({}).exec();
-  console.log({ categories: foundCategories });
-  if (!foundCategories) return Response.json({ message: "asdahsdah" });
+  const foundCategories = await Category.find({});
 
   return Response.json({ categories: foundCategories });
 }

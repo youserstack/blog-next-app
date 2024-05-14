@@ -1,11 +1,13 @@
 "use client";
 
-import { FormEvent } from "react";
+import { FormEvent, useContext } from "react";
 import { useRouter } from "next/navigation";
+import { Context } from "@/components/Provider";
 import "../styles/Popup.scss";
 
 export default function Popup() {
   const router = useRouter();
+  const { parentCategories }: any = useContext(Context);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -13,27 +15,25 @@ export default function Popup() {
     // Get input data
     const form = e.target as HTMLFormElement;
     const categoryInput = form.elements.namedItem("category") as HTMLInputElement;
-    const category = categoryInput.value;
-    console.log({ category });
+    const childCategory = categoryInput.value;
 
     try {
       const response = await fetch(`${process.env.ROOT_URL}/api/categories/create`, {
         method: "post",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category }),
+        body: JSON.stringify({ parentCategories, childCategory }),
       });
       if (!response.ok) return;
-      router.refresh();
-
       const { newCategory } = await response.json();
       console.log({ newCategory });
+      router.refresh();
     } catch (error) {
       console.log({ error });
     }
 
     // Set display none
-    const popupLayout = document.querySelector(".popup-layout") as HTMLElement;
-    popupLayout.style.display = "none";
+    // const popupLayout = document.querySelector(".popup-layout") as HTMLElement;
+    // popupLayout.style.display = "none";
   };
 
   return (

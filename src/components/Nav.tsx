@@ -11,10 +11,12 @@ async function getData() {
 
 export default async function Nav() {
   const { categories } = await getData();
+  // console.log({ categories });
 
   return (
     <nav className="nav">
       <ul className="nav-items">
+        {/* root */}
         {navItems.map((navItem: any) => (
           <li className="nav-item" key={navItem.label}>
             <Link href={`/categories/${navItem.label}`}>{navItem.label}</Link>
@@ -47,13 +49,25 @@ export default async function Nav() {
           </li>
         ))}
 
+        {/* root */}
         {categories.map((category: any) => (
-          <li className="nav-item" key={category._id}>
-            <Link href={""}>{category.name}</Link>
+          <li className="nav-item" key={category._id} accessKey={category._id}>
+            <Link href={`/categories/${category.name}`}>{category.name}</Link>
+
+            <ul className="nav-drop-items">
+              {/* sub1 */}
+              {category.sub1Categories?.map((sub1Category: any) => (
+                <li className="nav-drop-item" key={sub1Category._id}>
+                  <Link href={`/categories/${category.name}/${sub1Category.name}`}>
+                    {sub1Category.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
 
-        <CategoryCreateButton category={"/"} />
+        <CategoryCreateButton parentCategories={null} />
       </ul>
     </nav>
   );
