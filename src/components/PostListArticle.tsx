@@ -2,8 +2,8 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
-import "../styles/PostListArticle.scss";
 import CategoryCreateButton from "@/components/CategoryCreateButton";
+import "../styles/PostListArticle.scss";
 
 async function getData(category: any) {
   const response = await fetch(`${process.env.ROOT_URL}/api/posts/categorizedPosts`, {
@@ -33,20 +33,25 @@ export default async function PostListArticle() {
 
   return (
     <article className="post-list-article">
-      <div className="breadcrumb">
-        {segments?.map((v: string, i: number) => (
-          <React.Fragment key={v}>
-            <Link href={""}>{v}</Link>
-            {i !== segments.length - 1 && <span>{">"}</span>}
-          </React.Fragment>
-        ))}
+      <div className="post-list-article-header">
+        <div className="breadcrumb">
+          {segments?.map((v: string, i: number) => (
+            <React.Fragment key={v}>
+              <Link href={""}>{v}</Link>
+              {i !== segments.length - 1 && <span>{">"}</span>}
+            </React.Fragment>
+          ))}
 
-        {segments?.length < 3 && (
-          <div className="category-create">
-            <span>{">"}</span>
-            <CategoryCreateButton parentCategories={segments} />
-          </div>
-        )}
+          {segments?.length < 3 && (
+            <div className="category-create">
+              <span>{">"}</span>
+              <CategoryCreateButton parentCategories={segments} />
+            </div>
+          )}
+        </div>
+        <div className="post-management-container">
+          <button>create a post</button>
+        </div>
       </div>
       <div className="content">
         <ul className="post-list">

@@ -15,7 +15,7 @@ export default function CategoriesFetcher({ categories }: { categories: [] }) {
       const rootCategory: any = categories[i];
       let root = rootCategory.name;
       // root 카테고리를 배열에 추가
-      resultArray.push(`/${root}`);
+      resultArray.push(`${root}`);
 
       // sub1Categories가 존재하면 처리
       const sub1Categories = rootCategory.sub1Categories;
@@ -24,7 +24,7 @@ export default function CategoriesFetcher({ categories }: { categories: [] }) {
           const sub1Category = sub1Categories[j];
           const sub1 = sub1Category.name;
           // sub1 카테고리를 배열에 추가
-          resultArray.push(`/${root}/${sub1}`);
+          resultArray.push(`${root}/${sub1}`);
 
           // sub2Categories가 존재하면 처리
           const sub2Categories = sub1Category.sub2Categories;
@@ -33,7 +33,7 @@ export default function CategoriesFetcher({ categories }: { categories: [] }) {
               const sub2Category = sub2Categories[k];
               const sub2 = sub2Category.name;
               // sub2 카테고리를 배열에 추가
-              resultArray.push(`/${root}/${sub1}/${sub2}`);
+              resultArray.push(`${root}/${sub1}/${sub2}`);
             }
           }
         }

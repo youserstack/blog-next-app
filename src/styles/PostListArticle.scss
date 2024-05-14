@@ -4,16 +4,21 @@
   border: 1px solid blue;
   padding: 1rem;
 
-  .breadcrumb {
+  .post-list-article-header {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
 
-    .category-create {
+    .breadcrumb {
       display: flex;
       gap: 10px;
 
-      button {
-        padding: 0 10px;
+      .category-create {
+        display: flex;
+        gap: 10px;
+
+        button {
+          padding: 0 10px;
+        }
       }
     }
   }
