@@ -25,11 +25,11 @@ export default async function PostListArticle() {
   // breadcrumb
   const pathname: any = headers().get("pathname")?.replace("/categories", "");
   const segments: any = pathname?.split("/").slice(1);
-  console.log({ segments });
+  // console.log({ segments });
 
   // content
   const { posts } = await getData(pathname);
-  console.log({ posts });
+  // console.log({ posts });
 
   return (
     <article className="post-list-article">

@@ -2,6 +2,8 @@
 
 import { useFormState } from "react-dom";
 import { createPost } from "@/app/posts/create/actions";
+import { useContext } from "react";
+import { Context } from "@/components/Provider";
 import "./page.scss";
 
 export default function PostCreate() {
@@ -11,6 +13,9 @@ export default function PostCreate() {
     createPost(formData, localStorage.getItem("accessToken") as string);
   }, undefined);
   // console.log({ state });
+
+  const { categories }: any = useContext(Context);
+  console.log({ categories });
 
   return (
     <main className="post-create-page">

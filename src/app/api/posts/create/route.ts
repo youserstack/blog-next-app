@@ -11,8 +11,8 @@ export async function POST(request: Request) {
 
   // Get the token
   const accessToken = request.headers.get("authorization")?.split(" ")[1];
-  // console.log({ accessToken });
   if (!accessToken) return Response.json({ error: "no accessToken" }, { status: 401 });
+  // console.log({ accessToken });
 
   // Validate it
   let verifiedUser: any;

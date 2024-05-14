@@ -47,15 +47,14 @@ export async function POST(request: Request) {
   const { parentCategories, childCategory } = await request.json();
   console.log({ parentCategories, childCategory });
 
-  // 최상위 카테고리가 없는 경우
-  // parentCAtegories === null
-  if (!parentCategories) {
+  // 카테고리 0개 (parentCAtegories === null)
+  if (parentCategories.length === 0 || parentCategories === null) {
     const newCategory = await Category.create({ name: childCategory });
     console.log({ newCategory });
     return Response.json({ newCategory }, { status: 200 });
   }
 
-  // parentCAtegories === ['web']
+  // 카테고리 1개 (parentCAtegories === ['web'])
   if (parentCategories.length === 1) {
     // Find the category
     const foundCategory = await Category.findOne({ name: parentCategories[0] });
@@ -69,7 +68,7 @@ export async function POST(request: Request) {
     return Response.json({ newCategory: childCategory }, { status: 200 });
   }
 
-  // parentCAtegories === ['web', 'framework']
+  // 카테고리 2개 (parentCAtegories === ['web', 'framework'])
   if (parentCategories.length === 2) {
     // Find the category
     const foundCategory = await Category.findOne({ name: parentCategories[0] });
@@ -87,7 +86,7 @@ export async function POST(request: Request) {
     return Response.json({ newCategory: childCategory }, { status: 200 });
   }
 
-  return Response.json({ message: "testing..." }, { status: 200 });
+  return Response.json({ error: "카테고리 생성 실패" }, { status: 400 });
 }
 
 // import connectDB from "@/lib/config/connectDB";

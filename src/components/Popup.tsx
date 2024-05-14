@@ -32,8 +32,8 @@ export default function Popup() {
     }
 
     // Set display none
-    // const popupLayout = document.querySelector(".popup-layout") as HTMLElement;
-    // popupLayout.style.display = "none";
+    const popupLayout = document.querySelector(".popup-layout") as HTMLElement;
+    popupLayout.style.display = "none";
   };
 
   return (

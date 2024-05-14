@@ -10,7 +10,7 @@ export default function Etc() {
       <ul>
         {refreshToken && (
           <li>
-            <Link href={"/post/create"}>create a post</Link>
+            <Link href={"/posts/create"}>create a post</Link>
           </li>
         )}
         <li>

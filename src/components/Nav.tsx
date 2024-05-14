@@ -2,6 +2,7 @@ import Link from "next/link";
 import { navItems } from "@/data/navItems";
 import CategoryCreateButton from "@/components/CategoryCreateButton";
 import "../styles/Nav.scss";
+import CategoriesFetcher from "@/components/CategoriesFetcher";
 
 async function getData() {
   const response = await fetch(`${process.env.ROOT_URL}/api/categories`);
@@ -88,6 +89,8 @@ export default async function Nav() {
 
         <CategoryCreateButton parentCategories={null} />
       </ul>
+
+      <CategoriesFetcher test={categories} />
     </nav>
   );
 }
