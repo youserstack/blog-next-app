@@ -25,7 +25,7 @@ export default async function PostListArticle() {
   // breadcrumb
   const pathname: any = headers().get("pathname")?.replace("/categories", "");
   const segments: any = pathname?.split("/").slice(1);
-  console.log({ pathname });
+  console.log({ segments });
 
   // content
   const { posts } = await getData(pathname);
@@ -34,19 +34,19 @@ export default async function PostListArticle() {
   return (
     <article className="post-list-article">
       <div className="breadcrumb">
-        {segments?.map((v: string, i: number) => {
-          return (
-            <React.Fragment key={v}>
-              <Link href={""}>{v}</Link>
-              {i !== segments.length - 1 && <span>{">"}</span>}
-            </React.Fragment>
-          );
-        })}
+        {segments?.map((v: string, i: number) => (
+          <React.Fragment key={v}>
+            <Link href={""}>{v}</Link>
+            {i !== segments.length - 1 && <span>{">"}</span>}
+          </React.Fragment>
+        ))}
 
-        <div className="category-create">
-          <span>{">"}</span>
-          <CategoryCreateButton parentCategories={segments} />
-        </div>
+        {segments?.length < 3 && (
+          <div className="category-create">
+            <span>{">"}</span>
+            <CategoryCreateButton parentCategories={segments} />
+          </div>
+        )}
       </div>
       <div className="content">
         <ul className="post-list">

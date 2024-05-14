@@ -51,16 +51,35 @@ export default async function Nav() {
 
         {/* root */}
         {categories.map((category: any) => (
-          <li className="nav-item" key={category._id} accessKey={category._id}>
+          <li
+            className="nav-item"
+            key={category._id}
+            // accessKey={category._id}
+          >
             <Link href={`/categories/${category.name}`}>{category.name}</Link>
 
+            {/* sub1 */}
             <ul className="nav-drop-items">
-              {/* sub1 */}
               {category.sub1Categories?.map((sub1Category: any) => (
-                <li className="nav-drop-item" key={sub1Category._id}>
+                <li className="nav-drop-item" key={sub1Category.name}>
                   <Link href={`/categories/${category.name}/${sub1Category.name}`}>
                     {sub1Category.name}
                   </Link>
+
+                  {/* sub2 */}
+                  {sub1Category.sub2Categories?.length > 0 && (
+                    <ul className="nav-popup-items">
+                      {sub1Category.sub2Categories?.map((sub2Category: any) => (
+                        <li className="nav-popup-item" key={sub2Category.name}>
+                          <Link
+                            href={`/categories/${category.name}/${sub1Category.name}/${sub2Category.name}`}
+                          >
+                            {sub2Category.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>

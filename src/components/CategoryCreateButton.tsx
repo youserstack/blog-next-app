@@ -13,7 +13,7 @@ export default function CategoryCreateButton({
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    console.log({ parentCategories });
+    // console.log({ parentCategories });
     setParentCategories(parentCategories);
     // 팝업창을 활성화한다.
     (document.querySelector("html body .popup-layout") as HTMLElement).style.display = "flex";
