@@ -90,7 +90,7 @@ export default async function Nav() {
         <CategoryCreateButton parentCategories={[]} />
       </ul>
 
-      <CategoriesFetcher test={categories} />
+      <CategoriesFetcher categories={categories} />
     </nav>
   );
 }
