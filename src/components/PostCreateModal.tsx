@@ -16,7 +16,7 @@ export default function PostCreateModal() {
   console.log({ categories });
 
   return (
-    <div className="post-create-modal">
+    <div className="post-create-modal" onClick={(e) => e.stopPropagation()}>
       <form action={formAction}>
         <select name="category" id="category">
           {categories.map((category: any) => (

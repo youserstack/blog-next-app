@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import Popup from "@/components/Popup";
 import Provider from "@/components/Provider";
-import PostCreateModal from "@/components/PostCreateModal";
+import ModalLayer from "@/components/ModalLayer";
 import "./globals.scss";
 
 export const metadata: Metadata = {
@@ -20,14 +19,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Provider>
-          {/* modals */}
-          <Popup />
-          <PostCreateModal />
-
-          {/* contents */}
           <Header />
           {children}
           <Footer />
+
+          <ModalLayer />
         </Provider>
       </body>
     </html>

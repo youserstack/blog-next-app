@@ -8,6 +8,8 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   const [categories, setCategories] = useState<string[]>([]);
   const [parentCategories, setParentCategories] = useState<string[]>([""]);
 
+  const [currentModal, setCurrentModal] = useState("");
+
   return (
     <Context.Provider
       value={{
@@ -15,6 +17,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         setCategories,
         parentCategories,
         setParentCategories,
+
+        currentModal,
+        setCurrentModal,
       }}
     >
       {children}

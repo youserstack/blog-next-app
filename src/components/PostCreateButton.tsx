@@ -1,10 +1,10 @@
 "use client";
 
-export default function PostCreateButton() {
-  const handleOpenModal = () => {
-    const element = document.querySelector("html body .post-create-modal") as HTMLElement;
-    element.style.display = "block";
-  };
+import { Context } from "@/components/Provider";
+import { useContext } from "react";
 
-  return <button onClick={handleOpenModal}>create a post</button>;
+export default function PostCreateButton() {
+  const { setCurrentModal }: any = useContext(Context);
+
+  return <button onClick={() => setCurrentModal("post-create-modal")}>create a post</button>;
 }

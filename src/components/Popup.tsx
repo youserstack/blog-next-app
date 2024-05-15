@@ -37,17 +37,17 @@ export default function Popup() {
   };
 
   return (
-    <div
-      className="popup-layout"
-      onClick={(e) => ((e.target as HTMLElement).style.display = "none")}
-    >
-      <div className="popup" onClick={(e) => e.stopPropagation()}>
-        <h3>Category Create Form</h3>
-        <form onSubmit={handleSubmit}>
-          <input type="text" name="category" />
-          <button type="submit">add</button>
-        </form>
-      </div>
+    // <div
+    //   className="popup-layout"
+    //   onClick={(e) => ((e.target as HTMLElement).style.display = "none")}
+    // >
+    // </div>
+    <div className="popup" onClick={(e) => e.stopPropagation()}>
+      <h3>Category Create Form</h3>
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="category" />
+        <button type="submit">add</button>
+      </form>
     </div>
   );
 }
