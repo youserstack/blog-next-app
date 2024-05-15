@@ -1,6 +1,6 @@
 "use client";
 
-import Popup from "@/components/Popup";
+import CategoryCreateModal from "@/components/CategoryCreateModal";
 import PostCreateModal from "@/components/PostCreateModal";
 import { Context } from "@/components/Provider";
 import { useContext } from "react";
@@ -13,8 +13,7 @@ export default function ModalLayer() {
   return (
     <div className="modal-layer" onClick={() => setCurrentModal("")}>
       {currentModal === "post-create-modal" && <PostCreateModal />}
-      {currentModal === "category-create-modal" && <Popup />}
-      {/* <Popup /> */}
+      {currentModal === "category-create-modal" && <CategoryCreateModal />}
     </div>
   );
 }

@@ -3,9 +3,9 @@
 import { FormEvent, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { Context } from "@/components/Provider";
-import "../styles/Popup.scss";
+import "../styles/CategoryCreateModal.scss";
 
-export default function Popup() {
+export default function CategoryCreateModal() {
   const router = useRouter();
   const { parentCategories }: any = useContext(Context);
 
@@ -37,12 +37,7 @@ export default function Popup() {
   };
 
   return (
-    // <div
-    //   className="popup-layout"
-    //   onClick={(e) => ((e.target as HTMLElement).style.display = "none")}
-    // >
-    // </div>
-    <div className="popup" onClick={(e) => e.stopPropagation()}>
+    <div className="category-create-modal" onClick={(e) => e.stopPropagation()}>
       <h3>Category Create Form</h3>
       <form onSubmit={handleSubmit}>
         <input type="text" name="category" />
