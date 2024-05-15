@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import "./globals.scss";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Popup from "@/components/Popup";
 import Provider from "@/components/Provider";
+import PostCreateModal from "@/components/PostCreateModal";
+import "./globals.scss";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +20,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Provider>
+          {/* modals */}
           <Popup />
+          <PostCreateModal />
+
+          {/* contents */}
           <Header />
           {children}
           <Footer />

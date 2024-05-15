@@ -8,6 +8,7 @@ export async function GET(request: Request) {
   await connectDB();
 
   const foundCategories = await Category.find({});
+  // console.log({ foundCategories });
 
   return Response.json({ categories: foundCategories });
 }

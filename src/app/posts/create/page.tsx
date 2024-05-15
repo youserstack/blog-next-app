@@ -24,7 +24,9 @@ export default function PostCreate() {
         <form action={formAction}>
           <select name="category" id="category">
             {categories.map((category: any) => (
-              <option value={`${category}/`}>{category}</option>
+              <option value={`/${category}`} key={category}>
+                {category}
+              </option>
             ))}
 
             {/* <option value="/web">web</option>

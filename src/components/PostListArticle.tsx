@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import CategoryCreateButton from "@/components/CategoryCreateButton";
+import PostCreateButton from "@/components/PostCreateButton";
 import "../styles/PostListArticle.scss";
 
 async function getData(category: any) {
@@ -22,6 +23,7 @@ async function getData(category: any) {
 export default async function PostListArticle() {
   // console.log("\n[PostListArticle]");
 
+  // article-header
   // breadcrumb
   const pathname: any = headers().get("pathname")?.replace("/categories", "");
   const segments: any = pathname?.split("/").slice(1);
@@ -33,7 +35,7 @@ export default async function PostListArticle() {
 
   return (
     <article className="post-list-article">
-      <div className="post-list-article-header">
+      <div className="article-header">
         <div className="breadcrumb">
           {segments?.map((v: string, i: number) => (
             <React.Fragment key={v}>
@@ -49,8 +51,8 @@ export default async function PostListArticle() {
             </div>
           )}
         </div>
-        <div className="post-management-container">
-          <button>create a post</button>
+        <div className="manager">
+          <PostCreateButton />
         </div>
       </div>
       <div className="content">
