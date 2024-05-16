@@ -3,54 +3,64 @@
 import { createPost } from "@/app/posts/create/actions";
 import { Context } from "@/components/Provider";
 import { useContext } from "react";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { useParams } from "next/navigation";
 import "../styles/PostCreateModal.scss";
 
-export default function PostCreateModal() {
-  const { setCurrentModal }: any = useContext(Context);
+function Button() {
+  const { pending, action, method } = useFormStatus();
+  console.log({ action, method });
 
+  return (
+    <button type="submit" disabled={pending}>
+      publish (게시하기)
+    </button>
+  );
+}
+
+export default function PostCreateModal() {
+  // action
+  const { setCurrentModal }: any = useContext(Context);
   const [state, formAction]: any = useFormState(
-    async (prevState: any, formData: FormData): Promise<any> => {
-      // 서버액션으로부터 클라이언트상태를 리터한다.
+    // 래퍼함수 : 클라이언트와 서버의 작업을 순서대로 처리하기 위해서 존재한다.
+    async (currentState: any, formData: FormData) => {
       const result = await createPost(formData, localStorage.getItem("accessToken") as string);
       setCurrentModal("");
-      if (result.status === "ok") return "블로그 포스트 완료";
-      if (result.status === "error") return "포스트 등록 실패";
+      return result;
     },
-    undefined
+    null
   );
-  console.log({ state });
 
   // options
+  // header etc 에서 create a post 버튼 클릭한 경우에 사용할 값
   const { categories }: any = useContext(Context);
+  // 각 페이지에서 포스트를 생성할 경우에 사용할 값
   const { category }: any = useParams();
-  const joinedParentCategories = category.join("/");
-  // console.log({ category });
-  // console.log({ joinedParentCategories });
+  const joinedCurrentCategories = category.join("/");
 
   return (
     <div className="post-create-modal" onClick={(e) => e.stopPropagation()}>
       <form action={formAction}>
         <select name="category" id="category">
-          {joinedParentCategories && (
-            <option value={`/${joinedParentCategories}`}>{joinedParentCategories}</option>
-          )}
-          {!joinedParentCategories &&
+          {!joinedCurrentCategories &&
             categories.map((category: any) => (
               <option value={`/${category}`} key={category}>
                 {category}
               </option>
             ))}
+          {joinedCurrentCategories && (
+            <option value={`/${joinedCurrentCategories}`}>{joinedCurrentCategories}</option>
+          )}
         </select>
 
         <input type="text" name="title" placeholder="title" />
         <textarea name="content" placeholder="content" />
         <input type="text" name="author" placeholder="author" />
         <input type="text" name="tags" placeholder="tags" />
-        <button type="submit">publish (게시하기)</button>
+        {/* <button type="submit">publish (게시하기)</button> */}
+        <Button />
       </form>
-      {state && <p>{state}</p>}
+      {/* {state && <p>{state.message}</p>} */}
     </div>
   );
 }
