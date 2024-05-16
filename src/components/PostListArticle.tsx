@@ -5,6 +5,7 @@ import Image from "next/image";
 import CategoryCreateButton from "@/components/CategoryCreateButton";
 import PostCreateButton from "@/components/PostCreateButton";
 import "../styles/PostListArticle.scss";
+import PostList from "@/components/PostList";
 
 async function getData(category: any) {
   const response = await fetch(`${process.env.ROOT_URL}/api/posts/categorizedPosts`, {
@@ -56,7 +57,7 @@ export default async function PostListArticle() {
         </div>
       </div>
       <div className="content">
-        <ul className="post-list">
+        {/* <ul className="post-list">
           {posts?.map((post: any) => (
             <li className="post-item" key={post._id}>
               <div className="post-text">
@@ -71,7 +72,8 @@ export default async function PostListArticle() {
               </div>
             </li>
           ))}
-        </ul>
+        </ul> */}
+        {/* <PostList page={} /> */}
       </div>
     </article>
   );

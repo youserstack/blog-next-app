@@ -10,10 +10,18 @@ import "./page.scss";
 //   }))
 // }
 
-export default async function Category({ params }: { params: { category: string[] } }) {
+export default async function Category({
+  params,
+  searchParams,
+}: {
+  params: { category: string[] };
+  searchParams: any;
+}) {
   console.log("\n[categories/[...category]]");
   // const response = await fetch("http://localhost:3000/api");
   // const data = await response.json();
+
+  console.log({ params, searchParams });
 
   return (
     <main className="category-page">

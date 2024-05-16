@@ -8,8 +8,7 @@ import { useParams } from "next/navigation";
 import "../styles/PostCreateModal.scss";
 
 function Button() {
-  const { pending, action, method } = useFormStatus();
-  console.log({ action, method });
+  const { pending } = useFormStatus();
 
   return (
     <button type="submit" disabled={pending}>
