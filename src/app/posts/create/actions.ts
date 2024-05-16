@@ -1,5 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+
 export async function createPost(formData: FormData, accessToken: string) {
   // console.log("\n<createPost>");
   // console.log(
@@ -27,6 +30,9 @@ export async function createPost(formData: FormData, accessToken: string) {
   if (response.ok) {
     // console.log("\n</createPost>");
     // console.log("response ok\n");
+    const pathname: any = headers().get("pathname");
+    console.log({ pathname });
+    revalidatePath(pathname);
     return { status: "ok" };
   } else {
     console.log("\n<createPost>");

@@ -7,7 +7,7 @@ import "../styles/CategoryCreateModal.scss";
 
 export default function CategoryCreateModal() {
   const router = useRouter();
-  const { parentCategories }: any = useContext(Context);
+  const { parentCategories, setCurrentModal }: any = useContext(Context);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -24,16 +24,14 @@ export default function CategoryCreateModal() {
         body: JSON.stringify({ parentCategories, childCategory }),
       });
       if (!response.ok) return;
-      const { newCategory } = await response.json();
-      console.log({ newCategory });
+      console.log("카테고리 생성 완료");
       router.refresh();
     } catch (error) {
       console.log({ error });
     }
 
     // Set display none
-    const popupLayout = document.querySelector(".popup-layout") as HTMLElement;
-    popupLayout.style.display = "none";
+    setCurrentModal("");
   };
 
   return (

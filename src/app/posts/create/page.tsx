@@ -28,12 +28,6 @@ export default function PostCreate() {
                 {category}
               </option>
             ))}
-
-            {/* <option value="/web">web</option>
-            <option value="/web/framework">web/framework</option>
-            <option value="/web/framework/nextjs">web/framework/nextjs</option>
-            <option value="/web/framework/reactjs">web/framework/reactjs</option>
-            <option value="/web/library">web/library</option> */}
           </select>
 
           <input type="text" name="title" placeholder="title" />

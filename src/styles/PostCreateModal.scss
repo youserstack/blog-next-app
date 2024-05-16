@@ -1,12 +1,14 @@
 .post-create-modal {
+  width: 300px;
+  border: 1px solid;
+  border-radius: 10px;
+  background-color: white;
+  padding: 1rem;
+
   form {
-    width: 300px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 1rem;
-    border: 1px solid;
-    background-color: white;
 
     input {
       background-color: aliceblue;

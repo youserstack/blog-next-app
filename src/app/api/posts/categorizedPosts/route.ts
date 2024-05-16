@@ -2,14 +2,14 @@ import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 
 export async function POST(request: Request) {
-  // console.log("\n\x1b[32m[api/posts/categorizedPosts]\x1b[0m");
+  console.log("\n\x1b[32m[api/posts/categorizedPosts]\x1b[0m");
 
   // Connect to db
   await connectDB();
 
   // Get data
   const { category } = await request.json();
-  // console.log({ category });
+  console.log({ category });
 
   // Lookup the posts
   const foundPosts: any = await Post.find({
