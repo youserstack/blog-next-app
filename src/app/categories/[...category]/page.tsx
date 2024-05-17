@@ -21,13 +21,13 @@ export default async function Category({
   // const response = await fetch("http://localhost:3000/api");
   // const data = await response.json();
 
-  console.log({ params, searchParams });
+  // console.log({ params, searchParams });
 
   return (
     <main className="category-page">
       <section>
         <ScrollNav />
-        <PostListArticle />
+        <PostListArticle params={params} />
       </section>
       <section></section>
     </main>

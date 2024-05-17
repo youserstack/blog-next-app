@@ -1,6 +1,5 @@
-export default function Home({ searchParams }: any) {
+export default function Home() {
   console.log("\n[home-page]");
-  console.log({ searchParams });
 
   return (
     <main className="home-page">

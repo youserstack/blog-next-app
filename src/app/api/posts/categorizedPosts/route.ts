@@ -8,19 +8,14 @@ export async function POST(request: Request) {
   await connectDB();
 
   // Get data
-  const { category } = await request.json();
-  console.log({ category });
+  const { categoryPath } = await request.json();
+  console.log({ categoryPath });
 
   // Lookup the posts
-  const foundPosts: any = await Post.find({
-    category: {
-      $regex: category,
-      // $options: "i", // 대소문자 구분하지 않음
-    },
-  })
+  const foundPosts: any = await Post.find({ category: { $regex: categoryPath } })
     .populate("author")
     .exec();
-  // const foundPosts: any = await Post.find({ category }).populate("author").exec();
+  // $options: "i", // 대소문자 구분하지 않음
   // console.log({ foundPosts });
 
   // Modify the posts

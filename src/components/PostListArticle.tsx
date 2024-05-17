@@ -1,17 +1,17 @@
-import { headers } from "next/headers";
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import CategoryCreateButton from "@/components/CategoryCreateButton";
 import PostCreateButton from "@/components/PostCreateButton";
 import "../styles/PostListArticle.scss";
+import { headers } from "next/headers";
 import PostList from "@/components/PostList";
 
-async function getData(category: any) {
+async function getData(categoryPath: any) {
   const response = await fetch(`${process.env.ROOT_URL}/api/posts/categorizedPosts`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ category }),
+    body: JSON.stringify({ categoryPath }),
     // 이하는 모두 동일
     // cache: "no-store",
     // cache: "no-cache",
@@ -21,34 +21,36 @@ async function getData(category: any) {
   return response.json();
 }
 
-export default async function PostListArticle() {
+export default async function PostListArticle({ params }: any) {
   // console.log("\n[PostListArticle]");
 
   // article-header
   // breadcrumb
-  const pathname: any = headers().get("pathname")?.replace("/categories", "");
-  const segments: any = pathname?.split("/").slice(1);
-  // console.log({ segments });
+  // const pathname: any = headers().get("pathname")?.replace("/categories", "");
+  // const categorySegments: any = pathname?.split("/").slice(1);
+  const categorySegments = params.category;
+  const categoryPath = params.category.join("/");
 
   // content
-  const { posts } = await getData(pathname);
+  // const { posts } = await getData(pathname);
   // console.log({ posts });
+  const { posts } = await getData(categoryPath);
 
   return (
     <article className="post-list-article">
       <div className="article-header">
         <div className="breadcrumb">
-          {segments?.map((v: string, i: number) => (
+          {categorySegments?.map((v: string, i: number) => (
             <React.Fragment key={v}>
               <Link href={""}>{v}</Link>
-              {i !== segments.length - 1 && <span>{">"}</span>}
+              {i !== categorySegments.length - 1 && <span>{">"}</span>}
             </React.Fragment>
           ))}
 
-          {segments?.length < 3 && (
+          {categorySegments?.length < 3 && (
             <div className="category-create">
               <span>{">"}</span>
-              <CategoryCreateButton parentCategories={segments} />
+              <CategoryCreateButton parentCategories={categorySegments} />
             </div>
           )}
         </div>
@@ -57,7 +59,7 @@ export default async function PostListArticle() {
         </div>
       </div>
       <div className="content">
-        {/* <ul className="post-list">
+        <ul className="post-list">
           {posts?.map((post: any) => (
             <li className="post-item" key={post._id}>
               <div className="post-text">
@@ -72,7 +74,7 @@ export default async function PostListArticle() {
               </div>
             </li>
           ))}
-        </ul> */}
+        </ul>
         {/* <PostList page={} /> */}
       </div>
     </article>

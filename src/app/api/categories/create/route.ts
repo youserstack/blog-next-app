@@ -72,14 +72,17 @@ export async function POST(request: Request) {
   if (parentCategories.length === 2) {
     // Find the category
     const foundCategory = await Category.findOne({ name: parentCategories[0] });
-    const sub1Category = foundCategory.sub1Categories.find(
+
+    // Find the sub1category
+    const foundSub1Category = foundCategory.sub1Categories.find(
       (v: any) => v.name === parentCategories[1]
     );
-    if (!sub1Category) return Response.json({ error: "no sub1Category" }, { status: 404 });
-    console.log({ sub1Category });
+    if (!foundSub1Category)
+      return Response.json({ error: "no foundSub1Category" }, { status: 404 });
+    console.log({ foundSub1Category });
 
     // Set the category
-    sub1Category.sub2Categories.push({ name: childCategory });
+    foundSub1Category.sub2Categories.push({ name: childCategory });
     const savedCategory = await foundCategory.save();
     console.log({ savedCategory });
 
