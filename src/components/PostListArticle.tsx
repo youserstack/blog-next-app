@@ -23,18 +23,15 @@ async function getData(categoryPath: any) {
 
 export default async function PostListArticle({ params }: any) {
   // console.log("\n[PostListArticle]");
-
-  // article-header
-  // breadcrumb
-  // const pathname: any = headers().get("pathname")?.replace("/categories", "");
-  // const categorySegments: any = pathname?.split("/").slice(1);
+  // url로부터 backend api에 데이터를 가져온다.
   const categorySegments = params.category;
   const categoryPath = params.category.join("/");
-
-  // content
-  // const { posts } = await getData(pathname);
-  // console.log({ posts });
   const { posts } = await getData(categoryPath);
+
+  // header로부터 데이터를 가져올 수도 있다.
+  // const pathname: any = headers().get("pathname")?.replace("/categories", "");
+  // const categorySegments: any = pathname?.split("/").slice(1);
+  // const { posts } = await getData(pathname);
 
   return (
     <article className="post-list-article">

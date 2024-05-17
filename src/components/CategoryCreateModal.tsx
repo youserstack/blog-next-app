@@ -1,11 +1,12 @@
 "use client";
 
 import { FormEvent, useContext } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Context } from "@/components/Provider";
 import "../styles/CategoryCreateModal.scss";
 
 export default function CategoryCreateModal() {
+  const pathname = usePathname();
   const router = useRouter();
   const { parentCategories, setCurrentModal }: any = useContext(Context);
 
@@ -25,6 +26,9 @@ export default function CategoryCreateModal() {
       });
       if (!response.ok) return;
       console.log("카테고리 생성 완료");
+      // router.refresh();
+      const { newCategory } = await response.json();
+      router.push(`${pathname}/${newCategory}`);
       router.refresh();
     } catch (error) {
       console.log({ error });
