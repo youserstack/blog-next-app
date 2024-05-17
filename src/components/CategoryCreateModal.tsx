@@ -25,11 +25,16 @@ export default function CategoryCreateModal() {
         body: JSON.stringify({ parentCategories, childCategory }),
       });
       if (!response.ok) return;
-      console.log("카테고리 생성 완료");
-      // router.refresh();
       const { newCategory } = await response.json();
-      router.push(`${pathname}/${newCategory}`);
-      router.refresh();
+
+      if (parentCategories.length === 0) {
+        // 네비게이션 메뉴에서 + 버튼으로 실행한 경우
+        router.refresh();
+      } else {
+        // 다이나믹 라우트 페이지 > breadcrumb > + 버튼으로 실행한 경우
+        router.push(`${pathname}/${newCategory}`);
+        router.refresh();
+      }
     } catch (error) {
       console.log({ error });
     }

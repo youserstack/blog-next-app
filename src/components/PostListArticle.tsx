@@ -1,33 +1,12 @@
 import Link from "next/link";
 import React from "react";
-import Image from "next/image";
 import CategoryCreateButton from "@/components/CategoryCreateButton";
 import PostCreateButton from "@/components/PostCreateButton";
-import "../styles/PostListArticle.scss";
-import { headers } from "next/headers";
 import PostList from "@/components/PostList";
+import "../styles/PostListArticle.scss";
 
-async function getData(categoryPath: any) {
-  const response = await fetch(`${process.env.ROOT_URL}/api/posts/categorizedPosts`, {
-    method: "post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ categoryPath }),
-    // 이하는 모두 동일
-    // cache: "no-store",
-    // cache: "no-cache",
-    // next: { revalidate: 0 },
-  });
-  if (!response.ok) throw new Error("failed to fetch data");
-  return response.json();
-}
-
-export default async function PostListArticle({ params }: any) {
+export default async function PostListArticle({ categorySegments, categoryPath, page }: any) {
   // console.log("\n[PostListArticle]");
-  // url로부터 backend api에 데이터를 가져온다.
-  const categorySegments = params.category;
-  const categoryPath = params.category.join("/");
-  const { posts } = await getData(categoryPath);
-
   // header로부터 데이터를 가져올 수도 있다.
   // const pathname: any = headers().get("pathname")?.replace("/categories", "");
   // const categorySegments: any = pathname?.split("/").slice(1);
@@ -56,23 +35,7 @@ export default async function PostListArticle({ params }: any) {
         </div>
       </div>
       <div className="content">
-        <ul className="post-list">
-          {posts?.map((post: any) => (
-            <li className="post-item" key={post._id}>
-              <div className="post-text">
-                <p>{post.createdAt.slice(0, 10)}</p>
-                <p>Title : {post.title}</p>
-                <p>Author : {post.author}</p>
-                <pre>{post.content}</pre>
-                <Link href={`/posts/${post._id}`}>read more</Link>
-              </div>
-              <div className="post-image">
-                {post.image ? <Image src={""} alt="sdf" /> : <h1>No Image</h1>}
-              </div>
-            </li>
-          ))}
-        </ul>
-        {/* <PostList page={} /> */}
+        <PostList categoryPath={categoryPath} page={page} />
       </div>
     </article>
   );

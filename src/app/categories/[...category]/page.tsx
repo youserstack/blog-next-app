@@ -18,16 +18,20 @@ export default async function Category({
   searchParams: any;
 }) {
   console.log("\n[categories/[...category]]");
-  // const response = await fetch("http://localhost:3000/api");
-  // const data = await response.json();
 
-  // console.log({ params, searchParams });
+  const categorySegments = params.category;
+  const categoryPath = params.category.join("/");
+  const page = parseInt(searchParams.page) || 1;
 
   return (
     <main className="category-page">
       <section>
         <ScrollNav />
-        <PostListArticle params={params} />
+        <PostListArticle
+          categorySegments={categorySegments}
+          categoryPath={categoryPath}
+          page={page}
+        />
       </section>
       <section></section>
     </main>

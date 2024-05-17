@@ -1,7 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function PostList({ posts, page }: any) {
+async function getData(categoryPath: any) {
+  const response = await fetch(`${process.env.ROOT_URL}/api/posts/categorizedPosts`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ categoryPath }),
+    // 이하는 모두 동일
+    // cache: "no-store",
+    // cache: "no-cache",
+    // next: { revalidate: 0 },
+  });
+  if (!response.ok) throw new Error("failed to fetch data");
+  return response.json();
+}
+
+export default async function PostList({ categoryPath, page }: any) {
+  const { posts } = await getData(categoryPath);
+
   return (
     <ul className="post-list">
       {posts?.map((post: any) => (

@@ -1,14 +1,18 @@
 "use client";
 
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const Context = createContext({});
 
 export default function Provider({ children }: { children: React.ReactNode }) {
   const [categoryPaths, setCategoryPaths] = useState<string[]>([]);
-  const [parentCategories, setParentCategories] = useState<string[]>([""]);
+  const [parentCategories, setParentCategories] = useState<string[]>([]);
 
   const [currentModal, setCurrentModal] = useState("");
+
+  useEffect(() => {
+    console.log({ parentCategories });
+  }, [parentCategories]);
 
   return (
     <Context.Provider
