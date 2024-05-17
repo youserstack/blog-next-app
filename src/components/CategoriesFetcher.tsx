@@ -4,7 +4,7 @@ import { Context } from "@/components/Provider";
 import { useContext, useEffect } from "react";
 
 export default function CategoriesFetcher({ categories }: { categories: [] }) {
-  const { setCategories }: any = useContext(Context);
+  const { setCategoryPaths }: any = useContext(Context);
 
   useEffect(() => {
     // 배열을 생성할 때 사용할 변수
@@ -44,7 +44,7 @@ export default function CategoriesFetcher({ categories }: { categories: [] }) {
     // console.log({resultArray});
 
     // 생성된 배열을 상태에 설정
-    setCategories(resultArray);
+    setCategoryPaths(resultArray);
   }, [categories]);
 
   return null;

@@ -14,8 +14,8 @@ export default function PostCreate() {
   }, undefined);
   // console.log({ state });
 
-  const { categories }: any = useContext(Context);
-  console.log({ categories });
+  const { categoryPaths }: any = useContext(Context);
+  console.log({ categoryPaths });
 
   return (
     <main className="post-create-page">
@@ -23,8 +23,8 @@ export default function PostCreate() {
         <h1>Post Create Page</h1>
         <form action={formAction}>
           <select name="category" id="category">
-            {categories.map((category: any) => (
-              <option value={`/${category}`} key={category}>
+            {categoryPaths.map((category: any) => (
+              <option value={category} key={category}>
                 {category}
               </option>
             ))}

@@ -31,32 +31,21 @@ export default function PostCreateModal() {
   );
 
   // options
-  // header etc 에서 create a post 버튼 클릭한 경우에 사용할 값
-  const { categories }: any = useContext(Context);
   // 각 페이지에서 포스트를 생성할 경우에 사용할 값
-  const { category }: any = useParams();
-  const joinedCurrentCategories = category.join("/");
+  const { category: categorySegments }: any = useParams();
+  const currentCategoryPath = categorySegments.join("/");
+  console.log({ currentCategoryPath });
 
   return (
     <div className="post-create-modal" onClick={(e) => e.stopPropagation()}>
       <form action={formAction}>
         <select name="category" id="category">
-          {!joinedCurrentCategories &&
-            categories.map((category: any) => (
-              <option value={`/${category}`} key={category}>
-                {category}
-              </option>
-            ))}
-          {joinedCurrentCategories && (
-            <option value={`/${joinedCurrentCategories}`}>{joinedCurrentCategories}</option>
-          )}
+          <option value={currentCategoryPath}>{currentCategoryPath}</option>
         </select>
-
         <input type="text" name="title" placeholder="title" />
         <textarea name="content" placeholder="content" />
         <input type="text" name="author" placeholder="author" />
         <input type="text" name="tags" placeholder="tags" />
-        {/* <button type="submit">publish (게시하기)</button> */}
         <Button />
       </form>
       {/* {state && <p>{state.message}</p>} */}
