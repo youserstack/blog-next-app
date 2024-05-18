@@ -36,9 +36,9 @@ export default function ScrollNav() {
           </li>
         ))}
 
-        {Array.from({ length: 30 }, (v: any, i: number) => (
+        {/* {Array.from({ length: 30 }, (v: any, i: number) => (
           <li key={i}>menu {i + 1}</li>
-        ))}
+        ))} */}
       </ul>
     </nav>
   );

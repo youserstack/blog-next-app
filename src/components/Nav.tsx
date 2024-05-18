@@ -1,18 +1,12 @@
 import Link from "next/link";
 import { navItems } from "@/data/navItems";
 import CategoryCreateButton from "@/components/CategoryCreateButton";
-import "../styles/Nav.scss";
 import CategoriesFetcher from "@/components/CategoriesFetcher";
-
-async function getData() {
-  const response = await fetch(`${process.env.ROOT_URL}/api/categories`);
-  if (!response.ok) throw new Error("failed to fetch data");
-  return response.json();
-}
+import { getCategories } from "@/lib/utils/fetcher";
+import "../styles/Nav.scss";
 
 export default async function Nav() {
-  const { categories } = await getData();
-  // console.log({ categories });
+  const { categories } = await getCategories();
 
   return (
     <nav className="nav">

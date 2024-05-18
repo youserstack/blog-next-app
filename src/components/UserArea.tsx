@@ -12,6 +12,7 @@ export default function UserArea() {
       {refreshToken ? (
         <>
           <Link href={"/protected"}>protected</Link>
+          <Link href={"/dashboard"}>dashboard</Link>
           <SignOutButton />
         </>
       ) : (
