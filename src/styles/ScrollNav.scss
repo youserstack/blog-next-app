@@ -37,11 +37,16 @@
       // sub1
       .sub1-categories {
         display: none;
+        padding-left: 10px;
 
         .sub1-category {
           border: 1px solid green;
 
           // sub2
+          .sub2-categories {
+            display: none;
+            padding-left: 10px;
+          }
         }
       }
     }

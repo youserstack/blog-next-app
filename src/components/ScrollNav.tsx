@@ -8,7 +8,7 @@ import "../styles/ScrollNav.scss";
 export default function ScrollNav({ categories }: any) {
   const params = useParams();
 
-  const handleClickCategory: MouseEventHandler = (e) => {
+  const handleClick: MouseEventHandler = (e) => {
     const nextElementSibling = e.currentTarget.nextElementSibling as HTMLElement;
     const button = e.currentTarget.querySelector("button") as HTMLElement;
     if (nextElementSibling.style.display === "block") {
@@ -21,8 +21,53 @@ export default function ScrollNav({ categories }: any) {
   };
 
   useEffect(() => {
-    const categories = document.querySelectorAll(".category");
-    console.log({ categories });
+    // ROOT_URL/category/sub1Category/sub2Category
+
+    // category가 일치한 경우, sub1-categories를 활성화한다.
+    const categories = document.querySelectorAll(".category") as NodeListOf<HTMLElement>; // NodeList (유사배열객체, 컬렉션)
+    categories.forEach((category: HTMLElement) => {
+      const span = category.querySelector("span") as HTMLElement;
+      const sub1Ul = category.querySelector("ul") as HTMLElement;
+      if (span.textContent === params.category[0] && sub1Ul) {
+        sub1Ul.style.display = "block"; // 활성화
+        sub1Ul.style.border = "1px solid red";
+
+        // sub1Category가 일치한 경우, sub2-categories를 활성화한다.
+        const sub1Categories = sub1Ul.querySelectorAll(".sub1-category") as NodeListOf<HTMLElement>;
+        sub1Categories.forEach((sub1Category: any) => {
+          const sub1Span = sub1Category.querySelector("span") as HTMLElement;
+          const sub2Ul = sub1Category.querySelector("ul") as HTMLElement;
+          if (sub1Span.textContent === params.category[1] && sub2Ul) {
+            sub2Ul.style.display = "block";
+            sub2Ul.style.border = "blue";
+          }
+        });
+      }
+    });
+    // for (let i = 0; i < categories.length; i++) {
+    //   const categoryLi = categories[i] as HTMLElement;
+    //   const span = categoryLi.querySelector("span") as HTMLElement;
+    //   const sub1Ul = categoryLi.querySelector("ul") as HTMLElement;
+    //   const currentCategory = span.textContent;
+    //   if (currentCategory === params.category[0] && sub1Ul) {
+    //     sub1Ul.style.display = "block"; // 활성화
+    //     sub1Ul.style.border = "1px solid red";
+
+    //     // 서브1주소가 sub1Category인 경우, sub2-categories를 활성화한다.
+    //     const sub1Categories = sub1Ul.querySelectorAll(".sub1-category") as NodeListOf<HTMLElement>;
+    //     // const sub1Spans = sub1Ul.querySelectorAll(".sub1-category span") as NodeListOf<HTMLElement>;
+
+    //     sub1Categories.forEach((sub1Category: any) => {
+    //       const sub1Span = sub1Category.querySelector("span") as HTMLElement;
+    //       const sub2Ul = sub1Category.querySelector("ul") as HTMLElement;
+    //       console.log({ sub2Ul });
+    //       if (sub1Span.textContent === params.category[1] && sub2Ul) {
+    //         sub2Ul.style.display = "block";
+    //         sub2Ul.style.border = "blue";
+    //       }
+    //     });
+    //   }
+    // }
   }, []);
 
   return (
@@ -33,8 +78,8 @@ export default function ScrollNav({ categories }: any) {
           const rootPath = `/categories/${category.name}`;
           return (
             <li className="category" key={rootPath}>
-              <Link href={rootPath} onClick={handleClickCategory}>
-                {category.name}
+              <Link href={rootPath} onClick={handleClick}>
+                <span>{category.name}</span>
                 <button onClick={(e) => e.preventDefault()}>unfold</button>
               </Link>
 
@@ -44,7 +89,10 @@ export default function ScrollNav({ categories }: any) {
                   const sub1Path = `/categories/${category.name}/${sub1Category.name}`;
                   return (
                     <li className="sub1-category" key={sub1Path}>
-                      <Link href={sub1Path}>{sub1Category.name}</Link>
+                      <Link href={sub1Path} onClick={handleClick}>
+                        <span>{sub1Category.name}</span>
+                        <button>unfold</button>
+                      </Link>
 
                       {/* sub2 */}
                       {sub1Category.sub2Categories?.length > 0 && (
