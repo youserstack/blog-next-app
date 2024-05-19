@@ -9,7 +9,7 @@
   scrollbar-color: #eaeaea transparent;
   scrollbar-gutter: stable;
 
-  border: 1px solid red;
+  border: 1px solid;
   padding: 1rem;
 
   // @supports (position: sticky) {
@@ -17,12 +17,33 @@
   //   top: calc(60px + 1rem);
   // }
 
-  .nav-items {
+  // root
+  .categories {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 
-    .nav-drop-items {
-      display: none;
+    .category {
+      background-color: lightblue;
+      position: relative;
+
+      a {
+        display: block;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      // sub1
+      .sub1-categories {
+        display: none;
+
+        .sub1-category {
+          border: 1px solid green;
+
+          // sub2
+        }
+      }
     }
   }
 }

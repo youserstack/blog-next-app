@@ -1,5 +1,6 @@
 import PostListArticle from "@/components/PostListArticle";
 import ScrollNav from "@/components/ScrollNav";
+import { getCategories } from "@/lib/utils/fetcher";
 import "./page.scss";
 
 // export async function generateStaticParams() {
@@ -23,10 +24,12 @@ export default async function Category({
   const categoryPath = params.category.join("/");
   const page = parseInt(searchParams.page) || 1;
 
+  const { categories } = await getCategories();
+
   return (
     <main className="category-page">
       <section>
-        <ScrollNav />
+        <ScrollNav categories={categories} />
         <PostListArticle
           categorySegments={categorySegments}
           categoryPath={categoryPath}

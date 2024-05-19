@@ -1,14 +1,9 @@
 import { headers } from "next/headers";
+import { getPost } from "@/lib/utils/fetcher";
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import "../styles/PostItemArticle.scss";
-
-async function getData(postId: any) {
-  const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`);
-  if (!response.ok) throw new Error("failed to fetch data");
-  return response.json();
-}
 
 export default async function PostItemArticle() {
   // breadcrumb
@@ -18,7 +13,7 @@ export default async function PostItemArticle() {
 
   // content
   const postId = segments[segments.length - 1];
-  const { post } = await getData(postId);
+  const { post } = await getPost(postId);
 
   return (
     <article className="post-item-article">

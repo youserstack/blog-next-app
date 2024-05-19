@@ -5,14 +5,14 @@ import { createContext, useEffect, useState } from "react";
 export const Context = createContext({});
 
 export default function Provider({ children }: { children: React.ReactNode }) {
-  const [categoryPaths, setCategoryPaths] = useState<string[]>([]);
-  const [parentCategories, setParentCategories] = useState<string[]>([]);
-
+  // 모달창을 팝업시키기 위해서 필요한 상태
   const [currentModal, setCurrentModal] = useState("");
 
-  useEffect(() => {
-    console.log({ parentCategories });
-  }, [parentCategories]);
+  // 새로운 카테고리 생성을 위해서 필요한 상태
+  const [parentCategories, setParentCategories] = useState<string[]>([]);
+
+  // 현재 카테고리 포스트 데이터를 가져오기 위해서 필요한 상태
+  const [categoryPaths, setCategoryPaths] = useState<string[]>([]);
 
   return (
     <Context.Provider
