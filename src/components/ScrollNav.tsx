@@ -9,11 +9,15 @@ export default function ScrollNav({ categories }: any) {
   const params = useParams();
 
   const handleClick: MouseEventHandler = (e) => {
-    const nextElementSibling = e.currentTarget.nextElementSibling as HTMLElement;
+    // e.preventDefault();
+
     const button = e.currentTarget.querySelector("button") as HTMLElement;
+    const nextElementSibling = e.currentTarget.nextElementSibling as HTMLElement;
+    if (!nextElementSibling) return;
+
     if (nextElementSibling.style.display === "block") {
-      nextElementSibling.style.display = "none";
       button.textContent = "unfold";
+      nextElementSibling.style.display = "none";
     } else {
       nextElementSibling.style.display = "block";
       button.textContent = "fold";
@@ -27,17 +31,21 @@ export default function ScrollNav({ categories }: any) {
     const categories = document.querySelectorAll(".category") as NodeListOf<HTMLElement>; // NodeList (유사배열객체, 컬렉션)
     categories.forEach((category: HTMLElement) => {
       const span = category.querySelector("span") as HTMLElement;
+      const button = category.querySelector("button") as HTMLElement;
       const sub1Ul = category.querySelector("ul") as HTMLElement;
       if (span.textContent === params.category[0] && sub1Ul) {
+        button.textContent = "fold";
         sub1Ul.style.display = "block"; // 활성화
         sub1Ul.style.border = "1px solid red";
 
         // sub1Category가 일치한 경우, sub2-categories를 활성화한다.
         const sub1Categories = sub1Ul.querySelectorAll(".sub1-category") as NodeListOf<HTMLElement>;
-        sub1Categories.forEach((sub1Category: any) => {
+        sub1Categories.forEach((sub1Category: HTMLElement) => {
           const sub1Span = sub1Category.querySelector("span") as HTMLElement;
+          const sub1Button = sub1Category.querySelector("button") as HTMLElement;
           const sub2Ul = sub1Category.querySelector("ul") as HTMLElement;
           if (sub1Span.textContent === params.category[1] && sub2Ul) {
+            sub1Button.textContent = "fold";
             sub2Ul.style.display = "block";
             sub2Ul.style.border = "blue";
           }
@@ -68,7 +76,7 @@ export default function ScrollNav({ categories }: any) {
     //     });
     //   }
     // }
-  }, []);
+  }, [params]);
 
   return (
     <nav className="scroll-nav">
@@ -91,7 +99,7 @@ export default function ScrollNav({ categories }: any) {
                     <li className="sub1-category" key={sub1Path}>
                       <Link href={sub1Path} onClick={handleClick}>
                         <span>{sub1Category.name}</span>
-                        <button>unfold</button>
+                        <button onClick={(e) => e.preventDefault()}>unfold</button>
                       </Link>
 
                       {/* sub2 */}
