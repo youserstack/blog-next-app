@@ -34,7 +34,7 @@ export default function PostCreateModal() {
   // 각 페이지에서 포스트를 생성할 경우에 사용할 값
   const { category: categorySegments }: any = useParams();
   const currentCategoryPath = categorySegments.join("/");
-  console.log({ currentCategoryPath });
+  // console.log({ currentCategoryPath });
 
   return (
     <div className="post-create-modal" onClick={(e) => e.stopPropagation()}>
