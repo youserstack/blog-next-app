@@ -1,5 +1,6 @@
 import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
+import { revalidatePath } from "next/cache";
 
 // async function createCategory(parentCategory: string, childCategory: string) {
 //   // Create a new category
@@ -51,6 +52,7 @@ export async function POST(request: Request) {
   if (parentCategories.length === 0) {
     const newCategory = await Category.create({ name: childCategory });
     console.log({ newCategory });
+    revalidatePath("/categories/[...category]", "page");
     return Response.json({ newCategory }, { status: 200 });
   }
 

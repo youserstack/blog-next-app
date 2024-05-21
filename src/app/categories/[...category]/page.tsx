@@ -1,6 +1,5 @@
 import PostListArticle from "@/components/PostListArticle";
-import { getCategories } from "@/lib/utils/fetcher";
-import "./page.scss";
+// import "./page.scss";
 
 // export async function generateStaticParams() {
 //   const posts = await fetch('https://.../posts').then((res) => res.json())
@@ -22,8 +21,6 @@ export default async function Category({
   const categorySegments = params.category;
   const categoryPath = params.category.join("/");
   const page = parseInt(searchParams.page) || 1;
-
-  const { categories } = await getCategories();
 
   return (
     <PostListArticle categorySegments={categorySegments} categoryPath={categoryPath} page={page} />
