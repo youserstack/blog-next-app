@@ -18,7 +18,7 @@
   // }
 
   // root
-  .categories {
+  ul.categories {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -34,14 +34,12 @@
 
       // sub1
       ul.sub1-categories {
-        // opacity: 0;
         padding-left: 10px;
         .sub1-category {
           border: 1px solid red;
 
           // sub2
-          .sub2-categories {
-            // opacity: 0;
+          ul.sub2-categories {
             padding-left: 10px;
             .sub2-category {
               border: 1px solid blue;
@@ -49,21 +47,17 @@
           }
         }
       }
-    }
 
-    ul {
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: height 1s;
+      ul {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
     }
   }
 
   li {
     padding: 5px 0;
   }
-
-  // li[data-arrow-state="down"] ul {
-  //   max-height: 0;
-  // }
 }

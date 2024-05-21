@@ -33,7 +33,7 @@ export default function ScrollNav(
         setArrowStates((prev) => ({ ...prev, [dataKey]: true }));
         category.setAttribute("data-arrow-state", "up");
         // 서브카테고리 활성화
-        ulElement.style.maxHeight = "initial";
+        ulElement.style.maxHeight = "100vh";
         ulElement.style.opacity = "1";
 
         // sub1Category가 일치한 경우, sub2-categories를 활성화한다.
@@ -43,12 +43,13 @@ export default function ScrollNav(
         sub1Categories.forEach((sub1Category: HTMLElement) => {
           const dataKey = sub1Category.getAttribute("data-key") as string;
           const sub1Span = sub1Category.querySelector("span") as HTMLElement;
-          const ulElement = sub1Category.querySelector("ul") as HTMLElement;
-          if (sub1Span.textContent === params.category[1] && ulElement) {
+          const ulElementInSub1 = sub1Category.querySelector("ul") as HTMLElement;
+          if (sub1Span.textContent === params.category[1] && ulElementInSub1) {
             setArrowStates((prev) => ({ ...prev, [dataKey]: true }));
             sub1Category.setAttribute("data-arrow-state", "up");
-            ulElement.style.maxHeight = "initial";
-            ulElement.style.opacity = "1";
+            ulElementInSub1.style.maxHeight = "100vh";
+            ulElementInSub1.style.opacity = "1";
+            ulElement.style.maxHeight = "100vh";
           }
         });
       }
@@ -73,8 +74,13 @@ export default function ScrollNav(
       if (arrowState === "down") {
         // folding (접힌상태:down) => unfolding (펼친상태:up)
         liElement.setAttribute("data-arrow-state", "up");
-        ulElement.style.maxHeight = "initial";
+        ulElement.style.maxHeight = "100vh";
         ulElement.style.opacity = "1";
+
+        const parentUlElement = liElement.parentElement;
+        if (parentUlElement instanceof HTMLUListElement) {
+          parentUlElement.style.maxHeight = "100vh";
+        }
       } else if (arrowState === "up") {
         // unfolding (펼친상태:up) => folding (접힌상태:down)
         liElement.setAttribute("data-arrow-state", "down");
