@@ -1,5 +1,4 @@
 import PostListArticle from "@/components/PostListArticle";
-import ScrollNav from "@/components/ScrollNav";
 import { getCategories } from "@/lib/utils/fetcher";
 import "./page.scss";
 
@@ -27,16 +26,6 @@ export default async function Category({
   const { categories } = await getCategories();
 
   return (
-    <main className="category-page">
-      <section>
-        <ScrollNav categories={categories} />
-        <PostListArticle
-          categorySegments={categorySegments}
-          categoryPath={categoryPath}
-          page={page}
-        />
-      </section>
-      <section></section>
-    </main>
+    <PostListArticle categorySegments={categorySegments} categoryPath={categoryPath} page={page} />
   );
 }
