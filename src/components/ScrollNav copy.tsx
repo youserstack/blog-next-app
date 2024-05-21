@@ -30,12 +30,12 @@ export default function ScrollNav({ categories }: any) {
       // folding (접힌상태:down) => unfolding (펼친상태:up)
       liElement.setAttribute("data-arrow-state", "up");
       ulElement.style.maxHeight = "initial";
-      ulElement.style.opacity = "1";
+      // ulElement.style.opacity = "1";
     } else if (arrowState === "up") {
       // unfolding (펼친상태:up) => folding (접힌상태:down)
       liElement.setAttribute("data-arrow-state", "down");
       ulElement.style.maxHeight = "0";
-      ulElement.style.opacity = "0";
+      // ulElement.style.opacity = "0";
     }
   };
 
@@ -50,12 +50,11 @@ export default function ScrollNav({ categories }: any) {
       const ulElement = category.querySelector("ul") as HTMLElement; // 서브카테고리 엘리먼트
       if (span.textContent === params.category[0] && ulElement) {
         // 애로우 상태설정
-        // 버튼의 내용을 애로우 아이콘 컴포넌트로 배치하기 위해서는 돔객체를 선택하고 싶었지만, 삽입이 되지 않는다.
         setIconStates((prev) => ({ ...prev, [dataKey]: true }));
         category.setAttribute("data-arrow-state", "up");
         // 서브카테고리 활성화
         ulElement.style.maxHeight = "initial";
-        ulElement.style.opacity = "1";
+        // ulElement.style.opacity = "1";
 
         // sub1Category가 일치한 경우, sub2-categories를 활성화한다.
         const sub1Categories = ulElement.querySelectorAll(
@@ -69,7 +68,7 @@ export default function ScrollNav({ categories }: any) {
             setIconStates((prev) => ({ ...prev, [dataKey]: true }));
             sub1Category.setAttribute("data-arrow-state", "up");
             ulElement.style.maxHeight = "initial";
-            ulElement.style.opacity = "1";
+            // ulElement.style.opacity = "1";
           }
         });
       }
