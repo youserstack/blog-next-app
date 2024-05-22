@@ -22,7 +22,8 @@ export default function ScrollNav(
       if (!ulElement) return;
       if (spanElement.textContent === params.category[0]) {
         buttonElement.style.transform = "rotate(90deg)"; // 버튼 아이콘 회전
-        ulElement.style.maxHeight = "100vh"; // 서브 카테고리 활성화
+        // ulElement.style.height = "auto"; // 서브 카테고리 활성화
+        expandAccordion(category);
         category.setAttribute("data-is-expanded", "true"); // 돔 상태변경
 
         // sub1Category가 일치한 경우, sub2-categories를 활성화한다.
@@ -36,7 +37,8 @@ export default function ScrollNav(
           if (!ulElement) return;
           if (spanElement.textContent === params.category[1]) {
             buttonElement.style.transform = "rotate(90deg)";
-            ulElement.style.maxHeight = "100vh";
+            // ulElement.style.height = "auto";
+            expandAccordion(sub1Category);
             sub1Category.setAttribute("data-is-expanded", "true");
           }
         });
@@ -44,25 +46,48 @@ export default function ScrollNav(
     });
   }, [params, categories]);
 
+  const expandAccordion = (item: HTMLElement) => {
+    const button = item.querySelector("button") as HTMLElement;
+    button.style.transform = "rotate(90deg)";
+
+    const ul = item.querySelector("ul") as HTMLElement;
+    ul.style.height = "auto"; // 먼저 높이를 auto로 설정해 높이를 계산
+    const height = ul.scrollHeight + "px";
+    ul.style.height = "0"; // 다시 0으로 설정 후, 실제 높이를 적용하여 펼치는 애니메이션 실행
+    ul.offsetHeight; // 읽기만 해도 리플로우 발생
+    ul.style.height = height;
+
+    item.setAttribute("data-is-expanded", "true");
+  };
+
+  const collapseAccordion = (item: HTMLElement) => {
+    const button = item.querySelector("button") as HTMLElement;
+    button.style.transform = "rotate(0)";
+
+    const ul = item.querySelector("ul") as HTMLElement;
+    // 현재 높이를 계산
+    const height = ul.scrollHeight + "px";
+    ul.style.height = height;
+    // 강제로 리플로우(Reflow) 발생시켜 트랜지션 시작점 설정
+    ul.offsetHeight; // 읽기만 해도 리플로우 발생
+    // 높이를 0으로 변경하여 접히는 애니메이션 실행
+    ul.style.height = "0";
+
+    item.setAttribute("data-is-expanded", "false");
+  };
+
   const handleClick: MouseEventHandler = (e) => {
     // 클릭이벤트가 발생한 리스트아이템 엘리먼트
     const li = e.currentTarget.closest("li") as HTMLElement;
     const isExpanded = li.getAttribute("data-is-expanded") === "true";
-    const button = li.querySelector("button") as HTMLElement;
-    const ul = li.querySelector("ul") as HTMLElement;
-    if (!(ul instanceof HTMLUListElement)) return;
 
     // 펼침 => 접힘
     if (isExpanded) {
-      ul.style.maxHeight = "0";
-      button.style.transform = "rotate(0)";
-      li.setAttribute("data-is-expanded", "false");
+      collapseAccordion(li);
     }
     // 접힘 => 펼침
     else {
-      button.style.transform = "rotate(90deg)";
-      ul.style.maxHeight = "100vh";
-      li.setAttribute("data-is-expanded", "true");
+      expandAccordion(li);
     }
   };
 

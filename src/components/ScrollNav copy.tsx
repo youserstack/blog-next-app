@@ -11,34 +11,33 @@ export default function ScrollNav(
 ) {
   const params = useParams(); // 클라이언트에서 요청한 파라미터
 
-  // 각각의 애로우 아이콘의 방향을 기억하기 위해서
-  // 각각의 리스트 엘리먼트의 데이터 어트리뷰트에 의해서 결정하거나,
-  // 각각의 카테고리 패스에 의해서 결정한다.
-  const [arrowStates, setArrowStates] = useState<{ [key: string]: boolean }>({});
-
   // 데이터와 파라미터가 변경된 경우, 애로우방향과 서브카테고리활성화를 한다.
   useEffect(() => {
     // category가 일치한 경우, sub1-categories를 활성화한다.
     const categories = document.querySelectorAll(".category") as NodeListOf<HTMLElement>;
     categories.forEach((category: HTMLElement) => {
-      const dataKey = category.getAttribute("data-key") as string; // 애로우 상태설정을 위한 스트링 키
-      const span = category.querySelector("span") as HTMLElement;
-      const ulElement = category.querySelector("ul") as HTMLElement; // 서브카테고리 엘리먼트
-      if (span.textContent === params.category[0] && ulElement) {
-        setArrowStates((prev) => ({ ...prev, [dataKey]: true })); // 애로우 상태설정
-        ulElement.style.maxHeight = "100vh"; // 서브카테고리 활성화
+      const spanElement = category.querySelector("span") as HTMLElement;
+      const buttonElement = category.querySelector("button") as HTMLElement;
+      const ulElement = category.querySelector("ul") as HTMLElement;
+      if (!ulElement) return;
+      if (spanElement.textContent === params.category[0]) {
+        buttonElement.style.transform = "rotate(90deg)"; // 버튼 아이콘 회전
+        ulElement.style.maxHeight = "100vh"; // 서브 카테고리 활성화
+        category.setAttribute("data-is-collapsed", "true"); // 돔 상태변경
 
         // sub1Category가 일치한 경우, sub2-categories를 활성화한다.
         const sub1Categories = ulElement.querySelectorAll(
           ".sub1-category"
         ) as NodeListOf<HTMLElement>;
         sub1Categories.forEach((sub1Category: HTMLElement) => {
-          const dataKey = sub1Category.getAttribute("data-key") as string;
-          const sub1Span = sub1Category.querySelector("span") as HTMLElement;
-          const ulElementInSub1 = sub1Category.querySelector("ul") as HTMLElement;
-          if (sub1Span.textContent === params.category[1] && ulElementInSub1) {
-            setArrowStates((prev) => ({ ...prev, [dataKey]: true }));
-            ulElementInSub1.style.maxHeight = "100vh";
+          const buttonElement = sub1Category.querySelector("button") as HTMLElement;
+          const spanElement = sub1Category.querySelector("span") as HTMLElement;
+          const ulElement = sub1Category.querySelector("ul") as HTMLElement;
+          if (!ulElement) return;
+          if (spanElement.textContent === params.category[1]) {
+            buttonElement.style.transform = "rotate(90deg)";
+            ulElement.style.maxHeight = "100vh";
+            sub1Category.setAttribute("data-is-collapsed", "true");
           }
         });
       }
@@ -48,25 +47,19 @@ export default function ScrollNav(
   const handleClick: MouseEventHandler = (e) => {
     // 클릭이벤트가 발생한 리스트아이템 엘리먼트
     const liElement = e.currentTarget.closest("li") as HTMLElement;
+    const isCollapsed = liElement.getAttribute("data-is-collapsed");
+    const buttonElement = liElement.querySelector("button") as HTMLElement;
+    const ulElement = liElement.querySelector("ul") as HTMLElement;
+    if (!(ulElement instanceof HTMLUListElement)) return;
 
-    // 애로우 스테이트 변경 => 애로우 컴포넌트를 JSX에서 변경한다.
-    // 리스트아이템 엘리먼트를 통해서 데이터키를 가져온다.
-    const dataKey = liElement.getAttribute("data-key");
-    if (!dataKey) return;
-    const isExpanded = arrowStates[dataKey];
-    setArrowStates((prev) => ({ ...prev, [dataKey]: !isExpanded }));
-
-    const ulElement = liElement.querySelector("ul");
-    if (ulElement instanceof HTMLUListElement) {
-      if (isExpanded) {
-        // 서브카테고리 엘리먼트 비활성화
-        // unfolding (펼친상태:up) => folding (접힌상태:down)
-        ulElement.style.maxHeight = "0";
-      } else {
-        // 서브카테고리 엘리먼트 활성화
-        // folding (접힌상태:down) => unfolding (펼친상태:up)
-        ulElement.style.maxHeight = "100vh";
-      }
+    if (isCollapsed === "false") {
+      buttonElement.style.transform = "rotate(90deg)";
+      ulElement.style.maxHeight = "100vh";
+      liElement.setAttribute("data-is-collapsed", "true");
+    } else {
+      ulElement.style.maxHeight = "0";
+      buttonElement.style.transform = "rotate(0)";
+      liElement.setAttribute("data-is-collapsed", "false");
     }
   };
 
@@ -77,11 +70,11 @@ export default function ScrollNav(
         {categories.map((category: any) => {
           const categoryPath = `/categories/${category.name}`;
           return (
-            <li className="category" key={categoryPath} data-key={categoryPath}>
+            <li className="category" key={categoryPath} data-is-collapsed={"false"}>
               <Link href={categoryPath} onClick={handleClick}>
                 <span>{category.name}</span>
                 <button onClick={(e) => e.preventDefault()}>
-                  {arrowStates[categoryPath] ? <SlArrowUp /> : <SlArrowDown />}
+                  <SlArrowRight />
                 </button>
               </Link>
 
@@ -90,11 +83,11 @@ export default function ScrollNav(
                 {category.sub1Categories?.map((sub1Category: any) => {
                   const categoryPath = `/categories/${category.name}/${sub1Category.name}`;
                   return (
-                    <li className="sub1-category" key={categoryPath} data-key={categoryPath}>
+                    <li className="sub1-category" key={categoryPath} data-is-collapsed={"false"}>
                       <Link href={categoryPath} onClick={handleClick}>
                         <span>{sub1Category.name}</span>
                         <button onClick={(e) => e.preventDefault()}>
-                          {arrowStates[categoryPath] ? <SlArrowDown /> : <SlArrowRight />}
+                          <SlArrowRight />
                         </button>
                       </Link>
 
