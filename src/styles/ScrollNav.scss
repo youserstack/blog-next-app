@@ -24,14 +24,17 @@
     gap: 1rem;
     .category {
       background-color: #eee;
-      position: relative;
+      // position: relative;
 
       // sub1
       ul.sub1-categories {
         .sub1-category {
+          background-color: #ddd;
+
           // sub2
           ul.sub2-categories {
             .sub2-category {
+              background-color: #ccc;
             }
           }
         }
@@ -40,10 +43,10 @@
       ul {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 1s ease-out;
+        transition: max-height 1s;
         padding-left: 12px;
         margin-left: 16px;
-        border-left: 1px solid #aaa;
+        // border-left: 1px solid #aaa;
       }
     }
   }

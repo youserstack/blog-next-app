@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler, createElement, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import "../styles/ScrollNav.scss";
@@ -15,7 +15,6 @@ export default function ScrollNav(
   // 각각의 리스트 엘리먼트의 데이터 어트리뷰트에 의해서 결정하거나,
   // 각각의 카테고리 패스에 의해서 결정한다.
   const [arrowStates, setArrowStates] = useState<{ [key: string]: boolean }>({});
-  // useEffect(() => console.log(arrowStates), [arrowStates]);
 
   // 데이터와 파라미터가 변경된 경우, 애로우방향과 서브카테고리활성화를 한다.
   useEffect(() => {
@@ -57,29 +56,29 @@ export default function ScrollNav(
   }, [params, categories]);
 
   const handleClick: MouseEventHandler = (e) => {
-    // 버튼을 포함한 리스트아이템 엘리먼트를 선택한다. 그리고 데이터키를 가져온다.
+    // 클릭이벤트가 발생한 리스트아이템 엘리먼트
     const liElement = e.currentTarget.closest("li") as HTMLElement;
+
+    // 애로우 스테이트 변경 => 애로우 컴포넌트를 JSX에서 변경한다.
+    // 리스트아이템 엘리먼트를 통해서 데이터키를 가져온다.
     const dataKey = liElement.getAttribute("data-key");
     if (!dataKey) return;
-
-    // 애로우 컴포넌트 변경
-    // 자식노드에 컴포넌트를 배치할 경우는 스테이트를 통해서 구현하는 것이 권장된다.
     const isExpanded = arrowStates[dataKey];
     setArrowStates((prev) => ({ ...prev, [dataKey]: !isExpanded }));
 
     // 서브카테고리 엘리먼트 활성화
     const arrowState = liElement.getAttribute("data-arrow-state");
-    const ulElement = liElement.querySelector("ul") as HTMLElement;
+    const ulElement = liElement.querySelector("ul");
     if (ulElement instanceof HTMLUListElement) {
       if (arrowState === "down") {
         // folding (접힌상태:down) => unfolding (펼친상태:up)
         liElement.setAttribute("data-arrow-state", "up");
         ulElement.style.maxHeight = "100vh";
 
-        const parentUlElement = liElement.parentElement;
-        if (parentUlElement instanceof HTMLUListElement) {
-          parentUlElement.style.maxHeight = "100vh";
-        }
+        // const parentUlElement = liElement.parentElement;
+        // if (parentUlElement instanceof HTMLUListElement) {
+        //   parentUlElement.style.maxHeight = "100vh";
+        // }
       } else if (arrowState === "up") {
         // unfolding (펼친상태:up) => folding (접힌상태:down)
         liElement.setAttribute("data-arrow-state", "down");
