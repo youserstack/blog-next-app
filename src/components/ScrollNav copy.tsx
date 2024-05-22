@@ -1,47 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler, createElement, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { SlArrowDown, SlArrowUp } from "react-icons/sl";
+import { SlArrowDown, SlArrowRight, SlArrowUp } from "react-icons/sl";
 import "../styles/ScrollNav.scss";
 
-export default function ScrollNav({ categories }: any) {
-  const params = useParams();
+export default function ScrollNav(
+  { categories }: any // 서버로부터 가져온 카테고리 데이터
+) {
+  const params = useParams(); // 클라이언트에서 요청한 파라미터
 
-  const [iconStates, setIconStates] = useState<{ [key: string]: boolean }>({});
+  // 각각의 애로우 아이콘의 방향을 기억하기 위해서
+  // 각각의 리스트 엘리먼트의 데이터 어트리뷰트에 의해서 결정하거나,
+  // 각각의 카테고리 패스에 의해서 결정한다.
+  const [arrowStates, setArrowStates] = useState<{ [key: string]: boolean }>({});
 
-  const handleClick: MouseEventHandler = (e) => {
-    // 버튼을 포함한 리스트아이템 엘리먼트를 선택한다. 그리고 데이터키를 가져온다.
-    const liElement = e.currentTarget.closest("li") as HTMLElement;
-    const dataKey = liElement.getAttribute("data-key");
-    const arrowState = liElement.getAttribute("data-arrow-state");
-    if (!dataKey) return;
-
-    // 애로우 상태설정
-    // 버튼의 내용을 애로우 아이콘 컴포넌트로 배치하기 위해서는 돔객체를 선택하고 싶었지만, 삽입이 되지 않는다.
-    const isExpanded = iconStates[dataKey];
-    setIconStates((prev) => ({ ...prev, [dataKey]: !isExpanded }));
-
-    // 서브카테고리 엘리먼트 활성화
-    const ulElement = liElement.querySelector("ul") as HTMLElement;
-    if (!ulElement) return;
-    if (arrowState === "down") {
-      // folding (접힌상태:down) => unfolding (펼친상태:up)
-      liElement.setAttribute("data-arrow-state", "up");
-      ulElement.style.maxHeight = "initial";
-      // ulElement.style.opacity = "1";
-    } else if (arrowState === "up") {
-      // unfolding (펼친상태:up) => folding (접힌상태:down)
-      liElement.setAttribute("data-arrow-state", "down");
-      ulElement.style.maxHeight = "0";
-      // ulElement.style.opacity = "0";
-    }
-  };
-
+  // 데이터와 파라미터가 변경된 경우, 애로우방향과 서브카테고리활성화를 한다.
   useEffect(() => {
-    // category/sub1Category/sub2Category
-
     // category가 일치한 경우, sub1-categories를 활성화한다.
     const categories = document.querySelectorAll(".category") as NodeListOf<HTMLElement>;
     categories.forEach((category: HTMLElement) => {
@@ -49,12 +25,8 @@ export default function ScrollNav({ categories }: any) {
       const span = category.querySelector("span") as HTMLElement;
       const ulElement = category.querySelector("ul") as HTMLElement; // 서브카테고리 엘리먼트
       if (span.textContent === params.category[0] && ulElement) {
-        // 애로우 상태설정
-        setIconStates((prev) => ({ ...prev, [dataKey]: true }));
-        category.setAttribute("data-arrow-state", "up");
-        // 서브카테고리 활성화
-        ulElement.style.maxHeight = "initial";
-        // ulElement.style.opacity = "1";
+        setArrowStates((prev) => ({ ...prev, [dataKey]: true })); // 애로우 상태설정
+        ulElement.style.maxHeight = "100vh"; // 서브카테고리 활성화
 
         // sub1Category가 일치한 경우, sub2-categories를 활성화한다.
         const sub1Categories = ulElement.querySelectorAll(
@@ -63,17 +35,40 @@ export default function ScrollNav({ categories }: any) {
         sub1Categories.forEach((sub1Category: HTMLElement) => {
           const dataKey = sub1Category.getAttribute("data-key") as string;
           const sub1Span = sub1Category.querySelector("span") as HTMLElement;
-          const ulElement = sub1Category.querySelector("ul") as HTMLElement;
-          if (sub1Span.textContent === params.category[1] && ulElement) {
-            setIconStates((prev) => ({ ...prev, [dataKey]: true }));
-            sub1Category.setAttribute("data-arrow-state", "up");
-            ulElement.style.maxHeight = "initial";
-            // ulElement.style.opacity = "1";
+          const ulElementInSub1 = sub1Category.querySelector("ul") as HTMLElement;
+          if (sub1Span.textContent === params.category[1] && ulElementInSub1) {
+            setArrowStates((prev) => ({ ...prev, [dataKey]: true }));
+            ulElementInSub1.style.maxHeight = "100vh";
           }
         });
       }
     });
-  }, [params, categories]); // url parameters, fetched data 변경시 => 애로우 상태설정, 서브카테고리 활성화
+  }, [params, categories]);
+
+  const handleClick: MouseEventHandler = (e) => {
+    // 클릭이벤트가 발생한 리스트아이템 엘리먼트
+    const liElement = e.currentTarget.closest("li") as HTMLElement;
+
+    // 애로우 스테이트 변경 => 애로우 컴포넌트를 JSX에서 변경한다.
+    // 리스트아이템 엘리먼트를 통해서 데이터키를 가져온다.
+    const dataKey = liElement.getAttribute("data-key");
+    if (!dataKey) return;
+    const isExpanded = arrowStates[dataKey];
+    setArrowStates((prev) => ({ ...prev, [dataKey]: !isExpanded }));
+
+    const ulElement = liElement.querySelector("ul");
+    if (ulElement instanceof HTMLUListElement) {
+      if (isExpanded) {
+        // 서브카테고리 엘리먼트 비활성화
+        // unfolding (펼친상태:up) => folding (접힌상태:down)
+        ulElement.style.maxHeight = "0";
+      } else {
+        // 서브카테고리 엘리먼트 활성화
+        // folding (접힌상태:down) => unfolding (펼친상태:up)
+        ulElement.style.maxHeight = "100vh";
+      }
+    }
+  };
 
   return (
     <nav className="scroll-nav">
@@ -82,16 +77,11 @@ export default function ScrollNav({ categories }: any) {
         {categories.map((category: any) => {
           const categoryPath = `/categories/${category.name}`;
           return (
-            <li
-              className="category"
-              key={categoryPath}
-              data-key={categoryPath}
-              data-arrow-state={"down"}
-            >
+            <li className="category" key={categoryPath} data-key={categoryPath}>
               <Link href={categoryPath} onClick={handleClick}>
                 <span>{category.name}</span>
                 <button onClick={(e) => e.preventDefault()}>
-                  {iconStates[categoryPath] ? <SlArrowUp /> : <SlArrowDown />}
+                  {arrowStates[categoryPath] ? <SlArrowUp /> : <SlArrowDown />}
                 </button>
               </Link>
 
@@ -100,16 +90,11 @@ export default function ScrollNav({ categories }: any) {
                 {category.sub1Categories?.map((sub1Category: any) => {
                   const categoryPath = `/categories/${category.name}/${sub1Category.name}`;
                   return (
-                    <li
-                      className="sub1-category"
-                      key={categoryPath}
-                      data-key={categoryPath}
-                      data-arrow-state={"down"}
-                    >
+                    <li className="sub1-category" key={categoryPath} data-key={categoryPath}>
                       <Link href={categoryPath} onClick={handleClick}>
                         <span>{sub1Category.name}</span>
                         <button onClick={(e) => e.preventDefault()}>
-                          {iconStates[categoryPath] ? <SlArrowUp /> : <SlArrowDown />}
+                          {arrowStates[categoryPath] ? <SlArrowDown /> : <SlArrowRight />}
                         </button>
                       </Link>
 
@@ -134,7 +119,6 @@ export default function ScrollNav({ categories }: any) {
           );
         })}
       </ul>
-      {/* <h1>{JSON.stringify(iconStates, null, 4)}</h1> */}
     </nav>
   );
 }
