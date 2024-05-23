@@ -48,11 +48,13 @@ export async function POST(request: Request) {
   const { parentCategories, childCategory } = await request.json();
   console.log({ parentCategories, childCategory });
 
+  // 해당경로로 들어온 요청시 캐시된 데이터를 없애고 해당경로의 페이지를 재생성한다.
+  revalidatePath("/categories/[...category]", "page");
+
   // 카테고리 0개 (parentCAtegories === [])
   if (parentCategories.length === 0) {
     const newCategory = await Category.create({ name: childCategory });
     console.log({ newCategory });
-    revalidatePath("/categories/[...category]", "page");
     return Response.json({ newCategory }, { status: 200 });
   }
 

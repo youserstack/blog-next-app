@@ -20,40 +20,35 @@ export default function ScrollNav(
       if (params.category.length === 1 && a.textContent === params.category[0]) {
         a.style.color = "#0072f5";
       }
-      const spanElement = category.querySelector("span") as HTMLElement;
-      const buttonElement = category.querySelector("button") as HTMLElement;
-      const ulElement = category.querySelector("ul") as HTMLElement;
-      if (!ulElement) return;
-      if (spanElement.textContent === params.category[0]) {
-        buttonElement.style.transform = "rotate(90deg)"; // 버튼 아이콘 회전
-        ulElement.style.maxHeight = "100vh"; // 서브 카테고리 활성화
+      const span = category.querySelector("span") as HTMLElement;
+      const button = category.querySelector("button") as HTMLElement;
+      const ul = category.querySelector("ul") as HTMLElement;
+      if (!ul) return;
+      if (span.textContent === params.category[0]) {
+        button.style.transform = "rotate(90deg)"; // 버튼 아이콘 회전
+        ul.style.maxHeight = "100vh"; // 서브 카테고리 활성화
         category.setAttribute("data-is-expanded", "true"); // 돔 상태변경
 
         // sub1-category가 일치한 경우, sub2-categories를 활성화한다.
-        const sub1Categories = ulElement.querySelectorAll(
-          ".sub1-category"
-        ) as NodeListOf<HTMLElement>;
+        const sub1Categories = ul.querySelectorAll(".sub1-category") as NodeListOf<HTMLElement>;
         sub1Categories.forEach((sub1Category: HTMLElement) => {
           const a = sub1Category.querySelector("a") as HTMLElement;
           if (params.category.length === 2 && a.textContent === params.category[1]) {
             a.style.color = "#0072f5";
           }
-          const buttonElement = sub1Category.querySelector("button") as HTMLElement;
-          const spanElement = sub1Category.querySelector("span") as HTMLElement;
-          const ulElement = sub1Category.querySelector("ul") as HTMLElement;
-          if (!ulElement) return;
-          if (spanElement.textContent === params.category[1]) {
-            buttonElement.style.transform = "rotate(90deg)";
-            ulElement.style.maxHeight = "100vh";
+          const button = sub1Category.querySelector("button") as HTMLElement;
+          const span = sub1Category.querySelector("span") as HTMLElement;
+          const ul = sub1Category.querySelector("ul") as HTMLElement;
+          if (!ul) return;
+          if (span.textContent === params.category[1]) {
+            button.style.transform = "rotate(90deg)";
+            ul.style.maxHeight = "100vh";
             sub1Category.setAttribute("data-is-expanded", "true");
 
             // leaf node(sub2-category)가 일치한 경우, 색상변경
-            const sub2Categories = ulElement.querySelectorAll(
-              ".sub2-category"
-            ) as NodeListOf<HTMLElement>;
+            const sub2Categories = ul.querySelectorAll(".sub2-category") as NodeListOf<HTMLElement>;
             sub2Categories.forEach((sub2Category: HTMLElement) => {
               const a = sub2Category.querySelector("a") as HTMLElement;
-              console.log({ a });
               if (params.category.length === 3 && a.textContent === params.category[2]) {
                 a.style.color = "#0072f5";
               }
