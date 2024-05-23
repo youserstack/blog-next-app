@@ -16,6 +16,10 @@ export default function ScrollNav(
     // category가 일치한 경우, sub1-categories를 활성화한다.
     const categories = document.querySelectorAll(".category") as NodeListOf<HTMLElement>;
     categories.forEach((category: HTMLElement) => {
+      const a = category.querySelector("a") as HTMLElement;
+      if (params.category.length === 1 && a.textContent === params.category[0]) {
+        a.style.color = "#0072f5";
+      }
       const spanElement = category.querySelector("span") as HTMLElement;
       const buttonElement = category.querySelector("button") as HTMLElement;
       const ulElement = category.querySelector("ul") as HTMLElement;
@@ -25,11 +29,15 @@ export default function ScrollNav(
         ulElement.style.maxHeight = "100vh"; // 서브 카테고리 활성화
         category.setAttribute("data-is-expanded", "true"); // 돔 상태변경
 
-        // sub1Category가 일치한 경우, sub2-categories를 활성화한다.
+        // sub1-category가 일치한 경우, sub2-categories를 활성화한다.
         const sub1Categories = ulElement.querySelectorAll(
           ".sub1-category"
         ) as NodeListOf<HTMLElement>;
         sub1Categories.forEach((sub1Category: HTMLElement) => {
+          const a = sub1Category.querySelector("a") as HTMLElement;
+          if (params.category.length === 2 && a.textContent === params.category[1]) {
+            a.style.color = "#0072f5";
+          }
           const buttonElement = sub1Category.querySelector("button") as HTMLElement;
           const spanElement = sub1Category.querySelector("span") as HTMLElement;
           const ulElement = sub1Category.querySelector("ul") as HTMLElement;
@@ -38,6 +46,18 @@ export default function ScrollNav(
             buttonElement.style.transform = "rotate(90deg)";
             ulElement.style.maxHeight = "100vh";
             sub1Category.setAttribute("data-is-expanded", "true");
+
+            // leaf node(sub2-category)가 일치한 경우, 색상변경
+            const sub2Categories = ulElement.querySelectorAll(
+              ".sub2-category"
+            ) as NodeListOf<HTMLElement>;
+            sub2Categories.forEach((sub2Category: HTMLElement) => {
+              const a = sub2Category.querySelector("a") as HTMLElement;
+              console.log({ a });
+              if (params.category.length === 3 && a.textContent === params.category[2]) {
+                a.style.color = "#0072f5";
+              }
+            });
           }
         });
       }
