@@ -30,7 +30,7 @@ export default async function PostItemArticle() {
       <div className="content">
         <div className="content-header">
           <small>
-            <p>Author : {post.author}</p>
+            <p>작성자 : {post.author.name}</p>
             <p>{post.createdAt.slice(0, 10)}</p>
           </small>
           <h1>Title : {post.title}</h1>

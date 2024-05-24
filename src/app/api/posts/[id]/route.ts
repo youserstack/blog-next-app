@@ -9,10 +9,10 @@ export async function GET(request: Request) {
 
   // Get post id
   const id = request.url.split("/").pop();
-  // console.log({ id });
+  console.log({ id });
 
   // Lookup the post
-  const foundPost = await Post.findById(id).exec();
+  const foundPost = await Post.findById(id).populate("author");
   console.log({ foundPost });
 
   return Response.json({ post: foundPost });

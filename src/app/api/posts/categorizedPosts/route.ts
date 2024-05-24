@@ -9,25 +9,20 @@ export async function POST(request: Request) {
 
   // Get data
   const { categoryPath } = await request.json();
-  console.log({ categoryPath });
+  const { searchParams } = new URL(request.url);
+  const POST_PER_PAGE = 5;
+  const page = parseInt(searchParams.get("page") as string) || 1;
+  const skip = (page - 1) * POST_PER_PAGE;
+
+  // console.log({ categoryPath });
 
   // Lookup the posts
   const foundPosts: any = await Post.find({ category: { $regex: categoryPath } })
     .populate("author")
-    .exec();
+    .skip(skip)
+    .limit(POST_PER_PAGE);
   // $options: "i", // 대소문자 구분하지 않음
-  // console.log({ foundPosts });
+  console.log({ "foundPosts.length": foundPosts.length });
 
-  // Modify the posts
-  let modifiedPosts: any = [];
-  // let temp = [];
-  for (let i = 0; i < foundPosts.length; i++) {
-    const post = foundPosts[i];
-    modifiedPosts.push({ ...post._doc, author: post.author ? post.author.name : "unknown" });
-    // temp.push(post.title);
-  }
-  // console.log({ postTitles: temp });
-  // console.log({ "posts.length": modifiedPosts.length });
-
-  return Response.json({ posts: modifiedPosts }, {});
+  return Response.json({ posts: foundPosts }, {});
 }
