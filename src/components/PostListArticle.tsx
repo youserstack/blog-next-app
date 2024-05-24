@@ -12,6 +12,8 @@ export default async function PostListArticle({ categorySegments, categoryPath, 
   // const categorySegments: any = pathname?.split("/").slice(1);
   // const { posts } = await getData(pathname);
 
+  console.log({ categorySegments });
+
   return (
     <article className="post-list-article">
       <div className="article-header">

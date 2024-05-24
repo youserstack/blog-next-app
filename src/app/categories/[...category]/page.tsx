@@ -18,8 +18,8 @@ export default async function Category({
 }) {
   console.log("\n[categories/[...category]]");
 
-  const categorySegments = params.category;
-  const categoryPath = params.category.join("/");
+  const categorySegments = params.category.map((v: any) => decodeURIComponent(v));
+  const categoryPath = categorySegments.join("/");
   const page = parseInt(searchParams.page) || 1;
 
   return (
