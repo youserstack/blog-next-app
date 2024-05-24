@@ -28,14 +28,15 @@ export default async function PostItemArticle() {
         })}
       </div>
       <div className="content">
-        <p>{post.createdAt.slice(0, 10)}</p>
-        <p>Title : {post.title}</p>
-        <p>Author : {post.author}</p>
-        <pre>{post.content}</pre>
-        <Link href={`/post/${post._id}`}>read more</Link>
-
-        <div className="post-image">
-          {post.image ? <Image src={""} alt="sdf" /> : <h1>No Image</h1>}
+        <div className="content-header">
+          <small>
+            <p>Author : {post.author}</p>
+            <p>{post.createdAt.slice(0, 10)}</p>
+          </small>
+          <h1>Title : {post.title}</h1>
+        </div>
+        <div className="content-body">
+          <pre>{post.content}</pre>
         </div>
       </div>
     </article>

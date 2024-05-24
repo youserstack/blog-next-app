@@ -1,7 +1,7 @@
 .post-list-article {
   min-height: 100vh;
   flex: 1;
-  border: 1px solid blue;
+  border: 1px dashed #aaa;
   padding: 1rem;
 
   .article-header {
@@ -24,8 +24,8 @@
   }
 
   .content {
-    border: 1px solid;
-    padding: 1rem;
+    // border: 1px solid;
+    // padding: 1rem;
     margin-top: 1rem;
 
     .post-list {
@@ -35,11 +35,36 @@
 
       .post-item {
         border: 1px solid;
-        display: flex;
-        gap: 1rem;
+        border-radius: 10px;
+        overflow: hidden;
+        &:hover {
+          .title {
+            color: #0072f5;
+          }
+        }
 
-        div {
+        a {
+          display: flex;
+        }
+
+        .details {
+          flex: 3;
+          padding: 1rem;
+
+          div:first-of-type {
+            display: flex;
+            gap: 1rem;
+            font-size: 12px;
+
+            .author {
+              white-space: nowrap;
+            }
+          }
+        }
+
+        .thumbnail {
           flex: 1;
+          background-color: gray;
         }
       }
     }

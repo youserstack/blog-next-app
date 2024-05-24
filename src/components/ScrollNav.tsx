@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { MouseEventHandler, createElement, useEffect, useState } from "react";
+import { MouseEventHandler, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { SlArrowDown, SlArrowRight, SlArrowUp } from "react-icons/sl";
+import { SlArrowRight } from "react-icons/sl";
 import "../styles/ScrollNav.scss";
 
 export default function ScrollNav(
@@ -11,25 +11,29 @@ export default function ScrollNav(
 ) {
   const params = useParams(); // 클라이언트에서 요청한 파라미터
 
-  // 데이터와 파라미터가 변경된 경우, 애로우방향과 서브카테고리활성화를 한다.
+  // 서버로부터 가져온 데이터와 요청 URL 파라미터가 변경된 경우
   useEffect(() => {
-    // category가 일치한 경우, sub1-categories를 활성화한다.
-    const categories = document.querySelectorAll(".category") as NodeListOf<HTMLElement>;
+    // category level
+    const categories = document.querySelectorAll(".scoll-nav .category") as NodeListOf<HTMLElement>;
     categories.forEach((category: HTMLElement) => {
       const a = category.querySelector("a") as HTMLElement;
       if (params.category.length === 1 && a.textContent === params.category[0]) {
+        // css 변경
         a.style.color = "#0072f5";
       }
       const span = category.querySelector("span") as HTMLElement;
       const button = category.querySelector("button") as HTMLElement;
       const ul = category.querySelector("ul") as HTMLElement;
-      if (!ul) return;
+      if (!ul) return console.log(`${category.className} li 태그 내부에 ul 태그가 없습니다.`);
+      if (!span) return console.log(`${category.className} li 태그 내부에 span 태그가 없습니다.`);
       if (span.textContent === params.category[0]) {
-        button.style.transform = "rotate(90deg)"; // 버튼 아이콘 회전
-        ul.style.maxHeight = "100vh"; // 서브 카테고리 활성화
-        category.setAttribute("data-is-expanded", "true"); // 돔 상태변경
+        // css 변경
+        button.style.transform = "rotate(90deg)";
+        ul.style.maxHeight = "100vh";
+        // sub level 활성화/비활성화를 돔에 상태를 저장한다.
+        category.setAttribute("data-is-expanded", "true");
 
-        // sub1-category가 일치한 경우, sub2-categories를 활성화한다.
+        // sub1-category level
         const sub1Categories = ul.querySelectorAll(".sub1-category") as NodeListOf<HTMLElement>;
         sub1Categories.forEach((sub1Category: HTMLElement) => {
           const a = sub1Category.querySelector("a") as HTMLElement;
@@ -84,7 +88,6 @@ export default function ScrollNav(
   return (
     <nav className="scroll-nav">
       <ul className="categories">
-        {/* root */}
         {categories.map((category: any) => {
           const categoryPath = `/categories/${category.name}`;
           return (
@@ -96,7 +99,6 @@ export default function ScrollNav(
                 </button>
               </Link>
 
-              {/* sub1 */}
               <ul className="sub1-categories">
                 {category.sub1Categories?.map((sub1Category: any) => {
                   const categoryPath = `/categories/${category.name}/${sub1Category.name}`;

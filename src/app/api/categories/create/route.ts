@@ -2,42 +2,6 @@ import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
 import { revalidatePath } from "next/cache";
 
-// async function createCategory(parentCategory: string, childCategory: string) {
-//   // Create a new category
-//   // 새로운 카테고리 생성
-//   const newCategory = await Category.create({ name: categoryName });
-//   parentCategory.categories.push(newCategory);
-//   const savedParentCategory = await parentCategory.save();
-//   console.log({ savedParentCategory });
-
-//   return newCategory;
-// }
-
-// async function createCategory(categoryName: string, parentCategories: string) {
-//   // Get the parent category id
-//   // 부모 카테고리 ID를 가져와야 함
-//   const parentCategory = parentCategories ? await Category.findById(parentCategories) : null;
-//   console.log({ parentCategory });
-
-//   // Connect the category to parent category
-//   // 부모 카테고리가 있는 경우, 하위 카테고리로 추가
-//   if (parentCategory) {
-//     // Create a new category
-//     // 새로운 카테고리 생성
-//     const newCategory = await Category.create({ name: categoryName });
-//     console.log({ newCategory });
-
-//     parentCategory.categories.push(newCategory);
-//     const savedParentCategory = await parentCategory.save();
-//     console.log({ savedParentCategory });
-
-//     return newCategory;
-//   }
-
-//   const newCategory = await Category.create({ name: categoryName });
-//   return newCategory;
-// }
-
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/categories/create]\x1b[0m");
 

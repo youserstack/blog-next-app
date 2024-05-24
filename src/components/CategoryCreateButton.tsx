@@ -20,7 +20,7 @@ export default function CategoryCreateButton({
   };
 
   return (
-    <li className="nav-item category-create">
+    <li className="category-create">
       <Link href={""} onClick={handleClick}>
         +
       </Link>

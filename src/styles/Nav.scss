@@ -1,63 +1,52 @@
 .nav {
-  .nav-items {
+  .categories {
     display: flex;
-
-    .nav-item {
+    .category,
+    .category-create {
       position: relative;
       &:hover {
         background-color: #fff;
         color: #000;
-
-        .nav-drop-items {
+        .sub1-categories {
           display: block;
         }
       }
     }
 
-    // drop
-    .nav-drop-items {
+    .sub1-categories {
       display: none;
       position: absolute;
       top: 100%;
       background-color: #fff;
-      border-left: 1px solid #aaa;
-      border-right: 1px solid #aaa;
-      border-bottom: 1px solid #aaa;
       transform: translateX(-1px);
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-
-      .nav-drop-item {
+      .sub1-category {
         position: relative;
-        border-bottom: 1px solid #aaa;
         &:last-of-type {
           border-bottom: none;
         }
         &:hover {
           background-color: #eee;
-          .nav-popup-items {
+          .sub2-categories {
             display: block;
           }
         }
-
         a {
           padding: 10px;
         }
       }
-    }
 
-    // popup
-    .nav-popup-items {
-      position: absolute;
-      left: 100%;
-      top: 0;
-      display: none;
-      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-      background-color: #fff;
-      border: 1px solid;
-
-      .nav-popup-item {
-        &:hover {
-          background-color: #eee;
+      .sub2-categories {
+        position: absolute;
+        left: 100%;
+        top: 0;
+        display: none;
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        background-color: #fff;
+        .sub2-category {
+          &:hover {
+            background-color: #eee;
+          }
         }
       }
     }

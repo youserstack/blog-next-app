@@ -10,14 +10,14 @@ export async function getPost(postId: any) {
   return response.json();
 }
 
-export async function getCategorizedPosts(categoryPath: any) {
-  const response = await fetch(`${process.env.ROOT_URL}/api/posts/categorizedPosts`, {
+export async function getCategorizedPosts(categoryPath: any, page: string) {
+  const response = await fetch(`${process.env.ROOT_URL}/api/posts/categorizedPosts?page=${page}`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ categoryPath }),
     // 이하는 모두 동일
     // cache: "no-store",
-    // cache: "no-cache",
+    cache: "no-cache",
     // next: { revalidate: 0 },
   });
   if (!response.ok) throw new Error("failed to fetch data");
