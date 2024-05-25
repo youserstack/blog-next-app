@@ -1,4 +1,4 @@
-import PostItemArticle from "@/components/PostItemArticle";
+import PostItemArticle from "@/components/post/PostItemArticle";
 import "./page.scss";
 
 // export async function generateStaticParams() {

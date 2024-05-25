@@ -2,8 +2,7 @@ import { headers } from "next/headers";
 import { getPost } from "@/lib/utils/fetcher";
 import Link from "next/link";
 import React from "react";
-import Image from "next/image";
-import "../styles/PostItemArticle.scss";
+import "../../styles/PostItemArticle.scss";
 
 export default async function PostItemArticle() {
   // breadcrumb

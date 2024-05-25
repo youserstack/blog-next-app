@@ -1,17 +1,11 @@
 import Link from "next/link";
 import React from "react";
 import CategoryCreateButton from "@/components/CategoryCreateButton";
-import PostCreateButton from "@/components/PostCreateButton";
-import PostList from "@/components/PostList";
-import "../styles/PostListArticle.scss";
+import PostCreateButton from "@/components/post/PostCreateButton";
+import PostList from "@/components/post/PostList";
+import "../../styles/PostListArticle.scss";
 
-export default async function PostListArticle({ categorySegments, categoryPath, page }: any) {
-  // console.log("\n[PostListArticle]");
-  // header로부터 데이터를 가져올 수도 있다.
-  // const pathname: any = headers().get("pathname")?.replace("/categories", "");
-  // const categorySegments: any = pathname?.split("/").slice(1);
-  // const { posts } = await getData(pathname);
-
+export default async function PostListArticle({ categorySegments, posts }: any) {
   return (
     <article className="post-list-article">
       <div className="article-header">
@@ -35,7 +29,7 @@ export default async function PostListArticle({ categorySegments, categoryPath, 
         </div>
       </div>
       <div className="content">
-        <PostList categoryPath={categoryPath} page={page} />
+        <PostList posts={posts} />
       </div>
     </article>
   );

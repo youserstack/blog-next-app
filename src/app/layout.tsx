@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Provider from "@/components/Provider";
-import ModalLayer from "@/components/ModalLayer";
+import ModalLayer from "@/components/layout/ModalLayer";
 import "./globals.scss";
 
 export const metadata: Metadata = {
@@ -19,10 +19,12 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Provider>
+          {/* server components */}
           <Header />
           {children}
           <Footer />
 
+          {/* client components */}
           <ModalLayer />
         </Provider>
       </body>

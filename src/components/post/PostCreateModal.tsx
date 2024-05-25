@@ -5,7 +5,7 @@ import { Context } from "@/components/Provider";
 import { useContext } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { useParams } from "next/navigation";
-import "../styles/PostCreateModal.scss";
+import "../../styles/PostCreateModal.scss";
 
 function Button() {
   const { pending } = useFormStatus();
