@@ -15,7 +15,7 @@ export default function PostCreate() {
   // console.log({ state });
 
   const { categoryPaths }: any = useContext(Context);
-  console.log({ categoryPaths });
+  // console.log({ categoryPaths });
 
   return (
     <main className="post-create-page">

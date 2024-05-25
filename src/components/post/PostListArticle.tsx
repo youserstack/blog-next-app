@@ -6,6 +6,8 @@ import PostList from "@/components/post/PostList";
 import "../../styles/PostListArticle.scss";
 
 export default async function PostListArticle({ categorySegments, posts }: any) {
+  console.log({ categorySegments });
+
   return (
     <article className="post-list-article">
       <div className="article-header">
@@ -13,13 +15,11 @@ export default async function PostListArticle({ categorySegments, posts }: any) 
           {categorySegments?.map((v: string, i: number) => (
             <React.Fragment key={v}>
               <Link href={""}>{v}</Link>
-              {i !== categorySegments.length - 1 && <span>{">"}</span>}
+              <span>{">"}</span>
             </React.Fragment>
           ))}
-
-          {categorySegments?.length < 3 && (
+          {categorySegments?.length <= 2 && (
             <div className="category-create">
-              <span>{">"}</span>
               <CategoryCreateButton parentCategories={categorySegments} />
             </div>
           )}

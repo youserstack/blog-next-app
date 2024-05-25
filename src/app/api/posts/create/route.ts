@@ -5,8 +5,6 @@ import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/posts/create]\x1b[0m");
-
-  // Connect to db
   await connectDB();
 
   // Get the token
@@ -24,7 +22,7 @@ export async function POST(request: Request) {
   }
 
   // Lookup the user
-  const foundUser = await User.findOne({ email: verifiedUser.email }).exec();
+  const foundUser = await User.findOne({ email: verifiedUser.email });
   if (!foundUser) return Response.json({ error: "not found user" }, { status: 404 });
   // console.log({ foundUser });
 

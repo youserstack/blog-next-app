@@ -19,7 +19,9 @@ export async function POST(request: Request) {
     .skip(skip)
     .limit(POST_PER_PAGE);
   // $options: "i", // 대소문자 구분하지 않음
-  console.log({ "foundPosts.length": foundPosts.length });
+  // console.log({ "foundPosts.length": foundPosts.length });
+  const postTitles = foundPosts.map((post: any) => post.title);
+  console.log({ postTitles });
 
   return Response.json({ posts: foundPosts }, {});
 }
