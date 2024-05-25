@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function PostItem({ post }: any) {
   return (
-    <li className="post-item" key={post._id}>
+    <li className="post-item">
       <Link href={`/posts/${post._id}`}>
         <div className="details">
           <div>

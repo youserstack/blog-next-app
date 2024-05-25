@@ -10,11 +10,11 @@ export async function getPost(postId: any) {
   return response.json();
 }
 
-export async function getCategorizedPosts(categoryPath: any, page: string) {
-  const response = await fetch(`${process.env.ROOT_URL}/api/posts/categorizedPosts?page=${page}`, {
+export async function getPosts(categoryPath: any, page: string) {
+  const response = await fetch(`${process.env.ROOT_URL}/api/posts`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ categoryPath }),
+    body: JSON.stringify({ categoryPath, page }),
     // 이하는 모두 동일
     // cache: "no-store",
     cache: "no-cache",
