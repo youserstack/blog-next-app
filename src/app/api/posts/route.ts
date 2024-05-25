@@ -22,6 +22,7 @@ export async function POST(request: Request) {
   // console.log({ "foundPosts.length": foundPosts.length });
   const postTitles = foundPosts.map((post: any) => post.title);
   console.log({ postTitles });
+  // console.log({ foundPosts });
 
   return Response.json({ posts: foundPosts }, {});
 }

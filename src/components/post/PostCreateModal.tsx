@@ -4,7 +4,7 @@ import { createPost } from "@/app/posts/create/actions";
 import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import "../../styles/PostCreateModal.scss";
 
 function Button() {
@@ -33,14 +33,15 @@ export default function PostCreateModal() {
   // options
   // 각 페이지에서 포스트를 생성할 경우에 사용할 값
   const { category: categorySegments }: any = useParams();
-  const currentCategoryPath = categorySegments.join("/");
-  // console.log({ currentCategoryPath });
+  const currentCategoryPath = categorySegments.map((segment: any) => `/${segment}`).join("");
+  const decodedCategory = decodeURI(categorySegments[categorySegments.length - 1]);
+  // console.log({ currentCategoryPath, decodedCategory });
 
   return (
     <div className="post-create-modal" onClick={(e) => e.stopPropagation()}>
       <form action={formAction}>
         <select name="category" id="category">
-          <option value={currentCategoryPath}>{currentCategoryPath}</option>
+          <option value={currentCategoryPath}>{decodedCategory}</option>
         </select>
         <input type="text" name="title" placeholder="title" />
         <textarea name="content" placeholder="content" />

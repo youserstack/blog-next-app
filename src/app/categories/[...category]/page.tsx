@@ -23,7 +23,6 @@ export default async function Category({
   const categorySegments: string[] = params.category.map((v: any) => decodeURIComponent(v));
   const categoryPath: string = params.category.map((v: any) => `/${v}`).join("");
   const page: string = searchParams.page || 1;
-  console.log({ categorySegments, categoryPath });
   const { posts } = await getPosts(categoryPath, page);
 
   return <PostListArticle categorySegments={categorySegments} posts={posts} />;
