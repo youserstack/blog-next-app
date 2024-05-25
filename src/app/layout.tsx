@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import Provider from "@/components/Provider";
+import Provider from "@/components/context/Provider";
 import ModalLayer from "@/components/layout/ModalLayer";
 import "./globals.scss";
 

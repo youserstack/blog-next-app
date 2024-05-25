@@ -1,7 +1,7 @@
 "use client";
 
 import { createPost } from "@/app/posts/create/actions";
-import { Context } from "@/components/Provider";
+import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { useParams } from "next/navigation";

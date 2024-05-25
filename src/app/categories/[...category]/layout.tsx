@@ -1,4 +1,4 @@
-import ScrollNav from "@/components/ScrollNav";
+import SideNav from "@/components/ui/SideNav";
 import { getCategories } from "@/lib/utils/fetcher";
 import "./page.scss";
 
@@ -12,7 +12,7 @@ export default async function CategoryLayout({
   return (
     <main className="category-layout">
       <section>
-        <ScrollNav categories={categories} />
+        <SideNav categories={categories} />
         {children}
       </section>
       <section></section>

@@ -2,8 +2,8 @@
 
 import { FormEvent, useContext } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Context } from "@/components/Provider";
-import "../styles/CategoryCreateModal.scss";
+import { Context } from "@/components/context/Provider";
+import "../../styles/CategoryCreateModal.scss";
 
 export default function CategoryCreateModal() {
   const pathname = usePathname();

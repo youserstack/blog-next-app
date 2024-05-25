@@ -4,9 +4,9 @@ import Link from "next/link";
 import { MouseEventHandler, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { SlArrowRight } from "react-icons/sl";
-import "../styles/ScrollNav.scss";
+import "../../styles/SideNav.scss";
 
-export default function ScrollNav(
+export default function SideNav(
   { categories }: any // 서버로부터 가져온 카테고리 데이터
 ) {
   const params: any = useParams(); // 클라이언트에서 요청한 파라미터
@@ -15,9 +15,7 @@ export default function ScrollNav(
   // 서버로부터 가져온 데이터와 요청 URL 파라미터가 변경된 경우, 돔 엘리먼트와 비교하여 작업을 처리한다.
   useEffect(() => {
     // category level
-    const categories = document.querySelectorAll(
-      ".scroll-nav .category"
-    ) as NodeListOf<HTMLElement>;
+    const categories = document.querySelectorAll(".side-nav .category") as NodeListOf<HTMLElement>;
     categories.forEach((category: HTMLElement) => {
       const a = category.querySelector("a") as HTMLElement;
       if (urlCategories.length === 1 && a.textContent === urlCategories[0]) {
@@ -86,7 +84,7 @@ export default function ScrollNav(
   };
 
   return (
-    <nav className="scroll-nav">
+    <nav className="side-nav">
       <ul className="categories">
         {categories.map((category: any) => {
           const categoryPath = `/categories/${category.name}`;

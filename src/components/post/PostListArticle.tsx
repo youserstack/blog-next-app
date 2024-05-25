@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import CategoryCreateButton from "@/components/CategoryCreateButton";
+import CategoryCreateButton from "@/components/category/CategoryCreateButton";
 import PostCreateButton from "@/components/post/PostCreateButton";
 import PostList from "@/components/post/PostList";
 import "../../styles/PostListArticle.scss";

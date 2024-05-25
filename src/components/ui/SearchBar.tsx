@@ -1,5 +1,5 @@
 import { IoIosSearch } from "react-icons/io";
-import "../styles/SearchBar.scss";
+import "../../styles/SearchBar.scss";
 
 export default function SearchBar() {
   return (

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import "../styles/Etc.scss";
 import { cookies } from "next/headers";
+import "../../styles/Etc.scss";
 
 export default function Etc() {
   const refreshToken = cookies().get("refreshToken");

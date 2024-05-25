@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function HeaderStyleController() {
+export default function HeaderScript() {
   // scroll
   const [previousScrollY, setPreviousScrollY] = useState(0);
 

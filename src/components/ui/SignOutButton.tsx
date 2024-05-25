@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import "../styles/SignOutButton.scss";
+import "../../styles/SignOutButton.scss";
 
 export default function SignOutButton() {
   const router = useRouter();

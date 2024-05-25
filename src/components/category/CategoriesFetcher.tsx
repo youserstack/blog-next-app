@@ -1,6 +1,6 @@
 "use client";
 
-import { Context } from "@/components/Provider";
+import { Context } from "@/components/context/Provider";
 import { useContext, useEffect } from "react";
 
 export default function CategoriesFetcher({ categories }: { categories: [] }) {

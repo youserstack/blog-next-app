@@ -1,8 +1,8 @@
 "use client";
 
-import CategoryCreateModal from "@/components/CategoryCreateModal";
+import CategoryCreateModal from "@/components/category/CategoryCreateModal";
 import PostCreateModal from "@/components/post/PostCreateModal";
-import { Context } from "@/components/Provider";
+import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
 import "../../styles/ModalLayer.scss";
 

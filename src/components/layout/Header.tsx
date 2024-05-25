@@ -1,9 +1,9 @@
-import SearchBar from "@/components/SearchBar";
-import Etc from "@/components/Etc";
-import Nav from "@/components/Nav";
-import UserArea from "@/components/UserArea";
+import SearchBar from "@/components/ui/SearchBar";
+import Etc from "@/components/ui/Etc";
+import Nav from "@/components/ui/Nav";
+import UserArea from "@/components/ui/UserArea";
 import Link from "next/link";
-import HeaderStyleController from "@/components/HeaderStyleController";
+import HeaderScript from "@/components/script/HeaderScript";
 
 export default function Header() {
   return (
@@ -20,15 +20,10 @@ export default function Header() {
       <div className="header-lower-wrapper">
         <section className="header-lower">
           <Nav />
-          {/* <Nav>
-            <ServerComponent
-            // 클라이언트컴포넌트 안에 서버컴포넌트를 배치하기 위한 children 프로퍼티에 <ServerComponent/> 컴포넌트를 선언한다.
-            />
-          </Nav> */}
           <Etc />
         </section>
       </div>
-      <HeaderStyleController />
+      <HeaderScript />
     </header>
   );
 }

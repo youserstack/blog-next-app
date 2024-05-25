@@ -1,6 +1,6 @@
 "use client";
 
-import { Context } from "@/components/Provider";
+import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
 
 export default function PostCreateButton() {

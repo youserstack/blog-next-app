@@ -3,7 +3,7 @@
 import { useFormState } from "react-dom";
 import { createPost } from "@/app/posts/create/actions";
 import { useContext } from "react";
-import { Context } from "@/components/Provider";
+import { Context } from "@/components/context/Provider";
 import "./page.scss";
 
 export default function PostCreate() {

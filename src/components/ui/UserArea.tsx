@@ -1,8 +1,8 @@
 import Link from "next/link";
-import "../styles/UserArea.scss";
 import { cookies } from "next/headers";
-import SignOutButton from "@/components/SignOutButton";
-import ThemeToggle from "@/components/ThemeToggle";
+import SignOutButton from "@/components/ui/SignOutButton";
+import ThemeToggle from "@/components/ui/ThemeToggle";
+import "../../styles/UserArea.scss";
 
 export default function UserArea() {
   const refreshToken = cookies().get("refreshToken");
