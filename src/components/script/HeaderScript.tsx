@@ -34,27 +34,5 @@ export default function HeaderScript() {
     return () => window.removeEventListener("scroll", handleScroll);
   });
 
-  // refresh auth
-  const router = useRouter();
-
-  useEffect(() => {
-    const handleRefreshAuth = async () => {
-      try {
-        const response = await fetch("/api/auth/refresh", { method: "get" });
-        const { accessToken } = await response.json();
-        if (response.ok && accessToken) {
-          window.localStorage.setItem("accessToken", accessToken);
-        } else {
-          window.localStorage.removeItem("accessToken");
-          router.push("/auth/signin");
-        }
-      } catch (error) {
-        console.log({ error });
-      }
-    };
-
-    handleRefreshAuth();
-  }, []);
-
   return null;
 }

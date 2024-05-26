@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   // Validate it
   let verifiedUser: any;
   try {
-    verifiedUser = jwt.verify(accessToken, process.env.JWT_ACCESSTOKEN_SECRET as string);
+    verifiedUser = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
     // console.log({ verifiedUser });
   } catch (error) {
     return Response.json({ error: "verfication error" }, { status: 403 });

@@ -26,12 +26,11 @@ export async function signin(prevState: any, formData: FormData) {
   // Redirect to protected page
   if (response.ok) {
     cookies().set("refreshToken", result.refreshToken, {
-      secure: true,
       httpOnly: true,
-      // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
-      expires: Date.now() + 1000 * 60 * 60 * 24,
-      path: "/",
+      secure: true,
       sameSite: "strict",
+      expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
+      path: "/",
     });
     // redirect("/protected");
     return { status: "ok", accessToken: result.accessToken };
