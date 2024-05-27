@@ -19,62 +19,50 @@ const PROTECTED_PAGES = ["/protected", "/dashboard", "/posts/create"];
 // 각각의 백엔드포인트에서는 accessToken으로 접근한 경우에만 허용한다.
 const PROTECTED_PATHS = ["/api/auth/refresh"];
 
-const verifyToken = async (token: string) => {
-  try {
-    const secret = new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET);
-    const { payload } = await jwtVerify(token, secret, {});
-    return payload;
-  } catch (error) {
-    return null;
-  }
-};
-
 export default async function middleware(request: NextRequest) {
+  console.log("\n\x1b[32m[middleware]");
   const { pathname } = request.nextUrl;
   const refreshToken: any = cookies().get("refreshToken")?.value;
-  console.log("\n\x1b[32m[middleware]");
-  console.log({ pathname });
+
+  // page, api를 구분하여 로깅한다.
+  if (pathname.startsWith("/api")) console.log({ api: pathname });
+  else console.log({ page: pathname });
 
   const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
   if (isProtectedPage) {
-    console.log("요청된 페이지는 protected page입니다.");
+    console.log("protected page 입니다.");
     if (!refreshToken) {
-      console.log("protected page는 refreshToken을 요구합니다.");
-      console.log("/auth/signin 으로 리다이렉팅됩니다.");
+      console.log("refreshToken이 없기 때문에 로그인페이지로 리다이렉팅됩니다.");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
 
     // 토큰이 있다면 유효성 검사를 한다.
-    console.log("refreshToken 유효성 검사를 합니다.");
-    const payload = await verifyToken(refreshToken.value);
-    if (!payload) {
-      console.log("refreshToken이 유효하지 않습니다.");
-      cookies().delete("refreshToken");
+    try {
+      console.log(">>>refreshToken 유효성 검사중...");
+      const secret = new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET);
+      const { payload } = await jwtVerify(refreshToken.value, secret, {});
+      console.log(">>>refreshToken이 유효합니다.");
+      console.log({ payload });
+    } catch (error) {
+      console.log(">>>refreshToken이 유효하지 않습니다.");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
-    console.log("refreshToken이 유효합니다.");
-
-    // try {
-    // const secret = new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET);
-    //   const { payload } = await jwtVerify(refreshToken.value, secret, {});
-    //   console.log("refreshToken이 유효합니다.");
-    // } catch (error) {
-    //   console.log("refreshToken이 유효하지 않습니다.");
-    //   cookies().delete("refreshToken");
-    //   return NextResponse.redirect(new URL("/auth/signin", request.url));
-    // }
   }
 
   // 인증된 사용자라면 사인인 페이지로의 접근은 필요하지 않으므로 홈페이지로 리다이렉트한다.
   if (pathname.startsWith("/auth/signin") && refreshToken) {
-    console.log("verifying the refreshToken...");
-    const secret = new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET);
     try {
+      console.log(">>>refreshToken 유효성 검사중...");
+      const secret = new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET);
       const { payload } = await jwtVerify(refreshToken.value, secret, {});
-      console.log("refreshToken이 유효합니다.");
+      console.log(">>>refreshToken이 유효합니다.");
       return NextResponse.redirect(new URL("/", request.url));
     } catch (error) {
       console.log("refreshToken이 유효하지 않습니다.");
+      console.log(">>>로그아웃중...");
+      const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
+      const { message } = await response.json();
+      console.log(">>>", { message });
     }
   }
 

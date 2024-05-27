@@ -7,13 +7,9 @@ export default function SignOutButton() {
   const router = useRouter();
 
   const signout = async () => {
-    // Send to api route
-    const response = await fetch(`/api/auth/signout`, {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-    });
-    const result = await response.json();
-    console.log("로그아웃 결과 : ", { result });
+    const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
+    const { message } = await response.json();
+    console.log({ message });
 
     if (response.ok) {
       localStorage.removeItem("accessToken");

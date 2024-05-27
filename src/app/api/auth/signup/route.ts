@@ -3,6 +3,8 @@ import { validateEmail, validatePassword } from "@/lib/utils/auth";
 import bcrypt from "bcrypt";
 
 export async function POST(request: Request) {
+  console.log("\n\x1b[32m[api/auth/signup]\x1b[0m");
+
   // Read data
   const { name, email, password } = await request.json();
   if (!name || !email || !password) {
@@ -19,7 +21,7 @@ export async function POST(request: Request) {
 
   // Create a user in db
   const newUser = await User.create({ name, email, password: hashedPassword });
-  // console.log({ newUser });
+  console.log({ newUser });
 
   return Response.json({ newUser });
 }

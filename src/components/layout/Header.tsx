@@ -5,15 +5,7 @@ import UserArea from "@/components/ui/UserArea";
 import Link from "next/link";
 import HeaderScript from "@/components/script/HeaderScript";
 
-async function refreshAuth() {
-  const response = await fetch(`${process.env.ROOT_URL}/api/auth/refresh`);
-  if (!response.ok) throw new Error("refresh failed");
-  return response.json();
-}
-
 export default async function Header() {
-  // const result = await refreshAuth()
-
   return (
     <header>
       <div className="header-upper-wrapper">

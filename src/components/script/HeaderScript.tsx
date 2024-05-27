@@ -1,10 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function HeaderScript() {
-  // scroll
   const [previousScrollY, setPreviousScrollY] = useState(0);
 
   const handleScroll = (e: any) => {

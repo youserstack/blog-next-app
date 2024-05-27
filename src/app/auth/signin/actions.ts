@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signin(prevState: any, formData: FormData) {
-  console.log("\nsignin-action");
+  console.log("\n<signin-server-action>");
 
   // Connect to db
   await connectDB();
@@ -21,7 +21,7 @@ export async function signin(prevState: any, formData: FormData) {
     body: JSON.stringify({ email, password }),
   });
   const result = await response.json();
-  console.log({ "로그인 결과": result });
+  // console.log({ "로그인 결과": result });
 
   // Redirect to protected page
   if (response.ok) {

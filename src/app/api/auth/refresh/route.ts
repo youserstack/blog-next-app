@@ -17,6 +17,7 @@ export async function GET(request: Request) {
       { status: 401, statusText: "no refreshToken" }
     );
   }
+  // console.log({ refreshToken });
 
   // Validate the token (토큰 검증)
   // try {
@@ -56,6 +57,7 @@ export async function GET(request: Request) {
   // });
   // console.log({ refreshToken, newRefreshToken });
   // return Response.json({ accessToken: newAccessToken });
+  return Response.json({ message: "testing..." });
 }
 
 // Lookup the user (유저 조회)

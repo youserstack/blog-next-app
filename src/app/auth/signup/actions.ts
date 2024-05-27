@@ -5,8 +5,6 @@ import { redirect } from "next/navigation";
 
 export async function signup(prevState: any, formData: FormData) {
   console.log("\nsignup-page > server-action");
-
-  // Connect to db
   await connectDB();
 
   // Get data
@@ -21,7 +19,7 @@ export async function signup(prevState: any, formData: FormData) {
     body: JSON.stringify({ name, email, password }),
   });
   const result = await response.json();
-  console.log({ result });
+  // console.log({ result });
 
   // Redirect to signin-page
   if (response.ok) {
