@@ -2,14 +2,7 @@ import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-// accessToken 으로 데이터 요청하면 토큰을 검증하게 되고
-// 토큰이 만료되면 서버에서 쿠키에 저장된 refreshToken 을 가지고
-// 유효성 검증을 하게 되고
-// 유효하다면 accessToken, refreshToken을 새롭게 발급한다.
-// 하지만, 유효하지 않다면 쿠키에 refreshToken을 제거한다.
-
 // 페이지라우트 접근시 refreshToken 을 검사
-// 단순히 페이지의 접근이기 때문에 refreshToken 만 검사한다.
 // 프로텍티드 페이지인 경우에는 인증된 사용자만 접근을 허용한다. (blog post 생성/수정/삭제)
 // '/auth/signin' 페이지로의 접근시 토근이 유효하다면 홈페이지로 리다이렉트를 한다.
 const PROTECTED_PAGES = ["/protected", "/dashboard", "/posts/create"];
@@ -20,7 +13,7 @@ const PROTECTED_PAGES = ["/protected", "/dashboard", "/posts/create"];
 const PROTECTED_PATHS = ["/api/auth/refresh", "/api/posts/create", "/api/categories/create"];
 
 export default async function middleware(request: NextRequest) {
-  console.log("\n\x1b[32m[middleware]");
+  console.log("\n\x1b[32m[middleware]\x1b[0m");
   const { pathname } = request.nextUrl;
   const refreshToken: any = cookies().get("refreshToken")?.value;
 
@@ -31,7 +24,7 @@ export default async function middleware(request: NextRequest) {
   const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
   if (isProtectedPage) {
     if (!refreshToken) {
-      console.log("no refreshToken");
+      console.log("no refreshToken... redirected to singin page.");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
     try {
@@ -39,7 +32,7 @@ export default async function middleware(request: NextRequest) {
       await jwtVerify(refreshToken, secret, {});
       console.log("valid refreshToken");
     } catch (error) {
-      console.log("invalid refreshToken");
+      console.log("invalid refreshToken... redirected to singin page.");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
   }
@@ -49,7 +42,7 @@ export default async function middleware(request: NextRequest) {
     try {
       const secret = new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET);
       await jwtVerify(refreshToken, secret, {});
-      console.log("valid refreshToken");
+      console.log("valid refreshToken... redirected to home page.");
       return NextResponse.redirect(new URL("/", request.url));
     } catch (error) {
       console.log("invalid refreshToken");

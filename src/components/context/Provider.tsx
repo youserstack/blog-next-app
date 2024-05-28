@@ -17,52 +17,51 @@ export default function Provider({ children }: { children: React.ReactNode }) {
 
   // refresh accessToken
   const router = useRouter();
-  const pathname = usePathname();
 
   const signout = async () => {
-    const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
-    const { message } = await response.json();
-    console.log({ message });
+    try {
+      const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
+      const { message } = await response.json();
+      console.log({ message });
 
-    if (response.ok) {
-      localStorage.removeItem("accessToken");
-      router.push("/auth/signin");
-      router.refresh();
-    } else {
-      console.log("로그아웃을 실패했습니다.");
+      if (response.ok) {
+        localStorage.removeItem("accessToken");
+        router.refresh();
+      } else {
+        console.error("로그아웃을 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("로그아웃 요청 중 에러가 발생했습니다.", error);
+    }
+  };
+
+  const refreshAccessToken = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      const response = await fetch("/api/auth/refresh", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const { newAccessToken } = await response.json();
+        if (!newAccessToken) return;
+        localStorage.setItem("accessToken", newAccessToken);
+      } else {
+        signout();
+      }
+    } catch (error) {
+      console.error("액세스 토큰 갱신을 실패했습니다.", error);
+      signout();
     }
   };
 
   useEffect(() => {
-    const handleRefreshAuth = async () => {
-      try {
-        // accessToken을 리프레시요청한다.
-        const accessToken = localStorage.getItem("accessToken");
-        const response = await fetch("/api/auth/refresh", {
-          headers: {
-            authorization: `bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.ok) {
-          const { newAccessToken } = await response.json();
-          if (!newAccessToken) return;
-          localStorage.setItem("accessToken", newAccessToken);
-        } else {
-          signout();
-        }
-      } catch (error) {
-        console.log("액세스토큰 갱신을 실패했습니다.");
-        console.log({ error });
-      }
-    };
-
-    handleRefreshAuth();
-  }, []);
-
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
+    refreshAccessToken();
+    const intervalId = setInterval(refreshAccessToken, 1000 * 60 * 15); // 15분마다 토큰 갱신 (1초*60*15=15분)
+    return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 클리어
   }, []);
 
   return (
@@ -78,7 +77,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         currentModal,
         setCurrentModal,
 
+        // 인증
         signout,
+        refreshAccessToken,
       }}
     >
       {children}
