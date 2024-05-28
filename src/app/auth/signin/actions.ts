@@ -6,8 +6,6 @@ import { redirect } from "next/navigation";
 
 export async function signin(prevState: any, formData: FormData) {
   console.log("\n<signin-server-action>");
-
-  // Connect to db
   await connectDB();
 
   // Get data

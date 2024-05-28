@@ -15,10 +15,10 @@ async function formAction(formData: FormData) {
 }
 
 export default function Protected() {
-  console.log("\n[protected-page]");
+  console.log("\n[protected]");
 
   return (
-    <main className="protected-page">
+    <main className="protected">
       <section>
         <h1>Protected Page(dashboard, account, ... etc)</h1>
         <form action={formAction}>

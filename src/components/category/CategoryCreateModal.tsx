@@ -19,9 +19,13 @@ export default function CategoryCreateModal() {
     const childCategory = categoryInput.value;
 
     try {
+      const accessToken = localStorage.getItem("accessToken");
       const response = await fetch(`${process.env.ROOT_URL}/api/categories/create`, {
         method: "post",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          authorization: `bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ parentCategories, childCategory }),
       });
       if (!response.ok) return;

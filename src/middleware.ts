@@ -17,7 +17,7 @@ const PROTECTED_PAGES = ["/protected", "/dashboard", "/posts/create"];
 // 백앤드포인트 접근시 accessToken 을 검사 => 무효하다면 refreshAuth (newAccessToken, newRefreshToken)
 // 중요한 데이터이기때문에 반드시 accessToken 이 필요하다.
 // 각각의 백엔드포인트에서는 accessToken으로 접근한 경우에만 허용한다.
-const PROTECTED_PATHS = ["/api/auth/refresh"];
+const PROTECTED_PATHS = ["/api/auth/refresh", "/api/posts/create", "/api/categories/create"];
 
 export default async function middleware(request: NextRequest) {
   console.log("\n\x1b[32m[middleware]");
@@ -30,21 +30,16 @@ export default async function middleware(request: NextRequest) {
 
   const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
   if (isProtectedPage) {
-    console.log("protected page 입니다.");
     if (!refreshToken) {
-      console.log("refreshToken이 없기 때문에 로그인페이지로 리다이렉팅됩니다.");
+      console.log("no refreshToken");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
-
-    // 토큰이 있다면 유효성 검사를 한다.
     try {
-      console.log(">>>refreshToken 유효성 검사중...");
       const secret = new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET);
-      const { payload } = await jwtVerify(refreshToken.value, secret, {});
-      console.log(">>>refreshToken이 유효합니다.");
-      console.log({ payload });
+      await jwtVerify(refreshToken, secret, {});
+      console.log("valid refreshToken");
     } catch (error) {
-      console.log(">>>refreshToken이 유효하지 않습니다.");
+      console.log("invalid refreshToken");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
   }
@@ -52,17 +47,12 @@ export default async function middleware(request: NextRequest) {
   // 인증된 사용자라면 사인인 페이지로의 접근은 필요하지 않으므로 홈페이지로 리다이렉트한다.
   if (pathname.startsWith("/auth/signin") && refreshToken) {
     try {
-      console.log(">>>refreshToken 유효성 검사중...");
       const secret = new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET);
-      const { payload } = await jwtVerify(refreshToken.value, secret, {});
-      console.log(">>>refreshToken이 유효합니다.");
+      await jwtVerify(refreshToken, secret, {});
+      console.log("valid refreshToken");
       return NextResponse.redirect(new URL("/", request.url));
     } catch (error) {
-      console.log("refreshToken이 유효하지 않습니다.");
-      console.log(">>>로그아웃중...");
-      const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
-      const { message } = await response.json();
-      console.log(">>>", { message });
+      console.log("invalid refreshToken");
     }
   }
 

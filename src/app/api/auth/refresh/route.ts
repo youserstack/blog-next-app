@@ -1,15 +1,15 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import { generateAccessToken, generateRefreshToken } from "@/lib/utils/auth";
-import User from "@/lib/models/User";
 import connectDB from "@/lib/config/connectDB";
+import { generateAccessToken, generateRefreshToken } from "@/lib/utils/auth";
 import { revalidatePath } from "next/cache";
+import User from "@/lib/models/User";
 
 export async function GET(request: Request) {
   console.log("\n\x1b[32m[api/auth/refresh]\x1b[0m");
   await connectDB();
 
-  // Read the token (토큰 추출)
+  // Read the token (extraction)
   const refreshToken = cookies().get("refreshToken")?.value;
   if (!refreshToken) {
     return Response.json(
@@ -17,29 +17,25 @@ export async function GET(request: Request) {
       { status: 401, statusText: "no refreshToken" }
     );
   }
-  // console.log({ refreshToken });
 
   // Validate the token (토큰 검증)
-  // try {
-  //   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string);
-  // } catch (error) {
-  //   console.log('유효하지 않은 refreshToken 입니다.')
-  //   cookies().delete("refreshToken");
-  //   return Response.json({ error: "forbiden" }, { status: 403 });
-  // }
 
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string, (err, user) => {
-    if (err) return Response.json({ error: "forbiden" }, { status: 403 });
-    console.log("refreshToken이 유효합니다.");
-    console.log({ user });
-    // const newAccessToken = generateAccessToken({ name: user.name });
-    // Response.json({ accessToken: newAccessToken });
-  });
-
-  // Issue the new tokens (새로운 토큰 발급)
-  // const payload = { email: foundUser.email, password: foundUser.password };
-  // const newAccessToken = generateAccessToken(payload);
-  // const newRefreshToken = generateRefreshToken(payload);
+  try {
+    const user: any = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string);
+    console.log("valid refreshToken.");
+    console.log("newAccessToken issued.");
+    const payload = { email: user.email };
+    const newAccessToken = generateAccessToken(payload);
+    return Response.json({ newAccessToken }, { status: 200 });
+  } catch (error: any) {
+    console.log(error.message);
+    // cookies().delete("refreshToken");
+    // revalidatePath(request.url);
+    return Response.json(
+      { error: "unauthorized" },
+      { status: 401, statusText: "invalid refreshToken" }
+    );
+  }
 
   // Set the tokens
   // 데이터베이스에 리프레시 토큰 저장
@@ -57,7 +53,6 @@ export async function GET(request: Request) {
   // });
   // console.log({ refreshToken, newRefreshToken });
   // return Response.json({ accessToken: newAccessToken });
-  return Response.json({ message: "testing..." });
 }
 
 // Lookup the user (유저 조회)

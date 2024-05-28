@@ -13,12 +13,13 @@ export function validatePassword(password: string) {
 }
 
 // Access Token의 유효 기간이 짧고, Refresh Token의 유효 기간이 더 길게 설정해야한다.
-export function generateAccessToken(payload: { email: string; password: string }) {
-  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: "30s" });
+export function generateAccessToken(payload: { email: string }) {
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: "10s" });
   // return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: "2h" });
 }
 
-export function generateRefreshToken(payload: { email: string; password: string }) {
-  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: "1m" });
-  // return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: "1d" });
+export function generateRefreshToken(payload: { email: string }) {
+  // return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: "1m" });
+  // return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: "15s" });
+  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: "1d" });
 }
