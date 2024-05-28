@@ -59,19 +59,17 @@ export async function GET(request: Request) {
   }
 
   // validation
-  let newAccessToken;
   try {
     const user: any = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string);
     console.log("valid refreshToken.");
     console.log("newAccessToken issued.");
     const payload = { email: user.email };
-    newAccessToken = generateAccessToken(payload);
+    const newAccessToken = generateAccessToken(payload);
+    return Response.json({ newAccessToken }, { status: 200 });
   } catch (error: any) {
     console.error("액세스 토큰 갱신을 실패했습니다.", error.message);
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
-
-  return Response.json({ newAccessToken }, { status: 200 });
 }
 
 //   cookies().delete("refreshToken");

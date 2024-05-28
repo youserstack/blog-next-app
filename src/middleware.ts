@@ -10,7 +10,12 @@ const PROTECTED_PAGES = ["/protected", "/dashboard", "/posts/create"];
 // 백앤드포인트 접근시 accessToken 을 검사 => 무효하다면 refreshAuth (newAccessToken, newRefreshToken)
 // 중요한 데이터이기때문에 반드시 accessToken 이 필요하다.
 // 각각의 백엔드포인트에서는 accessToken으로 접근한 경우에만 허용한다.
-const PROTECTED_PATHS = ["/api/auth/refresh", "/api/posts/create", "/api/categories/create"];
+const PROTECTED_API = [
+  "/api/auth/refresh",
+  "/api/posts/create",
+  "/api/categories/create",
+  "/api/test",
+];
 
 export default async function middleware(request: NextRequest) {
   console.log("\n\x1b[32m[middleware]\x1b[0m");
@@ -49,6 +54,23 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
+  const isProtectedApiPaths = PROTECTED_API.some((path: string) => pathname.startsWith(path));
+  const accessToken = request.headers.get("Authorization")?.split(" ")[1];
+  if (isProtectedApiPaths) {
+    if (!accessToken) {
+      console.log("no accessToken");
+      return Response.json({ message: "no accessToken" }, { status: 401 });
+    }
+    try {
+      const secret = new TextEncoder().encode(process.env.ACCESS_TOKEN_SECRET);
+      await jwtVerify(accessToken, secret, {});
+      console.log("valid accessToken");
+    } catch (error) {
+      console.log("invalid accessToken");
+      return Response.json({ message: "invalid accessToken" }, { status: 403 });
+    }
+  }
+
   // 커스텀 헤더 설정
   // 서버 컴포넌트에서 database query 를 위한 http request url 을 헤더에 커스텀 데이터를 설정한다.
   const headers = new Headers(request.headers);
@@ -60,10 +82,11 @@ export const config = {
   matcher: [
     "/auth/signin",
     "/categories/:path*",
-    // protected pages or paths
+    // protected pages or api
     "/posts/:path*", // 포스트 읽기만 공개한다. 포스트 쓰기, 수정, 삭제는 인증된 사용자에게 공개한다. (accessToken으로 접근)
     "/protected/:path*",
     "/dashboard",
+    "/api/test",
   ],
 };
 
