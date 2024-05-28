@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   console.log("\n\x1b[32m[api/auth/refresh]\x1b[0m");
   await connectDB();
 
-  // Read the token (extraction)
+  // extraction
   const refreshToken = cookies().get("refreshToken")?.value;
   if (!refreshToken) {
     return Response.json(
@@ -18,70 +18,61 @@ export async function GET(request: Request) {
     );
   }
 
-  // Validate the token (토큰 검증)
+  // query
+  const foundUser = await User.findOne({ refreshToken }).exec();
+  if (!foundUser) {
+    console.log("데이터베이스에서는 요청된 refreshToken을 가진 사용자를 찾을 수 없습니다.");
+    try {
+      const decoded: any = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string);
+      console.log("refreshToken의 유효성 검사를 진행하였고, 이 토큰은 유효합니다.");
 
+      const hackedUser = await User.findOne({ email: decoded.email });
+      if (!hackedUser) return;
+      console.log(
+        "이 토큰으로부터 이메일을 추출하여 다시 데이터베이스에서 조회를 하였고, 그 사용자는 다음과 같습니다.",
+        { hackedUser },
+        "해킹된 것으로 간주하고 보안을 위해서 해킹된 사용자의 refreshToken을 초기화합니다."
+      );
+      hackedUser.refreshToken = "해킹을 대비한 초기화";
+      await hackedUser.save();
+      console.log({ hackedUser });
+
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    } catch (error: any) {
+      console.error("유효하지 않은 refreshToken입니다.", error.message);
+      return Response.json(
+        { error: "유효하지 않은 refreshToken입니다." },
+        {
+          status: 401,
+          statusText:
+            "데이터베이스에서 조회는 되지만, 현재의 요청된 refreshToken은 유효하지 않습니다.",
+        }
+      );
+    }
+
+    // async (error: any, decoded: any) => {
+    //   // 혹시 모를 해킹을 대비해서, 해킹사용자가 접근했다면, 데이터베이스의 원래 사용자의 refreshToken을 초기화해준다.
+    //   hackedUser.refreshToken = "해킹을 대비한 초기화";
+    //   await hackedUser.save();
+    //   return true;
+    // }
+  }
+
+  // validation
+  let newAccessToken;
   try {
     const user: any = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string);
     console.log("valid refreshToken.");
     console.log("newAccessToken issued.");
     const payload = { email: user.email };
-    const newAccessToken = generateAccessToken(payload);
-    return Response.json({ newAccessToken }, { status: 200 });
+    newAccessToken = generateAccessToken(payload);
   } catch (error: any) {
-    console.log(error.message);
-    // cookies().delete("refreshToken");
-    // revalidatePath(request.url);
-    return Response.json(
-      { error: "unauthorized" },
-      { status: 401, statusText: "invalid refreshToken" }
-    );
+    console.error("액세스 토큰 갱신을 실패했습니다.", error.message);
+    return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  // Set the tokens
-  // 데이터베이스에 리프레시 토큰 저장
-  // 쿠키에 리프레시 토큰 저장하고 페이로드에 액세스 토큰 저장
-  // foundUser.refreshToken = newRefreshToken;
-  // const savedUser = await foundUser.save();
-  // // console.log({ savedUser });
-  // cookies().set("refreshToken", newRefreshToken, {
-  //   secure: true,
-  //   httpOnly: true,
-  //   // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
-  //   expires: Date.now() + 1000 * 60 * 60 * 24,
-  //   path: "/",
-  //   sameSite: "strict",
-  // });
-  // console.log({ refreshToken, newRefreshToken });
-  // return Response.json({ accessToken: newAccessToken });
+  return Response.json({ newAccessToken }, { status: 200 });
 }
-
-// Lookup the user (유저 조회)
-// const foundUser = await User.findOne({ refreshToken }).exec();
-// if (!foundUser) {
-//   console.log("no foundUser");
-//   console.log("refreshToken 유효성 검사를 통해 재사용된 토큰인지 검사!");
-//   jwt.verify(
-//     refreshToken,
-//     process.env.REFRESH_TOKEN_SECRET as string,
-//     async (error: any, decoded: any) => {
-//       if (error) {
-//         console.log("verification error : ", { error });
-//         return Response.json({ error: "forbidden" }, { status: 403 });
-//       }
-
-//       // 리프레시 토큰이 만료되지 않은 경우 로그 남기기
-//       console.log("attempted refreshToken reuse (유효기간이 만료되지 않음)");
-
-//       // 데이터베이스에서 사용자를 찾기
-//       const hackedUser = await User.findOne({ email: decoded.email });
-//       if (!hackedUser) return;
-//       console.log({ hackedUser });
-
-//       // 혹시 모를 해킹을 대비해서, 해킹사용자가 접근했다면, 데이터베이스의 원래 사용자의 refreshToken을 초기화해준다.
-//       hackedUser.refreshToken = "해킹을 대비한 초기화";
-//       await hackedUser.save();
-//     }
-//   );
 
 //   cookies().delete("refreshToken");
 //   revalidatePath(request.url);

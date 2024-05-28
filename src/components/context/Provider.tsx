@@ -28,7 +28,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem("accessToken");
         router.refresh();
       } else {
-        console.error("로그아웃을 실패했습니다.");
+        throw new Error("로그아웃을 실패했습니다.");
       }
     } catch (error) {
       console.error("로그아웃 요청 중 에러가 발생했습니다.", error);
@@ -38,6 +38,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   const refreshAccessToken = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) return;
       const response = await fetch("/api/auth/refresh", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -50,7 +51,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         if (!newAccessToken) return;
         localStorage.setItem("accessToken", newAccessToken);
       } else {
-        signout();
+        throw new Error("no newAccessToken");
       }
     } catch (error) {
       console.error("액세스 토큰 갱신을 실패했습니다.", error);
