@@ -1,8 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
-
 export async function createPost(formData: FormData, accessToken: string) {
   // console.log("\n<createPost>");
 
@@ -23,10 +20,10 @@ export async function createPost(formData: FormData, accessToken: string) {
   const result = await response.json();
 
   if (response.ok) {
-    const pathname: any = headers().get("pathname");
-    revalidatePath(pathname);
+    console.log({ result });
     return { status: "ok", message: "포스트 등록 완료" };
   } else {
+    console.log({ result });
     return { status: "error", message: "포스트 등록 실패", error: result.error };
   }
 }

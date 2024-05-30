@@ -22,8 +22,15 @@ export default async function Category({
   // breadcrumbs 를 위해서 url params 를 decoding 한다.
   const categorySegments: string[] = params.category.map((v: any) => decodeURIComponent(v));
   const categoryPath: string = params.category.map((v: any) => `/${v}`).join("");
-  const page: string = searchParams.page || 1;
-  const { posts } = await getPosts(categoryPath, page);
+  const page: number = parseInt(searchParams.page) || 1;
+  const { totalPostsLength, posts } = await getPosts(categoryPath, page);
 
-  return <PostListArticle categorySegments={categorySegments} posts={posts} />;
+  return (
+    <PostListArticle
+      categorySegments={categorySegments}
+      totalPostsLength={totalPostsLength}
+      posts={posts}
+      page={page}
+    />
+  );
 }

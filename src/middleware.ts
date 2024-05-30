@@ -25,6 +25,10 @@ export default async function middleware(request: NextRequest) {
   const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
   const isProtectedApi = PROTECTED_APIs.some((api: string) => pathname.startsWith(api));
 
+  // 커스텀 헤더 설정
+  const headers = new Headers(request.headers);
+  headers.set("pathname", pathname);
+
   // page, api를 구분하여 로깅한다.
   if (pathname.startsWith("/api")) {
     if (isProtectedApi) console.log({ protectedApi: pathname });
@@ -57,8 +61,10 @@ export default async function middleware(request: NextRequest) {
     }
     try {
       const secret = new TextEncoder().encode(process.env.ACCESS_TOKEN_SECRET);
-      await jwtVerify(accessToken, secret, {});
+      const decoded = await jwtVerify(accessToken, secret, {});
       console.log("엑세스 토큰이 유효합니다.");
+      const email = decoded.payload.email as string;
+      headers.set("email", email);
     } catch (error) {
       const message = "엑세스 토큰이 유효하지 않습니다. (protected api > jwtVerify error)";
       console.log(message);
@@ -78,9 +84,6 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
-  // 커스텀 헤더 설정
-  const headers = new Headers(request.headers);
-  headers.set("pathname", pathname);
   return NextResponse.next({ request: { headers } });
 }
 
@@ -99,6 +102,7 @@ export const config = {
     // protected api
     // "/api/auth/refresh",
     "/api/test",
+    "/api/posts/create",
   ],
 };
 

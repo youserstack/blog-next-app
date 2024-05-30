@@ -3,9 +3,15 @@ import React from "react";
 import CategoryCreateButton from "@/components/category/CategoryCreateButton";
 import PostCreateButton from "@/components/post/PostCreateButton";
 import PostList from "@/components/post/PostList";
+import Pagination from "@/components/ui/Pagination";
 import "../../styles/PostListArticle.scss";
 
-export default async function PostListArticle({ categorySegments, posts }: any) {
+export default async function PostListArticle({
+  categorySegments,
+  posts,
+  totalPostsLength,
+  page,
+}: any) {
   return (
     <article className="post-list-article">
       <div className="article-header">
@@ -28,6 +34,7 @@ export default async function PostListArticle({ categorySegments, posts }: any) 
       </div>
       <div className="content">
         <PostList posts={posts} />
+        <Pagination page={page} totalPostsLength={totalPostsLength} />
       </div>
     </article>
   );

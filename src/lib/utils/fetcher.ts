@@ -10,7 +10,7 @@ export async function getPost(postId: any) {
   return response.json();
 }
 
-export async function getPosts(categoryPath: any, page: string) {
+export async function getPosts(categoryPath: any, page: number) {
   const response = await fetch(`${process.env.ROOT_URL}/api/posts`, {
     method: "post",
     headers: { "Content-Type": "application/json" },

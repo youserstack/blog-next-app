@@ -4,7 +4,7 @@ import { Context } from "@/components/context/Provider";
 import { useContext, useEffect } from "react";
 
 export default function Dashboard() {
-  console.log("\n\x1b[34m[pages/dashboard]\x1b[0m");
+  // console.log("\n\x1b[34m[pages/dashboard]\x1b[0m");
 
   const { refreshAccessToken }: any = useContext(Context);
 
@@ -17,14 +17,12 @@ export default function Dashboard() {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        if (response.ok) {
-          const data = await response.json();
-          console.log({ data });
-        } else {
-          throw new Error("why not?");
-        }
+        const result = await response.json();
+        if (response.ok) console.log(response.url, result);
+        else throw new Error(result.message);
       } catch (error: any) {
-        console.log(error.message);
+        console.error(error.message);
+        console.error("다시 엑세스 토큰을 갱신합니다.");
         await refreshAccessToken();
         fetchSomething();
       }
