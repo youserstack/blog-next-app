@@ -14,7 +14,7 @@ export async function GET(request: Request) {
   if (!refreshToken) {
     return Response.json(
       { error: "no refreshToken" },
-      { status: 401, statusText: "no refreshToken" }
+      { status: 401, statusText: "리프레시 토큰이 없습니다." }
     );
   }
 
@@ -49,13 +49,6 @@ export async function GET(request: Request) {
         }
       );
     }
-
-    // async (error: any, decoded: any) => {
-    //   // 혹시 모를 해킹을 대비해서, 해킹사용자가 접근했다면, 데이터베이스의 원래 사용자의 refreshToken을 초기화해준다.
-    //   hackedUser.refreshToken = "해킹을 대비한 초기화";
-    //   await hackedUser.save();
-    //   return true;
-    // }
   }
 
   // validation

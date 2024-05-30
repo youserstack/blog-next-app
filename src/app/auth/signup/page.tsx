@@ -5,6 +5,8 @@ import { useFormState } from "react-dom";
 import "./page.scss";
 
 export default function Signup() {
+  console.log("\n\x1b[34m[pages/signup]\x1b[0m");
+
   const [error, action] = useFormState(signup, undefined);
 
   return (

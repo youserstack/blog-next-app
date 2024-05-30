@@ -10,7 +10,8 @@ import "./page.scss";
 // }
 
 export default async function PostId({ params }: { params: { category: string[] } }) {
-  console.log("\n[post/[...id]]");
+  console.log("\n\x1b[34m[pages/post/[...id]]\x1b[0m");
+
   // console.log({ params });
 
   return (

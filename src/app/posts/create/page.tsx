@@ -7,7 +7,7 @@ import { Context } from "@/components/context/Provider";
 import "./page.scss";
 
 export default function PostCreate() {
-  // console.log("\n[post-create-page]");
+  console.log("\n\x1b[34m[pages/post-create]\x1b[0m");
 
   const [state, formAction]: any = useFormState((prevState: any, formData: FormData) => {
     createPost(formData, localStorage.getItem("accessToken") as string);
