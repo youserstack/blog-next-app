@@ -1,13 +1,9 @@
-import { getPost } from "@/lib/utils/fetcher";
-import Link from "next/link";
 import React from "react";
-import "../../styles/PostItemArticle.scss";
+import "../../styles/PostArticle.scss";
 
-export default async function PostItemArticle({ postId }: any) {
-  const { post } = await getPost(postId);
-
+export default async function PostArticle({ post }: any) {
   return (
-    <article className="post-item-article">
+    <article className="post-article">
       <div className="content">
         <div className="content-header">
           <small>

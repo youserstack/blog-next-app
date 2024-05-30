@@ -2,13 +2,18 @@ import Link from "next/link";
 import React from "react";
 import CategoryCreateButton from "@/components/category/CategoryCreateButton";
 import PostCreateButton from "@/components/post/PostCreateButton";
-import PostList from "@/components/post/PostList";
+import PostCardList from "@/components/post/PostCardList";
 import Pagination from "@/components/ui/Pagination";
-import "../../styles/PostListArticle.scss";
+import "../../styles/CategorizedPostCardListArticle.scss";
 
-export default async function PostListArticle({ categorySegments, posts, totalCount, page }: any) {
+export default async function CategorizedPostCardListArticle({
+  categorySegments,
+  posts,
+  totalCount,
+  page,
+}: any) {
   return (
-    <article className="post-list-article">
+    <article className="categorized-post-list-article">
       <div className="article-header">
         <div className="breadcrumb">
           {categorySegments?.map((v: string, i: number) => (
@@ -28,7 +33,7 @@ export default async function PostListArticle({ categorySegments, posts, totalCo
         </div>
       </div>
       <div className="content">
-        <PostList posts={posts} />
+        <PostCardList posts={posts} />
         <Pagination page={page} totalCount={totalCount} />
       </div>
     </article>

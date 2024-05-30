@@ -1,4 +1,4 @@
-import PostListArticle from "@/components/post/PostListArticle";
+import CategorizedPostCardListArticle from "@/components/category/CategorizedPostCardListArticle";
 import { getPosts } from "@/lib/utils/fetcher";
 // import "./page.scss";
 
@@ -26,7 +26,7 @@ export default async function Category({
   const { totalCount, posts } = await getPosts(categoryPath, page);
 
   return (
-    <PostListArticle
+    <CategorizedPostCardListArticle
       categorySegments={categorySegments} // breadcrumb
       totalCount={totalCount} // pagination
       posts={posts} // list
