@@ -1,7 +1,7 @@
 "use server";
 
 export async function createPost(formData: FormData, accessToken: string) {
-  // console.log("\n<createPost>");
+  console.log("\x1b[35m<createPost>\x1b[0m");
 
   const category = formData.get("category");
   const title = formData.get("title");
@@ -9,21 +9,21 @@ export async function createPost(formData: FormData, accessToken: string) {
   const author = formData.get("author");
   const tags = formData.get("tags");
 
-  const response = await fetch(`${process.env.ROOT_URL}/api/posts/create`, {
-    method: "post",
-    headers: {
-      authorization: `bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ category, title, content, author, tags }),
-  });
-  const result = await response.json();
-
-  if (response.ok) {
-    console.log({ result });
-    return { status: "ok", message: "포스트 등록 완료" };
-  } else {
-    console.log({ result });
-    return { status: "error", message: "포스트 등록 실패", error: result.error };
+  try {
+    const response = await fetch(`${process.env.ROOT_URL}/api/posts/create`, {
+      method: "post",
+      headers: {
+        authorization: `bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ category, title, content, author, tags }),
+    });
+    if (response.ok) {
+      const { newPost } = await response.json();
+      return { newPost };
+    }
+  } catch (error: any) {
+    console.error(error);
+    return { error: error.message };
   }
 }

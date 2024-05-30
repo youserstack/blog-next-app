@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 // import { redirect } from "next/navigation";
 
 export async function signin(prevState: any, formData: FormData) {
-  console.log("\n<signin-server-action>");
+  console.log("\x1b[35m<signin>\x1b[0m");
   await connectDB();
 
   // Get data

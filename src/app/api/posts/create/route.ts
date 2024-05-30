@@ -9,6 +9,9 @@ export async function POST(request: Request) {
   // extraction
   const email = request.headers.get("email");
   const post = await request.json();
+  const { category, title, content, author, tags } = post;
+  if (!category || !title || !content || !author || !tags)
+    throw new Error("포스트 게시물의 내용물을 누락하였습니다.");
   // console.log({ post });
 
   // query

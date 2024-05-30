@@ -2,9 +2,9 @@
 
 import { createPost } from "@/app/posts/create/actions";
 import { Context } from "@/components/context/Provider";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import "../../styles/PostCreateModal.scss";
 
 function Button() {
@@ -18,17 +18,20 @@ function Button() {
 }
 
 export default function PostCreateModal() {
-  // action
+  const router = useRouter();
   const { setCurrentModal }: any = useContext(Context);
-  const [state, formAction]: any = useFormState(
-    // 래퍼함수 : 클라이언트와 서버의 작업을 순서대로 처리하기 위해서 존재한다.
+  const [state, formAction] = useFormState(
+    // 엑세스 토큰을 서버액션에 넘기기 위해서 래퍼함수를 사용한다.
     async (currentState: any, formData: FormData) => {
-      const result = await createPost(formData, localStorage.getItem("accessToken") as string);
-      setCurrentModal("");
-      return result;
+      const response = await createPost(formData, localStorage.getItem("accessToken") as string);
+      return response;
     },
     null
   );
+
+  // useEffect(() => {
+  //   console.log({ state });
+  // }, [state]);
 
   // options
   // 각 페이지에서 포스트를 생성할 경우에 사용할 값
@@ -36,6 +39,11 @@ export default function PostCreateModal() {
   const currentCategoryPath = categorySegments.map((segment: any) => `/${segment}`).join("");
   const decodedCategory = decodeURI(categorySegments[categorySegments.length - 1]);
   // console.log({ currentCategoryPath, decodedCategory });
+
+  if (state?.newPost) {
+    setCurrentModal("");
+    router.refresh();
+  }
 
   return (
     <div className="post-create-modal" onClick={(e) => e.stopPropagation()}>
