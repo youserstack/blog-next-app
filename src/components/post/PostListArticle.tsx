@@ -6,12 +6,7 @@ import PostList from "@/components/post/PostList";
 import Pagination from "@/components/ui/Pagination";
 import "../../styles/PostListArticle.scss";
 
-export default async function PostListArticle({
-  categorySegments,
-  posts,
-  totalPostsLength,
-  page,
-}: any) {
+export default async function PostListArticle({ categorySegments, posts, totalCount, page }: any) {
   return (
     <article className="post-list-article">
       <div className="article-header">
@@ -34,7 +29,7 @@ export default async function PostListArticle({
       </div>
       <div className="content">
         <PostList posts={posts} />
-        <Pagination page={page} totalPostsLength={totalPostsLength} />
+        <Pagination page={page} totalCount={totalCount} />
       </div>
     </article>
   );

@@ -9,15 +9,21 @@ import "./page.scss";
 //   }))
 // }
 
-export default async function PostId({ params }: { params: { category: string[] } }) {
+export default async function PostId({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: any;
+}) {
   console.log("\n\x1b[34m[pages/post/[...id]]\x1b[0m");
 
-  // console.log({ params });
+  const postId: string = params.id;
 
   return (
     <main className="post-page">
       <section>
-        <PostItemArticle />
+        <PostItemArticle postId={postId} />
       </section>
       <section></section>
     </main>

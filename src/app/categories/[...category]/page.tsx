@@ -23,14 +23,14 @@ export default async function Category({
   const categorySegments: string[] = params.category.map((v: any) => decodeURIComponent(v));
   const categoryPath: string = params.category.map((v: any) => `/${v}`).join("");
   const page: number = parseInt(searchParams.page) || 1;
-  const { totalPostsLength, posts } = await getPosts(categoryPath, page);
+  const { totalCount, posts } = await getPosts(categoryPath, page);
 
   return (
     <PostListArticle
-      categorySegments={categorySegments}
-      totalPostsLength={totalPostsLength}
-      posts={posts}
-      page={page}
+      categorySegments={categorySegments} // breadcrumb
+      totalCount={totalCount} // pagination
+      posts={posts} // list
+      page={page} // pagination
     />
   );
 }

@@ -5,7 +5,7 @@ import "../../styles/Pagination.scss";
 
 const ITEMS_PER_PAGE = 5;
 
-export default function Pagination({ page, totalPostsLength }: any) {
+export default function Pagination({ page, totalCount }: any) {
   const router = useRouter();
 
   const prev = () => router.push(`?page=${page - 1}`);
@@ -19,7 +19,7 @@ export default function Pagination({ page, totalPostsLength }: any) {
       <button
         className="next"
         onClick={next}
-        disabled={page === Math.ceil(totalPostsLength / ITEMS_PER_PAGE)}
+        disabled={page === Math.ceil(totalCount / ITEMS_PER_PAGE)}
       >
         next
       </button>
