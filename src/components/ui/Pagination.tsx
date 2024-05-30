@@ -19,7 +19,7 @@ export default function Pagination({ page, totalCount }: any) {
       <button
         className="next"
         onClick={next}
-        disabled={page === Math.ceil(totalCount / ITEMS_PER_PAGE)}
+        disabled={page >= Math.ceil(totalCount / ITEMS_PER_PAGE)}
       >
         next
       </button>
