@@ -4,12 +4,6 @@
   border: 1px dashed #aaa;
   padding: 1rem;
 
-  .breadcrumb {
-    display: flex;
-    gap: 10px;
-    border: 1px dashed #aaa;
-  }
-
   .content {
     border: 1px dashed #aaa;
     margin-top: 1rem;
@@ -20,10 +14,19 @@
     .content-header {
       padding: 1rem 0;
       border-bottom: 1px solid #efefef;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
       small {
         font-size: 12px;
         display: flex;
         gap: 2rem;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 1rem;
       }
     }
   }

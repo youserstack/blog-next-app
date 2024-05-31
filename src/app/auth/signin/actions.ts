@@ -4,7 +4,7 @@ import connectDB from "@/lib/config/connectDB";
 import { cookies } from "next/headers";
 
 export async function signin(prevState: any, formData: FormData) {
-  console.log("\x1b[35m<signin>\x1b[0m");
+  console.log("\n\x1b[35m<signin>\x1b[0m");
   await connectDB();
 
   const email = formData.get("email");
