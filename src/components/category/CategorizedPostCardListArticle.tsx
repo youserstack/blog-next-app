@@ -4,6 +4,7 @@ import CategoryCreateButton from "@/components/category/CategoryCreateButton";
 import PostCreateButton from "@/components/post/PostCreateButton";
 import PostCardList from "@/components/post/PostCardList";
 import Pagination from "@/components/ui/Pagination";
+import CategoryOptionButton from "@/components/category/CategoryOptionButton";
 import "../../styles/CategorizedPostCardListArticle.scss";
 
 export default async function CategorizedPostCardListArticle({
@@ -30,6 +31,7 @@ export default async function CategorizedPostCardListArticle({
         </div>
         <div className="manager">
           <PostCreateButton />
+          <CategoryOptionButton />
         </div>
       </div>
       <div className="content">

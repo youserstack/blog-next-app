@@ -1,6 +1,5 @@
 import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
-import { revalidatePath } from "next/cache";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]/GET]\x1b[0m");
@@ -35,9 +34,6 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   const postId = params.id;
   const deletedPost = await Post.findByIdAndDelete(postId);
   console.log({ deletedPost });
-
-  // revalidatePath(`/categories/${deletedPost.category.slice(1)}`);
-  revalidatePath("/", "layout");
 
   return Response.json({ deletedPost });
 }

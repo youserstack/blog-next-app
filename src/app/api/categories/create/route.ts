@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   console.log({ parentCategories, childCategory });
 
   // 클라이언트의 라우터 캐시를 무효화한다.
-  revalidatePath("/categories/[...category]", "page");
+  // revalidatePath("/categories/[...category]", "page");
 
   // 카테고리 0개 (parentCAtegories === [])
   if (parentCategories.length === 0) {
