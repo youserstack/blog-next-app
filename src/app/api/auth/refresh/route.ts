@@ -1,8 +1,7 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import connectDB from "@/lib/config/connectDB";
-import { generateAccessToken, generateRefreshToken } from "@/lib/utils/auth";
-import { revalidatePath } from "next/cache";
+import { generateAccessToken } from "@/lib/utils/auth";
 import User from "@/lib/models/User";
 
 export async function GET(request: Request) {
@@ -64,8 +63,3 @@ export async function GET(request: Request) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 }
-
-//   cookies().delete("refreshToken");
-//   revalidatePath(request.url);
-//   return Response.json({ error: "forbidden" }, { status: 403 });
-// }

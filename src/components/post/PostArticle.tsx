@@ -35,7 +35,7 @@ export default function PostArticle({ post }: any) {
   const handleClickDeleteButton = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await deletePost(post._id);
-    router.push(`/categories/${post.category.split("/")[1]}`);
+    router.push(`/categories/${post.category.split("/").join("/")}`);
     router.refresh();
   };
 

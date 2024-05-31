@@ -37,6 +37,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   console.log({ deletedPost });
 
   // revalidatePath(`/categories/${deletedPost.category.slice(1)}`);
+  revalidatePath("/", "layout");
 
   return Response.json({ deletedPost });
 }

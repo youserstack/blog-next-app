@@ -4,15 +4,13 @@ import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/categories/create]\x1b[0m");
-
-  // Connect to db
   await connectDB();
 
-  // Get data
+  // extraction
   const { parentCategories, childCategory } = await request.json();
   console.log({ parentCategories, childCategory });
 
-  // 해당경로로 들어온 요청시 캐시된 데이터를 없애고 해당경로의 페이지를 재생성한다.
+  // 클라이언트의 라우터 캐시를 무효화한다.
   revalidatePath("/categories/[...category]", "page");
 
   // 카테고리 0개 (parentCAtegories === [])
