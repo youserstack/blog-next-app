@@ -1,6 +1,6 @@
 import CategorizedPostCardListArticle from "@/components/category/CategorizedPostCardListArticle";
 import { getPosts } from "@/lib/utils/fetcher";
-// import "./page.scss";
+import "./page.scss";
 
 // export async function generateStaticParams() {
 //   const posts = await fetch('https://.../posts').then((res) => res.json())
@@ -26,11 +26,13 @@ export default async function Category({
   const { totalCount, posts } = await getPosts(categoryPath, page);
 
   return (
-    <CategorizedPostCardListArticle
-      categorySegments={categorySegments} // breadcrumb
-      totalCount={totalCount} // pagination
-      posts={posts} // list
-      page={page} // pagination
-    />
+    <div className="category">
+      <CategorizedPostCardListArticle
+        categorySegments={categorySegments} // breadcrumb
+        totalCount={totalCount} // pagination
+        posts={posts} // list
+        page={page} // pagination
+      />
+    </div>
   );
 }

@@ -13,14 +13,16 @@ export async function DELETE(request: Request) {
   await connectDB();
 
   // extraction
-  const { categories, parentCategories, childCategory } = await request.json();
+  const { categories } = await request.json();
+  // const { categories, parentCategories, childCategory } = await request.json();
   const length = categories.length;
-  console.log({ categories, parentCategories, childCategory });
+  console.log({ categories });
 
   // query
   if (length === 1) {
     // 최상위 카테고리 삭제
     await Category.findOneAndDelete({ name: categories[0] });
+    console.log({ deletedCategory: categories[0] });
   } else if (length === 2) {
     // 최상위 카테고리 찾기
     let category = await Category.findOne({ name: categories[0] });
@@ -31,6 +33,7 @@ export async function DELETE(request: Request) {
       (sub: any) => sub.name !== categories[1]
     );
     await category.save();
+    console.log({ deletedCategory: categories[1] });
   } else if (length === 3) {
     // 최상위 카테고리 찾기
     let category = await Category.findOne({ name: categories[0] });
@@ -45,9 +48,10 @@ export async function DELETE(request: Request) {
       (sub: any) => sub.name !== categories[2]
     );
     await category.save();
+    console.log({ deletedCategory: categories[2] });
   }
 
-  return Response.json({ message: "void..." }, { status: 200 });
+  return Response.json({ deletedCategory: categories[categories.length - 1] }, { status: 200 });
 }
 // export async function DELETE(request: Request) {
 //   console.log("\n\x1b[32m[api/categories/DELETE]\x1b[0m");
