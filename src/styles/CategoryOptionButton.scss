@@ -1,6 +1,9 @@
 .category-option-button {
   position: relative;
-  cursor: pointer;
+
+  svg {
+    cursor: pointer;
+  }
 
   .option-layer {
     position: absolute;
@@ -10,8 +13,21 @@
     box-shadow: 4px 4px 10px 2px rgba(0, 0, 0, 0.25);
 
     ul {
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
       li {
-        padding: 5px 10px;
+        .delete-button {
+          background-color: #d9534f;
+          color: white;
+          padding: 3px;
+          white-space: nowrap;
+          &:hover {
+            background-color: black;
+          }
+        }
       }
     }
   }

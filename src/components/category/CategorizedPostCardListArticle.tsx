@@ -6,6 +6,7 @@ import PostCardList from "@/components/post/PostCardList";
 import Pagination from "@/components/ui/Pagination";
 import CategoryOptionButton from "@/components/category/CategoryOptionButton";
 import "../../styles/CategorizedPostCardListArticle.scss";
+import { cookies } from "next/headers";
 
 export default async function CategorizedPostCardListArticle({
   categorySegments,
@@ -13,6 +14,8 @@ export default async function CategorizedPostCardListArticle({
   totalCount,
   page,
 }: any) {
+  const refreshToken = cookies().get("refreshToken");
+
   return (
     <article className="categorized-post-list-article">
       <div className="article-header">
@@ -29,10 +32,12 @@ export default async function CategorizedPostCardListArticle({
             </div>
           )}
         </div>
-        <div className="manager">
-          <PostCreateButton />
-          <CategoryOptionButton />
-        </div>
+        {refreshToken && (
+          <div className="manager">
+            <PostCreateButton />
+            <CategoryOptionButton />
+          </div>
+        )}
       </div>
       <div className="content">
         <PostCardList posts={posts} />

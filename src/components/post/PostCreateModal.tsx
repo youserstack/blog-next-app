@@ -2,7 +2,7 @@
 
 import { createPost } from "@/app/posts/create/actions";
 import { Context } from "@/components/context/Provider";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { useParams, useRouter } from "next/navigation";
 import "../../styles/PostCreateModal.scss";

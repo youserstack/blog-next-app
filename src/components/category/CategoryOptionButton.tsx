@@ -30,8 +30,14 @@ export default function CategoryOptionButton() {
       {isClicked && (
         <div className="option-layer" onClick={(e) => e.stopPropagation()}>
           <ul>
+            <li>menu 1</li>
+            <li>menu 2</li>
+            <li>menu 3</li>
+            <hr />
             <li>
-              <button onClick={handleClickDeleteButton}>delete this category</button>
+              <button className="delete-button" onClick={handleClickDeleteButton}>
+                delete this category
+              </button>
             </li>
           </ul>
         </div>
