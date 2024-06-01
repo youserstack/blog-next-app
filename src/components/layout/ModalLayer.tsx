@@ -1,9 +1,10 @@
 "use client";
 
-import CategoryCreateModal from "@/components/category/CategoryCreateModal";
-import PostCreateModal from "@/components/post/PostCreateModal";
 import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
+import CategoryCreateModal from "@/components/category/CategoryCreateModal";
+import PostCreateModal from "@/components/post/PostCreateModal";
+import CategoryDeleteModal from "@/components/category/CategoryDeleteModal";
 import "../../styles/ModalLayer.scss";
 
 export default function ModalLayer() {
@@ -15,6 +16,7 @@ export default function ModalLayer() {
     <div className="modal-layer" onClick={() => setCurrentModal("")}>
       {currentModal === "post-create-modal" && <PostCreateModal />}
       {currentModal === "category-create-modal" && <CategoryCreateModal />}
+      {currentModal === "category-delete-modal" && <CategoryDeleteModal />}
     </div>
   );
 }
