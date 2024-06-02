@@ -18,11 +18,11 @@ export default function ThemeToggle() {
 
   // OS 테마에 의한 브라우저 테마변경
   useEffect(() => {
-    // 미디어쿼리
+    // CSS미디어쿼리 (os 테마를 가져오는데 css 에 설정되지 않더라도 사용할 수 있다.)
     const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
+    console.log({ mediaQueryList });
 
-    // CSS 미디어쿼리 체인지 핸들러
-    // OS 테마모드와 동기화한다.
+    // 미디어쿼리 이벤트 파라미터로부터 현재 os 테마를 가져올 수 있다. (동기화 작업을 할 수 있다.)
     const handleChange = (e: MediaQueryListEvent) => {
       e.matches ? setTheme("dark") : setTheme("light");
     };

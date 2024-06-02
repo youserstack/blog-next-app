@@ -13,6 +13,7 @@
   --backgroundColor-gray: #777;
   --backgroundColor-white: #fff;
   --backgroundColor-offWhite: #eee;
+  --backgroundColor-blue: #03a9f4;
 
   --foregroundColor-black: #000;
   --foregroundColor-offBlack: #222;
@@ -28,35 +29,41 @@
 html {
   body {
     transition: background-color 1s;
+  }
 
-    // custom theme mode
-    &.light {
-      background-color: var(--backgroundColor-white);
-      color: var(--foregroundColor-black);
+  // custom theme mode
+  body.light {
+    background-color: var(--backgroundColor-white);
+    color: var(--foregroundColor-black);
+    header,
+    footer {
+      background-color: var(--backgroundColor-offWhite);
+      color: var(--foregroundColor-offBlack);
     }
-    &.dark {
-      background-color: var(--backgroundColor-darkGray);
+  }
+  body.dark {
+    background-color: var(--backgroundColor-darkGray);
+    color: var(--foregroundColor-offWhite);
+    header,
+    footer {
+      background-color: var(--backgroundColor-offBlack);
       color: var(--foregroundColor-offWhite);
     }
   }
 
   // depend on os theme mode
-  @media (prefers-color-scheme: light) {
-    body {
-      &.light {
-        background-color: var(--backgroundColor-white);
-        color: var(--foregroundColor-black);
-      }
-    }
-  }
-  @media (prefers-color-scheme: dark) {
-    body {
-      &.dark {
-        background-color: var(--backgroundColor-darkGray);
-        color: var(--foregroundColor-offWhite);
-      }
-    }
-  }
+  // @media (prefers-color-scheme: light) {
+  //   body.light {
+  //     background-color: var(--backgroundColor-white);
+  //     color: var(--foregroundColor-black);
+  //   }
+  // }
+  // @media (prefers-color-scheme: dark) {
+  //   body.dark {
+  //     background-color: var(--backgroundColor-darkGray);
+  //     color: var(--foregroundColor-offWhite);
+  //   }
+  // }
 }
 
 // layout
@@ -83,12 +90,6 @@ html {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-
-    .header-upper-wrapper,
-    .header-lower-wrapper {
-      background-color: var(--backgroundColor-offBlack);
-      color: var(--foregroundColor-offWhite);
     }
 
     .header-upper {
@@ -123,28 +124,18 @@ html {
   }
 
   footer {
-    background-color: var(--backgroundColor-offBlack);
-    color: var(--foregroundColor-offWhite);
     padding: 3rem;
 
     > section {
       max-width: 1000px;
       width: 100%;
       // min-height: 20vh;
-
-      // position
       position: relative;
       margin: auto;
       padding: 1rem;
-
-      // decoration
-      // border: 1px solid;
-
       display: flex;
-      // flex-direction: column;
       justify-content: space-between;
       align-items: center;
-
       border-top: 1px solid;
 
       ul {

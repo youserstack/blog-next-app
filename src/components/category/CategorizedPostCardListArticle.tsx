@@ -27,13 +27,13 @@ export default async function CategorizedPostCardListArticle({
             </React.Fragment>
           ))}
           {categorySegments?.length <= 2 && (
-            <CategoryCreateButton parentCategories={categorySegments} />
+            <CategoryCreateButton parentCategories={categorySegments} label="+" />
           )}
         </div>
         {refreshToken && (
           <div className="manager">
             <PostCreateButton />
-            <CategoryOptionButton />
+            <CategoryOptionButton categorySegments={categorySegments} />
           </div>
         )}
       </div>

@@ -19,6 +19,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: var(--backgroundColor-blue);
+        color: var(--foregroundColor-offWhite);
       }
     }
 
@@ -69,25 +71,6 @@
           flex: 1;
           background-color: var(--tempColor-gray);
         }
-      }
-    }
-  }
-}
-
-body {
-  &.light {
-    .categorized-post-list-article {
-      .category-create-button {
-        background-color: var(--backgroundColor-offBlack);
-        color: var(--foregroundColor-offWhite);
-      }
-    }
-  }
-  &.dark {
-    .categorized-post-list-article {
-      .category-create-button {
-        background-color: var(--foregroundColor-offWhite);
-        color: var(--backgroundColor-offBlack);
       }
     }
   }

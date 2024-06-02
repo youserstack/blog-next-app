@@ -20,15 +20,15 @@
   }
 }
 
-body {
-  &.light {
+html {
+  body.light {
     .post-create-page {
       form input {
         background-color: var(--backgroundColor-white);
       }
     }
   }
-  &.dark {
+  body.dark {
     .post-create-page {
       form input {
         background-color: var(--backgroundColor-gray);

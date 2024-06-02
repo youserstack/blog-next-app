@@ -2,14 +2,10 @@
   .categories {
     display: flex;
     .category,
-    .category-create {
+    .category-create-button {
       position: relative;
-      &:hover {
-        background-color: #fff;
-        color: #000;
-        .sub1-categories {
-          display: block;
-        }
+      &:hover .sub1-categories {
+        display: block;
       }
     }
 
@@ -47,6 +43,31 @@
           &:hover {
             background-color: #eee;
           }
+        }
+      }
+    }
+  }
+}
+
+body {
+  &.light {
+    .nav {
+      .category,
+      .category-create-button {
+        &:hover {
+          background-color: var(--backgroundColor-white);
+          color: var(--foregroundColor-black);
+        }
+      }
+    }
+  }
+  &.dark {
+    .nav {
+      .category,
+      .category-create-button {
+        &:hover {
+          background-color: var(--backgroundColor-offWhite);
+          color: var(--foregroundColor-offBlack);
         }
       }
     }

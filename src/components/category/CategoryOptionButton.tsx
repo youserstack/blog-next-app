@@ -4,8 +4,13 @@ import { MouseEvent, useContext, useEffect, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { Context } from "@/components/context/Provider";
 import "../../styles/CategoryOptionButton.scss";
+import CategoryCreateButton from "@/components/category/CategoryCreateButton";
 
-export default function CategoryOptionButton() {
+export default function CategoryOptionButton({
+  categorySegments,
+}: {
+  categorySegments: string[] | null;
+}) {
   const [isClicked, setIsClicked] = useState(false);
   const { setCurrentModal }: any = useContext(Context);
 
@@ -14,9 +19,7 @@ export default function CategoryOptionButton() {
     setIsClicked(!isClicked);
   };
 
-  const handleClickDeleteButton = () => {
-    setCurrentModal("category-delete-modal");
-  };
+  const handleClickDeleteButton = () => setCurrentModal("category-delete-modal");
 
   useEffect(() => {
     const handleClick = () => setIsClicked(false);
@@ -26,14 +29,25 @@ export default function CategoryOptionButton() {
 
   return (
     <div className="category-option-button" onClick={handleClickOptionButton}>
-      <IoIosMore />
+      <IoIosMore className="more" />
       {isClicked && (
         <div className="option-layer" onClick={(e) => e.stopPropagation()}>
           <ul>
-            <li>menu 1</li>
-            <li>menu 2</li>
-            <li>menu 3</li>
-            <hr />
+            <li>
+              <CategoryCreateButton
+                parentCategories={categorySegments}
+                label="create a new category"
+              />
+            </li>
+            <li>
+              <button>menu 1</button>
+            </li>
+            <li>
+              <button>menu 1</button>
+            </li>
+            <li>
+              <button>menu 1</button>
+            </li>
             <li>
               <button className="delete-button" onClick={handleClickDeleteButton}>
                 delete this category

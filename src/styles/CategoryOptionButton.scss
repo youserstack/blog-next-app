@@ -1,7 +1,7 @@
 .category-option-button {
   position: relative;
 
-  svg {
+  .more {
     cursor: pointer;
   }
 
@@ -10,19 +10,34 @@
     top: 100%;
     margin-top: 7px;
     box-shadow: 4px 4px 10px 2px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
 
-    ul {
-      padding: 5px;
+    li {
+      font-size: 14px;
+      white-space: nowrap;
       display: flex;
-      flex-direction: column;
-      gap: 4px;
 
-      li {
-        .delete-button {
+      button {
+        flex: 1;
+        padding: 5px;
+        &.category-create-button {
+          background-color: var(--backgroundColor-blue);
+          color: var(--foregroundColor-offWhite);
+        }
+        &.delete-button {
           background-color: var(--deleteColor-red);
           color: var(--foregroundColor-white);
-          padding: 3px;
           white-space: nowrap;
+          &:hover {
+            background-color: black;
+            color: white;
+            cursor: pointer;
+          }
+        }
+        &:hover {
+          background-color: black;
+          color: white;
         }
       }
     }
