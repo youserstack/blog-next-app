@@ -10,6 +10,7 @@
   --backgroundColor-black: #000;
   --backgroundColor-offBlack: #222;
   --backgroundColor-darkGray: #444;
+  --backgroundColor-gray: #777;
   --backgroundColor-white: #fff;
   --backgroundColor-offWhite: #eee;
 
@@ -17,39 +18,41 @@
   --foregroundColor-offBlack: #222;
   --foregroundColor-white: #fff;
   --foregroundColor-offWhite: #eee;
+
+  --hoverColor-blue: #0072f5;
+  --tempColor-gray: gray;
 }
 
 // theme
 html {
   body {
     transition: background-color 1s;
+
+    // custom theme mode
     &.light {
       background-color: var(--backgroundColor-white);
       color: var(--foregroundColor-black);
-
-      .theme-toggle {
-        background-color: var(--backgroundColor-white);
-
-        .moving-ball {
-          transform: translateX(0);
-        }
-      }
-
-      .popup-layout .popup {
-        background-color: var(--backgroundColor-offBlack);
-        color: var(--foregroundColor-offWhite);
-      }
     }
     &.dark {
       background-color: var(--backgroundColor-darkGray);
       color: var(--foregroundColor-offWhite);
+    }
+  }
 
-      .theme-toggle {
-        background-color: var(--backgroundColor-black);
-
-        .moving-ball {
-          transform: translateX(20px);
-        }
+  // depend on os theme mode
+  @media (prefers-color-scheme: light) {
+    body {
+      &.light {
+        background-color: var(--backgroundColor-white);
+        color: var(--foregroundColor-black);
+      }
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    body {
+      &.dark {
+        background-color: var(--backgroundColor-darkGray);
+        color: var(--foregroundColor-offWhite);
       }
     }
   }

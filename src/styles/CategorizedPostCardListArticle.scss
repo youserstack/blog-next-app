@@ -1,25 +1,6 @@
-body {
-  &.light {
-    .categorized-post-list-article {
-      .category-create-button {
-        background-color: var(--backgroundColor-offBlack);
-        color: var(--foregroundColor-offWhite);
-      }
-    }
-  }
-  &.dark {
-    .categorized-post-list-article {
-      .category-create-button {
-        background-color: var(--foregroundColor-offWhite);
-        color: var(--backgroundColor-offBlack);
-      }
-    }
-  }
-}
-
 .categorized-post-list-article {
   min-height: 100vh;
-  border: 1px dashed #aaa;
+  // border: 1px dashed #aaa;
   padding: 1rem;
 
   .article-header {
@@ -48,8 +29,6 @@ body {
   }
 
   .content {
-    // border: 1px solid;
-    // padding: 1rem;
     margin-top: 1rem;
 
     .post-list {
@@ -63,7 +42,7 @@ body {
         overflow: hidden;
         &:hover {
           .title {
-            color: #0072f5;
+            color: var(--hoverColor-blue);
           }
         }
 
@@ -88,8 +67,27 @@ body {
 
         .thumbnail {
           flex: 1;
-          background-color: gray;
+          background-color: var(--tempColor-gray);
         }
+      }
+    }
+  }
+}
+
+body {
+  &.light {
+    .categorized-post-list-article {
+      .category-create-button {
+        background-color: var(--backgroundColor-offBlack);
+        color: var(--foregroundColor-offWhite);
+      }
+    }
+  }
+  &.dark {
+    .categorized-post-list-article {
+      .category-create-button {
+        background-color: var(--foregroundColor-offWhite);
+        color: var(--backgroundColor-offBlack);
       }
     }
   }

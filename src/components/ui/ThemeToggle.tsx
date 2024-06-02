@@ -5,32 +5,49 @@ import { IoIosMoon, IoIosSunny } from "react-icons/io";
 import "../../styles/ThemeToggle.scss";
 
 export default function ThemeToggle() {
-  // 브라우저의 로컬스토리지에서 컬러모드를 확인하고 없으면 기본값을 라이트모드로 설정한다.
-  const [theme, setTheme] = useState("light");
+  // 테마모드 초기화
+  const getInitialTheme = () => {
+    // 로컬스토리지로부터 캐시된 테마가 있다면 사용한다.
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) return storedTheme;
+    // 캐시된 테마가 없다면 운영체제 테마를 사용한다.
+    const osTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    return osTheme;
+  };
+  const [theme, setTheme] = useState(getInitialTheme);
 
+  // OS 테마에 의한 브라우저 테마변경
   useEffect(() => {
-    setTheme(localStorage.getItem("theme") || "light");
-  }, []);
-
-  // 운영체제의 컬러모드에 의한 브라우저의 컬러모드 변경
-  useEffect(() => {
-    // matchMedia 는 입력한 문자열을 통해서 matcing 된 MediaQueryList 객체를 반환한다.
+    // 미디어쿼리
     const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
 
-    // 미디어쿼리리스트 객체에 이벤트를 등록한다.
-    mediaQueryList.addEventListener("change", (e) => {
-      // e.matches 를 통해서 운영체제의 컬러모드를 확인할 수 있다.
-      if (e.matches) {
-        window.document.body.classList.add("dark");
-        setTheme("dark");
-      } else {
-        window.document.body.classList.remove("dark");
-        setTheme("light");
-      }
-    });
+    // CSS 미디어쿼리 체인지 핸들러
+    // OS 테마모드와 동기화한다.
+    const handleChange = (e: MediaQueryListEvent) => {
+      e.matches ? setTheme("dark") : setTheme("light");
+    };
+
+    // 이벤트 등록과 제거
+    mediaQueryList.addEventListener("change", handleChange);
+    return () => mediaQueryList.removeEventListener("change", handleChange);
   }, []);
 
-  // 브라우저의 컬러모드에 의한 변경
+  // 브라우저 포커싱에 의한 테마변경
+  useEffect(() => {
+    // 비저블러티 체인지 핸들러
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        const osTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+        setTheme(osTheme);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
+  // 브라우저 테마에 의한 변경
   useEffect(() => {
     document.body.classList.remove("light", "dark");
     document.body.classList.add(theme);

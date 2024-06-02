@@ -1,7 +1,27 @@
+body {
+  &.light {
+    .theme-toggle {
+      background-color: var(--backgroundColor-white);
+
+      .moving-ball {
+        transform: translateX(0);
+      }
+    }
+  }
+  &.dark {
+    .theme-toggle {
+      background-color: var(--backgroundColor-black);
+
+      .moving-ball {
+        transform: translateX(20px);
+      }
+    }
+  }
+}
+
 .theme-toggle {
   width: 40px;
   height: 22px;
-  // border: 1px solid #fff;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -13,7 +33,6 @@
     position: absolute;
     left: 2px;
     border-radius: 50%;
-    background-color: #fff;
     transition: all 1s;
     display: flex;
     background-color: transparent;
