@@ -9,7 +9,6 @@
     position: absolute;
     top: 100%;
     margin-top: 7px;
-    background-color: white;
     box-shadow: 4px 4px 10px 2px rgba(0, 0, 0, 0.25);
 
     ul {
@@ -20,14 +19,28 @@
 
       li {
         .delete-button {
-          background-color: #d9534f;
-          color: white;
+          background-color: var(--deleteColor-red);
+          color: var(--foregroundColor-white);
           padding: 3px;
           white-space: nowrap;
-          &:hover {
-            background-color: black;
-          }
         }
+      }
+    }
+  }
+}
+
+body {
+  &.light {
+    .category-option-button {
+      .option-layer {
+        background-color: var(--backgroundColor-white);
+      }
+    }
+  }
+  &.dark {
+    .category-option-button {
+      .option-layer {
+        background-color: var(--backgroundColor-offBlack);
       }
     }
   }

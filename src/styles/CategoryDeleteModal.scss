@@ -1,6 +1,8 @@
 .category-delete-modal {
   padding: 1rem;
-  background-color: white;
+  background-color: var(--backgroundColor-offWhite);
+  border-radius: 10px;
+  box-shadow: 4px 4px 10px 2px rgba(0, 0, 0, 0.25);
 
   h3 {
     margin-bottom: 1rem;

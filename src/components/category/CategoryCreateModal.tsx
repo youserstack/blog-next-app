@@ -49,7 +49,8 @@ export default function CategoryCreateModal() {
 
   return (
     <div className="category-create-modal" onClick={(e) => e.stopPropagation()}>
-      <h3>Category Create Form</h3>
+      <h3>새 카테고리 생성</h3>
+      <small>생성할 새 카테고리 이름을 작성하세요.</small>
       <form onSubmit={handleSubmit}>
         <input type="text" name="category" />
         <button type="submit">add</button>
