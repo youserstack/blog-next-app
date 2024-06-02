@@ -20,10 +20,8 @@ export default function CategoryCreateButton({
   };
 
   return (
-    <li className="category-create">
-      <Link href={""} onClick={handleClick}>
-        +
-      </Link>
-    </li>
+    <Link className="category-create-button" href={""} onClick={handleClick}>
+      +
+    </Link>
   );
 }

@@ -1,3 +1,22 @@
+body {
+  &.light {
+    .categorized-post-list-article {
+      .category-create-button {
+        background-color: var(--backgroundColor-offBlack);
+        color: var(--foregroundColor-offWhite);
+      }
+    }
+  }
+  &.dark {
+    .categorized-post-list-article {
+      .category-create-button {
+        background-color: var(--foregroundColor-offWhite);
+        color: var(--backgroundColor-offBlack);
+      }
+    }
+  }
+}
+
 .categorized-post-list-article {
   min-height: 100vh;
   border: 1px dashed #aaa;
@@ -9,15 +28,16 @@
 
     .breadcrumb {
       display: flex;
+      align-items: center;
       gap: 10px;
 
-      .category-create {
+      .category-create-button {
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
         display: flex;
-        gap: 10px;
-
-        button {
-          padding: 0 10px;
-        }
+        justify-content: center;
+        align-items: center;
       }
     }
 
