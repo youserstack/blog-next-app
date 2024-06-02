@@ -1,5 +1,7 @@
 .category-option-button {
   position: relative;
+  display: flex;
+  align-items: center;
 
   .more {
     cursor: pointer;
@@ -22,22 +24,21 @@
         flex: 1;
         padding: 5px;
         &.category-create-button {
-          background-color: var(--backgroundColor-blue);
+          background-color: var(--createColor-blue);
           color: var(--foregroundColor-offWhite);
         }
-        &.delete-button {
+        &.post-create-button {
+          border-radius: initial !important;
+          padding: 5px !important;
+        }
+        &.category-delete-button {
           background-color: var(--deleteColor-red);
           color: var(--foregroundColor-white);
           white-space: nowrap;
-          &:hover {
-            background-color: black;
-            color: white;
-            cursor: pointer;
-          }
         }
         &:hover {
-          background-color: black;
-          color: white;
+          background-color: black !important;
+          color: white !important;
         }
       }
     }

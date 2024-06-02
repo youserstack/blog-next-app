@@ -5,8 +5,8 @@ import PostCreateButton from "@/components/post/PostCreateButton";
 import PostCardList from "@/components/post/PostCardList";
 import Pagination from "@/components/ui/Pagination";
 import CategoryOptionButton from "@/components/category/CategoryOptionButton";
-import "../../styles/CategorizedPostCardListArticle.scss";
 import { cookies } from "next/headers";
+import "../../styles/CategorizedPostCardListArticle.scss";
 
 export default async function CategorizedPostCardListArticle({
   categorySegments,

@@ -3,8 +3,9 @@
 import { MouseEvent, useContext, useEffect, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { Context } from "@/components/context/Provider";
-import "../../styles/CategoryOptionButton.scss";
 import CategoryCreateButton from "@/components/category/CategoryCreateButton";
+import PostCreateButton from "@/components/post/PostCreateButton";
+import "../../styles/CategoryOptionButton.scss";
 
 export default function CategoryOptionButton({
   categorySegments,
@@ -40,7 +41,7 @@ export default function CategoryOptionButton({
               />
             </li>
             <li>
-              <button>menu 1</button>
+              <PostCreateButton />
             </li>
             <li>
               <button>menu 1</button>
@@ -49,7 +50,7 @@ export default function CategoryOptionButton({
               <button>menu 1</button>
             </li>
             <li>
-              <button className="delete-button" onClick={handleClickDeleteButton}>
+              <button className="category-delete-button" onClick={handleClickDeleteButton}>
                 delete this category
               </button>
             </li>

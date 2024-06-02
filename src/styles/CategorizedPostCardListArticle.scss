@@ -19,7 +19,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: var(--backgroundColor-blue);
+        background-color: var(--createColor-blue);
         color: var(--foregroundColor-offWhite);
       }
     }
@@ -27,6 +27,13 @@
     .manager {
       display: flex;
       gap: 1rem;
+
+      .post-create-button {
+        border-radius: 5px;
+        padding: 0 5px;
+        background-color: var(--createColor-green);
+        color: var(--foregroundColor-offWhite);
+      }
     }
   }
 
