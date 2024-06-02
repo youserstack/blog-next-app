@@ -23,6 +23,10 @@ export default function PostArticle({ post }: any) {
         post._id,
         localStorage.getItem("accessToken") as string
       );
+      if (response?.error) return response.error;
+      setIsEditMode(false);
+      console.log({ response });
+      console.log("....");
       return response;
     },
     null
@@ -39,11 +43,6 @@ export default function PostArticle({ post }: any) {
     router.refresh();
   };
 
-  if (updateState?.updatedPost) {
-    router.push(`/categories/${post.category.slice(1)}`);
-    router.refresh();
-  }
-
   if (isEditMode) {
     return (
       <article className="post-article">
@@ -56,10 +55,10 @@ export default function PostArticle({ post }: any) {
                   <p>{post.createdAt?.slice(0, 10)}</p>
                 </small>
                 <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <button type="submit">save</button>
               </form>
             </div>
             <div className="buttons">
-              <button type="submit">save</button>
               <button onClick={handleClickDeleteButton}>delete this post</button>
               <button onClick={handleClickCancelButton}>cancel</button>
             </div>

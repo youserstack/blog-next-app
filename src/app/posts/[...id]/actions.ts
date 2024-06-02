@@ -19,6 +19,7 @@ export async function updatePost(formData: FormData, postId: string, accessToken
     });
     if (response.ok) {
       const { updatedPost } = await response.json();
+      console.log({ updatePost });
       return { updatedPost };
     }
   } catch (error: any) {

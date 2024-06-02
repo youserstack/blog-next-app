@@ -19,10 +19,10 @@ export default function PostCreate() {
   }, null);
   // console.log({ state });
 
-  if (state?.error) {
-    console.log("state.error", state.error);
-    router.push("/auth/signin");
-  }
+  // if (state?.error) {
+  //   console.log("state.error", state.error);
+  //   router.push("/auth/signin");
+  // }
 
   return (
     <main className="post-create-page">

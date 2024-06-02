@@ -11,7 +11,7 @@ export default function CategoryDeleteModal() {
   const categories = params.category as string[];
   const parentCategories = categories.slice(0, -1);
   // const childCategory = categories[categories.length - 1] as string;
-  const { setCurrentModal }: any = useContext(Context);
+  const { setCurrentModal, categoryPaths }: any = useContext(Context);
 
   const handleClickDeleteButton = async () => {
     try {
@@ -33,13 +33,15 @@ export default function CategoryDeleteModal() {
 
     // 현재 모달창을 닫는다.
     setCurrentModal("");
-    router.push(`/categories/${parentCategories.join("/")}`);
+    // 최상위 카테고리인 경우는 카테고리 홈경로(categoryPaths[0])로 이동한다.
+    if (!parentCategories.length) router.push("/categories" + categoryPaths[0]);
+    // 이외는 부모 카테고리로 이동한다.
+    else router.push(`/categories/${parentCategories.join("/")}`);
+    // 데이터 캐시를 리프레시한다.
     router.refresh();
   };
 
-  const handleClickCancelButton = () => {
-    setCurrentModal("");
-  };
+  const handleClickCancelButton = () => setCurrentModal("");
 
   return (
     <div className="category-delete-modal" onClick={(e) => e.stopPropagation()}>

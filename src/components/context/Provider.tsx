@@ -6,16 +6,15 @@ import { createContext, useEffect, useState } from "react";
 export const Context = createContext({});
 
 export default function Provider({ children }: { children: React.ReactNode }) {
-  // 모달창을 팝업시키기 위해서 필요한 상태
+  // 모달창을 스위칭할때 사용한다.
   const [currentModal, setCurrentModal] = useState("");
 
-  // 새로운 카테고리 생성을 위해서 필요한 상태
+  // 새 카테고리 항목을 생성할때 사용한다.
   const [parentCategories, setParentCategories] = useState<string[]>([]);
 
-  // 현재 카테고리 포스트 데이터를 가져오기 위해서 필요한 상태
+  // 모든 카테고리 경로이고 새 포스트 글을 생성할때 해당 카테고리를 지정해야하는데 그때에 사용한다.
   const [categoryPaths, setCategoryPaths] = useState<string[]>([]);
 
-  // refresh accessToken
   const router = useRouter();
 
   const signout = async () => {
