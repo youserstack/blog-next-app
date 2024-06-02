@@ -8,6 +8,18 @@
         display: block;
       }
     }
+    .category-create-button {
+      background-color: var(--createColor-blue);
+    }
+    li {
+      display: flex;
+
+      a,
+      button {
+        flex: 1;
+        padding: 0 10px;
+      }
+    }
 
     .sub1-categories {
       display: none;
@@ -49,8 +61,8 @@
   }
 }
 
-body {
-  &.light {
+html {
+  body.light {
     .nav {
       .category,
       .category-create-button {
@@ -61,7 +73,7 @@ body {
       }
     }
   }
-  &.dark {
+  body.dark {
     .nav {
       .category,
       .category-create-button {

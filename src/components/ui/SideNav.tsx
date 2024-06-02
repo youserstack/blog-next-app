@@ -109,19 +109,6 @@ export default function SideNav(
                         </button>
                       </Link>
 
-                      {/* {sub1Category.sub2Categories?.length > 0 && (
-                        <ul className="sub2-categories">
-                          {sub1Category.sub2Categories?.map((sub2Category: any) => {
-                            const sub2Path = `/categories/${category.name}/${sub1Category.name}/${sub2Category.name}`;
-                            return (
-                              <li className="sub2-category" key={sub2Path}>
-                                <Link href={sub2Path}>{sub2Category.name}</Link>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      )} */}
-
                       <ul className="sub2-categories">
                         {sub1Category.sub2Categories?.map((sub2Category: any) => {
                           const sub2Path = `/categories/${category.name}/${sub1Category.name}/${sub2Category.name}`;

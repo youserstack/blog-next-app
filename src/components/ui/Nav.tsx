@@ -37,8 +37,9 @@ export default async function Nav() {
             </ul>
           </li>
         ))}
-
-        <CategoryCreateButton parentCategories={[]} />
+        <li>
+          <CategoryCreateButton parentCategories={[]} label="+" />
+        </li>
       </ul>
 
       <CategoryPathsMaker categories={categories} />

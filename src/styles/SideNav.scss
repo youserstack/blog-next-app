@@ -3,14 +3,12 @@
   top: calc(60px + 1rem);
   width: 250px;
   height: calc(100vh - 60px - 2rem);
-
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: #eaeaea transparent;
   scrollbar-gutter: stable;
-
-  border: 1px dashed #aaa;
   padding: 1rem;
+  // border: 1px dashed #aaa;
 
   // @supports (position: sticky) {
   //   position: sticky;
@@ -39,6 +37,7 @@
     padding: 5px;
     transition: transform 0.3s;
     background-color: transparent;
+    color: inherit;
   }
 
   a {
