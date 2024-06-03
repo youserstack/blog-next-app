@@ -28,11 +28,11 @@
       display: flex;
       gap: 1rem;
 
-      .post-create-button {
+      > .post-create-button {
         border-radius: 5px;
         padding: 0 5px;
         background-color: var(--createColor-green);
-        color: var(--foregroundColor-offWhite);
+        color: var(--foregroundColor-white);
       }
     }
   }

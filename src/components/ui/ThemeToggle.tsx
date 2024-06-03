@@ -6,21 +6,20 @@ import "../../styles/ThemeToggle.scss";
 
 export default function ThemeToggle() {
   // 테마모드 초기화
-  const getInitialTheme = () => {
-    // 로컬스토리지로부터 캐시된 테마가 있다면 사용한다.
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) return storedTheme;
-    // 캐시된 테마가 없다면 운영체제 테마를 사용한다.
+    if (storedTheme) return;
     const osTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    return osTheme;
-  };
-  const [theme, setTheme] = useState(getInitialTheme);
+    setTheme(osTheme);
+  }, []);
 
   // OS 테마에 의한 브라우저 테마변경
   useEffect(() => {
     // CSS미디어쿼리 (os 테마를 가져오는데 css 에 설정되지 않더라도 사용할 수 있다.)
     const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
-    console.log({ mediaQueryList });
+    // console.log({ mediaQueryList });
 
     // 미디어쿼리 이벤트 파라미터로부터 현재 os 테마를 가져올 수 있다. (동기화 작업을 할 수 있다.)
     const handleChange = (e: MediaQueryListEvent) => {
