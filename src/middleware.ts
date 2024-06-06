@@ -13,6 +13,7 @@ const PROTECTED_PAGES = ["/protected", "/dashboard", "/posts/create"];
 const PROTECTED_APIs = [
   "/api/auth/refresh",
   "/api/posts/create",
+  "/api/comments/create",
   "/api/categories/create",
   "/api/test",
 ];
@@ -66,17 +67,20 @@ export default async function middleware(request: NextRequest) {
       const message = "엑세스 토큰이 없습니다. (protected api > no accessToken)";
       console.log(message);
       return Response.json({ message }, { status: 401 });
-    }
-
-    try {
-      const decoded = await verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
-      console.log("엑세스 토큰이 유효합니다.");
-      const email = decoded.payload.email as string;
-      headers.set("email", email);
-    } catch (error) {
-      const message = "엑세스 토큰이 유효하지 않습니다. (protected api > jwtVerify error)";
-      console.log(message);
-      return Response.json({ message }, { status: 403 });
+    } else {
+      console.log({ accessToken });
+      try {
+        const decoded = await verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
+        console.log("엑세스 토큰이 유효합니다.");
+        const email = decoded.payload.email as string;
+        console.log({ email });
+        headers.set("email", email);
+      } catch (error: any) {
+        const message = "엑세스 토큰이 유효하지 않습니다. (protected api > jwtVerify error)";
+        console.log(message);
+        console.log({ error });
+        return Response.json({ error: error.name }, { status: 403 });
+      }
     }
   }
 
@@ -99,18 +103,16 @@ export const config = {
     "/auth/signin",
 
     // protected pages
-    "/protected/:path*",
+    "/categories/:path*",
+    "/posts/:path*",
     "/dashboard",
-    "/categories/create",
-    "/posts/create",
-    // "/categories/:path*",
-    // "/posts/:path*", // 포스트 읽기만 공개한다. 포스트 쓰기, 수정, 삭제는 인증된 사용자에게 공개한다. (accessToken으로 접근)
+    "/protected/:path*",
 
     // protected api
-    // "/api/auth/refresh",
-    "/api/posts/[id]/comments",
+    "/api/posts/:path*",
+    "/api/comments/:path*",
+    "/api/categories/:path*",
     "/api/test",
-    "/api/posts/create",
   ],
 };
 

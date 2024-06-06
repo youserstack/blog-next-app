@@ -29,8 +29,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       } else {
         throw new Error("로그아웃을 실패했습니다.");
       }
-    } catch (error) {
-      console.error("로그아웃 요청 중 에러가 발생했습니다.", error);
+    } catch (error: any) {
+      console.error(error.message);
+      return error;
     }
   };
 

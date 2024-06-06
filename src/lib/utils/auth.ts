@@ -14,12 +14,31 @@ export function validatePassword(password: string) {
 
 // Access Token의 유효 기간이 짧고, Refresh Token의 유효 기간이 더 길게 설정해야한다.
 export function generateAccessToken(payload: { email: string }) {
-  // return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: "10s" });
-  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: "2h" });
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: "10s" });
+  // return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: "2h" });
 }
 
 export function generateRefreshToken(payload: { email: string }) {
   // return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: "1m" });
   // return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: "15s" });
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: "1d" });
+}
+
+export async function refreshAccessToken() {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+    const response = await fetch("/api/auth/refresh", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) throw new Error("no newAccessToken");
+    const { newAccessToken } = await response.json();
+    localStorage.setItem("accessToken", newAccessToken);
+    return newAccessToken;
+  } catch (error) {
+    console.error("액세스 토큰 갱신을 실패했습니다.", error);
+    return error;
+  }
 }

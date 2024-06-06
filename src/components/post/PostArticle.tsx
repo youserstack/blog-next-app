@@ -130,7 +130,7 @@ export default function PostArticle({ post }: any) {
         </p>
       </div>
       <div className="article-footer">
-        <CommentCreateForm postId={post._id} />
+        {localStorage.getItem("accessToken") && <CommentCreateForm postId={post._id} />}
         <Comments postId={post._id} />
       </div>
     </article>
