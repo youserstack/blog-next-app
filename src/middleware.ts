@@ -17,8 +17,16 @@ const PROTECTED_APIs = [
   "/api/test",
 ];
 
+// 토큰 검증 함수
+async function verifyToken(token: string, secret: string) {
+  const encodedSecret = new TextEncoder().encode(secret);
+  return jwtVerify(token, encodedSecret, {});
+}
+
 export default async function middleware(request: NextRequest) {
   console.log("\n\x1b[32m[middleware]\x1b[0m");
+
+  // extraction
   const accessToken = request.headers.get("Authorization")?.split(" ")[1];
   const refreshToken: any = cookies().get("refreshToken")?.value;
   const { pathname } = request.nextUrl;
@@ -59,9 +67,9 @@ export default async function middleware(request: NextRequest) {
       console.log(message);
       return Response.json({ message }, { status: 401 });
     }
+
     try {
-      const secret = new TextEncoder().encode(process.env.ACCESS_TOKEN_SECRET);
-      const decoded = await jwtVerify(accessToken, secret, {});
+      const decoded = await verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
       console.log("엑세스 토큰이 유효합니다.");
       const email = decoded.payload.email as string;
       headers.set("email", email);
@@ -75,8 +83,7 @@ export default async function middleware(request: NextRequest) {
   // 인증된 사용자라면 로그인이 필요하지 않으므로 홈페이지로 리다이렉트한다.
   if (pathname.startsWith("/auth/signin") && refreshToken) {
     try {
-      const secret = new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET);
-      await jwtVerify(refreshToken, secret, {});
+      await verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET as string);
       console.log("리프레시 토큰이 유효합니다. 로그인이 필요없으므로 홈페이지로 이동합니다.");
       return NextResponse.redirect(new URL("/", request.url));
     } catch (error) {
@@ -101,6 +108,7 @@ export const config = {
 
     // protected api
     // "/api/auth/refresh",
+    "/api/posts/[id]/comments",
     "/api/test",
     "/api/posts/create",
   ],

@@ -6,23 +6,9 @@ import { updatePost } from "@/app/posts/[...id]/actions";
 import { useRouter } from "next/navigation";
 import { deletePost } from "@/lib/utils/fetcher";
 import { IoIosMore } from "react-icons/io";
+import Comments from "@/components/comment/Comments";
 import "../../styles/PostArticle.scss";
-
-async function fetcher(url: string) {
-  try {
-    const accessToken = localStorage.getItem("accessToken");
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    const result = await response.json();
-    if (response.ok) {
-    }
-  } catch (error: any) {
-    console.error(error.message);
-  }
-}
+import CommentCreateForm from "@/components/comment/CommentCreateForm";
 
 export default function PostArticle({ post }: any) {
   const [isClicked, setIsClicked] = useState(false);
@@ -143,7 +129,10 @@ export default function PostArticle({ post }: any) {
           esse? Quae ratione inventore mollitia?
         </p>
       </div>
-      <div className="article-footer"></div>
+      <div className="article-footer">
+        <CommentCreateForm postId={post._id} />
+        <Comments postId={post._id} />
+      </div>
     </article>
   );
 }

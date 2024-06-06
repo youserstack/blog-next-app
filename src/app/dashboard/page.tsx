@@ -19,7 +19,6 @@ export default function Dashboard() {
         });
         const result = await response.json();
         if (response.ok) console.log(response.url, result);
-        else throw new Error(result.message);
       } catch (error: any) {
         console.error(error.message);
         console.error("다시 엑세스 토큰을 갱신합니다.");
