@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { deletePost } from "@/lib/utils/fetcher";
 import { IoIosMore } from "react-icons/io";
 import CommentList from "@/components/comment/CommentList";
-import "../../styles/PostArticle.scss";
 import CommentCreateForm from "@/components/comment/CommentCreateForm";
+import "../../styles/PostArticle.scss";
 
 export default function PostArticle({ post }: any) {
   const [isClicked, setIsClicked] = useState(false);
@@ -130,7 +130,7 @@ export default function PostArticle({ post }: any) {
         </p>
       </div>
       <div className="article-footer">
-        <CommentCreateForm postId={post._id} />
+        <CommentCreateForm authorImage={post.author.image} postId={post._id} />
         <CommentList postId={post._id} />
       </div>
     </article>

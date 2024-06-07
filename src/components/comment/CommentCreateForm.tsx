@@ -3,11 +3,17 @@
 import { createComment } from "@/app/posts/[...id]/actions";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { useFormState } from "react-dom";
-import { useRouter } from "next/navigation";
 import { mutate } from "swr";
+import Image from "next/image";
 import "../../styles/CommentCreateForm.scss";
 
-export default function CommentCreateForm({ postId }: { postId: string }) {
+export default function CommentCreateForm({
+  authorImage,
+  postId,
+}: {
+  authorImage: any;
+  postId: string;
+}) {
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
     const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`;
     const accessToken = localStorage.getItem("accessToken") as string;
@@ -49,8 +55,13 @@ export default function CommentCreateForm({ postId }: { postId: string }) {
 
   return (
     <form className="comment-create-form" action={formAction}>
-      <input type="text" name="content" />
-      <button type="submit">등록하기</button>
+      <div className="author-thumbnail">
+        <Image src={authorImage} alt="" width={30} height={30} />
+      </div>
+      <div className="main">
+        <input type="text" name="content" placeholder="댓글 추가" />
+        <button type="submit">등록하기</button>
+      </div>
     </form>
   );
 }

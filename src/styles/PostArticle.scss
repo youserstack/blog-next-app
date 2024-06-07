@@ -70,4 +70,10 @@
   .article-body {
     border: 1px dashed orange;
   }
+
+  .article-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 }

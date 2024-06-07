@@ -1,3 +1,24 @@
 .comment-create-form {
-  border: 1px solid red;
+  // border: 1px solid red;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  .author-thumbnail {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid green;
+  }
+
+  .main {
+    flex: 1;
+
+    input {
+      width: 100%;
+      border-bottom: 1px solid var(--foregroundColor-offWhite);
+      margin-bottom: 3px;
+    }
+  }
 }

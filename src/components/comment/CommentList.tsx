@@ -19,7 +19,7 @@ async function fetcher(url: string) {
 export default function CommentList({ postId }: any) {
   const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`;
   const { isLoading, data: comments } = useSWR(url, fetcher);
-  console.log({ comments });
+  // console.log({ comments });
 
   if (isLoading) return <h1>Loading...</h1>;
 
@@ -32,7 +32,7 @@ export default function CommentList({ postId }: any) {
           </div>
           <div className="main">
             <div className="header">
-              <p>{comment.author.name}</p>
+              <div className="author-name">{comment.author.name}</div>
             </div>
             <div className="body">
               <p>{comment.content}</p>

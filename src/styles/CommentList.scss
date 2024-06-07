@@ -1,13 +1,12 @@
 .comment-list {
-  border: 2px solid blue;
-  padding: 1rem;
+  // border: 1px dashed;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 1rem;
 
   .comment-item {
-    border: 1px solid;
     display: flex;
+    background-color: #eee;
 
     .thumbnail {
       width: 30px;
@@ -16,6 +15,11 @@
       border-radius: 50%;
       margin-right: 10px;
       overflow: hidden;
+    }
+
+    .author-name {
+      font-size: 13px;
+      font-weight: 500;
     }
   }
 }
