@@ -17,9 +17,13 @@
       overflow: hidden;
     }
 
-    .author-name {
-      font-size: 13px;
-      font-weight: 500;
+    .main {
+      flex: 1;
+
+      .author-name {
+        font-size: 13px;
+        font-weight: 500;
+      }
     }
   }
 }

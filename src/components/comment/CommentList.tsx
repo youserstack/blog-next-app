@@ -1,8 +1,9 @@
 "use client";
 
 import useSWR from "swr";
-import "../../styles/CommentList.scss";
 import Image from "next/image";
+import CommentOptionButton from "@/components/comment/CommentOptionButton";
+import "../../styles/CommentList.scss";
 
 async function fetcher(url: string) {
   try {
@@ -19,7 +20,6 @@ async function fetcher(url: string) {
 export default function CommentList({ postId }: any) {
   const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`;
   const { isLoading, data: comments } = useSWR(url, fetcher);
-  // console.log({ comments });
 
   if (isLoading) return <h1>Loading...</h1>;
 
@@ -41,6 +41,8 @@ export default function CommentList({ postId }: any) {
               <button>답글</button>
             </div>
           </div>
+
+          <CommentOptionButton comment={comment} />
         </li>
       ))}
     </ul>

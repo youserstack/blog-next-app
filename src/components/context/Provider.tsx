@@ -15,6 +15,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   // 모든 카테고리 경로이고 새 포스트 글을 생성할때 해당 카테고리를 지정해야하는데 그때에 사용한다.
   const [categoryPaths, setCategoryPaths] = useState<string[]>([]);
 
+  // 로그인 상태
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
   const router = useRouter();
 
   const signout = async () => {
@@ -23,14 +26,12 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       const { message } = await response.json();
       console.log({ message });
 
-      if (response.ok) {
-        localStorage.removeItem("accessToken");
-        router.refresh();
-      } else {
-        throw new Error("로그아웃을 실패했습니다.");
-      }
+      if (!response.ok) throw new Error("로그아웃을 실패했습니다.");
+      localStorage.removeItem("accessToken");
+      router.refresh();
     } catch (error: any) {
       console.error(error.message);
+      setIsSignedIn(false);
       return error;
     }
   };
@@ -46,19 +47,17 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         },
       });
 
-      if (response.ok) {
-        const { newAccessToken } = await response.json();
-        if (!newAccessToken) return;
-        localStorage.setItem("accessToken", newAccessToken);
-      } else {
-        throw new Error("no newAccessToken");
-      }
+      if (!response.ok) throw new Error("액세스 토큰의 갱신을 실패하였습니다.");
+      const { newAccessToken } = await response.json();
+      localStorage.setItem("accessToken", newAccessToken);
+      setIsSignedIn(true);
     } catch (error) {
-      console.error("액세스 토큰 갱신을 실패했습니다.", error);
+      console.error({ error });
       signout();
     }
   };
 
+  // 인터벌 액세스 토큰 갱신
   useEffect(() => {
     refreshAccessToken();
     const intervalId = setInterval(refreshAccessToken, 1000 * 60 * 15); // 15분마다 토큰 갱신 (1초*60*15=15분)
@@ -79,8 +78,10 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         setCurrentModal,
 
         // 인증
+        isSignedIn,
         signout,
         refreshAccessToken,
+        setIsSignedIn,
       }}
     >
       {children}

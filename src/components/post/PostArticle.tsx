@@ -1,6 +1,6 @@
 "use client";
 
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useContext, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { updatePost } from "@/app/posts/[...id]/actions";
 import { useRouter } from "next/navigation";
@@ -9,11 +9,13 @@ import { IoIosMore } from "react-icons/io";
 import CommentList from "@/components/comment/CommentList";
 import CommentCreateForm from "@/components/comment/CommentCreateForm";
 import "../../styles/PostArticle.scss";
+import { Context } from "@/components/context/Provider";
+import PostArticleOptionButton from "@/components/post/PostArticleOptionButton";
 
 export default function PostArticle({ post }: any) {
-  const [isClicked, setIsClicked] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const router = useRouter();
+  const { isSignedIn }: any = useContext(Context); // 로그인 상태
+  const [isClicked, setIsClicked] = useState(false); // 옵션 버튼 클릭 상태
+  const [isEditMode, setIsEditMode] = useState(false); // 편집 모드 상태
 
   // update logic
   const [category, setCategory] = useState(post.category);
@@ -36,27 +38,11 @@ export default function PostArticle({ post }: any) {
     null
   );
 
-  const handleClickOptionButton = () => setIsClicked(!isClicked);
-  const handleClickEditButton = () => setIsEditMode(true);
   const handleClickCancelButton = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEditMode(false);
     setIsClicked(false);
   };
-  const handleClickDeleteButton = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    console.log("delete");
-    return;
-    // await deletePost(post._id);
-    // router.push(`/categories/${post.category.slice(1)}`);
-    // router.refresh();
-  };
-
-  useEffect(() => {
-    const handleClick = () => setIsClicked(false);
-    window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
-  }, []);
 
   if (isEditMode) {
     return (
@@ -95,30 +81,11 @@ export default function PostArticle({ post }: any) {
             <p>작성자 : {post.author?.name}</p>
             <p>{post.createdAt?.slice(0, 10)}</p>
           </div>
-          <div className="post-article-option-button">
-            <IoIosMore
-              className="more-button"
-              onClick={(e) => {
-                e.stopPropagation(); // window 에 등록된 mouse event 반응을 하지 않도록 한다.
-                handleClickOptionButton();
-              }}
-            />
-            {isClicked && (
-              <div
-                className="option-layer"
-                onClick={(e) => e.stopPropagation()} // window 에 등록된 mouse event 반응을 하지 않도록 한다.
-              >
-                <ul>
-                  <li>
-                    <button onClick={handleClickEditButton}>edit</button>
-                  </li>
-                  <li>
-                    <button onClick={handleClickDeleteButton}>delete this post article</button>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
+          <PostArticleOptionButton
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
+            setIsEditMode={setIsEditMode}
+          />
         </div>
       </div>
       <div className="article-body">
@@ -130,7 +97,7 @@ export default function PostArticle({ post }: any) {
         </p>
       </div>
       <div className="article-footer">
-        <CommentCreateForm authorImage={post.author.image} postId={post._id} />
+        {isSignedIn && <CommentCreateForm authorImage={post.author.image} postId={post._id} />}
         <CommentList postId={post._id} />
       </div>
     </article>
