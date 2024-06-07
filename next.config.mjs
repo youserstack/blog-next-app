@@ -7,6 +7,16 @@ const nextConfig = {
     ROOT_URL: process.env.ROOT_URL,
   },
   reactStrictMode: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/dzktdrw7o/image/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

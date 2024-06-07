@@ -1,0 +1,21 @@
+.comment-list {
+  border: 2px solid blue;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .comment-item {
+    border: 1px solid;
+    display: flex;
+
+    .thumbnail {
+      width: 30px;
+      height: 30px;
+      border: 2px solid green;
+      border-radius: 50%;
+      margin-right: 10px;
+      overflow: hidden;
+    }
+  }
+}

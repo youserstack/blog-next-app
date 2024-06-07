@@ -11,8 +11,12 @@ export async function GET(request: Request) {
   // console.log({ postId });
 
   // query
-  const comments = await Comment.find({ post: postId });
-  console.log({ comments });
+  const comments = await Comment.find({ post: postId }).populate("author");
+  // const transformedComments = comments.map((comment: any) => ({
+  //   ...comment.toObject(),
+  //   author: comment.author.name,
+  // }));
+  // console.log({ transformedComments });
 
   return Response.json({ comments }, { status: 200 });
 }

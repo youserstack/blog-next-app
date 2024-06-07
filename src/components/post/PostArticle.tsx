@@ -6,7 +6,7 @@ import { updatePost } from "@/app/posts/[...id]/actions";
 import { useRouter } from "next/navigation";
 import { deletePost } from "@/lib/utils/fetcher";
 import { IoIosMore } from "react-icons/io";
-import Comments from "@/components/comment/Comments";
+import CommentList from "@/components/comment/CommentList";
 import "../../styles/PostArticle.scss";
 import CommentCreateForm from "@/components/comment/CommentCreateForm";
 
@@ -130,8 +130,8 @@ export default function PostArticle({ post }: any) {
         </p>
       </div>
       <div className="article-footer">
-        {localStorage.getItem("accessToken") && <CommentCreateForm postId={post._id} />}
-        <Comments postId={post._id} />
+        <CommentCreateForm postId={post._id} />
+        <CommentList postId={post._id} />
       </div>
     </article>
   );
