@@ -10,14 +10,25 @@ export async function POST(request: Request, { params }: any) {
 
   // extraction
   const { content, postId } = await request.json();
-  if (!content) throw new Error("댓글내용이나 포스트아이디를 누락하였습니다.");
+  if (!content) {
+    return Response.json({ error: { message: "댓글내용이나 포스트아이디를 누락하였습니다." } });
+  }
   // console.log({ content });
 
   // query
   const email = request.headers.get("email");
   const foundUser = await User.findOne({ email });
-  if (!foundUser) return Response.json({ error: "not found user" }, { status: 404 });
-  console.log({ foundUser });
+  if (!foundUser) {
+    return Response.json(
+      {
+        error: {
+          message: "유저 이메일(토큰에 저장된)을 조회하였지만 해당 사용자가 존재하지 않습니다.",
+        },
+      },
+      { status: 404 }
+    );
+  }
+  // console.log({ foundUser });
 
   // creation
   const newComment = await Comment.create({ post: postId, author: foundUser._id, content });

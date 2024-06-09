@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { Context } from "@/components/context/Provider";
 import { useRouter } from "next/navigation";
 import "./page.scss";
+import { refreshAccessToken } from "@/lib/utils/auth";
 
 export default function PostCreate() {
   console.log("\n\x1b[34m[pages/post-create]\x1b[0m");
@@ -14,8 +15,18 @@ export default function PostCreate() {
   // console.log({ categoryPaths });
 
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
-    const response = await createPost(formData, localStorage.getItem("accessToken") as string);
-    return response;
+    const accessToken = localStorage.getItem("accessToken") as string;
+    const response = await createPost(formData, accessToken);
+
+    // 토큰만료 에러발생시 갱신후 재요청
+    if (response.error.code === "ERR_JWT_EXPIRED") {
+      const newAccessToken = await refreshAccessToken();
+      const response = await createPost(formData, newAccessToken);
+      console.log("accessToken 갱신후 재요청...");
+      console.log({ newPost: response.newPost });
+    }
+
+    return { newPost: response.newPost };
   }, null);
   // console.log({ state });
 

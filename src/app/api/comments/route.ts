@@ -3,7 +3,7 @@ import Comment from "@/lib/models/Comment";
 
 // 전체 댓글 읽기
 export async function GET(request: Request) {
-  console.log("\n\x1b[32m[api/comments]\x1b[0m");
+  // console.log("\n\x1b[32m[api/comments]\x1b[0m");
   await connectDB();
 
   // extraction

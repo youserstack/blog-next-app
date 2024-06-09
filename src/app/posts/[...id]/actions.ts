@@ -49,8 +49,5 @@ export async function createComment(formData: FormData, postId: string, accessTo
 
   // branch
   if (response.ok) return { newComment: result.newComment };
-  else {
-    if (result.error.code === "ERR_JWT_EXPIRED") return { errorCode: result.error.code };
-    else return { error: result.error };
-  }
+  else return { error: result.error };
 }

@@ -25,14 +25,15 @@ export default function PostCreateModal() {
     const accessToken = localStorage.getItem("accessToken") as string;
     const response = await createPost(formData, accessToken);
 
-    if (response?.errorCode === "ERR_JWT_EXPIRED") {
-      const newAccessToken = await refreshAccessToken(); // 새로운 토큰 발급
+    // 토큰만료시 재발급후 재요청
+    if (response.error.code === "ERR_JWT_EXPIRED") {
+      const newAccessToken = await refreshAccessToken(); // 재발급
       const response = await createPost(formData, newAccessToken); // 재요청
       return response;
-    } else if (response?.newPost) {
-      console.log("성공적으로 새로운 포스트 글을 생성하였습니다.");
-      return response;
-    } else return null;
+    }
+
+    console.log("성공적으로 새로운 포스트 글을 생성하였습니다.");
+    return { newPost: response.newPost };
   }, null);
 
   // options
