@@ -85,6 +85,7 @@ export default function PostArticle({ post }: any) {
             <p>{post.createdAt?.slice(0, 10)}</p>
           </div>
           <PostArticleOptionButton
+            post={post}
             isClicked={isClicked}
             setIsClicked={setIsClicked}
             setIsEditMode={setIsEditMode}

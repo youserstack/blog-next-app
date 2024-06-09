@@ -1,18 +1,24 @@
 "use client";
 
+import { deletePost } from "@/lib/utils/fetcher";
+import { useRouter } from "next/navigation";
 import { MouseEvent, useEffect } from "react";
 import { IoIosMore } from "react-icons/io";
 
-export default function PostArticleOptionButton({ isClicked, setIsClicked, setIsEditMode }: any) {
+export default function PostArticleOptionButton({
+  post,
+  isClicked,
+  setIsClicked,
+  setIsEditMode,
+}: any) {
+  const router = useRouter();
   const handleClickOptionButton = () => setIsClicked(!isClicked);
   const handleClickEditButton = () => setIsEditMode(true);
   const handleClickDeleteButton = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("delete");
-    return;
-    // await deletePost(post._id);
-    // router.push(`/categories/${post.category.slice(1)}`);
-    // router.refresh();
+    await deletePost(post._id);
+    router.push(`/categories/${post.category.slice(1)}`);
+    router.refresh();
   };
 
   useEffect(() => {
