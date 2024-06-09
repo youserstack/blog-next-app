@@ -11,10 +11,7 @@ export async function GET(request: Request) {
   // extraction
   const refreshToken = cookies().get("refreshToken")?.value;
   if (!refreshToken) {
-    return Response.json(
-      { error: "no refreshToken" },
-      { status: 401, statusText: "리프레시 토큰이 없습니다." }
-    );
+    return Response.json({ error: { message: "refreshToken이 없습니다." } }, { status: 401 });
   }
 
   // query
@@ -36,15 +33,27 @@ export async function GET(request: Request) {
       await hackedUser.save();
       console.log({ hackedUser });
 
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
+      return Response.json(
+        {
+          error: {
+            message:
+              "해킹된 것으로 간주하고 보안을 위해서 해킹된 사용자의 refreshToken을 초기화합니다.",
+          },
+        },
+        { status: 401 }
+      );
     } catch (error: any) {
       console.error("유효하지 않은 refreshToken입니다.", error.message);
       return Response.json(
-        { error: "유효하지 않은 refreshToken입니다." },
+        {
+          error: {
+            message:
+              "유효하지 않은 refreshToken입니다." +
+              "데이터베이스에서 조회는 되지만, 현재의 요청된 refreshToken은 유효하지 않습니다.",
+          },
+        },
         {
           status: 401,
-          statusText:
-            "데이터베이스에서 조회는 되지만, 현재의 요청된 refreshToken은 유효하지 않습니다.",
         }
       );
     }
@@ -53,13 +62,16 @@ export async function GET(request: Request) {
   // validation
   try {
     const user: any = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string);
-    console.log("valid refreshToken.");
-    console.log("newAccessToken issued.");
+    console.log("refreshToken 이 유효합니다.");
+    console.log("newAccessToken 이 발급되었습니다.");
     const payload = { email: user.email };
     const newAccessToken = generateAccessToken(payload);
     return Response.json({ newAccessToken }, { status: 200 });
   } catch (error: any) {
     console.error("액세스 토큰 갱신을 실패했습니다.", error.message);
-    return Response.json({ error: "unauthorized" }, { status: 401 });
+    return Response.json(
+      { error: { message: "액세스 토큰 갱신을 실패했습니다." } },
+      { status: 401 }
+    );
   }
 }

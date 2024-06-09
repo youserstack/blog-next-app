@@ -35,7 +35,6 @@ export async function createComment(formData: FormData, postId: string, accessTo
   // console.log({ accessToken, postId, content });
   const content = formData.get("content");
 
-  // fetch
   const response = await fetch(`${process.env.ROOT_URL}/api/comments/create`, {
     method: "POST",
     headers: {
@@ -44,10 +43,14 @@ export async function createComment(formData: FormData, postId: string, accessTo
     },
     body: JSON.stringify({ content, postId }),
   });
-
-  // branch
   const data = await response.json();
   console.log({ data });
-  if (!response.ok) return { error: data.error };
-  return { newComment: data.newComment };
+
+  if (!response.ok && data.error.code === "ERR_JWT_EXPIRED") {
+    return { errorCode: data.error.code };
+  } else if (data.newComment) {
+    return { newComment: data.newComment };
+  } else {
+    return { error: data.error };
+  }
 }

@@ -9,21 +9,28 @@ export async function createPost(formData: FormData, accessToken: string) {
   const author = formData.get("author");
   const tags = formData.get("tags");
 
-  try {
-    const response = await fetch(`${process.env.ROOT_URL}/api/posts/create`, {
-      method: "post",
-      headers: {
-        authorization: `bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ category, title, content, author, tags }),
-    });
-    if (response.ok) {
-      const { newPost } = await response.json();
-      return { newPost };
+  const response = await fetch(`${process.env.ROOT_URL}/api/posts/create`, {
+    method: "post",
+    headers: {
+      authorization: `bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ category, title, content, author, tags }),
+  });
+  const result = await response.json();
+  console.log({ result });
+
+  if (response.ok) return { newPost: result.newPost };
+  else {
+    if (result.error) {
     }
-  } catch (error: any) {
-    console.error(error);
-    return { error: error.message };
+  }
+
+  if (!response.ok && result.error.code === "ERR_JWT_EXPIRED") {
+    return { errorCode: result.error.code };
+  } else if (result.newPost) {
+    return { newPost: result.newPost };
+  } else {
+    return { error: result.error };
   }
 }

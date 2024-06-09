@@ -25,8 +25,6 @@ async function verifyToken(token: string, secret: string) {
 }
 
 export default async function middleware(request: NextRequest) {
-  console.log("\n\x1b[32m[middleware]\x1b[0m");
-
   // extraction
   const accessToken = request.headers.get("Authorization")?.split(" ")[1];
   const refreshToken: any = cookies().get("refreshToken")?.value;
@@ -38,13 +36,19 @@ export default async function middleware(request: NextRequest) {
   const headers = new Headers(request.headers);
   headers.set("pathname", pathname);
 
-  // page, api를 구분하여 로깅한다.
+  // page, api를 구분하여 로깅한다. protected api, protected page 만 로깅한다.
   if (pathname.startsWith("/api")) {
-    if (isProtectedApi) console.log({ protectedApi: pathname });
-    else console.log({ api: pathname });
+    if (isProtectedApi) {
+      console.log("\n\x1b[32m[middleware]\x1b[0m");
+      console.log({ protectedApi: pathname });
+    }
+    // else console.log({ api: pathname });
   } else {
-    if (isProtectedPage) console.log({ protectedPage: pathname });
-    else console.log({ page: pathname });
+    if (isProtectedPage) {
+      console.log("\n\x1b[32m[middleware]\x1b[0m");
+      console.log({ protectedPage: pathname });
+    }
+    // else console.log({ page: pathname });
   }
 
   if (isProtectedPage) {
@@ -66,20 +70,17 @@ export default async function middleware(request: NextRequest) {
     if (!accessToken) {
       const message = "엑세스 토큰이 없습니다. (protected api > no accessToken)";
       console.log(message);
-      return Response.json({ message }, { status: 401 });
+      return Response.json({ error: { message } }, { status: 401 });
     } else {
-      console.log({ accessToken });
+      // console.log({ accessToken });
       try {
         const decoded = await verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
-        console.log("엑세스 토큰이 유효합니다.");
         const email = decoded.payload.email as string;
-        console.log({ email });
         headers.set("email", email);
+        console.log("엑세스 토큰이 유효합니다.", { email });
       } catch (error: any) {
-        const message = "엑세스 토큰이 유효하지 않습니다. (protected api > jwtVerify error)";
-        console.log(message);
-        console.log({ error });
-        return Response.json({ error: error.name }, { status: 403 });
+        console.log("엑세스 토큰이 유효하지 않습니다.", { error });
+        return Response.json({ error }, { status: 403 });
       }
     }
   }
@@ -100,10 +101,10 @@ export default async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // public pages
     "/auth/signin",
 
     // protected pages
-    "/categories/:path*",
     "/posts/:path*",
     "/dashboard",
     "/protected/:path*",
@@ -115,5 +116,3 @@ export const config = {
     "/api/test",
   ],
 };
-
-// matcher: "/:path*",

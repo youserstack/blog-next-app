@@ -20,31 +20,19 @@ export default function CommentCreateForm({
     let response = await createComment(formData, postId, accessToken); // 서버액션으로부터 요청한다.
 
     // rejected
-    if (response.error === "JWTExpired") {
-      console.log("JWTExpired");
-      // extraction
-      const content = formData.get("content");
-      // refresh
+    if (response.errorCode === "ERR_JWT_EXPIRED") {
+      console.log("ERR_JWT_EXPIRED");
       const newAccessToken = await refreshAccessToken();
-      // re-request
-      const response: any = await fetch(`${process.env.ROOT_URL}/api/comments/create`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${newAccessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content, postId }),
+      const response = await createComment(formData, postId, newAccessToken); // 서버액션으로부터 요청한다.
+      console.log("accessToken 갱신후 재요청후 응답결과입니다", {
+        newComment: response.newComment,
       });
-      // branch
-      if (!response.ok) return { error: "failed refresh" };
-      const { newComment } = await response.json();
-      console.log("accessToken 갱신후 재요청후 응답결과입니다", { newComment });
       mutate(url);
-      return { newComment };
+      return response;
     }
 
     // fulfilled
-    if (response.newComment) {
+    else if (response.newComment) {
       console.log("성공적으로 새로운 댓글을 생성하였습니다.");
       mutate(url);
       return { newComment: response.newComment };
