@@ -3,6 +3,7 @@
 export async function updatePost(formData: FormData, postId: string, accessToken: string) {
   console.log("\n\x1b[35m<updatePost>\x1b[0m");
 
+  // extraction
   const category = formData.get("category");
   const title = formData.get("title");
   const content = formData.get("content");
@@ -10,18 +11,17 @@ export async function updatePost(formData: FormData, postId: string, accessToken
 
   try {
     const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
-      method: "patch",
+      method: "PATCH",
       headers: {
-        authorization: `bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ category, title, content, tags }),
     });
-    if (response.ok) {
-      const { updatedPost } = await response.json();
-      console.log({ updatePost });
-      return { updatedPost };
-    }
+    if (!response.ok) throw new Error("특정 포스트글 수정 실패");
+    const { updatedPost } = await response.json();
+    console.log({ updatePost });
+    return { updatedPost };
   } catch (error: any) {
     console.error(error);
     return { error: error.message };
@@ -48,6 +48,6 @@ export async function createComment(formData: FormData, postId: string, accessTo
   console.log({ result });
 
   // branch
-  if (response.ok) return { newComment: result.newComment };
-  else return { error: result.error };
+  if (!response.ok) return { error: result.error };
+  return { newComment: result.newComment };
 }

@@ -8,9 +8,9 @@ import "../../styles/CommentList.scss";
 async function fetcher(url: string) {
   try {
     const response = await fetch(url);
-    const result = await response.json();
-    if (response.ok) return result.comments;
-    else throw new Error("전체 댓글 읽기 실패");
+    if (!response.ok) throw new Error("전체 댓글 읽기 실패");
+    const { comments } = await response.json();
+    return comments;
   } catch (error: any) {
     console.error(error.message);
     return error;

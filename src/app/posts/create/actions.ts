@@ -23,6 +23,6 @@ export async function createPost(formData: FormData, accessToken: string) {
   console.log({ result });
 
   // branch
-  if (response.ok) return { newPost: result.newPost };
-  else return { error: result.error };
+  if (!response.ok) return { error: result.error };
+  return { newPost: result.newPost };
 }

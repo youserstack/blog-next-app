@@ -7,10 +7,12 @@ export async function signup(prevState: any, formData: FormData) {
   console.log("\nsignup-page > server-action");
   await connectDB();
 
+  // extraction
   const name = formData.get("name");
   const email = formData.get("email");
   const password = formData.get("password");
 
+  // request
   const response = await fetch(`${process.env.ROOT_URL}/api/auth/signup`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -18,9 +20,7 @@ export async function signup(prevState: any, formData: FormData) {
   });
   const result = await response.json();
 
-  if (response.ok) {
-    redirect("/auth/signin");
-  } else {
-    return result.error;
-  }
+  // branch
+  if (!response.ok) return result.error;
+  redirect("/auth/signin");
 }

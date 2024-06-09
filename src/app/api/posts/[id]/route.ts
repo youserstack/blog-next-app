@@ -25,7 +25,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   const updatedPost = await Post.findByIdAndUpdate(postId, payload, { new: true });
   console.log({ updatedPost });
 
-  return Response.json({ updatedPost });
+  return Response.json({ updatedPost }, { status: 200 });
 }
 
 // 특정 포스트글 삭제

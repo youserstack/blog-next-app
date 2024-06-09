@@ -55,14 +55,15 @@ export default async function middleware(request: NextRequest) {
     if (!refreshToken) {
       console.log("리프레시 토큰이 없습니다. 로그인 페이지로 이동합니다.");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
-    }
-    try {
-      const secret = new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET);
-      await jwtVerify(refreshToken, secret, {});
-      console.log("리프레시 토큰이 유효합니다.");
-    } catch (error) {
-      console.log("리프레시 토큰이 유효하지 않습니다. 로그인 페이지로 이동합니다.");
-      return NextResponse.redirect(new URL("/auth/signin", request.url));
+    } else {
+      try {
+        const secret = new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET);
+        await jwtVerify(refreshToken, secret, {});
+        console.log("리프레시 토큰이 유효합니다.");
+      } catch (error) {
+        console.log("리프레시 토큰이 유효하지 않습니다. 로그인 페이지로 이동합니다.");
+        return NextResponse.redirect(new URL("/auth/signin", request.url));
+      }
     }
   }
 
