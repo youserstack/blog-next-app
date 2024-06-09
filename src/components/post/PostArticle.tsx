@@ -24,18 +24,21 @@ export default function PostArticle({ post }: any) {
   const [tags, setTags] = useState(post.tags);
   const [updateState, updateAction] = useFormState(
     async (currentState: any, formData: FormData) => {
+      // request
       const response = await updatePost(
         formData,
         post._id,
         localStorage.getItem("accessToken") as string
       );
+
+      // branch
       if (response?.error) return response.error;
       setIsEditMode(false);
       console.log({ response });
       console.log("....");
       return response;
     },
-    null
+    null // 초기값
   );
 
   const handleClickCancelButton = (e: MouseEvent<HTMLButtonElement>) => {

@@ -9,23 +9,38 @@ export async function updatePost(formData: FormData, postId: string, accessToken
   const content = formData.get("content");
   const tags = formData.get("tags");
 
-  try {
-    const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ category, title, content, tags }),
-    });
-    if (!response.ok) throw new Error("특정 포스트글 수정 실패");
-    const { updatedPost } = await response.json();
-    console.log({ updatePost });
-    return { updatedPost };
-  } catch (error: any) {
-    console.error(error);
-    return { error: error.message };
-  }
+  // request
+  const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ category, title, content, tags }),
+  });
+  const result = await response.json();
+  return result;
+
+  // try {
+  //   // request
+  //   const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       Authorization: `Bearer ${accessToken}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ category, title, content, tags }),
+  //   });
+
+  //   // branch
+  //   if (!response.ok) throw new Error("특정 포스트글 수정 실패");
+  //   const { updatedPost } = await response.json();
+  //   console.log({ updatePost });
+  //   return { updatedPost };
+  // } catch (error: any) {
+  //   console.error(error);
+  //   return { error: error.message };
+  // }
 }
 
 export async function createComment(formData: FormData, postId: string, accessToken: string) {
@@ -45,9 +60,5 @@ export async function createComment(formData: FormData, postId: string, accessTo
     body: JSON.stringify({ content, postId }),
   });
   const result = await response.json();
-  console.log({ result });
-
-  // branch
-  if (!response.ok) return { error: result.error };
-  return { newComment: result.newComment };
+  return result;
 }
