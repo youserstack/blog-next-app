@@ -62,7 +62,7 @@ export async function GET(request: Request) {
   // validation
   try {
     const user: any = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string);
-    console.log("refreshToken 이 유효합니다.");
+    // console.log("refreshToken 이 유효합니다.");
     console.log("newAccessToken 이 발급되었습니다.");
     const payload = { email: user.email };
     const newAccessToken = generateAccessToken(payload);

@@ -1,6 +1,7 @@
 import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
 
+// 전체 카테고리 읽기
 export async function GET(request: Request) {
   // console.log("\n\x1b[32m[api/categories/GET]\x1b[0m");
   await connectDB();
@@ -8,6 +9,7 @@ export async function GET(request: Request) {
   return Response.json({ categories: foundCategories });
 }
 
+// 특정 카테고리 삭제
 export async function DELETE(request: Request) {
   console.log("\n\x1b[32m[api/categories/DELETE]\x1b[0m");
   await connectDB();

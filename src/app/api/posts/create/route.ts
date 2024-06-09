@@ -2,6 +2,7 @@ import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
+// 새로운 포스트글 생성
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/posts/create]\x1b[0m");
   await connectDB();

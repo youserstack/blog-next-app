@@ -3,14 +3,15 @@ import Comment from "@/lib/models/Comment";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
+// 댓글 생성
 export async function POST(request: Request, { params }: any) {
-  console.log("\n\x1b[32m[api/posts/[id]/comments]\x1b[0m");
+  console.log("\n\x1b[32m[api/comments/create]\x1b[0m");
   await connectDB();
 
   // extraction
   const { content, postId } = await request.json();
   if (!content) throw new Error("댓글내용이나 포스트아이디를 누락하였습니다.");
-  console.log({ content });
+  // console.log({ content });
 
   // query
   const email = request.headers.get("email");

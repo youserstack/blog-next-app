@@ -1,6 +1,7 @@
 import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 
+// 전체 포스트글 읽기
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/posts]\x1b[0m");
   await connectDB();

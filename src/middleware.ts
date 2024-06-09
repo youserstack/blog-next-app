@@ -79,7 +79,7 @@ export default async function middleware(request: NextRequest) {
         headers.set("email", email);
         console.log("엑세스 토큰이 유효합니다.", { email });
       } catch (error: any) {
-        console.log("엑세스 토큰이 유효하지 않습니다.", { error });
+        console.log("엑세스 토큰이 유효하지 않습니다.");
         return Response.json({ error }, { status: 403 });
       }
     }
