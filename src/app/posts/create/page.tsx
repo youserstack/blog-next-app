@@ -18,7 +18,7 @@ export default function PostCreate() {
     const accessToken = localStorage.getItem("accessToken") as string;
     const response = await createPost(formData, accessToken);
 
-    // 토큰만료 에러발생시 갱신후 재요청
+    // 토큰만료시 재발급후 재요청
     if (response.error.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken();
       const response = await createPost(formData, newAccessToken);

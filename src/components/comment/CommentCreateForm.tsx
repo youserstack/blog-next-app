@@ -20,7 +20,7 @@ export default function CommentCreateForm({
     const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`; // 댓글생성후 리패칭할 주소
 
     // 토큰만료시 갱신후 재요청
-    if (response.error?.code === "ERR_JWT_EXPIRED") {
+    if (response.error.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken();
       const response = await createComment(formData, postId, newAccessToken); // 서버액션으로부터 요청한다.
       console.log("accessToken 갱신후 재요청후 ...");
