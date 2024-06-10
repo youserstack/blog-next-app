@@ -7,7 +7,7 @@ export async function signup(prevState: any, formData: FormData) {
   console.log("\nsignup-page > server-action");
   await connectDB();
 
-  // extraction
+  // extract
   const name = formData.get("name");
   const email = formData.get("email");
   const password = formData.get("password");

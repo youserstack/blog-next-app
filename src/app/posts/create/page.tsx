@@ -19,11 +19,12 @@ export default function PostCreate() {
     const result = await createPost(formData, accessToken);
 
     // 토큰만료시 재발급후 재요청
-    if (result.error.code === "ERR_JWT_EXPIRED") {
+    if (result.error?.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken();
       const result = await createPost(formData, newAccessToken);
       console.log("accessToken 갱신후 재요청...");
       console.log({ newPost: result.newPost });
+      return { newPost: result.newPost };
     }
 
     console.log({ newPost: result.newPost });

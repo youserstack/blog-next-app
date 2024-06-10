@@ -4,10 +4,10 @@ import User from "@/lib/models/User";
 
 // 새로운 포스트글 생성
 export async function POST(request: Request) {
-  console.log("\n\x1b[32m[api/posts/create]\x1b[0m");
+  console.log("\n\x1b[32m[api/posts/create]:[POST]\x1b[0m");
   await connectDB();
 
-  // extraction
+  // extract
   const email = request.headers.get("email");
   const post = await request.json();
   const { category, title, content, author, tags } = post;

@@ -3,7 +3,7 @@
 export async function updatePost(formData: FormData, postId: string, accessToken: string) {
   console.log("\n\x1b[35m<updatePost>\x1b[0m");
 
-  // extraction
+  // extract
   const category = formData.get("category");
   const title = formData.get("title");
   const content = formData.get("content");
@@ -46,7 +46,7 @@ export async function updatePost(formData: FormData, postId: string, accessToken
 export async function createComment(formData: FormData, postId: string, accessToken: string) {
   console.log("\n\x1b[35m<createComment>\x1b[0m");
 
-  // extraction
+  // extract
   // console.log({ accessToken, postId, content });
   const content = formData.get("content");
 

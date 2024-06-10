@@ -23,7 +23,7 @@ export async function DELETE(request: Request, { params }: any) {
   }
   // console.log({ foundUser });
 
-  // extraction
+  // extract
   const commentId = params.id;
   if (!commentId) {
     return Response.json({ error: { message: "댓글 ID가 제공되지 않았습니다." } }, { status: 400 });

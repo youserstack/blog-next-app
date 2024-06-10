@@ -1,6 +1,6 @@
 "use client";
 
-import { signin } from "@/app/auth/signin/actions";
+import { signinAction } from "@/app/auth/signin/actions";
 import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
@@ -10,7 +10,7 @@ import "./page.scss";
 export default function Signin() {
   console.log("\n\x1b[34m[pages/signin]\x1b[0m");
 
-  const [state, signinAction]: any = useFormState(signin, undefined);
+  const [state, formAction]: any = useFormState(signinAction, undefined);
   const { setIsSignedIn }: any = useContext(Context);
   const router = useRouter();
 
@@ -23,14 +23,15 @@ export default function Signin() {
       // console.log({ state });
       localStorage.setItem("accessToken", state.accessToken);
       setIsSignedIn(true);
-      router.push("/protected");
+      // router.push("/protected");
+      router.back();
     }
   }, [state, setIsSignedIn, router]); // `state`와 `setIsSignedIn`, `router`가 변경될 때마다 이 효과가 실행됩니다.
 
   return (
     <main className="signin-page">
       <section>
-        <form action={signinAction}>
+        <form action={formAction}>
           <input type="email" name="email" placeholder="email" required />
           <input type="password" name="password" placeholder="password" required />
           <button type="submit">sign in</button>

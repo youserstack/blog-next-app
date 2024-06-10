@@ -3,7 +3,7 @@
 export async function createPost(formData: FormData, accessToken: string) {
   console.log("\x1b[35m\n<createPost>\x1b[0m");
 
-  // extraction
+  // extract
   const category = formData.get("category");
   const title = formData.get("title");
   const content = formData.get("content");

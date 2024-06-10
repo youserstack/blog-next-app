@@ -4,10 +4,10 @@ import { revalidatePath } from "next/cache";
 
 // 새로운 카테고리 생성
 export async function POST(request: Request) {
-  console.log("\n\x1b[32m[api/categories/create]\x1b[0m");
+  console.log("\n\x1b[32m[api/categories/create]:::[POST]\x1b[0m");
   await connectDB();
 
-  // extraction
+  // extract
   const { parentCategories, childCategory } = await request.json();
   console.log({ parentCategories, childCategory });
 

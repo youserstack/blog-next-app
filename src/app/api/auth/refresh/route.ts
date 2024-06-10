@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   console.log("\n\x1b[32m[api/auth/refresh]\x1b[0m");
   await connectDB();
 
-  // extraction
+  // extract
   const refreshToken = cookies().get("refreshToken")?.value;
   if (!refreshToken) {
     return Response.json({ error: { message: "refreshToken이 없습니다." } }, { status: 401 });

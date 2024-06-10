@@ -42,7 +42,7 @@ export default function CommentList({ postId }: any) {
             </div>
           </div>
 
-          <CommentOptionButton comment={comment} />
+          <CommentOptionButton commentId={comment._id} postId={comment.post._id} />
         </li>
       ))}
     </ul>

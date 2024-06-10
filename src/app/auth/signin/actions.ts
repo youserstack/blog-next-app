@@ -3,11 +3,11 @@
 import connectDB from "@/lib/config/connectDB";
 import { cookies } from "next/headers";
 
-export async function signin(prevState: any, formData: FormData) {
+export async function signinAction(prevState: any, formData: FormData) {
   console.log("\n\x1b[35m<signin>\x1b[0m");
   await connectDB();
 
-  // extraction
+  // extract
   const email = formData.get("email");
   const password = formData.get("password");
 

@@ -6,13 +6,14 @@ export async function GET(request: Request) {
   // console.log("\n\x1b[32m[api/comments]:::[GET]\x1b[0m");
   await connectDB();
 
-  // extraction
+  // extract
   const { searchParams } = new URL(request.url);
   const postId = searchParams.get("postId");
   // console.log({ postId });
 
   // query
-  const comments = await Comment.find({ post: postId }).populate("author");
+  const comments = await Comment.find({ post: postId }).populate("author").populate("post");
+  // console.log({ comments });
   // const transformedComments = comments.map((comment: any) => ({
   //   ...comment.toObject(),
   //   author: comment.author.name,

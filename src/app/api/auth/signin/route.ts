@@ -6,12 +6,11 @@ import {
   validatePassword,
 } from "@/lib/utils/auth";
 import bcrypt from "bcrypt";
-import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
-  console.log("\n\x1b[32m[api/auth/signin]\x1b[0m");
+  console.log("\n\x1b[32m[api/auth/signin]:::[POST]\x1b[0m");
 
-  // Read data (extraction)
+  // Read data (extract)
   const { email, password } = await request.json();
   const isPayloadMissing = !email || !password;
   if (isPayloadMissing) return Response.json({ error: "missing payload" }, { status: 400 });

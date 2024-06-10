@@ -5,7 +5,7 @@ import User from "@/lib/models/User";
 
 // 댓글 생성
 export async function POST(request: Request, { params }: any) {
-  console.log("\n\x1b[32m[api/comments/create]\x1b[0m");
+  console.log("\n\x1b[32m[api/comments/create]:::[POST]\x1b[0m");
   await connectDB();
 
   // authenticate

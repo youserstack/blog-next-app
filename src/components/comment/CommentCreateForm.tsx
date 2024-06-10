@@ -18,25 +18,25 @@ export default function CommentCreateForm({
     // request
     const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`; // 댓글생성후 리패칭할 주소
     const accessToken = localStorage.getItem("accessToken") as string;
-    const response = await createComment(formData, postId, accessToken); // 서버액션으로부터 요청한다.
+    const result = await createComment(formData, postId, accessToken); // 서버액션으로부터 요청한다.
 
     // 토큰만료시 > 토큰갱신 > 재요청
-    if (response.error.code === "ERR_JWT_EXPIRED") {
+    if (result.error?.code === "ERR_JWT_EXPIRED") {
       // request
       const newAccessToken = await refreshAccessToken();
-      const response = await createComment(formData, postId, newAccessToken); // 서버액션으로부터 요청한다.
+      const result = await createComment(formData, postId, newAccessToken); // 서버액션으로부터 요청한다.
 
       // branch
-      if (response.error) return response;
+      if (result.error) return result;
       console.log("토큰갱신 > 재요청 > 성공적으로 새로운 댓글을 생성하였습니다.");
-      console.log({ newComment: response.newComment });
+      console.log({ newComment: result.newComment });
       mutate(url); // 클라이언트 리패칭
-      return response;
+      return result;
     }
 
     console.log("성공적으로 새로운 댓글을 생성하였습니다.");
     mutate(url); // 클라이언트 리패칭
-    return { newComment: response.newComment };
+    return result;
   }, null);
 
   return (

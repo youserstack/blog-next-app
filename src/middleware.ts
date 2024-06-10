@@ -24,7 +24,7 @@ async function verifyToken(token: string, secret: string) {
 }
 
 export default async function middleware(request: NextRequest) {
-  // extraction
+  // extract
   const accessToken = request.headers.get("Authorization")?.split(" ")[1];
   const refreshToken: any = cookies().get("refreshToken")?.value;
   const { pathname } = request.nextUrl;
