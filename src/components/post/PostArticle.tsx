@@ -13,7 +13,6 @@ import { Context } from "@/components/context/Provider";
 import PostArticleOptionButton from "@/components/post/PostArticleOptionButton";
 
 export default function PostArticle({ post }: any) {
-  const { isSignedIn }: any = useContext(Context); // 로그인 상태
   const [isClicked, setIsClicked] = useState(false); // 옵션 버튼 클릭 상태
   const [isEditMode, setIsEditMode] = useState(false); // 편집 모드 상태
 
@@ -101,7 +100,7 @@ export default function PostArticle({ post }: any) {
         </p>
       </div>
       <div className="article-footer">
-        {isSignedIn && <CommentCreateForm authorImage={post.author.image} postId={post._id} />}
+        <CommentCreateForm authorImage={post.author.image} postId={post._id} />
         <CommentList postId={post._id} />
       </div>
     </article>

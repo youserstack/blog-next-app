@@ -4,7 +4,10 @@ import { createComment } from "@/app/posts/[...id]/actions";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { useFormState } from "react-dom";
 import { mutate } from "swr";
+import { useContext } from "react";
+import { Context } from "@/components/context/Provider";
 import Image from "next/image";
+import Link from "next/link";
 import "../../styles/CommentCreateForm.scss";
 
 export default function CommentCreateForm({
@@ -14,6 +17,8 @@ export default function CommentCreateForm({
   authorImage: any;
   postId: string;
 }) {
+  const { isSignedIn }: any = useContext(Context); // 로그인 상태
+
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
     // request
     const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`; // 댓글생성후 리패칭할 주소
@@ -44,10 +49,16 @@ export default function CommentCreateForm({
       <div className="author-thumbnail">
         <Image src={authorImage} alt="" width={30} height={30} />
       </div>
-      <div className="main">
-        <input type="text" name="content" placeholder="댓글 추가" />
-        <button type="submit">등록하기</button>
-      </div>
+      {isSignedIn ? (
+        <div className="main">
+          <textarea name="content" placeholder="댓글 추가" maxLength={500} />
+          <button type="submit">등록하기</button>
+        </div>
+      ) : (
+        <div className="main">
+          <Link href={"/auth/signin"}>로그인</Link>
+        </div>
+      )}
     </form>
   );
 }
