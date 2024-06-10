@@ -18,8 +18,6 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   // 로그인 상태
   const [isSignedIn, setIsSignedIn] = useState(false);
 
-  const router = useRouter();
-
   const signout = async () => {
     try {
       const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
@@ -30,10 +28,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       const { message } = result;
       console.log({ message });
       localStorage.removeItem("accessToken");
-      router.refresh();
+      setIsSignedIn(false);
     } catch (error: any) {
       console.error(error.message);
-      setIsSignedIn(false);
       return error;
     }
   };

@@ -4,7 +4,7 @@ import connectDB from "@/lib/config/connectDB";
 import { cookies } from "next/headers";
 
 export async function signinAction(prevState: any, formData: FormData) {
-  console.log("\n\x1b[35m<signin>\x1b[0m");
+  console.log("\n\x1b[35m<signinAction>\x1b[0m");
   await connectDB();
 
   // extract
@@ -20,7 +20,7 @@ export async function signinAction(prevState: any, formData: FormData) {
   const result = await response.json();
 
   // branch
-  if (!response.ok) return { status: "error", error: result.error };
+  if (!response.ok) return { error: result.error };
   cookies().set("refreshToken", result.refreshToken, {
     httpOnly: true,
     secure: true,
@@ -28,7 +28,7 @@ export async function signinAction(prevState: any, formData: FormData) {
     expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
     path: "/",
   });
-  return { status: "ok", accessToken: result.accessToken };
+  return { accessToken: result.accessToken };
   // if (response.ok) {
   //   cookies().set("refreshToken", result.refreshToken, {
   //     httpOnly: true,
