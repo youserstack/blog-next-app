@@ -8,14 +8,7 @@ export async function POST(request: Request, { params }: any) {
   console.log("\n\x1b[32m[api/comments/create]\x1b[0m");
   await connectDB();
 
-  // extraction
-  const { content, postId } = await request.json();
-  if (!content) {
-    return Response.json({ error: { message: "댓글내용이나 포스트아이디를 누락하였습니다." } });
-  }
-  // console.log({ content });
-
-  // query
+  // authenticate
   const email = request.headers.get("email");
   const foundUser = await User.findOne({ email });
   if (!foundUser) {
@@ -30,7 +23,14 @@ export async function POST(request: Request, { params }: any) {
   }
   // console.log({ foundUser });
 
-  // creation
+  // extract
+  const { content, postId } = await request.json();
+  if (!content) {
+    return Response.json({ error: { message: "댓글내용이나 포스트아이디를 누락하였습니다." } });
+  }
+  // console.log({ content });
+
+  // create
   const newComment = await Comment.create({ post: postId, author: foundUser._id, content });
   console.log({ newComment });
 

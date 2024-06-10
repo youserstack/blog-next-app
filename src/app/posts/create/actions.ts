@@ -1,7 +1,7 @@
 "use server";
 
 export async function createPost(formData: FormData, accessToken: string) {
-  console.log("\x1b[35m<createPost>\x1b[0m");
+  console.log("\x1b[35m\n<createPost>\x1b[0m");
 
   // extraction
   const category = formData.get("category");
@@ -12,17 +12,13 @@ export async function createPost(formData: FormData, accessToken: string) {
 
   // request
   const response = await fetch(`${process.env.ROOT_URL}/api/posts/create`, {
-    method: "post",
+    method: "POST",
     headers: {
-      authorization: `bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ category, title, content, author, tags }),
   });
-  const result = await response.json();
-  console.log({ result });
 
-  // branch
-  if (!response.ok) return { error: result.error };
-  return { newPost: result.newPost };
+  return response.json();
 }

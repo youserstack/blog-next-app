@@ -45,9 +45,8 @@ export async function deletePost(postId: string) {
   return response.json();
 }
 
-export async function deleteComment(commentId: string) {
+export async function deleteComment(commentId: string, accessToken: string) {
   console.log("\n\x1b[35m<deleteComment>\x1b[0m");
-  const accessToken = localStorage.getItem("accessToken");
   const response = await fetch(`${process.env.ROOT_URL}/api/comments/${commentId}`, {
     method: "DELETE",
     headers: {
@@ -55,9 +54,6 @@ export async function deleteComment(commentId: string) {
       "Content-Type": "application/json",
     },
   });
-
-  // branch
-  if (!response.ok) throw new Error("특정 댓글 삭제 실패");
   return response.json();
 }
 

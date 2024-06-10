@@ -16,19 +16,19 @@ export default function PostCreate() {
 
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
     const accessToken = localStorage.getItem("accessToken") as string;
-    const response = await createPost(formData, accessToken);
+    const result = await createPost(formData, accessToken);
 
     // 토큰만료시 재발급후 재요청
-    if (response.error.code === "ERR_JWT_EXPIRED") {
+    if (result.error.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken();
-      const response = await createPost(formData, newAccessToken);
+      const result = await createPost(formData, newAccessToken);
       console.log("accessToken 갱신후 재요청...");
-      console.log({ newPost: response.newPost });
+      console.log({ newPost: result.newPost });
     }
 
-    return { newPost: response.newPost };
+    console.log({ newPost: result.newPost });
+    return { newPost: result.newPost };
   }, null);
-  // console.log({ state });
 
   return (
     <main className="post-create-page">

@@ -33,12 +33,12 @@ export async function refreshAccessToken() {
         "Content-Type": "application/json",
       },
     });
+    const result = await response.json();
 
     // branch
-    if (!response.ok) throw new Error("알수 없는 이유로 액세스 토큰 갱신을 실패하였습니다.");
-    const { newAccessToken } = await response.json();
-    localStorage.setItem("accessToken", newAccessToken);
-    return newAccessToken;
+    if (!response.ok) throw result.error;
+    localStorage.setItem("accessToken", result.newAccessToken);
+    return result.newAccessToken;
   } catch (error) {
     console.error("액세스 토큰 갱신을 실패했습니다.", error);
     return error;

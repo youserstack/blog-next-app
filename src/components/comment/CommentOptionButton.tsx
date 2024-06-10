@@ -2,10 +2,11 @@
 
 import { MouseEvent, useEffect, useState } from "react";
 import { IoIosMore } from "react-icons/io";
-import "../../styles/CommentOptionButton.scss";
 import { deleteComment } from "@/lib/utils/fetcher";
 import { mutate } from "swr";
 import { usePathname, useRouter } from "next/navigation";
+import "../../styles/CommentOptionButton.scss";
+import { refreshAccessToken } from "@/lib/utils/auth";
 
 export default function CommentOptionButton({ comment }: any) {
   const [isClicked, setIsClicked] = useState(false);
@@ -20,9 +21,17 @@ export default function CommentOptionButton({ comment }: any) {
   const handleClickDeleteButton = async (e: MouseEvent<HTMLButtonElement>) => {
     // console.log({ comment });
     e.preventDefault();
-    await deleteComment(comment._id);
-    router.push(pathname);
-    router.refresh();
+    try {
+      const accessToken = localStorage.getItem("accessToken") as string;
+      const result = await deleteComment(comment._id, accessToken);
+      if (result.error.code === "ERR_JWT_EXPIRED") {
+        const newAccessToken = await refreshAccessToken();
+        const result = await deleteComment(comment._id, newAccessToken);
+      }
+      console.log({ result });
+      router.push(pathname);
+      router.refresh();
+    } catch (error) {}
   };
 
   useEffect(() => {

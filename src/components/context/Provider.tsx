@@ -23,10 +23,12 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   const signout = async () => {
     try {
       const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
-      const { message } = await response.json();
-      console.log({ message });
+      const result = await response.json();
 
+      // branch
       if (!response.ok) throw new Error("로그아웃을 실패했습니다.");
+      const { message } = result;
+      console.log({ message });
       localStorage.removeItem("accessToken");
       router.refresh();
     } catch (error: any) {
@@ -46,10 +48,11 @@ export default function Provider({ children }: { children: React.ReactNode }) {
           "Content-Type": "application/json",
         },
       });
+      const result = await response.json();
 
-      if (!response.ok) throw new Error("액세스 토큰의 갱신을 실패하였습니다.");
-      const { newAccessToken } = await response.json();
-      localStorage.setItem("accessToken", newAccessToken);
+      // branch
+      if (!response.ok) throw result.error;
+      localStorage.setItem("accessToken", result.newAccessToken);
       setIsSignedIn(true);
     } catch (error) {
       console.error({ error });

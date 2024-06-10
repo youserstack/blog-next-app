@@ -11,7 +11,6 @@ const PROTECTED_PAGES = ["/protected", "/dashboard", "/posts/create"];
 // 중요한 데이터이기때문에 반드시 accessToken 이 필요하다.
 // 각각의 백엔드포인트에서는 accessToken으로 접근한 경우에만 허용한다.
 const PROTECTED_APIs = [
-  "/api/auth/refresh",
   "/api/posts/create",
   "/api/comments/create",
   "/api/categories/create",
@@ -30,7 +29,10 @@ export default async function middleware(request: NextRequest) {
   const refreshToken: any = cookies().get("refreshToken")?.value;
   const { pathname } = request.nextUrl;
   const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
-  const isProtectedApi = PROTECTED_APIs.some((api: string) => pathname.startsWith(api));
+  const isProtectedApi =
+    PROTECTED_APIs.some((api: string) => pathname.startsWith(api)) ||
+    request.method === "DELETE" ||
+    request.method === "PATCH";
 
   // 커스텀 헤더 설정
   const headers = new Headers(request.headers);
@@ -110,7 +112,7 @@ export const config = {
     "/dashboard",
     "/protected/:path*",
 
-    // protected api
+    // protected apis
     "/api/posts/:path*",
     "/api/comments/:path*",
     "/api/categories/:path*",
