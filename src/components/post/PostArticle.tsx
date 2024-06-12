@@ -1,74 +1,90 @@
 "use client";
 
-import { MouseEvent, useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormState } from "react-dom";
-import { updatePost } from "@/app/posts/[...id]/actions";
-import { useRouter } from "next/navigation";
-import { deletePost } from "@/lib/utils/fetcher";
-import { IoIosMore } from "react-icons/io";
+import { updatePostAction } from "@/app/posts/[...id]/actions";
+import { FcAddImage } from "react-icons/fc";
 import CommentList from "@/components/comment/CommentList";
 import CommentCreateForm from "@/components/comment/CommentCreateForm";
-import "../../styles/PostArticle.scss";
-import { Context } from "@/components/context/Provider";
 import PostArticleOptionButton from "@/components/post/PostArticleOptionButton";
+import PostArticleEditModeButton from "@/components/post/PostArticleEditModeButton";
+import "../../styles/PostArticle.scss";
+import { useRouter } from "next/navigation";
+import { deletePost } from "@/lib/utils/fetcher";
+import { refreshAccessToken } from "@/lib/utils/auth";
 
 export default function PostArticle({ post }: any) {
-  const [isClicked, setIsClicked] = useState(false); // 옵션 버튼 클릭 상태
+  const [isClickedOptionButton, setIsClickedOptionButton] = useState(false); // 옵션 버튼 클릭 상태
   const [isEditMode, setIsEditMode] = useState(false); // 편집 모드 상태
 
-  // update logic
-  const [category, setCategory] = useState(post.category);
-  const [title, setTitle] = useState(post.title);
-  const [content, setContent] = useState(post.content);
-  const [tags, setTags] = useState(post.tags);
   const [updateState, updateAction] = useFormState(
     async (currentState: any, formData: FormData) => {
-      // request
-      const response = await updatePost(
-        formData,
-        post._id,
-        localStorage.getItem("accessToken") as string
-      );
+      const accessToken = localStorage.getItem("accessToken") as string;
+      const result = await updatePostAction(formData, post._id, accessToken);
 
-      // branch
-      if (response?.error) return response.error;
+      if (result.error?.code === "ERR_JWT_EXPIRED") {
+        const newAccessToken = await refreshAccessToken();
+        const result = await updatePostAction(formData, post._id, newAccessToken);
+
+        if (result.error) return result;
+        console.log("토큰갱신 > 재요청 > 성공적으로 포스트글을 수정하였습니다.", result);
+        setIsEditMode(false);
+        setIsClickedOptionButton(false);
+        return result;
+      }
+
+      console.log("성공적으로 포스트글을 수정하였습니다.", result);
       setIsEditMode(false);
-      console.log({ response });
-      console.log("....");
-      return response;
+      setIsClickedOptionButton(false);
+      return result;
     },
-    null // 초기값
+    null
   );
-
-  const handleClickCancelButton = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setIsEditMode(false);
-    setIsClicked(false);
-  };
 
   if (isEditMode) {
     return (
-      <form className="post-article" action={updateAction}>
+      <form className="post-article edit-mode" action={updateAction}>
         <div className="article-header">
-          <input
-            className="title edit-title"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+          <PostArticleEditModeButton
+            setIsEditMode={setIsEditMode}
+            setIsClickedOptionButton={setIsClickedOptionButton}
           />
+          <input className="title edit-title" type="text" name="title" defaultValue={post.title} />
           <div className="wrapper">
             <div className="writer">
               <p>작성자 : {post.author?.name}</p>
               <p>{post.createdAt?.slice(0, 10)}</p>
             </div>
-            <div className="buttons">
-              <button type="submit">save</button>
-              <button onClick={handleClickCancelButton}>cancel</button>
-            </div>
           </div>
+          <small>
+            <span>카테고리 : </span>
+            <input type="text" name="category" defaultValue={post.category} />
+          </small>
         </div>
         <div className="article-body">
           <pre>{post.content}</pre>
+          <ul>
+            <li>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                // defaultValue={post.image ? post.image : null}
+                style={{ display: "none" }}
+              />
+              <label className="image-label" htmlFor="image">
+                <FcAddImage size={30} />
+                <span>image</span>
+              </label>
+            </li>
+          </ul>
+          <button type="submit">저장</button>
+        </div>
+        <div className="article-footer">
+          <PostArticleEditModeButton
+            setIsEditMode={setIsEditMode}
+            setIsClickedOptionButton={setIsClickedOptionButton}
+          />
         </div>
       </form>
     );
@@ -85,8 +101,8 @@ export default function PostArticle({ post }: any) {
           </div>
           <PostArticleOptionButton
             post={post}
-            isClicked={isClicked}
-            setIsClicked={setIsClicked}
+            isClickedOptionButton={isClickedOptionButton}
+            setIsClickedOptionButton={setIsClickedOptionButton}
             setIsEditMode={setIsEditMode}
           />
         </div>

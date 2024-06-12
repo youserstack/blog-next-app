@@ -1,6 +1,8 @@
 "use server";
 
-export async function updatePost(formData: FormData, postId: string, accessToken: string) {
+import { updatePost } from "@/lib/utils/fetcher";
+
+export async function updatePostAction(formData: FormData, postId: string, accessToken: string) {
   console.log("\n\x1b[35m<updatePost>\x1b[0m");
 
   // extract
@@ -8,39 +10,14 @@ export async function updatePost(formData: FormData, postId: string, accessToken
   const title = formData.get("title");
   const content = formData.get("content");
   const tags = formData.get("tags");
+  const image = formData.get("image");
+  const payload = { category, title, content, tags, image };
+
+  // console.log({ payload });
 
   // request
-  const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
-    method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ category, title, content, tags }),
-  });
-  const result = await response.json();
+  const result = await updatePost(postId, payload, accessToken);
   return result;
-
-  // try {
-  //   // request
-  //   const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
-  //     method: "PATCH",
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ category, title, content, tags }),
-  //   });
-
-  //   // branch
-  //   if (!response.ok) throw new Error("특정 포스트글 수정 실패");
-  //   const { updatedPost } = await response.json();
-  //   console.log({ updatePost });
-  //   return { updatedPost };
-  // } catch (error: any) {
-  //   console.error(error);
-  //   return { error: error.message };
-  // }
 }
 
 export async function createComment(formData: FormData, postId: string, accessToken: string) {

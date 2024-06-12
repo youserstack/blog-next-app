@@ -4,15 +4,16 @@ import { deletePost } from "@/lib/utils/fetcher";
 import { useRouter } from "next/navigation";
 import { MouseEvent, useEffect } from "react";
 import { IoIosMore } from "react-icons/io";
+import "../../styles/PostArticleOptionButton.scss";
 
 export default function PostArticleOptionButton({
   post,
-  isClicked,
-  setIsClicked,
+  isClickedOptionButton,
+  setIsClickedOptionButton,
   setIsEditMode,
 }: any) {
   const router = useRouter();
-  const handleClickOptionButton = () => setIsClicked(!isClicked);
+  const handleClickOptionButton = () => setIsClickedOptionButton(!isClickedOptionButton);
   const handleClickEditButton = () => setIsEditMode(true);
   const handleClickDeleteButton = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -22,7 +23,7 @@ export default function PostArticleOptionButton({
   };
 
   useEffect(() => {
-    const handleClick = () => setIsClicked(false);
+    const handleClick = () => setIsClickedOptionButton(false);
     window.addEventListener("click", handleClick);
     return () => window.removeEventListener("click", handleClick);
   }, []);
@@ -36,7 +37,7 @@ export default function PostArticleOptionButton({
           handleClickOptionButton();
         }}
       />
-      {isClicked && (
+      {isClickedOptionButton && (
         <div
           className="option-layer"
           onClick={(e) => e.stopPropagation()} // window 에 등록된 mouse event 반응을 하지 않도록 한다.
