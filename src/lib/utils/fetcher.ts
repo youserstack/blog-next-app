@@ -5,7 +5,6 @@ const ROOT_URL = process.env.ROOT_URL;
 // 전체 카테고리 읽기 (레이아웃 서버컴포넌트에서 사용)
 export async function getCategories() {
   const response = await fetch(`${ROOT_URL}/api/categories`);
-  if (!response.ok) throw new Error("전체 카테고리 읽기 실패");
   return response.json();
 }
 
@@ -17,14 +16,12 @@ export async function getPosts(categoryPath: any, page: number) {
     body: JSON.stringify({ categoryPath, page }),
     cache: "no-cache",
   });
-  if (!response.ok) throw new Error("카테고리 포스트글 리스트 읽기 실패");
   return response.json();
 }
 
 // 특정 포스트글 읽기
 export async function getPost(postId: any) {
   const response = await fetch(`${ROOT_URL}/api/posts/${postId}`);
-  if (!response.ok) throw new Error("특정 포스트글 읽기 실패");
   return response.json();
 }
 
@@ -42,7 +39,6 @@ export async function deletePost(postId: string) {
       "Content-Type": "application/json",
     },
   });
-  if (!response.ok) throw new Error("특정 포스트글 삭제 실패");
   return response.json();
 }
 
@@ -54,11 +50,11 @@ export async function updatePost(postId: string, payload: any, accessToken: stri
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
+      // "Content-Type": "multipart/form-data",
     },
-    body: JSON.stringify(payload),
+    body: payload,
+    // body: JSON.stringify(payload),
   });
-  if (!response.ok) throw new Error("특정 포스트글 수정 실패");
   return response.json();
 }
 
@@ -73,7 +69,6 @@ export async function deleteComment(commentId: string, accessToken: string) {
       "Content-Type": "application/json",
     },
   });
-  if (!response.ok) throw new Error("특정 댓글 삭제 실패");
   return response.json();
 }
 

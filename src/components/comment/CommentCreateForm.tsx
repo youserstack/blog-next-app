@@ -33,13 +33,13 @@ export default function CommentCreateForm({
 
       // branch
       if (result.error) return result;
-      console.log("토큰갱신 > 재요청 > 성공적으로 새로운 댓글을 생성하였습니다.");
+      console.log("토큰갱신 > 재요청 > 새로운 댓글을 생성하였습니다.");
       console.log({ newComment: result.newComment });
       mutate(url); // 클라이언트 리패칭
       return result;
     }
 
-    console.log("성공적으로 새로운 댓글을 생성하였습니다.");
+    console.log("새로운 댓글을 생성하였습니다.");
     mutate(url); // 클라이언트 리패칭
     return result;
   }, null);

@@ -14,26 +14,28 @@ import { deletePost } from "@/lib/utils/fetcher";
 import { refreshAccessToken } from "@/lib/utils/auth";
 
 export default function PostArticle({ post }: any) {
-  const [isClickedOptionButton, setIsClickedOptionButton] = useState(false); // 옵션 버튼 클릭 상태
-  const [isEditMode, setIsEditMode] = useState(false); // 편집 모드 상태
-
+  const [isClickedOptionButton, setIsClickedOptionButton] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [updateState, updateAction] = useFormState(
     async (currentState: any, formData: FormData) => {
+      // request with server action
       const accessToken = localStorage.getItem("accessToken") as string;
       const result = await updatePostAction(formData, post._id, accessToken);
 
+      // if the token is expired, refresh and re-request
       if (result.error?.code === "ERR_JWT_EXPIRED") {
         const newAccessToken = await refreshAccessToken();
         const result = await updatePostAction(formData, post._id, newAccessToken);
 
         if (result.error) return result;
-        console.log("토큰갱신 > 재요청 > 성공적으로 포스트글을 수정하였습니다.", result);
+        console.log("토큰갱신 > 재요청 > 포스트글을 수정하였습니다.", result);
         setIsEditMode(false);
         setIsClickedOptionButton(false);
         return result;
       }
 
-      console.log("성공적으로 포스트글을 수정하였습니다.", result);
+      // complete
+      console.log("포스트글을 수정하였습니다.", result);
       setIsEditMode(false);
       setIsClickedOptionButton(false);
       return result;

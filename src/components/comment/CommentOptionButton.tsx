@@ -30,14 +30,14 @@ export default function CommentOptionButton({ commentId, postId }: any) {
 
         // branch
         if (result.error) throw new Error("토큰갱신 후 댓글삭제요청 실패");
-        console.log("토큰갱신 > 재요청 > 성공적으로 새로운 댓글을 삭제하였습니다.");
+        console.log("토큰갱신 > 재요청 > 댓글을 삭제하였습니다.");
         const { deletedComment } = result;
         console.log({ deletedComment });
         mutate(url);
         return;
       }
 
-      console.log("성공적으로 새로운 댓글을 삭제하였습니다.");
+      console.log("댓글을 삭제하였습니다.");
       const { deletedComment } = result;
       console.log({ deletedComment });
       mutate(url);
