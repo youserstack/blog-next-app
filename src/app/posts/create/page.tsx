@@ -1,12 +1,12 @@
 "use client";
 
 import { useFormState } from "react-dom";
-import { createPost } from "@/app/posts/create/actions";
-import { useContext } from "react";
+import { createPostAction } from "@/app/posts/actions";
+import { useContext, useEffect } from "react";
 import { Context } from "@/components/context/Provider";
 import { useRouter } from "next/navigation";
-import "./page.scss";
 import { refreshAccessToken } from "@/lib/utils/auth";
+import "./page.scss";
 
 export default function PostCreate() {
   console.log("\n\x1b[34m[pages/post-create]\x1b[0m");
@@ -16,20 +16,28 @@ export default function PostCreate() {
 
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
     const accessToken = localStorage.getItem("accessToken") as string;
-    const result = await createPost(formData, accessToken);
+    const result = await createPostAction(formData, accessToken);
 
     // 토큰만료시 재발급후 재요청
     if (result.error?.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken();
-      const result = await createPost(formData, newAccessToken);
+      const result = await createPostAction(formData, newAccessToken);
       console.log("accessToken 갱신후 재요청...");
       console.log({ newPost: result.newPost });
       return { newPost: result.newPost };
+    } else if (result.error) {
+      return { error: result.error };
     }
 
-    console.log({ newPost: result.newPost });
+    console.log("성공적으로 새로운 포스트 글을 생성하였습니다.");
     return { newPost: result.newPost };
   }, null);
+
+  useEffect(() => {
+    if (state?.newPost) {
+      router.refresh();
+    }
+  }, [state, router]);
 
   return (
     <main className="post-create-page">

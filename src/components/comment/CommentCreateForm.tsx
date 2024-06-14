@@ -18,7 +18,6 @@ export default function CommentCreateForm({
   postId: string;
 }) {
   const { isSignedIn }: any = useContext(Context); // 로그인 상태
-
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
     // request
     const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`; // 댓글생성후 리패칭할 주소
@@ -27,19 +26,21 @@ export default function CommentCreateForm({
 
     // 토큰만료시 > 토큰갱신 > 재요청
     if (result.error?.code === "ERR_JWT_EXPIRED") {
-      // request
       const newAccessToken = await refreshAccessToken();
-      const result = await createCommentAction(formData, postId, newAccessToken); // 서버액션으로부터 요청한다.
+      const result = await createCommentAction(formData, postId, newAccessToken);
 
-      // branch
       if (result.error) {
-        console.error("에러가 발생했습니다.", result.error);
-        return result;
+        console.error("재요청에 대한 에러가 발생했습니다.", result.error);
+        return { error: result.error };
       }
+
       console.log("토큰갱신 > 재요청 > 새로운 댓글을 생성하였습니다.");
       console.log({ newComment: result.newComment });
-      mutate(url); // 클라이언트 리패칭
+      mutate(url); // 클라이언트 리패칭 (swr)
       return result;
+    } else if (result.error) {
+      console.error("에러가 발생했습니다.", result.error);
+      return { error: result.error };
     }
 
     console.log("새로운 댓글을 생성하였습니다.");

@@ -2,17 +2,20 @@
 
 import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
+import User from "@/lib/models/User";
 
 // 전체 포스트글 읽기
-export async function POST(request: Request) {
-  console.log("\n\x1b[32m[api/posts]:::[POST]\x1b[0m");
+export async function GET(request: Request) {
+  console.log("\n\x1b[32m[api/posts?categoryPath&page]:::[POST]\x1b[0m");
   await connectDB();
 
   // extract
-  const { categoryPath, page } = await request.json();
+  const { searchParams } = new URL(request.url);
+  const categoryPath = searchParams.get("categoryPath");
+  const page = searchParams.get("page") || "1";
+  console.log({ categoryPath, page });
   const POST_PER_PAGE = 5;
   const skip = ((parseInt(page) || 1) - 1) * POST_PER_PAGE;
-  console.log({ categoryPath, page });
 
   // query
   const totalCount = await Post.countDocuments({ category: { $regex: categoryPath } });
@@ -23,4 +26,38 @@ export async function POST(request: Request) {
   // $options: "i", // 대소문자 구분하지 않음
 
   return Response.json({ totalCount, posts }, { status: 200 });
+}
+
+// 새로운 포스트글 생성
+export async function POST(request: Request) {
+  console.log("\n\x1b[32m[api/posts]:::[POST]\x1b[0m");
+  await connectDB();
+
+  // authenticate
+  const email = request.headers.get("email");
+  const foundUser = await User.findOne({ email });
+  if (!foundUser) {
+    const error = { error: { message: "해당 사용자가 존재하지 않습니다." } };
+    return Response.json(error, { status: 404 });
+  }
+
+  // extract
+  const formData = await request.formData();
+  const category = formData.get("category");
+  const title = formData.get("title");
+  const content = formData.get("content");
+  const author = formData.get("author");
+  const tags = formData.get("tags");
+  // const images = formData.get('images')
+  const post = { category, title, content, author, tags };
+  if (!category || !title || !content || !author || !tags) {
+    const error = { error: { message: "포스트 게시물의 내용물을 누락하였습니다." } };
+    return Response.json(error, { status: 400 });
+  }
+
+  // creation
+  const newPost = await Post.create({ ...post, author: foundUser._id });
+  console.log({ newPost });
+
+  return Response.json({ newPost }, { status: 200 });
 }

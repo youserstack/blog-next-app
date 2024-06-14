@@ -1,6 +1,6 @@
 "use client";
 
-import { createPost } from "@/app/posts/create/actions";
+import { createPostAction } from "@/app/posts/actions";
 import { Context } from "@/components/context/Provider";
 import { useContext, useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -23,17 +23,29 @@ export default function PostCreateModal() {
   const { setCurrentModal }: any = useContext(Context);
   const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
     const accessToken = localStorage.getItem("accessToken") as string;
-    const response = await createPost(formData, accessToken);
+    const result = await createPostAction(formData, accessToken);
 
-    // 토큰만료시 재발급후 재요청
-    if (response.error.code === "ERR_JWT_EXPIRED") {
+    // 토큰만료시 > 토큰갱신 > 재요청
+    if (result.error.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken(); // 재발급
-      const response = await createPost(formData, newAccessToken); // 재요청
-      return response;
+      const result = await createPostAction(formData, newAccessToken); // 재요청
+
+      if (result.error) {
+        console.error("재요청에 대한 에러가 발생했습니다.", result.error);
+        return { error: result.error };
+      }
+
+      console.log("토큰갱신 > 재요청 > 새로운 포스트를 생성하였습니다.", {
+        newPost: result.newPost,
+      });
+      return { newPost: result.newPost };
+    } else if (result.error) {
+      console.error("에러가 발생했습니다.", result.error);
+      return { error: result.error };
     }
 
-    console.log("성공적으로 새로운 포스트 글을 생성하였습니다.");
-    return { newPost: response.newPost };
+    console.log("새로운 포스트를 생성하였습니다.", { newPost: result.newPost });
+    return { newPost: result.newPost };
   }, null);
 
   // options
