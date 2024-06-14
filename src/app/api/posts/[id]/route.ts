@@ -1,8 +1,9 @@
 import connectDB from "@/lib/config/connectDB";
-import { uploadMiddleware } from "@/lib/middlewares/uploadMiddlewares";
 import Post from "@/lib/models/Post";
 import cloudinary from "cloudinary";
+import { uploadMiddleware } from "@/lib/middlewares/uploadMiddlewares";
 import multer from "multer";
+import { revalidatePath } from "next/cache";
 
 // 포스트글 읽기
 export async function GET(request: Request, { params }: { params: { id: string } }) {
@@ -45,27 +46,33 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   // extract the formData
   const formData = await request.formData();
   const postId = params.id;
-  console.log({ formData });
   const category = formData.get("category");
   const title = formData.get("title");
   const content = formData.get("content");
   const tags = formData.get("tags");
-  const image = formData.get("image") as File;
+  const image = formData.get("image");
 
-  // configurate the cloudinary api
-  cloudinary.v2.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-  });
+  // create a image url
+  let imageUrl: string | null;
+  if (image && image instanceof File && image.size > 0) {
+    // configurate the cloudinary api
+    cloudinary.v2.config({
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
 
-  // upload a image
-  const url = await saveFile(image);
+    // upload a image
+    imageUrl = await saveFile(image);
+  } else {
+    imageUrl = null;
+    // console.error("Provided image is not a valid file or it is empty.");
+    console.error("제공된 이미지 파일은 유효하지 않습니다.");
+  }
 
-  // arrange the document's fields
   // 업데이트할 객체를 준비한다.
   // payload에서 null이나 빈 객체 {}인 필드를 제거합니다.
-  const payload = { category, title, content, tags, image: url };
+  const payload = { category, title, content, tags, image: imageUrl };
   const filteredPayload = Object.entries(payload).reduce((acc, [key, value]: any) => {
     // value가 null이거나 빈 객체이면 acc에 추가하지 않고, 다음으로 넘어갑니다.
     const isNull = value === null;
@@ -78,11 +85,12 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   }, {} as { [key: string]: any });
   console.log({ filteredPayload });
 
-  // return Response.json({ message: "testing..." });
-
   // update
   const updatedPost = await Post.findByIdAndUpdate(postId, filteredPayload, { new: true });
   console.log({ updatedPost });
+
+  // revalidatePath("/api/posts/[id]");
+  revalidatePath("/", "layout");
 
   return Response.json({ updatedPost }, { status: 200 });
 }

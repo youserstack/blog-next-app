@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { updatePostAction } from "@/app/posts/[...id]/actions";
 import { FcAddImage } from "react-icons/fc";
@@ -14,6 +14,7 @@ import { deletePost } from "@/lib/utils/fetcher";
 import { refreshAccessToken } from "@/lib/utils/auth";
 
 export default function PostArticle({ post }: any) {
+  const router = useRouter();
   const [isClickedOptionButton, setIsClickedOptionButton] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [updateState, updateAction] = useFormState(
@@ -45,6 +46,13 @@ export default function PostArticle({ post }: any) {
     },
     null
   );
+
+  // 서버에서 revalidatePath를 했다면, 클라이언트에서 refresh를 해야한다.
+  useEffect(() => {
+    if (updateState?.updatedPost) {
+      router.refresh();
+    }
+  }, [updateState, router]);
 
   if (isEditMode) {
     return (

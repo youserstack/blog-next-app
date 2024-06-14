@@ -29,14 +29,11 @@ export async function POST(request: Request) {
 
   // authenticate
   const email = request.headers.get("email");
-  console.log({ email });
   const foundUser = await User.findOne({ email });
   if (!foundUser) {
     const error = { error: { message: "해당 사용자가 존재하지 않습니다." } };
     return Response.json(error, { status: 404 });
   }
-  // console.log({ foundUser });
-  // return Response.json({ message: "test" });
 
   // extract
   const { searchParams } = new URL(request.url);
