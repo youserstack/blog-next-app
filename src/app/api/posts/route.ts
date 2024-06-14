@@ -4,7 +4,7 @@ import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
-// 전체 포스트글 읽기
+// 전체 포스트 읽기
 export async function GET(request: Request) {
   console.log("\n\x1b[32m[api/posts?categoryPath&page]:::[POST]\x1b[0m");
   await connectDB();
@@ -28,7 +28,7 @@ export async function GET(request: Request) {
   return Response.json({ totalCount, posts }, { status: 200 });
 }
 
-// 새로운 포스트글 생성
+// 새로운 포스트 생성
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/posts]:::[POST]\x1b[0m");
   await connectDB();

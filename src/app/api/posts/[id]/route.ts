@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { uploadToCloudinary } from "@/lib/services/upload";
 import "@/lib/config/cloudinaryConfig";
 
-// 포스트글 읽기
+// 포스트 읽기
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]]\x1b[0m");
   await connectDB();
@@ -18,7 +18,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   return Response.json({ post: foundPost });
 }
 
-// 포스트글 수정
+// 포스트 수정
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]]:::[PATCH]\x1b[0m");
   await connectDB();
@@ -69,7 +69,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   return Response.json({ updatedPost }, { status: 200 });
 }
 
-// 포스트글 삭제
+// 포스트 삭제
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]]:::[DELETE]\x1b[0m");
   await connectDB();

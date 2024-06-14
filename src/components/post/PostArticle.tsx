@@ -32,14 +32,14 @@ export default function PostArticle({ post }: any) {
           console.error("에러가 발생했습니다.", result.error);
           return result;
         }
-        console.log("토큰갱신 > 재요청 > 포스트글을 수정하였습니다.", result);
+        console.log("토큰갱신 > 재요청 > 포스트를 수정하였습니다.", result);
         setIsEditMode(false);
         setIsClickedOptionButton(false);
         return result;
       }
 
       // complete
-      console.log("포스트글을 수정하였습니다.", result);
+      console.log("포스트를 수정하였습니다.", result);
       setIsEditMode(false);
       setIsClickedOptionButton(false);
       return result;

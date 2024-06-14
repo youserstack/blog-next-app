@@ -8,7 +8,7 @@ export async function getCategories() {
   return response.json();
 }
 
-// 카테고리 포스트글 리스트 읽기
+// 카테고리 포스트 리스트 읽기
 export async function getPosts(categoryPath: any, page: number) {
   const encodedCategoryPath = encodeURIComponent(categoryPath);
   console.log({ encodedCategoryPath });
@@ -19,7 +19,7 @@ export async function getPosts(categoryPath: any, page: number) {
   return response.json();
 }
 
-// 포스트글 읽기
+// 포스트 읽기
 export async function getPost(postId: any) {
   const response = await fetch(`${ROOT_URL}/api/posts/${postId}`);
   return response.json();
