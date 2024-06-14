@@ -1,6 +1,6 @@
 const ROOT_URL = process.env.ROOT_URL;
 
-/* 서버 컴포넌트 함수 */
+/* 서버 컴포넌트에 사용할 유틸 함수 */
 
 // 전체 카테고리 읽기 (레이아웃 서버컴포넌트에서 사용)
 export async function getCategories() {
@@ -19,20 +19,29 @@ export async function getPosts(categoryPath: any, page: number) {
   return response.json();
 }
 
-// 특정 포스트글 읽기
+// 포스트글 읽기
 export async function getPost(postId: any) {
   const response = await fetch(`${ROOT_URL}/api/posts/${postId}`);
   return response.json();
 }
 
-/* 클라이언트 컴포넌트 함수 */
+/* 클라이언트 컴포넌트에 사용할 유틸 함수 */
 
-// 특정 포스트글 삭제 (클라이언트 컴포넌트에서 사용)
-export async function deletePost(postId: string) {
+// 포스크글 수정
+export async function updatePost(postId: string, payload: any, accessToken: string) {
+  console.log("\n\x1b[35m<updatePost>\x1b[0m");
+  const response = await fetch(`${ROOT_URL}/api/posts/${postId}`, {
+    method: "PATCH",
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: payload,
+  });
+  return response.json();
+}
+
+// 포스트글 삭제
+export async function deletePost(postId: string, accessToken: string) {
   console.log("\n\x1b[35m<deletePost>\x1b[0m");
-  const url = `${ROOT_URL}/api/posts/${postId}`;
-  const accessToken = localStorage.getItem("accessToken");
-  const response = await fetch(url, {
+  const response = await fetch(`${ROOT_URL}/api/posts/${postId}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -42,27 +51,10 @@ export async function deletePost(postId: string) {
   return response.json();
 }
 
-// 특정 포스크글 수정
-export async function updatePost(postId: string, payload: any, accessToken: string) {
-  console.log("\n\x1b[35m<updatePost>\x1b[0m");
-  const url = `${ROOT_URL}/api/posts/${postId}`;
-  const response = await fetch(url, {
-    method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      // "Content-Type": "multipart/form-data",
-    },
-    body: payload,
-    // body: JSON.stringify(payload),
-  });
-  return response.json();
-}
-
-// 특정 댓글 삭제
+// 댓글 삭제
 export async function deleteComment(commentId: string, accessToken: string) {
   console.log("\n\x1b[35m<deleteComment>\x1b[0m");
-  const url = `${ROOT_URL}/api/comments/${commentId}`;
-  const response = await fetch(url, {
+  const response = await fetch(`${ROOT_URL}/api/comments/${commentId}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${accessToken}`,

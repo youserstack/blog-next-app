@@ -21,14 +21,12 @@ export async function POST(request: Request, { params }: any) {
       { status: 404 }
     );
   }
-  // console.log({ foundUser });
 
   // extract
   const { content, postId } = await request.json();
   if (!content) {
     return Response.json({ error: { message: "댓글내용이나 포스트아이디를 누락하였습니다." } });
   }
-  // console.log({ content });
 
   // create
   const newComment = await Comment.create({ post: postId, author: foundUser._id, content });

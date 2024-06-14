@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   return Response.json({ categories: foundCategories });
 }
 
-// 특정 카테고리 삭제
+// 카테고리 삭제
 export async function DELETE(request: Request) {
   console.log("\n\x1b[32m[api/categories]:::[DELETE]\x1b[0m");
   await connectDB();

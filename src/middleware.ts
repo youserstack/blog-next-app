@@ -12,7 +12,7 @@ const PROTECTED_PAGES = ["/protected", "/dashboard", "/posts/create"];
 // 각각의 백엔드포인트에서는 accessToken으로 접근한 경우에만 허용한다.
 const PROTECTED_APIs = [
   "/api/posts/create",
-  "/api/comments/create",
+  "/api/comments",
   "/api/categories/create",
   "/api/test",
 ];
@@ -30,9 +30,8 @@ export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
   const isProtectedApi =
-    PROTECTED_APIs.some((api: string) => pathname.startsWith(api)) ||
-    request.method === "DELETE" ||
-    request.method === "PATCH";
+    PROTECTED_APIs.some((api: string) => pathname.startsWith(api)) &&
+    (request.method === "POST" || request.method === "DELETE" || request.method === "PATCH");
 
   // 커스텀 헤더 설정
   const headers = new Headers(request.headers);

@@ -3,7 +3,7 @@ import Comment from "@/lib/models/Comment";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
-// 특정 댓글 삭제
+// 댓글 삭제
 export async function DELETE(request: Request, { params }: any) {
   console.log("\n\x1b[32m[api/comments]:::[DELETE]\x1b[0m");
   await connectDB();

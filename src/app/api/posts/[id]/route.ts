@@ -4,7 +4,7 @@ import Post from "@/lib/models/Post";
 import cloudinary from "cloudinary";
 import multer from "multer";
 
-// 특정 포스트글 읽기
+// 포스트글 읽기
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]]\x1b[0m");
   await connectDB();
@@ -17,7 +17,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   return Response.json({ post: foundPost });
 }
 
-// 특정 포스트글 수정
+// 포스트글 수정
 interface UploadResult {
   url: string;
 }
@@ -42,7 +42,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   console.log("\n\x1b[32m[api/posts/[id]]:::[PATCH]\x1b[0m");
   await connectDB();
 
-  // extract
+  // extract the formData
   const formData = await request.formData();
   const postId = params.id;
   console.log({ formData });
@@ -52,17 +52,17 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   const tags = formData.get("tags");
   const image = formData.get("image") as File;
 
-  // cloudinary configuration
+  // configurate the cloudinary api
   cloudinary.v2.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
 
-  // image upload
+  // upload a image
   const url = await saveFile(image);
 
-  // arrange
+  // arrange the document's fields
   // 업데이트할 객체를 준비한다.
   // payload에서 null이나 빈 객체 {}인 필드를 제거합니다.
   const payload = { category, title, content, tags, image: url };
@@ -80,6 +80,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 
   // return Response.json({ message: "testing..." });
 
+  // update
   const updatedPost = await Post.findByIdAndUpdate(postId, filteredPayload, { new: true });
   console.log({ updatedPost });
 
@@ -117,7 +118,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 //   // return Response.json({ updatedPost }, { status: 200 });
 // }
 
-// 특정 포스트글 삭제
+// 포스트글 삭제
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]]:::[DELETE]\x1b[0m");
   await connectDB();

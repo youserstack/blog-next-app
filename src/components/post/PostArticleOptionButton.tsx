@@ -17,7 +17,8 @@ export default function PostArticleOptionButton({
   const handleClickEditButton = () => setIsEditMode(true);
   const handleClickDeleteButton = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await deletePost(post._id);
+    const accessToken = localStorage.getItem("accessToken") as string;
+    await deletePost(post._id, accessToken);
     router.push(`/categories/${post.category.slice(1)}`);
     router.refresh();
   };

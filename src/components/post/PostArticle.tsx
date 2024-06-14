@@ -27,7 +27,10 @@ export default function PostArticle({ post }: any) {
         const newAccessToken = await refreshAccessToken();
         const result = await updatePostAction(formData, post._id, newAccessToken);
 
-        if (result.error) return result;
+        if (result.error) {
+          console.error("에러가 발생했습니다.", result.error);
+          return result;
+        }
         console.log("토큰갱신 > 재요청 > 포스트글을 수정하였습니다.", result);
         setIsEditMode(false);
         setIsClickedOptionButton(false);
