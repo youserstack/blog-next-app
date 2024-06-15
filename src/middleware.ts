@@ -6,11 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 // 프로텍티드 페이지인 경우에는 인증된 사용자만 접근을 허용한다. (blog post 생성/수정/삭제)
 // '/auth/signin' 페이지로의 접근시 토근이 유효하다면 홈페이지로 리다이렉트를 한다.
 const PROTECTED_PAGES = ["/protected", "/dashboard", "/posts/create"];
-
-// 백앤드포인트 접근시 accessToken 을 검사 => 무효하다면 refreshAuth (newAccessToken, newRefreshToken)
-// 중요한 데이터이기때문에 반드시 accessToken 이 필요하다.
-// 각각의 백엔드포인트에서는 accessToken으로 접근한 경우에만 허용한다.
-const PROTECTED_APIs = ["/api/posts", "/api/comments", "/api/categories/create", "/api/test"];
+const PROTECTED_APIs = ["/api/categories", "/api/posts", "/api/comments"];
 
 // 토큰 검증 함수
 async function verifyToken(token: string, secret: string) {
@@ -28,7 +24,7 @@ export default async function middleware(request: NextRequest) {
     PROTECTED_APIs.some((api: string) => pathname.startsWith(api)) &&
     (request.method === "POST" || request.method === "DELETE" || request.method === "PATCH");
 
-  // 커스텀 헤더 설정
+  // custom header configuration
   const headers = new Headers(request.headers);
   headers.set("pathname", pathname);
 
@@ -110,6 +106,5 @@ export const config = {
     "/api/posts/:path*",
     "/api/comments/:path*",
     "/api/categories/:path*",
-    "/api/test",
   ],
 };

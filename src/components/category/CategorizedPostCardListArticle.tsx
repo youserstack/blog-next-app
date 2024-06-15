@@ -20,12 +20,16 @@ export default async function CategorizedPostCardListArticle({
     <article className="categorized-post-list-article">
       <div className="article-header">
         <div className="breadcrumb">
-          {categorySegments?.map((v: string, i: number) => (
-            <React.Fragment key={v}>
-              <Link href={""}>{v}</Link>
-              <span>{">"}</span>
-            </React.Fragment>
-          ))}
+          {categorySegments?.map((v: string, i: number) => {
+            // 요소의 인덱스까지의 모든 요소를 결합하여 경로 생성
+            const key = "/" + categorySegments.slice(0, i + 1).join("/");
+            return (
+              <React.Fragment key={key}>
+                <Link href={""}>{v}</Link>
+                <span>{">"}</span>
+              </React.Fragment>
+            );
+          })}
           {categorySegments?.length <= 2 && (
             <CategoryCreateButton parentCategories={categorySegments} label="+" />
           )}

@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { uploadToCloudinary } from "@/lib/services/upload";
 import "@/lib/config/cloudinaryConfig";
 
-// 포스트 읽기
+// 포스트 읽기 (read)
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]]\x1b[0m");
   await connectDB();
@@ -18,7 +18,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   return Response.json({ post: foundPost });
 }
 
-// 포스트 수정
+// 포스트 수정 (update)
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]]:::[PATCH]\x1b[0m");
   await connectDB();
@@ -56,7 +56,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     acc[key] = value; // null도 아니고 빈 객체도 아닌 경우, acc에 key-value 쌍을 추가합니다.
     return acc; // 누적된 객체를 반환합니다.
   }, {} as { [key: string]: any });
-  console.log({ filteredPayload });
+  // console.log({ filteredPayload });
 
   // update
   const updatedPost = await Post.findByIdAndUpdate(postId, filteredPayload, { new: true });
@@ -69,7 +69,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   return Response.json({ updatedPost }, { status: 200 });
 }
 
-// 포스트 삭제
+// 포스트 삭제 (delete)
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]]:::[DELETE]\x1b[0m");
   await connectDB();

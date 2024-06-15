@@ -23,14 +23,13 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
       const result = await response.json();
 
-      // branch
       if (!response.ok) throw new Error("로그아웃을 실패했습니다.");
       const { message } = result;
-      console.log({ message });
+      console.log("로그아웃되었습니다.", { message });
       localStorage.removeItem("accessToken");
       setIsSignedIn(false);
-    } catch (error: any) {
-      console.error(error.message);
+    } catch (error) {
+      console.error(error);
       return error;
     }
   };
@@ -52,7 +51,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       localStorage.setItem("accessToken", result.newAccessToken);
       setIsSignedIn(true);
     } catch (error) {
-      console.error({ error });
+      console.error(error);
       signout();
     }
   };

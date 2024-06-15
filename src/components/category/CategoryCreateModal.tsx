@@ -1,58 +1,61 @@
 "use client";
 
 import { FormEvent, useContext } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { Context } from "@/components/context/Provider";
+import { useFormState } from "react-dom";
+import { createCategoryAction } from "@/app/categories/[...category]/actions";
+import { refreshAccessToken } from "@/lib/utils/auth";
 import "../../styles/CategoryCreateModal.scss";
 
 export default function CategoryCreateModal() {
   const pathname = usePathname();
+  const params = useParams();
+  // const parentCategories =
+  //   params.category instanceof Array
+  //     ? params.category.map((v: string) => `/${v}`).join("")
+  //     : `/${params.category}`;
   const router = useRouter();
-  const { parentCategories, setCurrentModal }: any = useContext(Context);
+  const { setCurrentModal }: any = useContext(Context);
+  const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
+    formData.set("parentCategories", JSON.stringify(params.category));
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+    const accessToken = localStorage.getItem("accessToken") as string;
+    const result = await createCategoryAction(formData, accessToken);
 
-    // Get input data
-    const form = e.target as HTMLFormElement;
-    const categoryInput = form.elements.namedItem("category") as HTMLInputElement;
-    const childCategory = categoryInput.value;
+    // 토큰만료시 > 토큰갱신 > 재요청
+    if (result.error.code === "ERR_JWT_EXPIRED") {
+      const newAccessToken = await refreshAccessToken(); // 재발급
+      const result = await createCategoryAction(formData, newAccessToken); // 재요청
 
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-      const response = await fetch(`${process.env.ROOT_URL}/api/categories/create`, {
-        method: "post",
-        headers: {
-          authorization: `bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ parentCategories, childCategory }),
-      });
-      if (!response.ok) return;
-      const { newCategory } = await response.json();
-
-      if (parentCategories.length === 0) {
-        // 네비게이션 메뉴에서 + 버튼으로 실행한 경우
-        router.refresh();
-      } else {
-        // 다이나믹 라우트 페이지 > breadcrumb > + 버튼으로 실행한 경우
-        router.push(`${pathname}/${newCategory}`);
-        router.refresh();
+      if (result.error) {
+        console.error("재요청에 대한 에러가 발생했습니다.", result.error);
+        return { error: result.error };
       }
-    } catch (error) {
-      console.log({ error });
+
+      console.log("토큰갱신 > 재요청 > 카테고리 생성", { newCategory: result.newCategory });
+      router.push(`${pathname}/${result.newCategory}`);
+      router.refresh();
+      setCurrentModal("");
+      return { newCategory: result.newCategory };
+    } else if (result.error) {
+      console.error("에러가 발생했습니다.", result.error);
+      return { error: result.error };
     }
 
-    // Set display none
+    console.log("카테고리 생성", { newCategory: result.newCategory });
+    router.push(`${pathname}/${result.newCategory}`);
+    router.refresh();
     setCurrentModal("");
-  };
+    return { newCategory: result.newCategory };
+  }, null);
 
   return (
     <div className="category-create-modal" onClick={(e) => e.stopPropagation()}>
       <h3>새 카테고리 생성</h3>
       <small>생성할 새 카테고리 이름을 작성하세요.</small>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="category" />
+      <form action={formAction}>
+        <input type="text" name="childCategory" />
         <button type="submit">add</button>
       </form>
     </div>

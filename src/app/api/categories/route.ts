@@ -1,6 +1,65 @@
 import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
 
+// 카테고리 생성
+export async function POST(request: Request) {
+  console.log("\n\x1b[32m[api/categories]:::[POST]\x1b[0m");
+  await connectDB();
+
+  // extract
+  const formData = await request.formData();
+  const parentCategories = JSON.parse(formData.get("parentCategories") as string) as [];
+  const childCategory = formData.get("childCategory") as string;
+  if (!parentCategories || !childCategory) {
+    return Response.json({ error: { message: "부모경로나 자식경로를 누락하였습니다." } });
+  }
+  console.log({ parentCategories, childCategory });
+
+  // 카테고리 0개 (parentCAtegories === [])
+  if (parentCategories.length === 0) {
+    const newCategory = await Category.create({ name: childCategory });
+    console.log({ newCategory });
+    return Response.json({ newCategory }, { status: 200 });
+  }
+
+  // 카테고리 1개 (parentCAtegories === ['web'])
+  if (parentCategories.length === 1) {
+    // Find the category
+    const foundCategory = await Category.findOne({ name: parentCategories[0] });
+    if (!foundCategory) return Response.json({ error: "no category" }, { status: 404 });
+
+    // Set the category
+    foundCategory.sub1Categories.push({ name: childCategory, sub2Categories: [] });
+    const savedCategory = await foundCategory.save();
+    console.log({ savedCategory });
+
+    return Response.json({ newCategory: childCategory }, { status: 200 });
+  }
+
+  // 카테고리 2개 (parentCAtegories === ['web', 'framework'])
+  if (parentCategories.length === 2) {
+    // Find the category
+    const foundCategory = await Category.findOne({ name: parentCategories[0] });
+
+    // Find the sub1category
+    const foundSub1Category = foundCategory.sub1Categories.find(
+      (v: any) => v.name === parentCategories[1]
+    );
+    if (!foundSub1Category)
+      return Response.json({ error: "no foundSub1Category" }, { status: 404 });
+    console.log({ foundSub1Category });
+
+    // Set the category
+    foundSub1Category.sub2Categories.push({ name: childCategory });
+    const savedCategory = await foundCategory.save();
+    console.log({ savedCategory });
+
+    return Response.json({ newCategory: childCategory }, { status: 200 });
+  }
+
+  return Response.json({ error: "카테고리 생성 실패" }, { status: 400 });
+}
+
 // 전체 카테고리 읽기
 export async function GET(request: Request) {
   // console.log("\n\x1b[32m[api/categories/GET]\x1b[0m");

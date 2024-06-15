@@ -4,9 +4,9 @@ import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
-// 전체 포스트 읽기
+// 전체 포스트 읽기 (read all)
 export async function GET(request: Request) {
-  console.log("\n\x1b[32m[api/posts?categoryPath&page]:::[GET]\x1b[0m");
+  console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
   await connectDB();
 
   // extract
@@ -28,7 +28,7 @@ export async function GET(request: Request) {
   return Response.json({ totalCount, posts }, { status: 200 });
 }
 
-// 새로운 포스트 생성
+// 포스트 생성 (create)
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/posts]:::[POST]\x1b[0m");
   await connectDB();
