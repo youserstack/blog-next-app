@@ -8,7 +8,7 @@ export async function POST(request: Request) {
 
   // extract
   const formData = await request.formData();
-  const parentCategories = JSON.parse(formData.get("parentCategories") as string) as [];
+  const parentCategories = JSON.parse(formData.get("parentCategories") as string) as string[];
   const childCategory = formData.get("childCategory") as string;
   if (!parentCategories || !childCategory) {
     return Response.json({ error: { message: "부모경로나 자식경로를 누락하였습니다." } });
