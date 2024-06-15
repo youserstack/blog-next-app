@@ -16,7 +16,11 @@ export default function PostCard({ post }: any) {
           </div>
         </div>
         <div className="thumbnail">
-          {post.image ? <Image src={""} alt="sdf" /> : <h1>No Image</h1>}
+          {post.image ? (
+            <Image src={post.image} alt="sdf" width={200} height={200} />
+          ) : (
+            <h1>No Image</h1>
+          )}
         </div>
       </Link>
     </li>

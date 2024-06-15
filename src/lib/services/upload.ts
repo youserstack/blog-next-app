@@ -1,7 +1,7 @@
 import cloudinary from "cloudinary";
 
 export interface UploadResult {
-  url: string;
+  secure_url: string;
 }
 
 export async function uploadToCloudinary(file: File): Promise<string> {
@@ -19,6 +19,7 @@ export async function uploadToCloudinary(file: File): Promise<string> {
       })
       .end(buffer);
   });
+  // console.log({ result });
 
-  return result.url;
+  return result.secure_url;
 }

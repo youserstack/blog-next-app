@@ -13,7 +13,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   // query
   const postId = params.id;
   const foundPost = await Post.findById(postId).populate("author");
-  console.log({ foundPost });
+  // console.log({ foundPost });
 
   return Response.json({ post: foundPost });
 }
@@ -78,6 +78,8 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   const postId = params.id;
   const deletedPost = await Post.findByIdAndDelete(postId);
   console.log({ deletedPost });
+
+  revalidatePath("/categories/[...category]", "page");
 
   return Response.json({ deletedPost });
 }

@@ -11,7 +11,6 @@ export async function getCategories() {
 // 카테고리 포스트 리스트 읽기
 export async function getPosts(categoryPath: any, page: number) {
   const encodedCategoryPath = encodeURIComponent(categoryPath);
-  console.log({ encodedCategoryPath });
   const response = await fetch(
     `${ROOT_URL}/api/posts?categoryPath=${encodedCategoryPath}&page=${page}`,
     { headers: { "Content-Type": "application/json" }, cache: "no-cache" }

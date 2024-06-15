@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { MouseEvent, useEffect } from "react";
 import { IoIosMore } from "react-icons/io";
 import "../../styles/PostArticleOptionButton.scss";
+import { refreshAccessToken } from "@/lib/utils/auth";
 
 export default function PostArticleOptionButton({
   post,
@@ -17,9 +18,30 @@ export default function PostArticleOptionButton({
   const handleClickEditButton = () => setIsEditMode(true);
   const handleClickDeleteButton = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
     const accessToken = localStorage.getItem("accessToken") as string;
-    await deletePost(post._id, accessToken);
-    router.push(`/categories/${post.category.slice(1)}`);
+    const result = await deletePost(post._id, accessToken);
+
+    if (result.error.code === "ERR_JWT_EXPIRED") {
+      const newAccessToken = await refreshAccessToken(); // 재발급
+      const result = await deletePost(post._id, newAccessToken);
+
+      if (result.error) {
+        console.error("재요청에 대한 에러가 발생했습니다.", result.error);
+        return { error: result.error };
+      }
+
+      console.log("토큰갱신 > 재요청 > 포스트 생성 성공", {
+        deletedPost: result.deletedPost,
+      });
+      return { deletedPost: result.deletedPost };
+    } else if (result.error) {
+      console.error("에러가 발생했습니다.", result.error);
+      return { error: result.error };
+    }
+
+    console.log("포스트 삭제 성공", { deletedPost: result.deletedPost });
+    router.back();
     router.refresh();
   };
 
