@@ -12,48 +12,51 @@ async function verifyToken(token: string, secret: string): Promise<JWTPayload> {
 }
 
 export default async function middleware(request: NextRequest) {
+  let response: NextResponse;
+
+  // extract headers
   const headers = new Headers(request.headers);
   const { pathname } = request.nextUrl;
+  const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
+  const isProtectedApi =
+    pathname.startsWith("/api") && ["POST", "DELETE", "PATCH"].includes(request.method);
   headers.set("pathname", pathname);
-  let response: NextResponse;
 
   // extract tokens
   const accessToken = request.headers.get("Authorization")?.split(" ")[1] as string;
   const refreshToken: any = cookies().get("refreshToken")?.value;
 
-  // make some conditions
-  const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
-  const isProtectedApi =
-    pathname.startsWith("/api") && ["POST", "DELETE", "PATCH"].includes(request.method);
+  // 모든 페이지에서 쿠키에 저장된 refreshToken으로부터 사용자 인증을 하고,
+  // 인증상태를 클라이언트에 넘겨주기위해서 헤더설정을 한다.
+  let isRefreshTokenValid = false;
+  let user = null;
+  try {
+    const secret = process.env.REFRESH_TOKEN_SECRET as string;
+    user = await verifyToken(refreshToken, secret);
+    if (!user.email) throw new Error("사용자 이메일을 찾을 수 없습니다.");
+    isRefreshTokenValid = true;
+    headers.set("auth", "authenticated");
+    headers.set("email", user.email as string);
+  } catch (error: any) {
+    isRefreshTokenValid = false;
+    headers.set("auth", "unauthenticated");
+  }
 
   // page, api를 구분하여 로깅한다. protected api, protected page 만 로깅한다.
+  const message = isRefreshTokenValid
+    ? "refreshToken이 유효합니다."
+    : "refreshToken이 유효하지 않습니다.";
   if (pathname.startsWith("/api")) {
     console.log("\n\x1b[32m[middleware]\x1b[0m");
     console.log({ api: pathname });
-    console.log({ accessToken });
-  } else if (isProtectedPage) {
+    isRefreshTokenValid && console.log(message, user);
+    // console.log({ accessToken });
+  } else {
     console.log("\n\x1b[32m[middleware]\x1b[0m");
     console.log({ page: pathname });
-    console.log({ refreshToken });
-  }
+    isRefreshTokenValid && console.log(message, user);
 
-  // 모든 페이지에서 쿠키에 저장된 refreshToken으로부터 사용자 인증을 하고,
-  // 인증상태를 클라이언트에 넘겨주기위해서 헤더설정을 한다.
-  let isRefreshTokenValid: boolean;
-  try {
-    const secret = process.env.REFRESH_TOKEN_SECRET as string;
-    const payload = await verifyToken(refreshToken, secret);
-    if (!payload.email) throw new Error("사용자 이메일을 찾을 수 없습니다.");
-    // authenticated
-    console.log("refreshToken이 유효합니다.", payload);
-    isRefreshTokenValid = true;
-    headers.set("auth", "authenticated");
-    headers.set("email", payload.email as string);
-  } catch (error: any) {
-    // unauthenticated
-    console.log("refreshToken이 유효하지 않습니다.");
-    isRefreshTokenValid = false;
-    headers.set("auth", "unauthenticated");
+    // console.log({ refreshToken });
   }
 
   if (isProtectedPage) {
@@ -90,11 +93,13 @@ export default async function middleware(request: NextRequest) {
 
   // 인증된 사용자라면 로그인이 필요하지 않으므로 홈페이지로 리다이렉트한다.
   if (pathname.startsWith("/auth/signin") && refreshToken) {
-    console.log("리다이렉트 합니다.");
+    console.log(
+      "현재 page에서 인증된 토큰정보 refreshToken이 인증되었습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다."
+    );
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // 기본적으로 모든 요청을 통과시킴
+  // configurate the custom header
   response = NextResponse.next({ headers });
   return response;
 }
