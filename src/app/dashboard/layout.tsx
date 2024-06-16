@@ -3,12 +3,5 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="dashboard-layout">
-      {/* Include shared UI here e.g. a header or sidebar */}
-      {/* <nav></nav> */}
-
-      {children}
-    </div>
-  );
+  return <div className="dashboard-layout">{children}</div>;
 }

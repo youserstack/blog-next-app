@@ -1,18 +1,18 @@
-"use client";
-
 import Link from "next/link";
 import SignOutButton from "@/components/ui/SignOutButton";
 import ThemeToggle from "@/components/ui/ThemeToggle";
-import { useContext } from "react";
-import { Context } from "@/components/context/Provider";
+import { headers } from "next/headers";
 import "../../styles/UserArea.scss";
 
-export default function UserArea() {
-  const { isSignedIn }: any = useContext(Context); // 로그인 상태
+export default async function UserArea() {
+  const pathname = headers().get("pathname");
+  const auth = headers().get("auth");
+  const email = headers().get("email");
+  console.log({ auth, email });
 
   return (
     <div className="user-area">
-      {isSignedIn ? (
+      {auth === "authenticated" ? (
         <>
           <Link href={"/protected"}>protected</Link>
           <Link href={"/dashboard"}>dashboard</Link>

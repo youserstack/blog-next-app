@@ -8,7 +8,7 @@ import { Context } from "@/components/context/Provider";
 import "./page.scss";
 
 export default function Signin() {
-  console.log("\n\x1b[34m[pages/signin]\x1b[0m");
+  console.log("\n\x1b[34m[/signin]\x1b[0m");
 
   const [state, formAction] = useFormState(signinAction, null);
   const { setIsSignedIn }: any = useContext(Context);

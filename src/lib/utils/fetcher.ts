@@ -13,7 +13,10 @@ export async function getPosts(categoryPath: any, page: number) {
   const encodedCategoryPath = encodeURIComponent(categoryPath);
   const response = await fetch(
     `${ROOT_URL}/api/posts?categoryPath=${encodedCategoryPath}&page=${page}`,
-    { headers: { "Content-Type": "application/json" }, cache: "no-cache" }
+    {
+      headers: { "Content-Type": "application/json" },
+      cache: "no-cache",
+    }
   );
   return response.json();
 }

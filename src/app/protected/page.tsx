@@ -15,7 +15,7 @@ async function formAction(formData: FormData) {
 }
 
 export default function Protected() {
-  console.log("\n\x1b[34m[pages/protected]\x1b[0m");
+  console.log("\n\x1b[34m[/protected]\x1b[0m");
 
   return (
     <main className="protected">

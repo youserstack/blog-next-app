@@ -1,7 +1,7 @@
 "use client";
 
 export default function Dashboard() {
-  // console.log("\n\x1b[34m[pages/dashboard]\x1b[0m");
+  // console.log("\n\x1b[34m[/dashboard]\x1b[0m");
 
   return (
     <main className="dashboard">

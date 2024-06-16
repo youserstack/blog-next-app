@@ -9,7 +9,7 @@ import { refreshAccessToken } from "@/lib/utils/auth";
 import "./page.scss";
 
 export default function PostCreate() {
-  console.log("\n\x1b[34m[pages/post-create]\x1b[0m");
+  console.log("\n\x1b[34m[/post-create]\x1b[0m");
   const router = useRouter();
   const { categoryPaths }: any = useContext(Context);
   // console.log({ categoryPaths });

@@ -1,5 +1,5 @@
 export default function Home() {
-  console.log("\n\x1b[34m[pages/home]\x1b[0m");
+  console.log("\n\x1b[34m[/]\x1b[0m");
 
   return (
     <main className="home">

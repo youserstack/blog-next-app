@@ -37,7 +37,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   const refreshAccessToken = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) return;
+      // if (!accessToken) return;
       const response = await fetch("/api/auth/refresh", {
         headers: {
           Authorization: `Bearer ${accessToken}`,

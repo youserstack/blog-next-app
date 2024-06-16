@@ -3,30 +3,30 @@
 import { useContext } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Context } from "@/components/context/Provider";
+import { deleteCategory } from "@/lib/utils/category";
 import "../../styles/CategoryDeleteModal.scss";
 
 export default function CategoryDeleteModal() {
   const router = useRouter();
   const params = useParams();
   const categories = params.category as string[];
+  const categoryPath = categories.map((v: string) => `/${v}`).join("");
   const parentCategories = categories.slice(0, -1);
   // const childCategory = categories[categories.length - 1] as string;
   const { setCurrentModal, categoryPaths }: any = useContext(Context);
 
   const handleClickDeleteButton = async () => {
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      const response = await fetch(`${process.env.ROOT_URL}/api/categories`, {
-        method: "delete",
-        headers: {
-          authorization: `bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ categories }),
-      });
-      if (!response.ok) return;
-      const { deletedCategory } = await response.json();
-      console.log({ deletedCategory });
+      const accessToken = localStorage.getItem("accessToken") as string;
+      const result = await deleteCategory(categoryPath, accessToken);
+      // if (result.error.code === "") {
+      // } else if (result.error) {
+      // }
+
+      console.log({ result });
+
+      // const { deletedCategory } = result;
+      // console.log({ deletedCategory });
     } catch (error) {
       console.log({ error });
     }
