@@ -20,11 +20,12 @@ export default async function UserArea() {
   const refreshToken = cookies().get("refreshToken")?.value as string;
   const secret = process.env.REFRESH_TOKEN_SECRET as string;
   const user = await verifyToken(refreshToken, secret);
-  console.log({ user });
+  const isAuthenticated = user.email ? true : false;
+  // console.log({ user });
 
   return (
     <div className="user-area">
-      {user.email ? (
+      {isAuthenticated ? (
         <>
           <Link href={"/protected"}>protected</Link>
           <Link href={"/dashboard"}>dashboard</Link>

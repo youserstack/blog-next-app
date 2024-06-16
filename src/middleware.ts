@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const PROTECTED_PAGES = ["/protected", "/dashboard"];
+const PROTECTED_METHODS = ["POST", "DELETE", "PATCH"];
 
 async function verifyToken(token: string, secret: string): Promise<JWTPayload> {
   const encodedSecret = new TextEncoder().encode(secret);
@@ -12,66 +13,48 @@ async function verifyToken(token: string, secret: string): Promise<JWTPayload> {
 }
 
 export default async function middleware(request: NextRequest) {
-  let response: NextResponse;
-
-  // extract headers
-  const headers = new Headers(request.headers);
+  // extract
   const { pathname } = request.nextUrl;
-  const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
-  const isProtectedApi =
-    pathname.startsWith("/api") && ["POST", "DELETE", "PATCH"].includes(request.method);
-  headers.set("pathname", pathname);
-
-  // extract tokens
   const accessToken = request.headers.get("Authorization")?.split(" ")[1] as string;
   const refreshToken: any = cookies().get("refreshToken")?.value;
 
-  // 모든 페이지에서 쿠키에 저장된 refreshToken으로부터 사용자 인증을 하고,
-  // 인증상태를 클라이언트에 넘겨주기위해서 헤더설정을 한다.
-  let isRefreshTokenValid = false;
-  let user = null;
-  try {
-    const secret = process.env.REFRESH_TOKEN_SECRET as string;
-    user = await verifyToken(refreshToken, secret);
-    if (!user.email) throw new Error("사용자 이메일을 찾을 수 없습니다.");
-    isRefreshTokenValid = true;
-    headers.set("auth", "authenticated");
-    headers.set("email", user.email as string);
-  } catch (error: any) {
-    isRefreshTokenValid = false;
-    headers.set("auth", "unauthenticated");
-  }
+  // conditions
+  const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
+  const isProtectedApi = pathname.startsWith("/api") && PROTECTED_METHODS.includes(request.method);
 
-  // page, api를 구분하여 로깅한다. protected api, protected page 만 로깅한다.
-  const message = isRefreshTokenValid
-    ? "refreshToken이 유효합니다."
-    : "refreshToken이 유효하지 않습니다.";
-  if (pathname.startsWith("/api")) {
-    console.log("\n\x1b[32m[middleware]\x1b[0m");
-    console.log({ api: pathname });
-    isRefreshTokenValid && console.log(message, user);
-    // console.log({ accessToken });
-  } else {
-    console.log("\n\x1b[32m[middleware]\x1b[0m");
-    console.log({ page: pathname });
-    isRefreshTokenValid && console.log(message, user);
-
-    // console.log({ refreshToken });
-  }
+  // loggings
+  // if (pathname.startsWith("/api")) {
+  //   if (isProtectedApi) console.log({ protectedApi: pathname });
+  //   else console.log({ publicApi: pathname });
+  // } else {
+  //   if (isProtectedPage) console.log({ protectedPage: pathname });
+  //   else console.log({ publicPage: pathname });
+  // }
 
   if (isProtectedPage) {
+    console.log("\n\x1b[32m[middleware]\x1b[0m");
+    console.log({ protectedPage: pathname });
+
     if (!refreshToken) {
       console.error("요청된 page는 refreshToken이 요구됩니다.");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
 
-    if (!isRefreshTokenValid) {
-      console.error("refreshToken이 유효하지 않습니다.");
+    try {
+      const secret = process.env.REFRESH_TOKEN_SECRET as string;
+      const user = await verifyToken(refreshToken, secret);
+      if (!user.email) throw new Error("사용자 이메일을 찾을 수 없습니다.");
+      console.error("refreshToken이 유효합니다.", user);
+    } catch (error) {
+      console.error("refreshToken이 유효하지 않습니다.", error);
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
   }
 
   if (isProtectedApi) {
+    console.log("\n\x1b[32m[middleware]\x1b[0m");
+    console.log({ protectedApi: pathname });
+
     if (!accessToken) {
       const message = "요청된 API는 accessToken이 요구됩니다.";
       console.log(message);
@@ -80,13 +63,10 @@ export default async function middleware(request: NextRequest) {
 
     try {
       const secret = process.env.ACCESS_TOKEN_SECRET as string;
-      const payload: any = await verifyToken(accessToken, secret);
-      console.log("accessToken이 유효합니다.", payload);
-      headers.set("auth", "authenticated");
-      headers.set("email", payload.email);
-    } catch (error: any) {
-      console.error("accessToken이 유효하지 않습니다.", { error });
-      headers.set("auth", "unauthenticated");
+      const user = await verifyToken(accessToken, secret);
+      console.log("accessToken이 유효합니다.", user);
+    } catch (error) {
+      console.error("accessToken이 유효하지 않습니다.", error);
       return NextResponse.json({ error }, { status: 403 });
     }
   }
@@ -100,8 +80,9 @@ export default async function middleware(request: NextRequest) {
   }
 
   // configurate the custom header
-  response = NextResponse.next({ headers });
-  return response;
+  // const headers = new Headers(request.headers);
+  // response = NextResponse.next({ headers });
+  // return response
 }
 
 export const config = {
