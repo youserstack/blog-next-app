@@ -74,15 +74,10 @@ export async function DELETE(request: Request) {
   await connectDB();
 
   // extract
-  // const { categories } = await request.json();
-  const url = new URL(request.url);
-  const categoryPath = url.searchParams.get("categoryPath");
-  console.log({ categoryPath });
-  return Response.json({ message: "지금 테스트중..." });
-
+  const { categories } = await request.json();
   // const { categories, parentCategories, childCategory } = await request.json();
-  const length = categories.length;
   console.log({ categories });
+  const length = categories.length;
 
   // query
   if (length === 1) {

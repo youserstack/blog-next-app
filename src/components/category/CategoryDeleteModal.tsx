@@ -11,47 +11,46 @@ export default function CategoryDeleteModal() {
   const router = useRouter();
   const params = useParams();
   const categories = params.category as string[];
-  const categoryPath = categories.map((v: string) => `/${v}`).join("");
   const parentCategories = categories.slice(0, -1);
   // const childCategory = categories[categories.length - 1] as string;
   const { setCurrentModal, categoryPaths }: any = useContext(Context);
 
   const handleClickDeleteButton = async () => {
     const accessToken = localStorage.getItem("accessToken") as string;
-    const result = await deleteCategory(categoryPath, accessToken);
+    const result = await deleteCategory(categories, accessToken);
 
     // 토큰만료시 > 토큰갱신 > 재요청
-    if (result.error.code === "ERR_JWT_EXPIRED") {
-      const newAccessToken = await refreshAccessToken(); // 재발급
-      const result = await deleteCategory(categoryPath, newAccessToken); // 재요청
+    if (result.error) {
+      if (result.error.code === "ERR_JWT_EXPIRED") {
+        const newAccessToken = await refreshAccessToken(); // 재발급
+        const result = await deleteCategory(categories, newAccessToken); // 재요청
 
-      if (result.error) {
-        console.error("재요청에 대한 에러가 발생했습니다.", result.error);
-        return { error: result.error };
+        if (result.error) {
+          console.error("재요청에 대한 에러가 발생했습니다.", result.error);
+          return { error: result.error };
+        }
+
+        console.log("토큰갱신 > 재요청 > 카테고리 삭제", {
+          deletedCategory: result.deletedCategory,
+        });
+        router.refresh();
+        setCurrentModal("");
+        return { deletedCategory: result.deletedCategory };
       }
 
-      console.log("토큰갱신 > 재요청 > 카테고리 삭제", {
-        deletedCategory: result.deletedCategory,
-      });
-      router.refresh();
-      setCurrentModal("");
-      return { deletedCategory: result.deletedCategory };
-    } else if (result.error) {
       console.error("에러가 발생했습니다.", result.error);
       return { error: result.error };
     }
 
-    console.log("카테고리 생성", { newCategory: result.newCategory });
+    console.log("카테고리 삭제 완료", { deletedCategory: result.deletedCategory });
     console.log("logging....", parentCategories);
-    // router.push(`${pathname}/${result.newCategory}`);
-    router.refresh();
     setCurrentModal("");
-    return { newCategory: result.newCategory };
-
+    router.refresh();
     // 최상위 카테고리인 경우는 카테고리 홈경로(categoryPaths[0])로 이동한다.
-    // if (!parentCategories.length) router.push("/categories" + categoryPaths[0]);
-    // // 이외는 부모 카테고리로 이동한다.
-    // else router.push(`/categories/${parentCategories.join("/")}`);
+    if (!parentCategories.length) router.push("/categories" + categoryPaths[0]);
+    // 이외는 부모 카테고리로 이동한다.
+    else router.push(`/categories/${parentCategories.join("/")}`);
+    return { deletedCategory: result.deletedCategory };
   };
 
   const handleClickCancelButton = () => setCurrentModal("");

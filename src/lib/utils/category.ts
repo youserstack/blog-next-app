@@ -12,15 +12,14 @@ export async function createCategory(formData: FormData, accessToken: string) {
   return response.json();
 }
 
-export async function deleteCategory(categoryPath: string, accessToken: string) {
+export async function deleteCategory(categories: string[], accessToken: string) {
   console.log("\n\x1b[35m<createCategory>\x1b[0m");
-  const encodedCategoryPath = encodeURIComponent(categoryPath);
-  const response = await fetch(
-    `${process.env.ROOT_URL}/api/categories?categoryPath=${encodedCategoryPath}`,
-    {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${accessToken}` },
-    }
-  );
+  // console.log({ stringfiedCategories: JSON.stringify(categories) });
+  // return;
+  const response = await fetch(`${process.env.ROOT_URL}/api/categories`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify({ categories }),
+  });
   return response.json();
 }
