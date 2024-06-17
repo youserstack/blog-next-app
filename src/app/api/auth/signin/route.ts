@@ -1,3 +1,4 @@
+import connectDB from "@/lib/config/connectDB";
 import User from "@/lib/models/User";
 import {
   generateAccessToken,
@@ -6,29 +7,32 @@ import {
   validatePassword,
 } from "@/lib/utils/auth";
 import bcrypt from "bcrypt";
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/auth/signin]:::[POST]\x1b[0m");
+  await connectDB();
 
-  // Read data (extract)
+  // extract
   const { email, password } = await request.json();
   const isPayloadMissing = !email || !password;
   if (isPayloadMissing) return Response.json({ error: "missing payload" }, { status: 400 });
 
-  // Validate data (validation)
+  // validate the email and password
   const isValidated = !validateEmail(email) || !validatePassword(password);
   if (isValidated) return Response.json({ error: "invalid email or password" }, { status: 400 });
 
-  // Lookup the user (authentication start)
+  // query
   const foundUser = await User.findOne({ email });
   if (!foundUser) return Response.json({ error: "unauthorized" }, { status: 401 });
   // console.log({ foundUser });
 
-  // Compare password (authentication end)
+  // authenticate
   const isCorrectPassword: any = await bcrypt.compare(password, foundUser.password);
   if (!isCorrectPassword) return Response.json({ error: "incorrect password" }, { status: 401 });
 
-  // Create jwt token (authorization)
+  // authorize
   const payload = { email, password };
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);
@@ -39,6 +43,15 @@ export async function POST(request: Request) {
   foundUser.refreshToken = refreshToken;
   const savedUser = await foundUser.save();
   // console.log({ savedUser });
+
+  cookies().set("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
+    path: "/",
+  });
+  revalidatePath("/", "layout");
 
   // server action 에서 refreshToken 을 쿠키에 저장하고, accessToken 을 리턴한다.
   return Response.json({ accessToken, refreshToken });

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const PROTECTED_PAGES = ["/protected", "/dashboard"];
+const PROTECTED_APIS = ["/api/categories", "/api/comments", "/api/posts"];
 const PROTECTED_METHODS = ["POST", "DELETE", "PATCH"];
 
 async function verifyToken(token: string, secret: string): Promise<JWTPayload> {
@@ -20,7 +21,9 @@ export default async function middleware(request: NextRequest) {
 
   // make conditions
   const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
-  const isProtectedApi = pathname.startsWith("/api") && PROTECTED_METHODS.includes(request.method);
+  const isProtectedApi =
+    PROTECTED_APIS.some((api: string) => pathname.startsWith(api)) &&
+    PROTECTED_METHODS.includes(request.method);
 
   // loggings
   // if (pathname.startsWith("/api")) {
@@ -89,10 +92,8 @@ export default async function middleware(request: NextRequest) {
   }
 
   // 인증된 사용자라면 로그인이 필요하지 않으므로 홈페이지로 리다이렉트한다.
-  if (pathname.startsWith("/auth/signin") && refreshToken) {
-    console.log(
-      "현재 page에서 인증된 토큰정보 refreshToken이 인증되었습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다."
-    );
+  if (pathname.startsWith("/auth/signin") && user) {
+    console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
     return NextResponse.redirect(new URL("/", request.url));
   }
 
@@ -101,7 +102,8 @@ export default async function middleware(request: NextRequest) {
   // response = NextResponse.next({ headers });
   const headers = new Headers(request.headers);
   headers.set("user", JSON.stringify(user));
-  return NextResponse.next({ headers });
+  return NextResponse.next({ request: { headers } });
+  // return NextResponse.next({ headers });
 }
 
 export const config = {
@@ -115,6 +117,10 @@ export const config = {
     "/protected/:path*",
     // APIs
     "/api/:path*",
+    // "/api/auth/signin",
+    // "/api/categories/:path*",
+    // "/api/comments/:path*",
+    // "/api/posts/:path*",
   ],
 };
 

@@ -10,15 +10,13 @@ export default function CategoryCreateButton({
   parentCategories: string[] | null;
   label: string;
 }) {
-  const { setParentCategories, setCurrentModal, isSignedIn }: any = useContext(Context);
+  const { setParentCategories, setCurrentModal }: any = useContext(Context);
 
   const handleClick = (e: any) => {
     // 현재 상위 카테고리를 글로벌 변수에 저장한다.
     setParentCategories(parentCategories);
     setCurrentModal("category-create-modal");
   };
-
-  if (!isSignedIn) return null;
 
   return (
     <button className="category-create-button" onClick={handleClick}>

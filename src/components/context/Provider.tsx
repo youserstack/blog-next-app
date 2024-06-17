@@ -17,6 +17,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
 
   // 로그인 상태
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const router = useRouter();
 
   const signout = async () => {
     try {
@@ -24,10 +25,10 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       const result = await response.json();
 
       if (!response.ok) throw new Error("로그아웃을 실패했습니다.");
-      const { message } = result;
-      console.log("로그아웃되었습니다.", { message });
+      console.log("로그아웃되었습니다.", result);
       localStorage.removeItem("accessToken");
       setIsSignedIn(false);
+      router.refresh();
     } catch (error) {
       console.error(error);
       return error;
@@ -37,7 +38,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   const refreshAccessToken = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      // if (!accessToken) return;
+      if (!accessToken) return;
       const response = await fetch("/api/auth/refresh", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -46,7 +47,6 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       });
       const result = await response.json();
 
-      // branch
       if (!response.ok) throw result.error;
       localStorage.setItem("accessToken", result.newAccessToken);
       setIsSignedIn(true);

@@ -1,31 +1,16 @@
 import Link from "next/link";
 import SignOutButton from "@/components/ui/SignOutButton";
 import ThemeToggle from "@/components/ui/ThemeToggle";
-import { cookies, headers } from "next/headers";
-import { JWTPayload, jwtVerify } from "jose";
+import { headers } from "next/headers";
+import AuthScript from "@/components/script/AuthScript";
 import "../../styles/UserArea.scss";
 
-async function verifyToken(token: string, secret: string): Promise<JWTPayload> {
-  const encodedSecret = new TextEncoder().encode(secret);
-  const { payload } = await jwtVerify(token, encodedSecret);
-  return payload;
-}
-
 export default async function UserArea() {
-  // const pathname = headers().get("pathname");
-  // const auth = headers().get("auth");
-  // const email = headers().get("email");
-  // console.log({ auth, email });
-
-  const refreshToken = cookies().get("refreshToken")?.value as string;
-  const secret = process.env.REFRESH_TOKEN_SECRET as string;
-  const user = await verifyToken(refreshToken, secret);
-  const isAuthenticated = user.email ? true : false;
-  // console.log({ user });
+  const user = JSON.parse(headers().get("user") as string);
 
   return (
     <div className="user-area">
-      {isAuthenticated ? (
+      {user ? (
         <>
           <Link href={"/protected"}>protected</Link>
           <Link href={"/dashboard"}>dashboard</Link>
@@ -38,6 +23,16 @@ export default async function UserArea() {
         </>
       )}
       <ThemeToggle />
+      <AuthScript user={user} />
     </div>
   );
 }
+
+// async function verifyToken(token: string, secret: string): Promise<JWTPayload> {
+//   const encodedSecret = new TextEncoder().encode(secret);
+//   const { payload } = await jwtVerify(token, encodedSecret);
+//   return payload;
+// }
+// const refreshToken = cookies().get("refreshToken")?.value as string;
+// const secret = process.env.REFRESH_TOKEN_SECRET as string;
+// const user = await verifyToken(refreshToken, secret);
