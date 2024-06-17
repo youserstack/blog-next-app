@@ -60,21 +60,10 @@ export default async function middleware(request: NextRequest) {
       console.error("refreshToken이 유효하지 않습니다.");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
-
-    // try {
-    //   const secret = process.env.REFRESH_TOKEN_SECRET as string;
-    //   const decoded = await verifyToken(refreshToken, secret);
-    //   if (!decoded.email) throw new Error("사용자 이메일을 찾을 수 없습니다.");
-    //   console.error("refreshToken이 유효합니다.", decoded);
-    //   user = decoded;
-    // } catch (error) {
-    //   console.error("refreshToken이 유효하지 않습니다.", error);
-    //   return NextResponse.redirect(new URL("/auth/signin", request.url));
-    // }
   }
   if (isProtectedApi) {
     console.log("\n\x1b[32m[middleware]\x1b[0m");
-    console.log({ protectedApi: pathname });
+    console.log({ protectedApi: pathname, method: request.method });
 
     if (!accessToken) {
       const message = "요청된 API는 accessToken이 요구됩니다.";

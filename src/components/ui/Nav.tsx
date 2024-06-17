@@ -2,10 +2,12 @@ import Link from "next/link";
 import CategoryCreateButton from "@/components/category/CategoryCreateButton";
 import CategoryPathsMaker from "@/components/category/CategoryPathsMaker";
 import { getCategories } from "@/lib/utils/fetcher";
+import { headers } from "next/headers";
 import "../../styles/Nav.scss";
 
 export default async function Nav() {
   const { categories } = await getCategories();
+  const user = JSON.parse(headers().get("user") as string);
 
   return (
     <nav className="nav">
@@ -37,9 +39,11 @@ export default async function Nav() {
             </ul>
           </li>
         ))}
-        <li>
-          <CategoryCreateButton parentCategories={[]} label="+" />
-        </li>
+        {user && (
+          <li>
+            <CategoryCreateButton parentCategories={[]} label="+" />
+          </li>
+        )}
       </ul>
 
       <CategoryPathsMaker categories={categories} />

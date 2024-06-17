@@ -4,8 +4,8 @@ import { deletePost } from "@/lib/utils/fetcher";
 import { useRouter } from "next/navigation";
 import { MouseEvent, useEffect } from "react";
 import { IoIosMore } from "react-icons/io";
-import "../../styles/PostArticleOptionButton.scss";
 import { refreshAccessToken } from "@/lib/utils/auth";
+import "../../styles/PostArticleOptionButton.scss";
 
 export default function PostArticleOptionButton({
   post,

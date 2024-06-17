@@ -22,8 +22,8 @@ export default function Signin() {
   const { setIsSignedIn }: any = useContext(Context);
   const router = useRouter();
 
-  // useEffect 훅을 사용하여 상태 변경 및 페이지 이동 처리
   useEffect(() => {
+    // 로그인 성공하면 이전 경로로 이동한다.
     if (state?.accessToken) {
       router.back();
     }
