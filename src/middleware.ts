@@ -16,6 +16,7 @@ async function verifyToken(token: string, secret: string): Promise<JWTPayload> {
 export default async function middleware(request: NextRequest) {
   // extract
   const { pathname } = request.nextUrl;
+  if (pathname.startsWith("/_next")) return;
   const accessToken = request.headers.get("Authorization")?.split(" ")[1] as string;
   const refreshToken: any = cookies().get("refreshToken")?.value;
 
@@ -92,10 +93,10 @@ export default async function middleware(request: NextRequest) {
   }
 
   // 인증된 사용자라면 로그인이 필요하지 않으므로 홈페이지로 리다이렉트한다.
-  if (pathname.startsWith("/auth/signin") && user) {
-    console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  // if (pathname.startsWith("/auth/signin") && user) {
+  //   console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
 
   // configurate the custom header
   // let response;
@@ -108,19 +109,17 @@ export default async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/:path*",
     // all pages
-    "/",
-    "/auth/:path*",
-    "/categories/:path*",
-    "/dashboard/:path*",
-    "/posts/:path*",
-    "/protected/:path*",
+    // "/",
+    // "/auth/:path*",
+    // "/categories/:path*",
+    // "/dashboard/:path*",
+    // "/posts/:path*",
+    // "/protected/:path*",
+
     // APIs
     "/api/:path*",
-    // "/api/auth/signin",
-    // "/api/categories/:path*",
-    // "/api/comments/:path*",
-    // "/api/posts/:path*",
   ],
 };
 

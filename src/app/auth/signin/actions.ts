@@ -1,9 +1,8 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-export async function signinAction(prevState: any, formData: FormData) {
+export async function signinAction(formData: FormData) {
   console.log("\n\x1b[35m<signinAction>\x1b[0m");
 
   // extract
@@ -17,6 +16,7 @@ export async function signinAction(prevState: any, formData: FormData) {
   });
   const result = await response.json();
 
+  // 서버액션을 사용하면, 쿠키설정을 이곳에서 해야한다.
   cookies().set("refreshToken", result.refreshToken, {
     httpOnly: true,
     secure: true,
@@ -24,7 +24,6 @@ export async function signinAction(prevState: any, formData: FormData) {
     expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
     path: "/",
   });
-  revalidatePath("/", "layout");
 
   return result;
 }

@@ -44,13 +44,6 @@ export async function POST(request: Request) {
   const savedUser = await foundUser.save();
   // console.log({ savedUser });
 
-  cookies().set("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "strict",
-    expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
-    path: "/",
-  });
   revalidatePath("/", "layout");
 
   // server action 에서 refreshToken 을 쿠키에 저장하고, accessToken 을 리턴한다.
