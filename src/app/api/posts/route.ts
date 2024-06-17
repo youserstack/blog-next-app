@@ -34,8 +34,9 @@ export async function POST(request: Request) {
   await connectDB();
 
   // authenticate
-  const email = request.headers.get("email");
-  const foundUser = await User.findOne({ email });
+  const user = JSON.parse(request.headers.get("user") as string);
+  // console.log({ user });
+  const foundUser = await User.findOne({ email: user.email });
   if (!foundUser) {
     const error = { error: { message: "해당 사용자가 존재하지 않습니다." } };
     return Response.json(error, { status: 404 });

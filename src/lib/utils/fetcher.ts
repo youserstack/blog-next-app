@@ -29,32 +29,6 @@ export async function getPost(postId: any) {
 
 /* 클라이언트 컴포넌트에 사용할 유틸 함수 */
 
-// 포스트 생성
-export async function createPost(formData: any, accessToken: string) {
-  console.log("\n\x1b[35m<createPost>\x1b[0m");
-
-  const response = await fetch(`${process.env.ROOT_URL}/api/posts`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${accessToken}` },
-    body: formData,
-  });
-
-  return response.json();
-}
-
-// 포스트 수정
-export async function updatePost(postId: string, payload: any, accessToken: string) {
-  console.log("\n\x1b[35m<updatePost>\x1b[0m");
-
-  const response = await fetch(`${ROOT_URL}/api/posts/${postId}`, {
-    method: "PATCH",
-    headers: { Authorization: `Bearer ${accessToken}` },
-    body: payload,
-  });
-
-  return response.json();
-}
-
 // 포스트 삭제
 export async function deletePost(postId: string, accessToken: string) {
   console.log("\n\x1b[35m<deletePost>\x1b[0m");

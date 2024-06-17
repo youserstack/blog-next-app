@@ -1,9 +1,13 @@
-"use client";
+"use server";
 
-import { createCategory } from "@/lib/utils/category";
-
-export async function createCategoryAction(formData: FormData, accessToken: string) {
+export async function createCategoryAction(payload: any, accessToken: string) {
   console.log("\x1b[35m\n<createCategoryAction>\x1b[0m");
-  const result = await createCategory(formData, accessToken);
-  return result;
+
+  const response = await fetch(`${process.env.ROOT_URL}/api/categories`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify(payload),
+  });
+
+  return response.json();
 }

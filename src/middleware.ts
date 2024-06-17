@@ -73,8 +73,9 @@ export default async function middleware(request: NextRequest) {
 
     try {
       const secret = process.env.ACCESS_TOKEN_SECRET as string;
-      const user = await verifyToken(accessToken, secret);
-      console.log("accessToken이 유효합니다.", user);
+      const decoded = await verifyToken(accessToken, secret);
+      console.log("accessToken이 유효합니다.", decoded);
+      user = decoded;
     } catch (error) {
       console.error("accessToken이 유효하지 않습니다.", error);
       return NextResponse.json({ error }, { status: 403 });

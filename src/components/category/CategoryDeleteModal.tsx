@@ -56,10 +56,6 @@ export default function CategoryDeleteModal() {
 
   const handleClickCancelButton = () => setCurrentModal("");
 
-  // useEffect(()=>{
-
-  // },[router])
-
   return (
     <div className="category-delete-modal" onClick={(e) => e.stopPropagation()}>
       <h3>현재 카테고리를 삭제하시겠습니까?</h3>

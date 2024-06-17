@@ -8,6 +8,7 @@ export default async function CategoryLayout({
   children: React.ReactNode;
 }) {
   const { categories } = await getCategories();
+  // console.log({ categories });
 
   return (
     <main className="category-layout">

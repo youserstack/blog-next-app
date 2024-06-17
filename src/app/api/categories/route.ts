@@ -8,12 +8,7 @@ export async function POST(request: Request) {
   await connectDB();
 
   // extract
-  const formData = await request.formData();
-  const parentCategories = JSON.parse(formData.get("parentCategories") as string) as string[];
-  const childCategory = formData.get("childCategory") as string;
-  if (!parentCategories || !childCategory) {
-    return Response.json({ error: { message: "부모경로나 자식경로를 누락하였습니다." } });
-  }
+  const { parentCategories, childCategory } = await request.json();
   console.log({ parentCategories, childCategory });
 
   // 카테고리 0개 (parentCAtegories === [])
@@ -58,6 +53,8 @@ export async function POST(request: Request) {
     return Response.json({ newCategory: childCategory }, { status: 200 });
   }
 
+  revalidatePath("/api/categories");
+
   return Response.json({ error: "카테고리 생성 실패" }, { status: 400 });
 }
 
@@ -75,11 +72,11 @@ export async function DELETE(request: Request) {
   await connectDB();
 
   // extract
+  // 한글도 처리하기 위해서 decodedURI를 사용한다.
   const { categories: temp } = await request.json();
-  // const { categories, parentCategories, childCategory } = await request.json();
   const categories = temp.map((v: string) => decodeURI(v));
-  console.log({ categories });
   const length = categories.length;
+  console.log({ categories });
 
   // query
   if (length === 1) {
