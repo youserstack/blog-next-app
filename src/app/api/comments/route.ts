@@ -28,7 +28,8 @@ export async function POST(request: Request) {
   console.log(`\n\x1b[32m[${request.url}]:::[POST]\x1b[0m`);
 
   // authenticate
-  const email = request.headers.get("email");
+  const user = JSON.parse(request.headers.get("user") as string);
+  const { email } = user;
   const foundUser = await User.findOne({ email });
   if (!foundUser) {
     const error = { error: { message: "해당 사용자가 존재하지 않습니다." } };

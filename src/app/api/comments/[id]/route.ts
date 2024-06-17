@@ -9,7 +9,8 @@ export async function DELETE(request: Request, { params }: any) {
   await connectDB();
 
   // authenticate
-  const email = request.headers.get("email");
+  const user = JSON.parse(request.headers.get("user") as string);
+  const { email } = user;
   const foundUser = await User.findOne({ email });
   if (!foundUser) {
     return Response.json(

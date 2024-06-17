@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { Context } from "@/components/context/Provider";
 import { useFormState } from "react-dom";
@@ -19,7 +19,7 @@ export default function CategoryCreateModal() {
   const { setCurrentModal }: any = useContext(Context);
   const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
     const parentCategories = params.category as string[];
-    const childCategory = formData.get("childCategory");
+    const childCategory = formData.get("childCategory") as string;
     const payload = { parentCategories, childCategory };
     const accessToken = localStorage.getItem("accessToken") as string;
     const result = await createCategoryAction(payload, accessToken);

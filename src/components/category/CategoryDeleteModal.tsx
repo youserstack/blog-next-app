@@ -1,11 +1,11 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Context } from "@/components/context/Provider";
 import { deleteCategory } from "@/lib/utils/category";
-import "../../styles/CategoryDeleteModal.scss";
 import { refreshAccessToken } from "@/lib/utils/auth";
+import "../../styles/CategoryDeleteModal.scss";
 
 export default function CategoryDeleteModal() {
   const router = useRouter();
