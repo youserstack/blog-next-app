@@ -26,7 +26,7 @@ export default function PostCreateModal() {
     const result = await createPostAction(formData, accessToken);
 
     // 토큰만료시 > 토큰갱신 > 재요청
-    if (result.error.code === "ERR_JWT_EXPIRED") {
+    if (result.error?.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken(); // 재발급
       const result = await createPostAction(formData, newAccessToken); // 재요청
 

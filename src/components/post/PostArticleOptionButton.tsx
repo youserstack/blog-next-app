@@ -22,7 +22,7 @@ export default function PostArticleOptionButton({
     const accessToken = localStorage.getItem("accessToken") as string;
     const result = await deletePost(post._id, accessToken);
 
-    if (result.error.code === "ERR_JWT_EXPIRED") {
+    if (result.error?.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken(); // 재발급
       const result = await deletePost(post._id, newAccessToken);
 
