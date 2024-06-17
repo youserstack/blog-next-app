@@ -13,7 +13,7 @@ export async function createCategory(formData: FormData, accessToken: string) {
 }
 
 export async function deleteCategory(categories: string[], accessToken: string) {
-  console.log("\n\x1b[35m<createCategory>\x1b[0m");
+  console.log("\n\x1b[35m<deleteCategory>\x1b[0m");
 
   const response = await fetch(`${process.env.ROOT_URL}/api/categories`, {
     method: "DELETE",

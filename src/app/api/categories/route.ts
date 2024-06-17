@@ -1,5 +1,6 @@
 import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
+import { revalidatePath } from "next/cache";
 
 // 카테고리 생성
 export async function POST(request: Request) {
@@ -74,8 +75,9 @@ export async function DELETE(request: Request) {
   await connectDB();
 
   // extract
-  const { categories } = await request.json();
+  const { categories: temp } = await request.json();
   // const { categories, parentCategories, childCategory } = await request.json();
+  const categories = temp.map((v: string) => decodeURI(v));
   console.log({ categories });
   const length = categories.length;
 
@@ -111,6 +113,8 @@ export async function DELETE(request: Request) {
     await category.save();
     console.log({ deletedCategory: categories[2] });
   }
+
+  revalidatePath("/api/categories");
 
   return Response.json({ deletedCategory: categories[categories.length - 1] }, { status: 200 });
 }
