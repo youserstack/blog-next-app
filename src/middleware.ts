@@ -18,7 +18,7 @@ export default async function middleware(request: NextRequest) {
   const accessToken = request.headers.get("Authorization")?.split(" ")[1] as string;
   const refreshToken: any = cookies().get("refreshToken")?.value;
 
-  // conditions
+  // make conditions
   const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
   const isProtectedApi = pathname.startsWith("/api") && PROTECTED_METHODS.includes(request.method);
 
@@ -31,6 +31,17 @@ export default async function middleware(request: NextRequest) {
   //   else console.log({ publicPage: pathname });
   // }
 
+  // authenticate
+  let user = null;
+  try {
+    const secret = process.env.REFRESH_TOKEN_SECRET as string;
+    const decoded = await verifyToken(refreshToken, secret);
+    if (!decoded.email) throw new Error("사용자 이메일을 찾을 수 없습니다.");
+    user = decoded;
+  } catch (error) {
+    user = null;
+  }
+
   if (isProtectedPage) {
     console.log("\n\x1b[32m[middleware]\x1b[0m");
     console.log({ protectedPage: pathname });
@@ -40,17 +51,23 @@ export default async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
 
-    try {
-      const secret = process.env.REFRESH_TOKEN_SECRET as string;
-      const user = await verifyToken(refreshToken, secret);
-      if (!user.email) throw new Error("사용자 이메일을 찾을 수 없습니다.");
-      console.error("refreshToken이 유효합니다.", user);
-    } catch (error) {
-      console.error("refreshToken이 유효하지 않습니다.", error);
+    if (user) console.error("refreshToken이 유효합니다.");
+    else {
+      console.error("refreshToken이 유효하지 않습니다.");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
-  }
 
+    // try {
+    //   const secret = process.env.REFRESH_TOKEN_SECRET as string;
+    //   const decoded = await verifyToken(refreshToken, secret);
+    //   if (!decoded.email) throw new Error("사용자 이메일을 찾을 수 없습니다.");
+    //   console.error("refreshToken이 유효합니다.", decoded);
+    //   user = decoded;
+    // } catch (error) {
+    //   console.error("refreshToken이 유효하지 않습니다.", error);
+    //   return NextResponse.redirect(new URL("/auth/signin", request.url));
+    // }
+  }
   if (isProtectedApi) {
     console.log("\n\x1b[32m[middleware]\x1b[0m");
     console.log({ protectedApi: pathname });
@@ -80,9 +97,11 @@ export default async function middleware(request: NextRequest) {
   }
 
   // configurate the custom header
-  // const headers = new Headers(request.headers);
+  // let response;
   // response = NextResponse.next({ headers });
-  // return response
+  const headers = new Headers(request.headers);
+  headers.set("user", JSON.stringify(user));
+  return NextResponse.next({ headers });
 }
 
 export const config = {

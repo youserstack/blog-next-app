@@ -1,5 +1,9 @@
+import { headers } from "next/headers";
+
 export default function Home() {
   console.log("\n\x1b[34m[/]\x1b[0m");
+  const user = JSON.parse(headers().get("user") as string);
+  console.log({ user });
 
   return (
     <main className="home">
