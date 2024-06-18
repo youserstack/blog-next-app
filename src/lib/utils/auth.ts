@@ -24,21 +24,15 @@ export function generateRefreshToken(payload: { email: string }) {
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: "1d" });
 }
 
+// 클라이언트에서 액세스 토큰 만료로 실패시, 갱신을 위한 함수
 export async function refreshAccessToken() {
   try {
-    const accessToken = localStorage.getItem("accessToken");
-    const response = await fetch("/api/auth/refresh", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    });
-    const result = await response.json();
+    const response = await fetch("/api/auth/refresh");
+    const data = await response.json();
 
-    // branch
-    if (!response.ok) throw result.error;
-    localStorage.setItem("accessToken", result.newAccessToken);
-    return result.newAccessToken;
+    if (!response.ok) throw new Error(data.error.message || "accessToken 갱신을 실패했습니다.");
+    localStorage.setItem("accessToken", data.newAccessToken);
+    return data.newAccessToken;
   } catch (error) {
     console.error("액세스 토큰 갱신을 실패했습니다.", error);
     return error;

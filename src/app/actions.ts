@@ -2,9 +2,6 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import connectDB from "@/lib/config/connectDB";
-
-connectDB();
 
 export async function createCategoryAction(
   payload: { parentCategories: string[]; childCategory: string },
@@ -69,18 +66,18 @@ export async function signinAction(formData: FormData) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
-  const result = await response.json();
+  const data = await response.json();
 
+  if (!response.ok) return data.error;
   // 서버액션을 사용하면, 쿠키설정을 이곳에서 해야한다.
-  cookies().set("refreshToken", result.refreshToken, {
+  cookies().set("refreshToken", data.refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
     expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
     path: "/",
   });
-
-  return result;
+  return data;
 }
 
 export async function signupAction(prevState: any, formData: FormData) {
@@ -96,9 +93,8 @@ export async function signupAction(prevState: any, formData: FormData) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, email, password }),
   });
-  const result = await response.json();
+  const data = await response.json();
 
-  if (!response.ok) return result.error;
-
+  if (!response.ok) return data.error;
   redirect("/auth/signin");
 }

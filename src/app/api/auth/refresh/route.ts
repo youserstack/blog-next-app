@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   // extract
   const refreshToken = cookies().get("refreshToken")?.value;
   if (!refreshToken) {
-    return Response.json({ error: { message: "refreshToken이 없습니다." } }, { status: 401 });
+    return Response.json({ error: { message: "refreshToken이 없습니다." } }, { status: 400 });
   }
 
   // query

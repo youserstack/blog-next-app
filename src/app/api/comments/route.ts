@@ -12,6 +12,9 @@ export async function GET(request: Request) {
   // extract
   const { searchParams } = new URL(request.url);
   const postId = searchParams.get("postId");
+  if (!postId) {
+    return Response.json({ error: { message: "포스트 아이디가 없습니다." } }, { status: 400 });
+  }
 
   // query
   const comments = await Comment.find({ post: postId }).populate("author").populate("post");

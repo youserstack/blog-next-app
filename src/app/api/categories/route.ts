@@ -56,13 +56,12 @@ export async function POST(request: Request) {
 
   revalidatePath("/api/categories");
 
-  return Response.json({ error: "카테고리 생성 실패" }, { status: 400 });
+  return Response.json({ error: { message: "카테고리 생성 실패" } }, { status: 400 });
 }
 
 // 전체 카테고리 읽기
 export async function GET(request: Request) {
   // console.log("\n\x1b[32m[api/categories/GET]\x1b[0m");
-  await connectDB();
   const foundCategories = await Category.find({});
   return Response.json({ categories: foundCategories });
 }
@@ -116,54 +115,3 @@ export async function DELETE(request: Request) {
 
   return Response.json({ deletedCategory: categories[categories.length - 1] }, { status: 200 });
 }
-
-// export async function DELETE(request: Request) {
-//   console.log("\n\x1b[32m[api/categories/DELETE]\x1b[0m");
-//   await connectDB();
-
-//   // extract
-//   const { categories, parentCategories, childCategory } = await request.json();
-//   console.log({ categories, parentCategories, childCategory });
-//   const [categoryName, sub1CategoryName, sub2CategoryName] = categories;
-//   console.log({ categoryName, sub1CategoryName, sub2CategoryName });
-
-//   // query
-//   let foundCategory;
-//   try {
-//     foundCategory = await Category.findOne({ name: categoryName });
-//     if (!foundCategory) throw new Error("no foundCategory");
-//     console.log({ foundCategory });
-
-//     // sub1
-//     const sub1Category = foundCategory.sub1Categories.find(
-//       (sub1Category: any) => sub1Category.name === sub1CategoryName
-//     );
-//     if (!sub1Category) {
-//       await foundCategory.remove();
-//       return Response.json({ deletedLeafNode: foundCategory });
-//     }
-//     console.log({ sub1Category });
-
-//     // sub2
-//     const sub2Category = sub1Category.sub2Categories.find(
-//       (sub2Category: any) => sub2Category.name === sub2CategoryName
-//     );
-//     if (!sub2Category) {
-//       sub1Category.sub2Categories.filter(
-//         (sub2Category: any) => sub2Category.name === sub2CategoryName
-//       );
-//       await foundCategory.save();
-//       return Response.json({ deletedLeafNode: sub1Category });
-//     }
-//     console.log({ sub2Category });
-
-//     await sub2Category.remove();
-//     return Response.json({ deletedLeafNode: sub2Category });
-
-//     // categories.forEach((category: any) => {
-//     //   console.log({ category });
-//     // });
-//   } catch (error) {}
-
-//   return Response.json({ message: "testing..." }, { status: 200 });
-// }

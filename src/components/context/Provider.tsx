@@ -22,10 +22,10 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   const signout = async () => {
     try {
       const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
-      const result = await response.json();
+      const data = await response.json();
 
       if (!response.ok) throw new Error("로그아웃을 실패했습니다.");
-      console.log("로그아웃되었습니다.", result);
+      console.log({ data });
       localStorage.removeItem("accessToken");
       setIsSignedIn(false);
       router.refresh();
@@ -39,16 +39,11 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     try {
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) return;
-      const response = await fetch("/api/auth/refresh", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      });
-      const result = await response.json();
+      const response = await fetch("/api/auth/refresh");
+      const data = await response.json();
 
-      if (!response.ok) throw result.error;
-      localStorage.setItem("accessToken", result.newAccessToken);
+      if (!response.ok) throw new Error(data.error.message || "accessToken 갱신을 실패했습니다.");
+      localStorage.setItem("accessToken", data.newAccessToken);
       setIsSignedIn(true);
     } catch (error) {
       console.error(error);
