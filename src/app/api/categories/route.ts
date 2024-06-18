@@ -2,23 +2,24 @@ import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
 import { revalidatePath } from "next/cache";
 
-connectDB();
-
 // 카테고리 생성
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/categories]:::[POST]\x1b[0m");
+  await connectDB();
 
   // extract
   const formData = await request.formData();
-  const parentCategories = JSON.parse(formData.get("parentCategories") as string);
-  const childCategory = formData.get("childCategory") as string;
+  const parentCategories = JSON.parse(formData.get("parentCategories") as string).map((v: string) =>
+    decodeURI(v)
+  );
+  const childCategory = decodeURI(formData.get("childCategory") as string);
   console.log({ parentCategories, childCategory });
 
   // 부모 카테고리 0개 (최상위로서 네비게이션메뉴에서 카테고리를 생성한 경우)
   if (parentCategories.length === 0) {
     const newCategory = await Category.create({ name: childCategory });
     console.log({ newCategory });
-    return Response.json({ newCategory }, { status: 200 });
+    return Response.json({ newCategoryPath: `/${childCategory}` }, { status: 200 });
   }
 
   // 부모 카테고리 1개
@@ -32,7 +33,10 @@ export async function POST(request: Request) {
     const savedCategory = await foundCategory.save();
     console.log({ savedCategory });
 
-    return Response.json({ newCategory: childCategory }, { status: 200 });
+    return Response.json(
+      { newCategoryPath: `/${parentCategories.join("/")}/${childCategory}}` },
+      { status: 200 }
+    );
   }
 
   // 부모 카테고리 2개
@@ -53,7 +57,10 @@ export async function POST(request: Request) {
     const savedCategory = await foundCategory.save();
     console.log({ savedCategory });
 
-    return Response.json({ newCategory: childCategory }, { status: 200 });
+    return Response.json(
+      { newCategoryPath: `/${parentCategories.join("/")}/${childCategory}` },
+      { status: 200 }
+    );
   }
 
   revalidatePath("/api/categories");
@@ -63,7 +70,8 @@ export async function POST(request: Request) {
 
 // 전체 카테고리 읽기
 export async function GET(request: Request) {
-  // console.log("\n\x1b[32m[api/categories/GET]\x1b[0m");
+  // console.log("\n\x1b[32m[api/categories]:::[GET]\x1b[0m");
+  await connectDB();
   const foundCategories = await Category.find({});
   return Response.json({ categories: foundCategories });
 }
@@ -114,6 +122,7 @@ export async function DELETE(request: Request) {
   }
 
   revalidatePath("/api/categories");
+  // revalidatePath("/", "layout");
 
   return Response.json({ deletedCategory: categories[categories.length - 1] }, { status: 200 });
 }
