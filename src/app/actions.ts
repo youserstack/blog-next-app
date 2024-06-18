@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+// assdfsd
 
 export async function createCategoryAction(formData: FormData, accessToken: string) {
   console.log("\x1b[35m\n<createCategoryAction>\x1b[0m");
