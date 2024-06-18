@@ -6,10 +6,11 @@ import { uploadToCloudinary } from "@/lib/utils/uploader";
 import "@/lib/config/cloudinaryConfig";
 import User from "@/lib/models/User";
 
+connectDB();
+
 // 포스트 읽기 (read)
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]]\x1b[0m");
-  await connectDB();
 
   // query
   const postId = params.id;
@@ -22,7 +23,6 @@ export async function GET(request: Request, { params }: { params: { id: string }
 // 포스트 수정 (update)
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]]:::[PATCH]\x1b[0m");
-  await connectDB();
 
   // extract the formData
   const formData = await request.formData();
@@ -73,7 +73,6 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 // 포스트 삭제 (delete)
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[32m[api/posts/[id]]:::[DELETE]\x1b[0m");
-  await connectDB();
 
   // authenticate
   const user = JSON.parse(request.headers.get("user") as string);

@@ -3,14 +3,15 @@ import Comment from "@/lib/models/Comment";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
+connectDB();
+
 // 전체 댓글 읽기
 export async function GET(request: Request) {
-  console.log(`\n\x1b[32m[${request.url}]:::[GET]\x1b[0m`);
+  console.log(`\n\x1b[32m[api/comments]:::[GET]\x1b[0m`);
 
   // extract
   const { searchParams } = new URL(request.url);
   const postId = searchParams.get("postId");
-  await connectDB();
 
   // query
   const comments = await Comment.find({ post: postId }).populate("author").populate("post");
@@ -25,7 +26,7 @@ export async function GET(request: Request) {
 
 // 댓글 생성
 export async function POST(request: Request) {
-  console.log(`\n\x1b[32m[${request.url}]:::[POST]\x1b[0m`);
+  console.log(`\n\x1b[32m[api/comments]:::[POST]\x1b[0m`);
 
   // authenticate
   const user = JSON.parse(request.headers.get("user") as string);

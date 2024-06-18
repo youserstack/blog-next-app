@@ -2,10 +2,11 @@ import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
 import { revalidatePath } from "next/cache";
 
+connectDB();
+
 // 카테고리 생성
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/categories]:::[POST]\x1b[0m");
-  await connectDB();
 
   // extract
   const { parentCategories, childCategory } = await request.json();

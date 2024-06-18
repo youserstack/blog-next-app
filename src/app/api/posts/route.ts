@@ -4,10 +4,11 @@ import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
+connectDB();
+
 // 전체 포스트 읽기 (read all)
 export async function GET(request: Request) {
   console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
-  await connectDB();
 
   // extract
   const { searchParams } = new URL(request.url);
@@ -31,7 +32,6 @@ export async function GET(request: Request) {
 // 포스트 생성 (create)
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/posts]:::[POST]\x1b[0m");
-  await connectDB();
 
   // authenticate
   const user = JSON.parse(request.headers.get("user") as string);

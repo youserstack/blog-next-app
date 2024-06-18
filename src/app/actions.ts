@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import connectDB from "@/lib/config/connectDB";
 
+connectDB();
+
 export async function createCategoryAction(
   payload: { parentCategories: string[]; childCategory: string },
   accessToken: string
@@ -83,7 +85,6 @@ export async function signinAction(formData: FormData) {
 
 export async function signupAction(prevState: any, formData: FormData) {
   console.log("\nsignup-page > server-action");
-  await connectDB();
 
   // extract
   const name = formData.get("name");
