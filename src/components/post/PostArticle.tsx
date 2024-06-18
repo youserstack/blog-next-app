@@ -10,7 +10,6 @@ import PostArticleOptionButton from "@/components/post/PostArticleOptionButton";
 import PostArticleEditModeButton from "@/components/post/PostArticleEditModeButton";
 import "../../styles/PostArticle.scss";
 import { useRouter } from "next/navigation";
-import { deletePost } from "@/lib/utils/fetcher";
 import { refreshAccessToken } from "@/lib/utils/auth";
 
 export default function PostArticle({ post }: any) {

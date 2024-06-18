@@ -1,5 +1,5 @@
 import CategorizedPostCardListArticle from "@/components/category/CategorizedPostCardListArticle";
-import { getPosts } from "@/lib/utils/fetcher";
+import { getPosts } from "@/lib/utils/fetchers/getters";
 import "./page.scss";
 
 // export async function generateStaticParams() {

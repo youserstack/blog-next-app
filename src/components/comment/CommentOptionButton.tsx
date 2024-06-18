@@ -2,9 +2,9 @@
 
 import { MouseEvent, useEffect, useState } from "react";
 import { IoIosMore } from "react-icons/io";
-import { deleteComment } from "@/lib/utils/fetcher";
 import { mutate } from "swr";
 import { refreshAccessToken } from "@/lib/utils/auth";
+import { deleteComment } from "@/lib/utils/fetchers/deleters";
 import "../../styles/CommentOptionButton.scss";
 
 export default function CommentOptionButton({ commentId, postId }: any) {

@@ -3,7 +3,7 @@
 import { useContext } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Context } from "@/components/context/Provider";
-import { deleteCategory } from "@/lib/utils/category";
+import { deleteCategory } from "@/lib/utils/fetchers/deleters";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import "../../styles/CategoryDeleteModal.scss";
 

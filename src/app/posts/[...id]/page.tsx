@@ -1,6 +1,6 @@
 import PostArticle from "@/components/post/PostArticle";
-import { getPost } from "@/lib/utils/fetcher";
 import "./page.scss";
+import { getPost } from "@/lib/utils/fetchers/getters";
 
 // export async function generateStaticParams() {
 //   const posts = await fetch('https://.../posts').then((res) => res.json())

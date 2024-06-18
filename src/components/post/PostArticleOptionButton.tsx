@@ -1,10 +1,10 @@
 "use client";
 
-import { deletePost } from "@/lib/utils/fetcher";
 import { useRouter } from "next/navigation";
 import { MouseEvent, useEffect } from "react";
 import { IoIosMore } from "react-icons/io";
 import { refreshAccessToken } from "@/lib/utils/auth";
+import { deletePost } from "@/lib/utils/fetchers/deleters";
 import "../../styles/PostArticleOptionButton.scss";
 
 export default function PostArticleOptionButton({

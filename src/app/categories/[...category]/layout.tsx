@@ -1,5 +1,5 @@
 import SideNav from "@/components/ui/SideNav";
-import { getCategories } from "@/lib/utils/fetcher";
+import { getCategories } from "@/lib/utils/fetchers/getters";
 import "./page.scss";
 
 export default async function CategoryLayout({
