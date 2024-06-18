@@ -1,11 +1,11 @@
 "use client";
 
-import { createPostAction } from "@/app/posts/actions";
 import { Context } from "@/components/context/Provider";
 import { useContext, useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { useParams, useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
+import { createPostAction } from "@/app/actions";
 import "../../styles/PostCreateModal.scss";
 
 function Button() {

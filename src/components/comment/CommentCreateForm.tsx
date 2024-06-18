@@ -1,11 +1,11 @@
 "use client";
 
-import { createCommentAction } from "@/app/posts/[...id]/actions";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { useFormState } from "react-dom";
 import { mutate } from "swr";
 import { useContext } from "react";
 import { Context } from "@/components/context/Provider";
+import { createCommentAction } from "@/app/actions";
 import Image from "next/image";
 import Link from "next/link";
 import "../../styles/CommentCreateForm.scss";

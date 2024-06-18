@@ -1,10 +1,10 @@
 "use client";
 
-import { signinAction } from "@/app/auth/signin/actions";
 import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { Context } from "@/components/context/Provider";
+import { signinAction } from "@/app/actions";
 import "./page.scss";
 
 export default function Signin() {

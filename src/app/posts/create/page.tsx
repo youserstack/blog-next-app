@@ -1,11 +1,11 @@
 "use client";
 
 import { useFormState } from "react-dom";
-import { createPostAction } from "@/app/posts/actions";
 import { useContext, useEffect } from "react";
 import { Context } from "@/components/context/Provider";
 import { useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
+import { createPostAction } from "@/app/actions";
 import "./page.scss";
 
 export default function PostCreate() {

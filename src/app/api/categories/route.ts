@@ -115,6 +115,7 @@ export async function DELETE(request: Request) {
 
   return Response.json({ deletedCategory: categories[categories.length - 1] }, { status: 200 });
 }
+
 // export async function DELETE(request: Request) {
 //   console.log("\n\x1b[32m[api/categories/DELETE]\x1b[0m");
 //   await connectDB();

@@ -4,8 +4,8 @@ import { useContext } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { Context } from "@/components/context/Provider";
 import { useFormState } from "react-dom";
-import { createCategoryAction } from "@/app/categories/[...category]/actions";
 import { refreshAccessToken } from "@/lib/utils/auth";
+import { createCategoryAction } from "@/app/actions";
 import "../../styles/CategoryCreateModal.scss";
 
 export default function CategoryCreateModal() {

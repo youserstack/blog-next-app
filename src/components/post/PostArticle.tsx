@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-import { updatePostAction } from "@/app/posts/[...id]/actions";
 import { FcAddImage } from "react-icons/fc";
 import CommentList from "@/components/comment/CommentList";
 import CommentCreateForm from "@/components/comment/CommentCreateForm";
 import PostArticleOptionButton from "@/components/post/PostArticleOptionButton";
 import PostArticleEditModeButton from "@/components/post/PostArticleEditModeButton";
-import "../../styles/PostArticle.scss";
 import { useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
+import { updatePostAction } from "@/app/actions";
+import "../../styles/PostArticle.scss";
 
 export default function PostArticle({ post }: any) {
   const router = useRouter();
