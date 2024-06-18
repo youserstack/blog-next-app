@@ -11,23 +11,18 @@ import "../../styles/CategoryCreateModal.scss";
 export default function CategoryCreateModal() {
   const pathname = usePathname();
   const params = useParams();
-  // const parentCategories =
-  //   params.category instanceof Array
-  //     ? params.category.map((v: string) => `/${v}`).join("")
-  //     : `/${params.category}`;
   const router = useRouter();
   const { setCurrentModal }: any = useContext(Context);
   const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
-    const parentCategories = params.category as string[];
-    const childCategory = formData.get("childCategory") as string;
-    const payload = { parentCategories, childCategory };
+    const parentCategories = params.category ? params.category : [];
+    formData.set("parentCategories", JSON.stringify(parentCategories));
     const accessToken = localStorage.getItem("accessToken") as string;
-    const result = await createCategoryAction(payload, accessToken);
+    const result = await createCategoryAction(formData, accessToken);
 
     // 토큰만료시 > 토큰갱신 > 재요청
     if (result.error?.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken(); // 재발급
-      const result = await createCategoryAction(payload, newAccessToken); // 재요청
+      const result = await createCategoryAction(formData, newAccessToken); // 재요청
 
       if (result.error) {
         console.error("재요청에 대한 에러가 발생했습니다.", result.error);

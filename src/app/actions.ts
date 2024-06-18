@@ -4,7 +4,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function createCategoryAction(
-  payload: { parentCategories: string[]; childCategory: string },
+  // payload: { parentCategories: []; childCategory: string },
+  formData: FormData,
   accessToken: string
 ) {
   console.log("\x1b[35m\n<createCategoryAction>\x1b[0m");
@@ -12,7 +13,7 @@ export async function createCategoryAction(
   const response = await fetch(`${process.env.ROOT_URL}/api/categories`, {
     method: "POST",
     headers: { Authorization: `Bearer ${accessToken}` },
-    body: JSON.stringify(payload),
+    body: formData,
   });
 
   return response.json();
