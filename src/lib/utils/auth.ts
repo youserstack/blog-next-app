@@ -1,3 +1,4 @@
+import { jwtVerify } from "jose";
 import jwt from "jsonwebtoken";
 
 export function validateEmail(email: string) {
@@ -36,5 +37,28 @@ export async function refreshAccessToken() {
   } catch (error) {
     console.error("액세스 토큰 갱신을 실패했습니다.", error);
     return error;
+  }
+}
+
+// middleware에서 사용하는 함수
+export async function verifyToken(token: string) {
+  try {
+    const secret = process.env.REFRESH_TOKEN_SECRET as string;
+    const encodedSecret = new TextEncoder().encode(secret);
+    const verified = await jwtVerify(token, encodedSecret);
+    return verified.payload;
+  } catch (error) {
+    throw new Error("decoding 에러가 발생했습니다.");
+  }
+}
+
+export async function verifyAccessToken(token: string) {
+  try {
+    const secret = process.env.ACCESS_TOKEN_SECRET as string;
+    const encodedSecret = new TextEncoder().encode(secret);
+    const verified = await jwtVerify(token, encodedSecret);
+    return verified.payload;
+  } catch (error) {
+    throw new Error("decoding 에러가 발생했습니다.");
   }
 }

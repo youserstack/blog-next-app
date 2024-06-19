@@ -1,3 +1,4 @@
+import { verifyAccessToken, verifyToken } from "@/lib/utils/auth";
 import { JWTPayload, jwtVerify } from "jose";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
@@ -7,11 +8,11 @@ const PROTECTED_PAGES = ["/protected", "/dashboard"];
 const PROTECTED_APIS = ["/api/categories", "/api/comments", "/api/posts"];
 const PROTECTED_METHODS = ["POST", "DELETE", "PATCH"];
 
-async function verifyToken(token: string, secret: string): Promise<JWTPayload> {
-  const encodedSecret = new TextEncoder().encode(secret);
-  const { payload } = await jwtVerify(token, encodedSecret);
-  return payload;
-}
+// async function verifyToken(token: string, secret: string): Promise<JWTPayload> {
+//   const encodedSecret = new TextEncoder().encode(secret);
+//   const { payload } = await jwtVerify(token, encodedSecret);
+//   return payload;
+// }
 
 export default async function middleware(request: NextRequest) {
   // extract
@@ -36,15 +37,7 @@ export default async function middleware(request: NextRequest) {
   // }
 
   // authenticate
-  let user = null;
-  try {
-    const secret = process.env.REFRESH_TOKEN_SECRET as string;
-    const decoded = await verifyToken(refreshToken, secret);
-    if (!decoded.email) throw new Error("사용자 이메일을 찾을 수 없습니다.");
-    user = decoded;
-  } catch (error) {
-    user = null;
-  }
+  const user = await verifyToken(refreshToken).catch((error: any) => null);
 
   if (isProtectedPage) {
     console.log("\n\x1b[32m[middleware]\x1b[0m");
@@ -55,12 +48,13 @@ export default async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
 
-    if (user) console.error("refreshToken이 유효합니다.");
+    if (user) console.error("refreshToken이 유효합니다.", user);
     else {
       console.error("refreshToken이 유효하지 않습니다.");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
   }
+
   if (isProtectedApi) {
     console.log("\n\x1b[32m[middleware]\x1b[0m");
     console.log({ protectedApi: pathname, method: request.method });
@@ -72,10 +66,8 @@ export default async function middleware(request: NextRequest) {
     }
 
     try {
-      const secret = process.env.ACCESS_TOKEN_SECRET as string;
-      const decoded = await verifyToken(accessToken, secret);
-      console.log("accessToken이 유효합니다.", decoded);
-      user = decoded;
+      const user = await verifyAccessToken(accessToken);
+      console.log("accessToken이 유효합니다.", user);
     } catch (error) {
       console.error("accessToken이 유효하지 않습니다.", error);
       return NextResponse.json({ error }, { status: 403 });

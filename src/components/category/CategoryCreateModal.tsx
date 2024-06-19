@@ -34,6 +34,7 @@ export default function CategoryCreateModal() {
       return { newCategoryPath: data.newCategoryPath };
     } else if (data.error) {
       console.error("에러가 발생했습니다.", data.error);
+      console.log({ data });
       return { error: data.error };
     }
 
