@@ -4,10 +4,9 @@ import connectDB from "@/lib/config/connectDB";
 import { generateAccessToken } from "@/lib/utils/auth";
 import User from "@/lib/models/User";
 
-connectDB();
-
 export async function GET(request: Request) {
   console.log("\n\x1b[32m[api/auth/refresh]\x1b[0m");
+  await connectDB();
 
   // extract
   const refreshToken = cookies().get("refreshToken")?.value;

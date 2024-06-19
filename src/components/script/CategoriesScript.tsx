@@ -3,8 +3,12 @@
 import { Context } from "@/components/context/Provider";
 import { useContext, useEffect } from "react";
 
-export default function CategoryPathsMaker({ categories }: { categories: [] }) {
-  const { setCategoryPaths }: any = useContext(Context);
+export default function CategoriesScript({ categories }: { categories: [] }) {
+  const { setCategories, setCategoryPaths }: any = useContext(Context);
+
+  useEffect(() => {
+    setCategories(categories);
+  }, [categories]);
 
   useEffect(() => {
     // 배열을 생성할 때 사용할 변수

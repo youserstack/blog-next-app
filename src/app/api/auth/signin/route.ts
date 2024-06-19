@@ -10,10 +10,9 @@ import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-connectDB();
-
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/auth/signin]:::[POST]\x1b[0m");
+  await connectDB();
 
   // extract
   const { email, password } = await request.json();

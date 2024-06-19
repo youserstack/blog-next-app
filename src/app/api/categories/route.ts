@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     console.log({ savedCategory });
 
     return Response.json(
-      { newCategoryPath: `/${parentCategories.join("/")}/${childCategory}}` },
+      { newCategoryPath: `/${parentCategories.join("/")}/${childCategory}` },
       { status: 200 }
     );
   }
@@ -73,6 +73,7 @@ export async function GET(request: Request) {
   // console.log("\n\x1b[32m[api/categories]:::[GET]\x1b[0m");
   await connectDB();
   const foundCategories = await Category.find({});
+  // console.log({ foundCategories });
   return Response.json({ categories: foundCategories });
 }
 

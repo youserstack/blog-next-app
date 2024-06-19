@@ -4,15 +4,14 @@ import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
-connectDB();
-
 // 전체 포스트 읽기 (read all)
 export async function GET(request: Request) {
   console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
+  await connectDB();
 
   // extract
   const { searchParams } = new URL(request.url);
-  const categoryPath = searchParams.get("categoryPath");
+  const categoryPath = decodeURI(searchParams.get("categoryPath") as string);
   const page = searchParams.get("page") || "1";
   console.log({ categoryPath, page });
   const POST_PER_PAGE = 5;

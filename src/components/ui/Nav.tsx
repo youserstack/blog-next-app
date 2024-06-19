@@ -1,8 +1,8 @@
 import Link from "next/link";
 import CategoryCreateButton from "@/components/category/CategoryCreateButton";
-import CategoryPathsMaker from "@/components/category/CategoryPathsMaker";
 import { headers } from "next/headers";
 import { getCategories } from "@/lib/utils/fetchers/getters";
+import CategoriesScript from "@/components/script/CategoriesScript";
 import "../../styles/Nav.scss";
 
 export default async function Nav() {
@@ -46,7 +46,7 @@ export default async function Nav() {
         )}
       </ul>
 
-      <CategoryPathsMaker categories={categories} />
+      <CategoriesScript categories={categories} />
     </nav>
   );
 }

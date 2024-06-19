@@ -53,6 +53,8 @@ export default function PostArticle({ post }: any) {
     }
   }, [updateState, router]);
 
+  if (!post) return null;
+
   if (isEditMode) {
     return (
       <form className="post-article edit-mode" action={updateAction}>

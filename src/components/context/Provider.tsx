@@ -9,6 +9,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   // 모달창을 스위칭할때 사용한다.
   const [currentModal, setCurrentModal] = useState("");
 
+  // 서버로부터 요청한 카테고리 데이터를 이곳에 저장한다.
+  const [categories, setCategories] = useState([]);
+
   // 새 카테고리 항목을 생성할때 사용한다.
   const [parentCategories, setParentCategories] = useState<string[]>([]);
 
@@ -58,6 +61,10 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 클리어
   }, []);
 
+  useEffect(() => {
+    if (categories.length) console.log({ categories });
+  }, [categories]);
+
   return (
     <Context.Provider
       value={{
@@ -76,6 +83,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         signout,
         refreshAccessToken,
         setIsSignedIn,
+
+        // 컨텍스트에 카테고리 저장
+        setCategories,
       }}
     >
       {children}
