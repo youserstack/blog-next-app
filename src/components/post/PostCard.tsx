@@ -10,9 +10,9 @@ export default function PostCard({ post }: any) {
             <p className="author">작성자({post.author?.name})</p>
             <p>{post.createdAt.slice(0, 10)}</p>
           </div>
-          <div>
+          <div className="content">
             <h3 className="title">{post.title}</h3>
-            <pre>{post.content}</pre>
+            <p>{post.content}</p>
           </div>
         </div>
         <div className="thumbnail">

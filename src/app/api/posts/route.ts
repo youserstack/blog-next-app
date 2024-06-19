@@ -25,7 +25,21 @@ export async function GET(request: Request) {
     .limit(POST_PER_PAGE);
   // $options: "i", // 대소문자 구분하지 않음
 
-  return Response.json({ totalCount, posts }, { status: 200 });
+  // 각 포스트의 content를 처리
+  const processedPosts = posts.map((post: any) => {
+    // 정규식을 사용하여 연속된 공백을 하나의 공백으로 변경
+    const trimmedContent = post.content.replace(/\s{2,}/g, " ");
+    // 문자열을 최대 길이로 자르고, 생략 부호 추가
+    const content = `${trimmedContent.slice(0, 30)}...`;
+
+    return {
+      ...post.toObject(), // Mongoose Document를 일반 객체로 변환
+      content, // 내용 처리 함수 적용
+    };
+  });
+  console.log({ processedPosts });
+
+  return Response.json({ totalCount, posts: processedPosts }, { status: 200 });
 }
 
 // 포스트 생성 (create)

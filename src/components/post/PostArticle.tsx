@@ -76,7 +76,7 @@ export default function PostArticle({ post }: any) {
           </small>
         </div>
         <div className="article-body">
-          <pre>{post.content}</pre>
+          <p className="content">{post.content}</p>
           <ul>
             <li>
               <input
@@ -122,7 +122,8 @@ export default function PostArticle({ post }: any) {
         </div>
       </div>
       <div className="article-body">
-        <pre>{post.content}</pre>
+        <p className="content">{post.content}</p>
+
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum harum aliquam iste
           voluptas doloremque maiores qui tempore corporis dolorem nisi eum vero, iusto ipsum cum

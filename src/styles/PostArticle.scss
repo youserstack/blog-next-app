@@ -49,7 +49,11 @@
   }
 
   .article-body {
-    border: 1px dashed orange;
+    border: 1px dashed;
+
+    .content {
+      white-space: break-spaces;
+    }
   }
 
   .article-footer {
