@@ -1,6 +1,4 @@
-import { verifyAccessToken, verifyToken } from "@/lib/utils/auth";
-import { JWTPayload, jwtVerify } from "jose";
-import { revalidatePath } from "next/cache";
+import { verifyAccessToken, verifyRefreshToken } from "@/lib/utils/auth";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,36 +6,21 @@ const PROTECTED_PAGES = ["/protected", "/dashboard"];
 const PROTECTED_APIS = ["/api/categories", "/api/comments", "/api/posts"];
 const PROTECTED_METHODS = ["POST", "DELETE", "PATCH"];
 
-// async function verifyToken(token: string, secret: string): Promise<JWTPayload> {
-//   const encodedSecret = new TextEncoder().encode(secret);
-//   const { payload } = await jwtVerify(token, encodedSecret);
-//   return payload;
-// }
-
 export default async function middleware(request: NextRequest) {
-  // extract
+  // extract (pathname, tokens)
+  // if (pathname.startsWith("/_next")) return;
   const { pathname } = request.nextUrl;
-  if (pathname.startsWith("/_next")) return;
   const accessToken = request.headers.get("Authorization")?.split(" ")[1] as string;
   const refreshToken: any = cookies().get("refreshToken")?.value;
 
-  // make conditions
+  // authenticate
+  const user = await verifyRefreshToken(refreshToken).catch((error: any) => null);
+
+  // make conditions (for branches)
   const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
   const isProtectedApi =
     PROTECTED_APIS.some((api: string) => pathname.startsWith(api)) &&
     PROTECTED_METHODS.includes(request.method);
-
-  // loggings
-  // if (pathname.startsWith("/api")) {
-  //   if (isProtectedApi) console.log({ protectedApi: pathname });
-  //   else console.log({ publicApi: pathname });
-  // } else {
-  //   if (isProtectedPage) console.log({ protectedPage: pathname });
-  //   else console.log({ publicPage: pathname });
-  // }
-
-  // authenticate
-  const user = await verifyToken(refreshToken).catch((error: any) => null);
 
   if (isProtectedPage) {
     console.log("\n\x1b[32m[middleware]\x1b[0m");
@@ -57,7 +40,7 @@ export default async function middleware(request: NextRequest) {
 
   if (isProtectedApi) {
     console.log("\n\x1b[32m[middleware]\x1b[0m");
-    console.log({ protectedApi: pathname, method: request.method });
+    console.log({ protectedApi: pathname, refreshToken: { user } });
 
     if (!accessToken) {
       const message = "요청된 API는 accessToken이 요구됩니다.";
@@ -65,6 +48,10 @@ export default async function middleware(request: NextRequest) {
       return NextResponse.json({ error: { message } }, { status: 401 });
     }
 
+    // 토큰만료에 의해서 에러가 발생하면 클라이언트에 응답해주어야 한다.
+    // 에러 코드가 만료인 경우는 재요청하기 위해서 에러 객체를 넘겨주어야 한다.
+    // then catch 문의 경우는 NextResponse 에 에러객체를 보낼 수 있는 방법이 없기 때문에
+    // try catch 문을 사용해서 에러객체를 잡아 클라이언트에 응답한다.
     try {
       const user = await verifyAccessToken(accessToken);
       console.log("accessToken이 유효합니다.", user);
@@ -75,10 +62,10 @@ export default async function middleware(request: NextRequest) {
   }
 
   // 인증된 사용자라면 로그인이 필요하지 않으므로 홈페이지로 리다이렉트한다.
-  // if (pathname.startsWith("/auth/signin") && user) {
-  //   console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
-  //   return NextResponse.redirect(new URL("/", request.url));
-  // }
+  if (pathname.startsWith("/auth/signin") && user) {
+    console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   // configurate the custom header
   // let response;
@@ -86,24 +73,9 @@ export default async function middleware(request: NextRequest) {
   const headers = new Headers(request.headers);
   headers.set("user", JSON.stringify(user));
   return NextResponse.next({ request: { headers } });
-  // return NextResponse.next({ headers });
 }
 
-export const config = {
-  matcher: [
-    "/:path*",
-    // all pages
-    // "/",
-    // "/auth/:path*",
-    // "/categories/:path*",
-    // "/dashboard/:path*",
-    // "/posts/:path*",
-    // "/protected/:path*",
-
-    // APIs
-    "/api/:path*",
-  ],
-};
+export const config = { matcher: ["/:path*"] };
 
 // 미들웨어를 거치지 않고 page, api를 서버에서 핸들링하게되면,
 // 커스텀 헤더를 설정하지 않는다.

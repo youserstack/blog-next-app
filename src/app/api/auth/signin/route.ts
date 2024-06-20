@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   if (!isCorrectPassword) return Response.json({ error: "incorrect password" }, { status: 401 });
 
   // authorize
-  const payload = { email, password };
+  const payload = { email };
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);
   // console.log({ accessToken, refreshToken });

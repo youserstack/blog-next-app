@@ -16,21 +16,19 @@ export default function CategoryDeleteModal() {
 
   const handleClickDeleteButton = async () => {
     const accessToken = localStorage.getItem("accessToken") as string;
-    const data = await deleteCategory(categories, accessToken);
+    const { deletedCategory, error } = await deleteCategory(categories, accessToken);
 
     // 토큰만료시 > 토큰갱신 > 재요청
-    if (data.error?.code === "ERR_JWT_EXPIRED") {
+    if (error?.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken(); // 재발급
-      const data = await deleteCategory(categories, newAccessToken); // 재요청
+      const { deletedCategory, error } = await deleteCategory(categories, newAccessToken); // 재요청
 
-      if (data.error) {
-        console.error("재요청에 대한 에러가 발생했습니다.", data.error);
-        return { error: data.error };
+      if (error) {
+        console.error("재요청에 대한 에러가 발생했습니다.", error);
+        return { error: error };
       }
 
-      console.log("토큰갱신 > 재요청 > 카테고리 삭제", {
-        deletedCategory: data.deletedCategory,
-      });
+      console.log("토큰갱신 > 재요청 > 카테고리 삭제", { deletedCategory });
       setCurrentModal("");
       // 최상위 카테고리인 경우는 카테고리 홈경로(categoryPaths[0])로 이동한다.
       // 이외는 부모 카테고리로 이동한다.
@@ -38,13 +36,13 @@ export default function CategoryDeleteModal() {
         ? router.push("/categories" + categoryPaths[0])
         : router.push(`/categories/${parentCategories.join("/")}`);
       router.refresh();
-      return { deletedCategory: data.deletedCategory };
-    } else if (data.error) {
-      console.error("에러가 발생했습니다.", data.error);
-      return { error: data.error };
+      return { deletedCategory };
+    } else if (error) {
+      console.error("에러가 발생했습니다.", error);
+      return { error: error };
     }
 
-    console.log("카테고리 삭제 완료", { deletedCategory: data.deletedCategory });
+    console.log("카테고리 삭제 완료", { deletedCategory });
     setCurrentModal("");
     // 최상위 카테고리인 경우는 카테고리 홈경로(categoryPaths[0])로 이동한다.
     // 이외는 부모 카테고리로 이동한다.
@@ -52,7 +50,7 @@ export default function CategoryDeleteModal() {
       ? router.push("/categories" + categoryPaths[0])
       : router.push(`/categories/${parentCategories.join("/")}`);
     router.refresh();
-    return { deletedCategory: data.deletedCategory };
+    return { deletedCategory };
   };
 
   const handleClickCancelButton = () => setCurrentModal("");

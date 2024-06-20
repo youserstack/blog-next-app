@@ -41,14 +41,14 @@ export async function refreshAccessToken() {
 }
 
 // middleware에서 사용하는 함수
-export async function verifyToken(token: string) {
+export async function verifyRefreshToken(token: string) {
   try {
     const secret = process.env.REFRESH_TOKEN_SECRET as string;
     const encodedSecret = new TextEncoder().encode(secret);
     const verified = await jwtVerify(token, encodedSecret);
     return verified.payload;
   } catch (error) {
-    throw new Error("decoding 에러가 발생했습니다.");
+    throw error;
   }
 }
 
@@ -59,6 +59,6 @@ export async function verifyAccessToken(token: string) {
     const verified = await jwtVerify(token, encodedSecret);
     return verified.payload;
   } catch (error) {
-    throw new Error("decoding 에러가 발생했습니다.");
+    throw error;
   }
 }

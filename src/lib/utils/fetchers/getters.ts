@@ -2,7 +2,9 @@
 
 // 전체 카테고리 읽기 (레이아웃 서버컴포넌트에서 사용)
 export async function getCategories() {
-  const response = await fetch(`${process.env.ROOT_URL}/api/categories`);
+  const response = await fetch(`${process.env.ROOT_URL}/api/categories`, {
+    credentials: "include", // 쿠키를 포함하여 요청을 보냅니다.
+  });
   return response.json();
 }
 

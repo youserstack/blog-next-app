@@ -6,9 +6,7 @@ import { useParams } from "next/navigation";
 import { SlArrowRight } from "react-icons/sl";
 import "../../styles/SideNav.scss";
 
-export default function SideNav(
-  { categories }: any // 서버로부터 가져온 카테고리 데이터
-) {
+export default function SideNav({ categories }: any) {
   const params: any = useParams(); // 클라이언트에서 요청한 파라미터
   const urlCategories = params.category.map((v: any) => decodeURIComponent(v));
 

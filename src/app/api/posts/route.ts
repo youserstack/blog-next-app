@@ -13,9 +13,9 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const categoryPath = decodeURI(searchParams.get("categoryPath") as string);
   const page = searchParams.get("page") || "1";
-  console.log({ categoryPath, page });
   const POST_PER_PAGE = 5;
   const skip = ((parseInt(page) || 1) - 1) * POST_PER_PAGE;
+  // console.log({ categoryPath, page });
 
   // query
   const totalCount = await Post.countDocuments({ category: { $regex: categoryPath } });
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
       content, // 내용 처리 함수 적용
     };
   });
-  console.log({ processedPosts });
+  // console.log({ posts: processedPosts });
 
   return Response.json({ totalCount, posts: processedPosts }, { status: 200 });
 }
