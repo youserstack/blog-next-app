@@ -61,7 +61,7 @@ export default async function middleware(request: NextRequest) {
     // console.log("accessToken.user", user);
 
     try {
-      const user = await verifyAccessToken(accessToken);
+      user = await verifyAccessToken(accessToken);
       console.log({ user });
     } catch (error) {
       console.error({ error });

@@ -20,6 +20,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
 
   // 로그인 상태
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState(null);
   const router = useRouter();
 
   const signout = async () => {

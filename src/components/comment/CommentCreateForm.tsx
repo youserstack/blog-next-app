@@ -9,6 +9,7 @@ import { createCommentAction } from "@/app/actions";
 import Image from "next/image";
 import Link from "next/link";
 import "../../styles/CommentCreateForm.scss";
+import { headers } from "next/headers";
 
 export default function CommentCreateForm({
   authorImage,
@@ -18,11 +19,12 @@ export default function CommentCreateForm({
   postId: string;
 }) {
   const { isSignedIn }: any = useContext(Context); // 로그인 상태
+  const user = JSON.parse(headers().get("user") as string);
+  console.log({ user });
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
-    // request
-    const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`; // 댓글생성후 리패칭할 주소
+    const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`;
     const accessToken = localStorage.getItem("accessToken") as string;
-    const result = await createCommentAction(formData, postId, accessToken); // 서버액션으로부터 요청한다.
+    const result = await createCommentAction(formData, postId, accessToken);
 
     // 토큰만료시 > 토큰갱신 > 재요청
     if (result.error?.code === "ERR_JWT_EXPIRED") {
@@ -53,7 +55,7 @@ export default function CommentCreateForm({
       <div className="author-thumbnail">
         <Image src={authorImage} alt="" width={30} height={30} />
       </div>
-      {isSignedIn ? (
+      {true ? (
         <div className="main">
           <textarea name="content" placeholder="댓글 추가" maxLength={500} />
           <button type="submit">등록하기</button>
@@ -63,6 +65,16 @@ export default function CommentCreateForm({
           <Link href={"/auth/signin"}>로그인</Link>
         </div>
       )}
+      {/* {isSignedIn ? (
+        <div className="main">
+          <textarea name="content" placeholder="댓글 추가" maxLength={500} />
+          <button type="submit">등록하기</button>
+        </div>
+      ) : (
+        <div className="main">
+          <Link href={"/auth/signin"}>로그인</Link>
+        </div>
+      )} */}
     </form>
   );
 }

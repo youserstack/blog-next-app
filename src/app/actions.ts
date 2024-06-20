@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function createCategoryAction(formData: FormData, accessToken: string) {
-  console.log("\x1b[35m\n<createCategoryAction>\x1b[0m");
+  // console.log("\x1b[35m\n<createCategoryAction>\x1b[0m");
 
   const response = await fetch(`${process.env.ROOT_URL}/api/categories`, {
     method: "POST",
@@ -16,7 +16,7 @@ export async function createCategoryAction(formData: FormData, accessToken: stri
 }
 
 export async function createPostAction(formData: FormData, accessToken: string) {
-  console.log("\x1b[35m\n<createPostAction>\x1b[0m");
+  // console.log("\x1b[35m\n<createPostAction>\x1b[0m");
 
   const response = await fetch(`${process.env.ROOT_URL}/api/posts`, {
     method: "POST",
@@ -28,7 +28,7 @@ export async function createPostAction(formData: FormData, accessToken: string) 
 }
 
 export async function createCommentAction(formData: FormData, postId: string, accessToken: string) {
-  console.log("\n\x1b[35m<createCommentAction>\x1b[0m");
+  // console.log("\n\x1b[35m<createCommentAction>\x1b[0m");
 
   const response = await fetch(`${process.env.ROOT_URL}/api/comments?postId=${postId}`, {
     method: "POST",
@@ -40,7 +40,7 @@ export async function createCommentAction(formData: FormData, postId: string, ac
 }
 
 export async function updatePostAction(formData: FormData, postId: string, accessToken: string) {
-  console.log("\n\x1b[35m\n<updatePostAction>\x1b[0m");
+  // console.log("\n\x1b[35m\n<updatePostAction>\x1b[0m");
 
   const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
     method: "PATCH",

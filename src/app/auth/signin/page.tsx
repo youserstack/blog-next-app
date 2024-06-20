@@ -10,24 +10,21 @@ import "./page.scss";
 export default function Signin() {
   console.log("\n\x1b[34m[/signin]\x1b[0m");
 
+  const router = useRouter();
+  const { setIsSignedIn }: any = useContext(Context);
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
-    const result = await signinAction(formData);
+    const { error, accessToken } = await signinAction(formData);
 
-    if (result.error) return { error: result.error };
-    localStorage.setItem("accessToken", result.accessToken);
+    if (error) return { error };
+    localStorage.setItem("accessToken", accessToken);
     setIsSignedIn(true);
     router.refresh();
-    return { accessToken: result.accessToken };
+    return { accessToken: accessToken };
   }, null);
-  const { setIsSignedIn }: any = useContext(Context);
-  const router = useRouter();
 
   useEffect(() => {
-    // 로그인 성공하면 이전 경로로 이동한다.
-    if (state?.accessToken) {
-      router.back();
-    }
-  }, [state]); // `state`와 `setIsSignedIn`, `router`가 변경될 때마다 이 효과가 실행됩니다.
+    if (state?.accessToken) router.back();
+  }, [state]);
 
   return (
     <main className="signin-page">
