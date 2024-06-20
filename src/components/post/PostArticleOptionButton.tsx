@@ -1,10 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { MouseEvent, useEffect } from "react";
+import { useEffect } from "react";
 import { IoIosMore } from "react-icons/io";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { deletePost } from "@/lib/utils/fetchers/deleters";
+import { useFormState } from "react-dom";
 import "../../styles/PostArticleOptionButton.scss";
 
 export default function PostArticleOptionButton({
@@ -14,36 +15,38 @@ export default function PostArticleOptionButton({
   setIsEditMode,
 }: any) {
   const router = useRouter();
-  const handleClickOptionButton = () => setIsClickedOptionButton(!isClickedOptionButton);
-  const handleClickEditButton = () => setIsEditMode(true);
-  const handleClickDeleteButton = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
+  const [state, action] = useFormState(async () => {
     const accessToken = localStorage.getItem("accessToken") as string;
-    const result = await deletePost(post._id, accessToken);
+    const { error, deletedPost } = await deletePost(post._id, accessToken);
 
-    if (result.error?.code === "ERR_JWT_EXPIRED") {
-      const newAccessToken = await refreshAccessToken(); // 재발급
-      const result = await deletePost(post._id, newAccessToken);
+    if (error?.code === "ERR_JWT_EXPIRED") {
+      const newAccessToken = await refreshAccessToken();
+      const { error, deletedPost } = await deletePost(post._id, newAccessToken);
 
-      if (result.error) {
-        console.error("재요청에 대한 에러가 발생했습니다.", result.error);
-        return { error: result.error };
+      if (error) {
+        console.error("재요청에 대한 에러가 발생했습니다.", error);
+        return { error };
       }
 
-      console.log("토큰갱신 > 재요청 > 포스트 생성 성공", {
-        deletedPost: result.deletedPost,
-      });
-      return { deletedPost: result.deletedPost };
-    } else if (result.error) {
-      console.error("에러가 발생했습니다.", result.error);
-      return { error: result.error };
+      console.log("토큰갱신 > 재요청 > 포스트 생성 성공", { deletedPost });
+      router.refresh();
+      return { deletedPost };
+    } else if (error) {
+      console.error("에러가 발생했습니다.", error);
+      return { error };
     }
 
-    console.log("포스트 삭제 성공", { deletedPost: result.deletedPost });
-    router.back();
+    console.log("포스트 삭제 성공", { deletedPost });
     router.refresh();
-  };
+    return { deletedPost };
+  }, null);
+
+  const handleClickOptionButton = () => setIsClickedOptionButton(!isClickedOptionButton);
+  const handleClickEditButton = () => setIsEditMode(true);
+
+  useEffect(() => {
+    if (state?.deletedPost) router.back();
+  }, [state]);
 
   useEffect(() => {
     const handleClick = () => setIsClickedOptionButton(false);
@@ -70,7 +73,9 @@ export default function PostArticleOptionButton({
               <button onClick={handleClickEditButton}>edit</button>
             </li>
             <li>
-              <button onClick={handleClickDeleteButton}>delete this post article</button>
+              <form action={action}>
+                <button type="submit">delete this post article</button>
+              </form>
             </li>
           </ul>
         </div>

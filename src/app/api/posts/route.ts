@@ -6,7 +6,7 @@ import User from "@/lib/models/User";
 
 // 전체 포스트 읽기 (read all)
 export async function GET(request: Request) {
-  console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
+  // console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
   await connectDB();
 
   // extract

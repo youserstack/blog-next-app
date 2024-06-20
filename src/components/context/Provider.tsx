@@ -61,9 +61,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 클리어
   }, []);
 
-  useEffect(() => {
-    if (categories.length) console.log({ categories });
-  }, [categories]);
+  // useEffect(() => {
+  //   if (categories.length) console.log({ categories });
+  // }, [categories]);
 
   return (
     <Context.Provider

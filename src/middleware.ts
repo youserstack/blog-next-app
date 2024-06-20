@@ -14,7 +14,13 @@ export default async function middleware(request: NextRequest) {
   const refreshToken: any = cookies().get("refreshToken")?.value;
 
   // authenticate
-  const user = await verifyRefreshToken(refreshToken).catch((error: any) => null);
+  // const user = await verifyRefreshToken(refreshToken).catch((error: any) => null);
+  let user = null;
+  try {
+    user = await verifyRefreshToken(refreshToken);
+  } catch (error) {
+    user = null;
+  }
 
   // make conditions (for branches)
   const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
@@ -29,18 +35,17 @@ export default async function middleware(request: NextRequest) {
     if (!refreshToken) {
       console.error("요청된 page는 refreshToken이 요구됩니다.");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
-    }
-
-    if (user) console.error("refreshToken이 유효합니다.", user);
-    else {
+    } else if (!user) {
       console.error("refreshToken이 유효하지 않습니다.");
       return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
+
+    console.log("refreshToken.user", user);
   }
 
   if (isProtectedApi) {
-    console.log("\n\x1b[32m[middleware]\x1b[0m");
-    console.log({ protectedApi: pathname, refreshToken: { user } });
+    console.log("\n\n\n\x1b[32m[middleware]\x1b[0m");
+    console.log({ protectedApi: pathname, method: request.method });
 
     if (!accessToken) {
       const message = "요청된 API는 accessToken이 요구됩니다.";
@@ -48,15 +53,18 @@ export default async function middleware(request: NextRequest) {
       return NextResponse.json({ error: { message } }, { status: 401 });
     }
 
-    // 토큰만료에 의해서 에러가 발생하면 클라이언트에 응답해주어야 한다.
-    // 에러 코드가 만료인 경우는 재요청하기 위해서 에러 객체를 넘겨주어야 한다.
-    // then catch 문의 경우는 NextResponse 에 에러객체를 보낼 수 있는 방법이 없기 때문에
-    // try catch 문을 사용해서 에러객체를 잡아 클라이언트에 응답한다.
+    // const user = await verifyAccessToken(accessToken).catch((error: any) => error);
+    // if (user instanceof Error) {
+    //   console.error("accessToken 이 유효하지 않습니다.");
+    //   return NextResponse.json({ error: user }, { status: 403 });
+    // }
+    // console.log("accessToken.user", user);
+
     try {
       const user = await verifyAccessToken(accessToken);
-      console.log("accessToken이 유효합니다.", user);
+      console.log({ user });
     } catch (error) {
-      console.error("accessToken이 유효하지 않습니다.", error);
+      console.error({ error });
       return NextResponse.json({ error }, { status: 403 });
     }
   }
