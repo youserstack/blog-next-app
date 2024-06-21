@@ -4,12 +4,12 @@ import { Context } from "@/components/context/Provider";
 import { useContext, useEffect } from "react";
 
 export default function AuthScript({ user }: any) {
-  const { setIsSignedIn }: any = useContext(Context);
+  const { setUser }: any = useContext(Context);
 
   useEffect(() => {
-    // console.log({ user });
-    if (user) setIsSignedIn(true);
-    else setIsSignedIn(false);
+    console.log({ user });
+    if (user) setUser(user);
+    else setUser(null);
   }, [user]);
 
   return null;

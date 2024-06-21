@@ -1,25 +1,16 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 
 export const Context = createContext({});
 
 export default function Provider({ children }: { children: React.ReactNode }) {
-  // 모달창을 스위칭할때 사용한다.
-  const [currentModal, setCurrentModal] = useState("");
-
-  // 서버로부터 요청한 카테고리 데이터를 이곳에 저장한다.
-  const [categories, setCategories] = useState([]);
-
-  // 새 카테고리 항목을 생성할때 사용한다.
-  const [parentCategories, setParentCategories] = useState<string[]>([]);
-
-  // 전체 카테고리 경로이고 새 포스트 글을 생성할때 해당 카테고리를 지정해야하는데 그때에 사용한다.
-  const [categoryPaths, setCategoryPaths] = useState<string[]>([]);
-
-  // 로그인 상태
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [currentModal, setCurrentModal] = useState(""); // 모달창을 스위칭할때 사용한다.
+  const [categories, setCategories] = useState([]); // 서버로부터 요청한 카테고리 데이터를 이곳에 저장한다.
+  const [parentCategories, setParentCategories] = useState<string[]>([]); // 새 카테고리 항목을 생성할때 사용한다.
+  const [categoryPaths, setCategoryPaths] = useState<string[]>([]); // 전체 카테고리 경로이고 새 포스트 글을 생성할때 해당 카테고리를 지정해야하는데 그때에 사용한다.
+  const [isSignedIn, setIsSignedIn] = useState(false); // 로그인 상태
   const [user, setUser] = useState(null);
   const router = useRouter();
 
@@ -69,24 +60,22 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   return (
     <Context.Provider
       value={{
-        // 카테고리 생성 시 필요
+        // 카테고리
         categoryPaths,
-        setCategoryPaths,
-
         parentCategories,
+        setCategoryPaths,
         setParentCategories,
-
+        setCategories,
+        // 모달창
         currentModal,
         setCurrentModal,
-
         // 인증
+        user,
         isSignedIn,
+        setUser,
         signout,
         refreshAccessToken,
         setIsSignedIn,
-
-        // 컨텍스트에 카테고리 저장
-        setCategories,
       }}
     >
       {children}

@@ -8,7 +8,7 @@ import { signinAction } from "@/app/actions";
 import "./page.scss";
 
 export default function Signin() {
-  console.log("\n\x1b[34m[/signin]\x1b[0m");
+  // console.log("\n\x1b[34m[/signin]\x1b[0m");
 
   const router = useRouter();
   const { setIsSignedIn }: any = useContext(Context);

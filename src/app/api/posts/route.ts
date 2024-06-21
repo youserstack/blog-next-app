@@ -1,21 +1,19 @@
-// 수정필요 (요청 메서드 post > get)
-
 import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
-// 전체 포스트 읽기 (read all)
+// 전체 포스트 읽기
 export async function GET(request: Request) {
-  // console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
+  console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
   await connectDB();
 
   // extract
   const { searchParams } = new URL(request.url);
-  const categoryPath = decodeURI(searchParams.get("categoryPath") as string);
+  const categoryPath = searchParams.get("categoryPath") as string;
   const page = searchParams.get("page") || "1";
   const POST_PER_PAGE = 5;
   const skip = ((parseInt(page) || 1) - 1) * POST_PER_PAGE;
-  // console.log({ categoryPath, page });
+  console.log({ categoryPath, page });
 
   // query
   const totalCount = await Post.countDocuments({ category: { $regex: categoryPath } });
@@ -42,13 +40,12 @@ export async function GET(request: Request) {
   return Response.json({ totalCount, posts: processedPosts }, { status: 200 });
 }
 
-// 포스트 생성 (create)
+// 포스트 생성
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/posts]:::[POST]\x1b[0m");
 
   // authenticate
   const user = JSON.parse(request.headers.get("user") as string);
-  // console.log({ user });
   const foundUser = await User.findOne({ email: user.email });
   if (!foundUser) {
     const error = { error: { message: "해당 사용자가 존재하지 않습니다." } };
@@ -69,7 +66,7 @@ export async function POST(request: Request) {
     return Response.json(error, { status: 400 });
   }
 
-  // creation
+  // create
   const newPost = await Post.create({ ...post, author: foundUser._id });
   console.log({ newPost });
 

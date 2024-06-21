@@ -52,16 +52,11 @@ export async function updatePostAction(formData: FormData, postId: string, acces
 }
 
 export async function signinAction(formData: FormData) {
-  console.log("\n\x1b[35m<signinAction>\x1b[0m");
-
-  // extract
-  const email = formData.get("email");
-  const password = formData.get("password");
+  // console.log("\n\x1b[35m<signinAction>\x1b[0m");
 
   const response = await fetch(`${process.env.ROOT_URL}/api/auth/signin`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: formData,
   });
   const data = await response.json();
 

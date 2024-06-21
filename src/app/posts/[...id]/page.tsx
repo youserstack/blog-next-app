@@ -1,6 +1,6 @@
 import PostArticle from "@/components/post/PostArticle";
-import "./page.scss";
 import { getPost } from "@/lib/utils/fetchers/getters";
+import "./page.scss";
 
 // export async function generateStaticParams() {
 //   const posts = await fetch('https://.../posts').then((res) => res.json())
@@ -10,10 +10,9 @@ import { getPost } from "@/lib/utils/fetchers/getters";
 //   }))
 // }
 
-export default async function PostId({ params }: { params: { id: string } }) {
-  console.log("\n\x1b[34m[/post/[...id]]\x1b[0m");
+export default async function PostId({ params: { id: postId } }: { params: { id: string } }) {
+  console.log(`\n\x1b[34m[/post/${postId}]\x1b[0m`);
 
-  const postId: string = params.id;
   const { post } = await getPost(postId);
 
   return (

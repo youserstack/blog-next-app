@@ -8,16 +8,11 @@ export async function getCategories() {
   return response.json();
 }
 
-// 카테고리 포스트 리스트 읽기
-export async function getPosts(categoryPath: any, page: number) {
-  const encodedCategoryPath = encodeURIComponent(categoryPath);
-
+// 포스트 리스트 읽기
+export async function getPosts(categoryPath: string, page: number) {
   const response = await fetch(
-    `${process.env.ROOT_URL}/api/posts?categoryPath=${encodedCategoryPath}&page=${page}`,
-    {
-      headers: { "Content-Type": "application/json" },
-      cache: "no-cache",
-    }
+    `${process.env.ROOT_URL}/api/posts?categoryPath=${categoryPath}&page=${page}`,
+    { cache: "no-cache" }
   );
 
   return response.json();
