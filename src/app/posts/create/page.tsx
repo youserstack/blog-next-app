@@ -16,28 +16,30 @@ export default function PostCreate() {
 
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
     const accessToken = localStorage.getItem("accessToken") as string;
-    const result = await createPostAction(formData, accessToken);
+    const { error, newPost } = await createPostAction(formData, accessToken);
 
     // 토큰만료시 재발급후 재요청
-    if (result.error?.code === "ERR_JWT_EXPIRED") {
+    if (error?.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken();
-      const result = await createPostAction(formData, newAccessToken);
-      console.log("accessToken 갱신후 재요청...");
-      console.log({ newPost: result.newPost });
-      return { newPost: result.newPost };
-    } else if (result.error) {
-      return { error: result.error };
+      const { error, newPost } = await createPostAction(formData, newAccessToken);
+
+      if (error) {
+        console.error("재요청에 대한 에러가 발생했습니다.", error);
+        return { error };
+      }
+
+      console.log("토큰갱신 > 재요청 > 포스트 생성", { newPost });
+      router.refresh();
+      console.log({ newPost });
+      return { newPost };
+    } else if (error) {
+      return { error };
     }
 
     console.log("성공적으로 새로운 포스트 글을 생성하였습니다.");
-    return { newPost: result.newPost };
+    router.refresh();
+    return { newPost };
   }, null);
-
-  useEffect(() => {
-    if (state?.newPost) {
-      router.refresh();
-    }
-  }, [state, router]);
 
   return (
     <main className="post-create-page">

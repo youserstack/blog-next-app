@@ -21,30 +21,29 @@ export default function CommentCreateForm({
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
     const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`;
     const accessToken = localStorage.getItem("accessToken") as string;
-    const result = await createCommentAction(formData, postId, accessToken);
+    const { error, newComment } = await createCommentAction(formData, postId, accessToken);
 
     // 토큰만료시 > 토큰갱신 > 재요청
-    if (result.error?.code === "ERR_JWT_EXPIRED") {
+    if (error?.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken();
-      const result = await createCommentAction(formData, postId, newAccessToken);
+      const { error, newComment } = await createCommentAction(formData, postId, newAccessToken);
 
-      if (result.error) {
-        console.error("재요청에 대한 에러가 발생했습니다.", result.error);
-        return { error: result.error };
+      if (error) {
+        console.error("재요청에 대한 에러가 발생했습니다.", error);
+        return { error: error };
       }
 
-      console.log("토큰갱신 > 재요청 > 새로운 댓글을 생성하였습니다.");
-      console.log({ newComment: result.newComment });
+      console.log("토큰갱신 > 재요청 > 댓글 생성", { newComment });
       mutate(url); // 클라이언트 리패칭 (swr)
-      return result;
-    } else if (result.error) {
-      console.error("에러가 발생했습니다.", result.error);
-      return { error: result.error };
+      return { newComment };
+    } else if (error) {
+      console.error("에러가 발생했습니다.", error);
+      return { error };
     }
 
-    console.log("새로운 댓글을 생성하였습니다.");
+    console.log("댓글 생성");
     mutate(url); // 클라이언트 리패칭
-    return result;
+    return { newComment };
   }, null);
 
   return (

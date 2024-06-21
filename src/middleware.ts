@@ -78,6 +78,12 @@ export default async function middleware(request: NextRequest) {
   // configurate the custom header
   // let response;
   // response = NextResponse.next({ headers });
+
+  user = {
+    ...user,
+    refreshToken: refreshToken?.slice(-5),
+    accessToken: accessToken?.slice(-5),
+  };
   const headers = new Headers(request.headers);
   headers.set("user", JSON.stringify(user));
   return NextResponse.next({ request: { headers } });

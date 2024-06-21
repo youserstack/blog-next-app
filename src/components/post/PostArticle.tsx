@@ -18,40 +18,43 @@ export default function PostArticle({ post }: any) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [updateState, updateAction] = useFormState(
     async (currentState: any, formData: FormData) => {
-      // request with server action
       const accessToken = localStorage.getItem("accessToken") as string;
-      const result = await updatePostAction(formData, post._id, accessToken);
+      const { error, updatedPost } = await updatePostAction(formData, post._id, accessToken);
 
-      // if the token is expired, refresh and re-request
-      if (result.error?.code === "ERR_JWT_EXPIRED") {
+      if (error?.code === "ERR_JWT_EXPIRED") {
         const newAccessToken = await refreshAccessToken();
-        const result = await updatePostAction(formData, post._id, newAccessToken);
+        const { error, updatedPost } = await updatePostAction(formData, post._id, newAccessToken);
 
-        if (result.error) {
-          console.error("에러가 발생했습니다.", result.error);
-          return result;
+        if (error) {
+          console.error("재요청에 대한 에러가 발생했습니다.", error);
+          return { error };
         }
-        console.log("토큰갱신 > 재요청 > 포스트를 수정하였습니다.", result);
+
+        console.log("토큰갱신 > 재요청 > 포스트 수정", { updatedPost });
         setIsEditMode(false);
         setIsClickedOptionButton(false);
-        return result;
+        router.refresh();
+        return { updatedPost };
+      } else if (error) {
+        console.error("에러가 발생했습니다.", error);
+        return { error };
       }
 
-      // complete
-      console.log("포스트를 수정하였습니다.", result);
+      console.log("포스트 수정", { updatedPost });
       setIsEditMode(false);
       setIsClickedOptionButton(false);
-      return result;
+      router.refresh();
+      return { updatedPost };
     },
     null
   );
 
   // 서버에서 revalidatePath를 했다면, 클라이언트에서 refresh를 해야한다.
-  useEffect(() => {
-    if (updateState?.updatedPost) {
-      router.refresh();
-    }
-  }, [updateState, router]);
+  // useEffect(() => {
+  //   if (updateState?.updatedPost) {
+  //     router.refresh();
+  //   }
+  // }, [updateState, router]);
 
   if (!post) return null;
 

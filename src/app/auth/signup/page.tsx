@@ -5,8 +5,6 @@ import { signupAction } from "@/app/actions";
 import "./page.scss";
 
 export default function Signup() {
-  console.log("\n\x1b[34m[/signup]\x1b[0m");
-
   const [error, action] = useFormState(signupAction, undefined);
 
   return (

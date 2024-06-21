@@ -61,7 +61,7 @@ export async function signinAction(formData: FormData) {
   const data = await response.json();
 
   if (!response.ok) return data.error;
-  // 서버액션을 사용하면, 쿠키설정을 이곳에서 해야한다.
+
   cookies().set("refreshToken", data.refreshToken, {
     httpOnly: true,
     secure: true,
@@ -69,11 +69,12 @@ export async function signinAction(formData: FormData) {
     expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
     path: "/",
   });
-  return data;
+
+  return { accessToken: data.accessToken };
 }
 
 export async function signupAction(prevState: any, formData: FormData) {
-  console.log("\nsignup-page > server-action");
+  // console.log("\n\x1b[35m<signupAction>\x1b[0m");
 
   // extract
   const name = formData.get("name");
@@ -88,5 +89,6 @@ export async function signupAction(prevState: any, formData: FormData) {
   const data = await response.json();
 
   if (!response.ok) return data.error;
+
   redirect("/auth/signin");
 }

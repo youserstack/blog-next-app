@@ -15,34 +15,33 @@ export default function CategoryCreateModal() {
   const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
     formData.set("parentCategories", JSON.stringify(parentCategories));
     const accessToken = localStorage.getItem("accessToken") as string;
-    const data = await createCategoryAction(formData, accessToken);
+    const { error, newCategoryPath } = await createCategoryAction(formData, accessToken);
 
     // 토큰만료시 > 토큰갱신 > 재요청
-    if (data.error?.code === "ERR_JWT_EXPIRED") {
+    if (error?.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken(); // 재발급
-      const data = await createCategoryAction(formData, newAccessToken); // 재요청
+      const { error, newCategoryPath } = await createCategoryAction(formData, newAccessToken); // 재요청
 
-      if (data.error) {
-        console.error("재요청에 대한 에러가 발생했습니다.", data.error);
-        return { error: data.error };
+      if (error) {
+        console.error("재요청에 대한 에러가 발생했습니다.", error);
+        return { error };
       }
 
-      console.log("토큰갱신 > 재요청 > 카테고리 생성", { newCategoryPath: data.newCategoryPath });
+      console.log("토큰갱신 > 재요청 > 카테고리 생성", { newCategoryPath });
       setCurrentModal("");
-      router.push(`/categories${data.newCategoryPath}`);
+      router.push(`/categories${newCategoryPath}`);
       router.refresh();
-      return { newCategoryPath: data.newCategoryPath };
-    } else if (data.error) {
-      console.error("에러가 발생했습니다.", data.error);
-      console.log({ data });
-      return { error: data.error };
+      return { newCategoryPath };
+    } else if (error) {
+      console.error("에러가 발생했습니다.", error);
+      return { error };
     }
 
-    console.log("카테고리 생성", { newCategoryPath: data.newCategoryPath });
+    console.log("카테고리 생성", { newCategoryPath });
     setCurrentModal("");
-    router.push(`/categories${data.newCategoryPath}`);
+    router.push(`/categories${newCategoryPath}`);
     router.refresh();
-    return { newCategoryPath: data.newCategoryPath };
+    return { newCategoryPath };
   }, null);
 
   return (

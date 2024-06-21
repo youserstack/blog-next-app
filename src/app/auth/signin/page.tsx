@@ -2,16 +2,12 @@
 
 import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
-import { Context } from "@/components/context/Provider";
+import { useEffect } from "react";
 import { signinAction } from "@/app/actions";
 import "./page.scss";
 
 export default function Signin() {
-  // console.log("\n\x1b[34m[/signin]\x1b[0m");
-
   const router = useRouter();
-  const { setIsSignedIn }: any = useContext(Context);
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
     const { error, accessToken } = await signinAction(formData);
 
