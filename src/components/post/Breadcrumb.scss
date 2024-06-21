@@ -1,0 +1,16 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .category-create-button {
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--createColor-blue);
+    color: var(--foregroundColor-offWhite);
+  }
+}

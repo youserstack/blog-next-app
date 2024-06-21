@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import "./Post.scss";
 
-export default function PostCard({ post }: any) {
+export default function Post({ post }: any) {
   return (
     <li className="post-card">
       <Link href={`/posts/${post._id}`}>

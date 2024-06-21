@@ -4,7 +4,7 @@ import Link from "next/link";
 import { MouseEventHandler, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { SlArrowRight } from "react-icons/sl";
-import "../../styles/SideNav.scss";
+import "./SideNav.scss";
 
 export default function SideNav({ categories }: any) {
   const params: any = useParams(); // 클라이언트에서 요청한 파라미터

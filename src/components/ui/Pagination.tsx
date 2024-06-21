@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import "../../styles/Pagination.scss";
+import "./Pagination.scss";
 
 const ITEMS_PER_PAGE = 5;
 

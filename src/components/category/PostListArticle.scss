@@ -1,0 +1,14 @@
+.post-card-list-article {
+  min-height: 100vh;
+  // border: 1px dashed #aaa;
+  padding: 1rem;
+
+  .article-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .content {
+    margin-top: 1rem;
+  }
+}
