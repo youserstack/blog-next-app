@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function PostCard({ post }: any) {
   return (
-    <li className="post-item">
+    <li className="post-card">
       <Link href={`/posts/${post._id}`}>
         <div className="details">
           <div>

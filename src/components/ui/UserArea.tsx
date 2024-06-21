@@ -1,8 +1,8 @@
-import Link from "next/link";
+import { headers } from "next/headers";
 import SignOutButton from "@/components/ui/SignOutButton";
 import ThemeToggle from "@/components/ui/ThemeToggle";
-import { headers } from "next/headers";
 import AuthScript from "@/components/script/AuthScript";
+import Link from "next/link";
 import "../../styles/UserArea.scss";
 
 export default async function UserArea() {
@@ -27,12 +27,3 @@ export default async function UserArea() {
     </div>
   );
 }
-
-// async function verifyToken(token: string, secret: string): Promise<JWTPayload> {
-//   const encodedSecret = new TextEncoder().encode(secret);
-//   const { payload } = await jwtVerify(token, encodedSecret);
-//   return payload;
-// }
-// const refreshToken = cookies().get("refreshToken")?.value as string;
-// const secret = process.env.REFRESH_TOKEN_SECRET as string;
-// const user = await verifyToken(refreshToken, secret);

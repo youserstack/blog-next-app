@@ -17,7 +17,6 @@ export default function Signin() {
 
     if (error) return { error };
     localStorage.setItem("accessToken", accessToken);
-    setIsSignedIn(true);
     router.refresh();
     return { accessToken: accessToken };
   }, null);

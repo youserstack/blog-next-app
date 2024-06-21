@@ -17,7 +17,7 @@ export default function CommentCreateForm({
   authorImage: any;
   postId: string;
 }) {
-  const { isSignedIn, user }: any = useContext(Context);
+  const { user }: any = useContext(Context);
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
     const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`;
     const accessToken = localStorage.getItem("accessToken") as string;

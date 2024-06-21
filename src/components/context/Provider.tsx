@@ -6,12 +6,11 @@ import { createContext, useEffect, useState } from "react";
 export const Context = createContext({});
 
 export default function Provider({ children }: { children: React.ReactNode }) {
-  const [currentModal, setCurrentModal] = useState(""); // 모달창을 스위칭할때 사용한다.
+  const [user, setUser] = useState(null);
   const [categories, setCategories] = useState([]); // 서버로부터 요청한 카테고리 데이터를 이곳에 저장한다.
   const [parentCategories, setParentCategories] = useState<string[]>([]); // 새 카테고리 항목을 생성할때 사용한다.
   const [categoryPaths, setCategoryPaths] = useState<string[]>([]); // 전체 카테고리 경로이고 새 포스트 글을 생성할때 해당 카테고리를 지정해야하는데 그때에 사용한다.
-  const [isSignedIn, setIsSignedIn] = useState(false); // 로그인 상태
-  const [user, setUser] = useState(null);
+  const [currentModal, setCurrentModal] = useState(""); // 모달창을 스위칭할때 사용한다.
   const router = useRouter();
 
   const signout = async () => {
@@ -22,7 +21,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       if (!response.ok) throw new Error("로그아웃을 실패했습니다.");
       console.log({ data });
       localStorage.removeItem("accessToken");
-      setIsSignedIn(false);
+      setUser(null);
       router.refresh();
     } catch (error) {
       console.error(error);
@@ -39,7 +38,6 @@ export default function Provider({ children }: { children: React.ReactNode }) {
 
       if (!response.ok) throw new Error(data.error.message || "accessToken 갱신을 실패했습니다.");
       localStorage.setItem("accessToken", data.newAccessToken);
-      setIsSignedIn(true);
     } catch (error) {
       console.error(error);
       signout();
@@ -60,6 +58,11 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   return (
     <Context.Provider
       value={{
+        // 인증
+        user,
+        setUser,
+        signout,
+        refreshAccessToken,
         // 카테고리
         categoryPaths,
         parentCategories,
@@ -69,13 +72,6 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         // 모달창
         currentModal,
         setCurrentModal,
-        // 인증
-        user,
-        isSignedIn,
-        setUser,
-        signout,
-        refreshAccessToken,
-        setIsSignedIn,
       }}
     >
       {children}

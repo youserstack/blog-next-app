@@ -5,19 +5,11 @@ import PostCreateButton from "@/components/post/PostCreateButton";
 import PostCardList from "@/components/post/PostCardList";
 import Pagination from "@/components/ui/Pagination";
 import CategoryOptionButton from "@/components/category/CategoryOptionButton";
-import { headers } from "next/headers";
-import "../../styles/CategorizedPostCardListArticle.scss";
+import "../../styles/PostListArticle.scss";
 
-export default async function CategorizedPostCardListArticle({
-  categorySegments,
-  posts,
-  totalCount,
-  page,
-}: any) {
-  const user = JSON.parse(headers().get("user") as string);
-
+export default async function PostListArticle({ categorySegments, posts, totalCount, page }: any) {
   return (
-    <article className="categorized-post-list-article">
+    <article className="post-list-article">
       <div className="article-header">
         <div className="breadcrumb">
           {categorySegments?.map((v: string, i: number) => {
@@ -30,16 +22,14 @@ export default async function CategorizedPostCardListArticle({
               </React.Fragment>
             );
           })}
-          {user && categorySegments?.length <= 2 && (
+          {categorySegments?.length <= 2 && (
             <CategoryCreateButton parentCategories={categorySegments} label="+" />
           )}
         </div>
-        {user && (
-          <div className="manager">
-            <PostCreateButton />
-            <CategoryOptionButton categorySegments={categorySegments} />
-          </div>
-        )}
+        <div className="manager">
+          <PostCreateButton />
+          <CategoryOptionButton categorySegments={categorySegments} />
+        </div>
       </div>
       <div className="content">
         <PostCardList posts={posts} />

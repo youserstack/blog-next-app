@@ -13,7 +13,7 @@ export default function CategoryOptionButton({
   categorySegments: string[] | null;
 }) {
   const [isClicked, setIsClicked] = useState(false);
-  const { setCurrentModal }: any = useContext(Context);
+  const { user, setCurrentModal }: any = useContext(Context);
 
   const handleClickOptionButton = (e: MouseEvent) => {
     e.stopPropagation();
@@ -27,6 +27,8 @@ export default function CategoryOptionButton({
     window.addEventListener("click", handleClick);
     return () => window.removeEventListener("click", handleClick);
   }, []);
+
+  if (!user) return null;
 
   return (
     <div className="category-option-button" onClick={handleClickOptionButton}>

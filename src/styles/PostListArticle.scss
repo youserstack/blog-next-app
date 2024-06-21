@@ -1,4 +1,4 @@
-.categorized-post-list-article {
+.post-list-article {
   min-height: 100vh;
   // border: 1px dashed #aaa;
   padding: 1rem;
@@ -40,12 +40,12 @@
   .content {
     margin-top: 1rem;
 
-    .post-list {
+    .post-card-list {
       display: flex;
       flex-direction: column;
       gap: 1rem;
 
-      .post-item {
+      .post-card {
         border: 1px solid;
         border-radius: 10px;
         overflow: hidden;
