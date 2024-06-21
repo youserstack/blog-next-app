@@ -1,5 +1,6 @@
 import PostListArticle from "@/components/category/PostListArticle";
 import { getPosts } from "@/lib/utils/fetchers/getters";
+import { PostsSearchParams } from "@/types/api";
 import "./page.scss";
 
 export default async function Category({
@@ -15,7 +16,11 @@ export default async function Category({
 
   const categorySegments: string[] = category.map((v: any) => decodeURIComponent(v));
   const page: number = parseInt(searchParams.page) || 1;
-  const { totalCount, posts } = await getPosts(`/${categorySegments.join("/")}`, page);
+  const postsSearchParams: PostsSearchParams = {
+    categoryPath: `/${categorySegments.join("/")}`,
+    page,
+  };
+  const { totalCount, posts } = await getPosts(postsSearchParams);
 
   return (
     <div className="category">

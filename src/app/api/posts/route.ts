@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   // extract
   const { searchParams } = new URL(request.url);
   const categoryPath = searchParams.get("categoryPath") as string;
-  const page = searchParams.get("page") || "1";
+  const page = searchParams.get("page") || ("1" as string);
   const POST_PER_PAGE = 5;
   const skip = ((parseInt(page) || 1) - 1) * POST_PER_PAGE;
   console.log({ categoryPath, page });
