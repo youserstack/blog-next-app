@@ -1,5 +1,5 @@
 import SearchArticle from "@/components/articles/SearchArticle";
-import { getPosts } from "@/lib/utils/fetchers/getters";
+import { getCategories, getPosts } from "@/lib/utils/fetchers/getters";
 import { PostsSearchParams } from "@/types/api";
 
 export default async function Search({ searchParams }: any) {
@@ -9,12 +9,12 @@ export default async function Search({ searchParams }: any) {
     page: searchParams.page || "1",
   };
   const { posts } = await getPosts(postsSearchParams);
-  // console.log({ posts });
+  const { categories } = await getCategories();
 
   return (
     <main className="search">
       <section>
-        <SearchArticle posts={posts} />
+        <SearchArticle posts={posts} categories={categories} />
       </section>
     </main>
   );

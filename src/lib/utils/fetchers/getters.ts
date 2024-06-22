@@ -15,9 +15,9 @@ export async function getPosts({ categoryPath, page, searchWords }: PostsSearchP
   // URLSearchParams 객체 생성
   const params = new URLSearchParams();
   if (categoryPath) params.append("categoryPath", categoryPath);
-  if (page) params.append("page", page);
+  if (page) params.append("page", page.toString());
   if (searchWords) params.append("searchWords", searchWords);
-  console.log({ params });
+  // console.log({ params });
 
   const response = await fetch(
     `${process.env.ROOT_URL}/api/posts?${params.toString()}`,

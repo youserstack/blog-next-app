@@ -14,13 +14,12 @@ export async function GET(request: Request) {
   const page = searchParams.get("page") || "1";
   const POST_PER_PAGE = 5;
   const skip = ((parseInt(page) || 1) - 1) * POST_PER_PAGE;
-  // console.log({ searchWords, categoryPath, page });
+  console.log({ searchWords, categoryPath, page });
 
   // Query 조건 생성
   let query = {};
   if (searchWords) {
-    console.log({ searchWords });
-    const searchRegex = { $regex: searchWords, $options: "i" };
+    const searchRegex = { $regex: searchWords, $options: "i" }; // $options: "i", // 대소문자 구분하지 않음
     const authorIds = await User.find({ name: searchRegex }).select("_id"); // 검색어가 포함된 사용자의 ID 목록
 
     query = {
@@ -36,17 +35,14 @@ export async function GET(request: Request) {
   }
 
   if (categoryPath) {
-    console.log({ categoryPath });
     query = { ...query, category: { $regex: categoryPath, $options: "i" } };
   }
-  // console.log({ query });
-  console.log(JSON.stringify({ query }, null, 2));
+  // console.log(JSON.stringify({ query }, null, 2));
 
   // query
   const totalCount = await Post.countDocuments(query);
   const posts: any = await Post.find(query).populate("author").skip(skip).limit(POST_PER_PAGE);
-  // $options: "i", // 대소문자 구분하지 않음
-  console.log({ posts });
+  // console.log({ posts });
 
   // 각 포스트의 content를 처리
   const processedPosts = posts.map((post: any) => {
@@ -60,7 +56,7 @@ export async function GET(request: Request) {
       content, // 내용 처리 함수 적용
     };
   });
-  // console.log({ posts: processedPosts });
+  console.log({ posts: processedPosts });
 
   return Response.json({ totalCount, posts: processedPosts }, { status: 200 });
 }
