@@ -6,9 +6,9 @@ export default async function Search({ searchParams }: any) {
   const postsSearchParams: PostsSearchParams = {
     searchWords: searchParams.searchWords,
     categoryPath: searchParams.categoryPath || "/",
-    page: parseInt(searchParams.page) || 1,
+    page: searchParams.page || "1",
   };
-  const posts = await getPosts(postsSearchParams);
+  const { posts } = await getPosts(postsSearchParams);
   // console.log({ posts });
 
   return (

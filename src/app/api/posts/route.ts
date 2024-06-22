@@ -9,16 +9,17 @@ export async function GET(request: Request) {
 
   // extract
   const { searchParams } = new URL(request.url);
-  const searchWords = searchParams.get("searchWords") as string;
-  const categoryPath = searchParams.get("categoryPath") as string;
-  const page = searchParams.get("page") || ("1" as string);
+  const searchWords = searchParams.get("searchWords") || null;
+  const categoryPath = searchParams.get("categoryPath") || null;
+  const page = searchParams.get("page") || "1";
   const POST_PER_PAGE = 5;
   const skip = ((parseInt(page) || 1) - 1) * POST_PER_PAGE;
-  console.log({ searchWords, categoryPath, page });
+  // console.log({ searchWords, categoryPath, page });
 
   // Query 조건 생성
   let query = {};
   if (searchWords) {
+    console.log({ searchWords });
     const searchRegex = { $regex: searchWords, $options: "i" };
     const authorIds = await User.find({ name: searchRegex }).select("_id"); // 검색어가 포함된 사용자의 ID 목록
 
@@ -35,8 +36,11 @@ export async function GET(request: Request) {
   }
 
   if (categoryPath) {
+    console.log({ categoryPath });
     query = { ...query, category: { $regex: categoryPath, $options: "i" } };
   }
+  // console.log({ query });
+  console.log(JSON.stringify({ query }, null, 2));
 
   // query
   const totalCount = await Post.countDocuments(query);

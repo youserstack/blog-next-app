@@ -1,7 +1,9 @@
+import PostList from "@/components/post/PostList";
+
 export default function SearchArticle({ posts }: any) {
   return (
     <article className="posts-article">
-      <h1>testing...</h1>
+      <PostList posts={posts} />
     </article>
   );
 }

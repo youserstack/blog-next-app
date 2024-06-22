@@ -15,7 +15,7 @@ export default async function Category({
   );
 
   const categorySegments: string[] = category.map((v: any) => decodeURIComponent(v));
-  const page: number = parseInt(searchParams.page) || 1;
+  const page: string = searchParams.page || "1";
   const postsSearchParams: PostsSearchParams = {
     categoryPath: `/${categorySegments.join("/")}`,
     page,
