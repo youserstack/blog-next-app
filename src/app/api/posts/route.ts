@@ -9,19 +9,40 @@ export async function GET(request: Request) {
 
   // extract
   const { searchParams } = new URL(request.url);
+  const searchWords = searchParams.get("searchWords") as string;
   const categoryPath = searchParams.get("categoryPath") as string;
   const page = searchParams.get("page") || ("1" as string);
   const POST_PER_PAGE = 5;
   const skip = ((parseInt(page) || 1) - 1) * POST_PER_PAGE;
-  console.log({ categoryPath, page });
+  console.log({ searchWords, categoryPath, page });
+
+  // Query 조건 생성
+  let query = {};
+  if (searchWords) {
+    const searchRegex = { $regex: searchWords, $options: "i" };
+    const authorIds = await User.find({ name: searchRegex }).select("_id"); // 검색어가 포함된 사용자의 ID 목록
+
+    query = {
+      ...query,
+      $or: [
+        { category: searchRegex },
+        { title: searchRegex },
+        { content: searchRegex },
+        { tags: searchRegex },
+        { author: { $in: authorIds } }, // 포함된 author ID 목록을 검색
+      ],
+    };
+  }
+
+  if (categoryPath) {
+    query = { ...query, category: { $regex: categoryPath, $options: "i" } };
+  }
 
   // query
-  const totalCount = await Post.countDocuments({ category: { $regex: categoryPath } });
-  const posts: any = await Post.find({ category: { $regex: categoryPath } })
-    .populate("author")
-    .skip(skip)
-    .limit(POST_PER_PAGE);
+  const totalCount = await Post.countDocuments(query);
+  const posts: any = await Post.find(query).populate("author").skip(skip).limit(POST_PER_PAGE);
   // $options: "i", // 대소문자 구분하지 않음
+  console.log({ posts });
 
   // 각 포스트의 content를 처리
   const processedPosts = posts.map((post: any) => {
