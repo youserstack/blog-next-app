@@ -1,4 +1,5 @@
 import cloudinary from "cloudinary";
+import "@/lib/config/cloudinaryConfig";
 
 export interface UploadResult {
   secure_url: string;

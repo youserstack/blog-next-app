@@ -1,6 +1,7 @@
 import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
+import { uploadToCloudinary } from "@/lib/utils/uploader";
 
 // 포스트 전체 읽기
 export async function GET(request: Request) {
@@ -101,20 +102,39 @@ export async function POST(request: Request) {
 
   // extract
   const formData = await request.formData();
-  const category = formData.get("category");
-  const title = formData.get("title");
-  const content = formData.get("content");
-  const author = formData.get("author");
-  const tags = formData.get("tags");
-  // const images = formData.get('images')
-  const post = { category, title, content, author, tags };
-  if (!category || !title || !content || !author || !tags) {
-    const error = { error: { message: "포스트 게시물의 내용물을 누락하였습니다." } };
+  const category = formData.get("category") as string;
+  const title = formData.get("title") as string;
+  const content = formData.get("content") as string;
+  const author = formData.get("author") as string;
+  const tags = (formData.get("tags") as string).split(",").map((tag) => tag.trim());
+  const image = formData.get("image") as File;
+  if (!category || !title || !content || !author || !tags || !image) {
+    const error = { error: { message: "포스트 게시물의 필수 정보를 모두 입력하세요." } };
     return Response.json(error, { status: 400 });
   }
 
+  // create a image url
+  let imageUrl: string | null;
+  try {
+    imageUrl = await uploadToCloudinary(image);
+  } catch (error) {
+    console.error(error);
+    return Response.json(
+      { error: { message: "이미지 파일을 클라우드에 저장하는데 실패했습니다." } },
+      { status: 400 }
+    );
+  }
+
   // create
-  const newPost = await Post.create({ ...post, author: foundUser._id });
+  const payload = {
+    category,
+    title,
+    content,
+    author: foundUser._id,
+    tags,
+    image: imageUrl,
+  };
+  const newPost = await Post.create(payload);
   console.log({ newPost });
 
   return Response.json({ newPost }, { status: 200 });

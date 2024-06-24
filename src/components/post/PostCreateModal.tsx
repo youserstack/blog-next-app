@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
 import "../../styles/PostCreateModal.scss";
+import { FcAddImage } from "react-icons/fc";
 
 function Button() {
   const { pending } = useFormStatus();
@@ -70,6 +71,11 @@ export default function PostCreateModal() {
         <textarea name="content" placeholder="content" />
         <input type="text" name="author" placeholder="author" />
         <input type="text" name="tags" placeholder="tags" />
+        <input type="file" name="image" id="image" />
+        <label htmlFor="image">
+          <FcAddImage size={30} />
+        </label>
+
         <Button />
       </form>
     </div>

@@ -18,5 +18,14 @@
     textarea {
       padding: 1rem;
     }
+
+    input#image {
+      display: none;
+    }
+
+    label[for="image"]:hover {
+      cursor: pointer;
+      color: green;
+    }
   }
 }
