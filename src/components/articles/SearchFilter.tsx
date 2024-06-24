@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./SearchFilter.scss";
 
 export default function SearchFilter({ categories }: any) {
@@ -10,15 +10,18 @@ export default function SearchFilter({ categories }: any) {
   const [selectedSub2Category, setSelectedSub2Category] = useState("");
   const [showSub1Category, setShowSub1Category] = useState(false);
   const [showSub2Category, setShowSub2Category] = useState(false);
+  const [selectedSort, setSelectedSort] = useState("");
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const handleCategoryChange = (e: any) => {
-    setSelectedCategory(e.target.value);
+    const selectedCategory = e.target.value;
+    const params = new URLSearchParams(searchParams.toString());
+
+    setSelectedCategory(selectedCategory);
     setShowSub1Category(true); // 다음 하위 카테고리 표시
 
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("categoryPath", `/${e.target.value}`);
+    params.set("categoryPath", `/${selectedCategory}`);
     router.push(`?${params.toString()}`);
   };
 
@@ -60,6 +63,16 @@ export default function SearchFilter({ categories }: any) {
     router.push(`?${params.toString()}`);
   };
 
+  const handleSortChange = (e: any) => {
+    const selectedSortOption = e.target.value;
+    const params = new URLSearchParams(searchParams.toString());
+
+    setSelectedSort(selectedSortOption);
+    params.set("sort", selectedSortOption);
+
+    router.push(`?${params.toString()}`);
+  };
+
   // useEffect(() => {
   //   // console.log(searchParams.get("categoryPath"));
   //   // console.log({ selectedCategory, selectedSub1Category, selectedSub2Category });
@@ -72,44 +85,56 @@ export default function SearchFilter({ categories }: any) {
 
   return (
     <div className="search-filter">
-      <div className="filter-item">
-        <select name="categoryPath" onChange={handleCategoryChange}>
-          <option value="">카테고리 선택</option>
-          {categories.map((category: any) => (
-            <option key={category._id} value={category.name}>
-              {category.name}
-            </option>
-          ))}
-        </select>
+      <div className="filter-group filter-category">
+        <div className="filter-item">
+          <select name="categoryPath" onChange={handleCategoryChange}>
+            <option value="">카테고리 선택</option>
+            {categories.map((category: any) => (
+              <option key={category._id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {showSub1Category && <span>{">"}</span>}
+        {showSub1Category && (
+          <div className="filter-item">
+            <select name="sub1-category" onChange={handleSub1CategoryChange}>
+              <option value="">하위 카테고리 선택</option>
+              {foundSelectedCategory?.sub1Categories.map((v: any) => (
+                <option key={v._id} value={v.name}>
+                  {v.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {showSub2Category && <span>{">"}</span>}
+        {showSub2Category && (
+          <div className="filter-item">
+            <select name="sub1-category" onChange={handleSub2CategoryChange}>
+              <option value="">하위 카테고리 선택</option>
+              {foundSelectedSub1Category?.sub2Categories.map((v: any) => (
+                <option key={v._id} value={v.name}>
+                  {v.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
-      {showSub1Category && <span>{">"}</span>}
-      {showSub1Category && (
-        <div className="filter-item">
-          <select name="sub1-category" onChange={handleSub1CategoryChange}>
-            <option value="">하위 카테고리 선택</option>
-            {foundSelectedCategory?.sub1Categories.map((v: any) => (
-              <option key={v._id} value={v.name}>
-                {v.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {showSub2Category && <span>{">"}</span>}
-      {showSub2Category && (
-        <div className="filter-item">
-          <select name="sub1-category" onChange={handleSub2CategoryChange}>
-            <option value="">하위 카테고리 선택</option>
-            {foundSelectedSub1Category?.sub2Categories.map((v: any) => (
-              <option key={v._id} value={v.name}>
-                {v.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
+      <div className="filter-item filter-sort">
+        <select name="sort" onChange={handleSortChange}>
+          <option value="">정렬 옵션 선택</option>
+          <option value="asc">오름차순</option>
+          <option value="desc">내림차순</option>
+          <option value="popular">인기순</option>
+          <option value="newest">최신순</option>
+        </select>
+      </div>
     </div>
   );
 }

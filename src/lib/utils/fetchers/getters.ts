@@ -11,19 +11,17 @@ export async function getCategories() {
 }
 
 // 포스트 리스트 읽기
-export async function getPosts({ categoryPath, page, searchWords }: PostsSearchParams) {
+export async function getPosts({ categoryPath, searchWords, sort, page }: PostsSearchParams) {
   // URLSearchParams 객체 생성
   const params = new URLSearchParams();
   if (categoryPath) params.append("categoryPath", categoryPath);
-  if (page) params.append("page", page.toString());
   if (searchWords) params.append("searchWords", searchWords);
+  if (page) params.append("page", page.toString());
+  if (sort) params.append("sort", sort);
   // console.log({ params });
 
-  const response = await fetch(
-    `${process.env.ROOT_URL}/api/posts?${params.toString()}`,
-    // `${process.env.ROOT_URL}/api/posts?categoryPath=${categoryPath}&page=${page}&searchWords=${searchWords}`,
-    { cache: "no-cache" }
-  );
+  const url = `${process.env.ROOT_URL}/api/posts?${params.toString()}`;
+  const response = await fetch(url, { cache: "no-cache" });
 
   return response.json();
 }

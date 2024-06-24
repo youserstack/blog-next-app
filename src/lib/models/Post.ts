@@ -29,6 +29,10 @@ const postSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    views: {
+      type: Number,
+      default: 0, // 기본값 0으로 설정
+    },
   },
   { timestamps: true }
 );

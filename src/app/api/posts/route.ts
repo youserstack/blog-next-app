@@ -9,14 +9,18 @@ export async function GET(request: Request) {
 
   // extract
   const { searchParams } = new URL(request.url);
+
   const searchWords = searchParams.get("searchWords") || null;
   const categoryPath = searchParams.get("categoryPath") || null;
+  const sort = searchParams.get("sort") || "newest";
   const page = searchParams.get("page") || "1";
+
   const POST_PER_PAGE = 5;
   const skip = ((parseInt(page) || 1) - 1) * POST_PER_PAGE;
-  console.log({ searchWords, categoryPath, page });
 
-  // Query 조건 생성
+  console.log({ searchWords, categoryPath, sort, page });
+
+  // 쿼리 조건 생성
   let query = {};
   if (searchWords) {
     const searchRegex = { $regex: searchWords, $options: "i" }; // $options: "i", // 대소문자 구분하지 않음
@@ -39,9 +43,31 @@ export async function GET(request: Request) {
   }
   // console.log(JSON.stringify({ query }, null, 2));
 
+  // 정렬 조건 생성
+  let sortOptions: any = {};
+  switch (sort) {
+    case "asc":
+      sortOptions = { title: 1 }; // 제목 기준 오름차순
+      break;
+    case "desc":
+      sortOptions = { title: -1 }; // 제목 기준 내림차순
+      break;
+    case "popular":
+      sortOptions = { views: -1 }; // 조회수 기준 내림차순
+      break;
+    case "newest":
+    default:
+      sortOptions = { createdAt: -1 }; // 최신순 (기본값)
+      break;
+  }
+
   // query
   const totalCount = await Post.countDocuments(query);
-  const posts: any = await Post.find(query).populate("author").skip(skip).limit(POST_PER_PAGE);
+  const posts: any = await Post.find(query)
+    .populate("author")
+    .sort(sortOptions) // 정렬 옵션 적용
+    .skip(skip)
+    .limit(POST_PER_PAGE);
   // console.log({ posts });
 
   // 각 포스트의 content를 처리
@@ -56,7 +82,7 @@ export async function GET(request: Request) {
       content, // 내용 처리 함수 적용
     };
   });
-  console.log({ posts: processedPosts });
+  // console.log({ posts: processedPosts });
 
   return Response.json({ totalCount, posts: processedPosts }, { status: 200 });
 }

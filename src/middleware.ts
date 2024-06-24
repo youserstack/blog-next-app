@@ -65,6 +65,7 @@ export default async function middleware(request: NextRequest) {
       console.log({ user });
     } catch (error) {
       console.error({ error });
+      user = null;
       return NextResponse.json({ error }, { status: 403 });
     }
   }
@@ -79,13 +80,19 @@ export default async function middleware(request: NextRequest) {
   // let response;
   // response = NextResponse.next({ headers });
 
-  user = {
-    ...user,
-    refreshToken: refreshToken?.slice(-5),
-    accessToken: accessToken?.slice(-5),
-  };
   const headers = new Headers(request.headers);
-  headers.set("user", JSON.stringify(user));
+  headers.set(
+    "user",
+    JSON.stringify(
+      user
+        ? {
+            ...user,
+            refreshToken: refreshToken?.slice(-5),
+            accessToken: accessToken?.slice(-5),
+          }
+        : null
+    )
+  );
   return NextResponse.next({ request: { headers } });
 }
 
