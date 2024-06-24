@@ -13,12 +13,17 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
   // query
   const postId = params.id;
-  const foundPost = await Post.findById(
+  const foundPost = await Post.findByIdAndUpdate(
     postId,
     { $inc: { views: 1 } }, // `views` 필드를 1 증가시킵니다.
     { new: true, upsert: false } // 업데이트된 포스트를 반환
   ).populate("author");
-  // console.log({ foundPost });
+  // const foundPost = await Post.findById(
+  //   postId,
+  //   { $inc: { views: 1 } }, // `views` 필드를 1 증가시킵니다.
+  //   { new: true, upsert: false } // 업데이트된 포스트를 반환
+  // ).populate("author");
+  console.log({ foundPost });
 
   return Response.json({ post: foundPost });
 }

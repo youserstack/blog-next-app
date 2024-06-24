@@ -28,6 +28,8 @@ export async function getPosts({ categoryPath, searchWords, sort, page }: PostsS
 
 // 포스트 읽기
 export async function getPost(postId: any) {
-  const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`);
+  const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
+    cache: "no-cache",
+  });
   return response.json();
 }

@@ -2,7 +2,7 @@ import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 
-// 전체 포스트 읽기
+// 포스트 전체 읽기
 export async function GET(request: Request) {
   console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
   await connectDB();
