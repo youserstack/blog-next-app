@@ -1,11 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { IoIosMore } from "react-icons/io";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { deletePost } from "@/lib/utils/fetchers/deleters";
 import { useFormState } from "react-dom";
+import { Context } from "@/components/context/Provider";
 import "../../styles/PostArticleOptionButton.scss";
 
 export default function PostArticleOptionButton({
@@ -15,6 +16,7 @@ export default function PostArticleOptionButton({
   setIsEditMode,
 }: any) {
   const router = useRouter();
+  const { user }: any = useContext(Context);
   const [state, action] = useFormState(async () => {
     const accessToken = localStorage.getItem("accessToken") as string;
     const { error, deletedPost } = await deletePost(post._id, accessToken);
@@ -41,9 +43,6 @@ export default function PostArticleOptionButton({
     return { deletedPost };
   }, null);
 
-  const handleClickOptionButton = () => setIsClickedOptionButton(!isClickedOptionButton);
-  const handleClickEditButton = () => setIsEditMode(true);
-
   useEffect(() => {
     if (state?.deletedPost) router.back();
   }, [state]);
@@ -53,6 +52,11 @@ export default function PostArticleOptionButton({
     window.addEventListener("click", handleClick);
     return () => window.removeEventListener("click", handleClick);
   }, []);
+
+  const handleClickOptionButton = () => setIsClickedOptionButton(!isClickedOptionButton);
+  const handleClickEditButton = () => setIsEditMode(true);
+
+  if (!user) return null;
 
   return (
     <div className="post-article-option-button">

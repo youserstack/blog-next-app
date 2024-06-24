@@ -16,7 +16,7 @@ export default async function PostId({ params: { id: postId } }: { params: { id:
   const { post } = await getPost(postId);
 
   return (
-    <main className="post">
+    <main className="post-id">
       <section>
         <PostArticle post={post} />
       </section>

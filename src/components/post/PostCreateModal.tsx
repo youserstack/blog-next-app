@@ -22,7 +22,7 @@ export default function PostCreateModal() {
   const { category } = useParams();
   if (!(category instanceof Array)) return null;
   const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
-  console.log({ categoryPath });
+  // console.log({ categoryPath });
 
   const router = useRouter();
   const { setCurrentModal }: any = useContext(Context);
