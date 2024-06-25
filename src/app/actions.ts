@@ -58,37 +58,34 @@ export async function signinAction(formData: FormData) {
     method: "POST",
     body: formData,
   });
-  const data = await response.json();
+  const { error, accessToken, refreshToken } = await response.json();
 
-  if (!response.ok) return data.error;
-
-  cookies().set("refreshToken", data.refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "strict",
-    expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
-    path: "/",
-  });
-
-  return { accessToken: data.accessToken };
+  if (!response.ok) {
+    return { error };
+  } else {
+    cookies().set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
+      path: "/",
+    });
+    return { accessToken };
+  }
 }
 
 export async function signupAction(prevState: any, formData: FormData) {
   // console.log("\n\x1b[35m<signupAction>\x1b[0m");
 
-  // extract
-  const name = formData.get("name");
-  const email = formData.get("email");
-  const password = formData.get("password");
-
   const response = await fetch(`${process.env.ROOT_URL}/api/auth/signup`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, password }),
+    body: formData,
   });
-  const data = await response.json();
+  const { error, newUser } = await response.json();
 
-  if (!response.ok) return data.error;
-
-  redirect("/auth/signin");
+  if (!response.ok) {
+    return { error };
+  } else {
+    redirect("/auth/signin");
+  }
 }

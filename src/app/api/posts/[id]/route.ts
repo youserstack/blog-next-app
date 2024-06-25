@@ -18,12 +18,15 @@ export async function GET(request: Request, { params }: { params: { id: string }
     { $inc: { views: 1 } }, // `views` 필드를 1 증가시킵니다.
     { new: true, upsert: false } // 업데이트된 포스트를 반환
   ).populate("author");
-  // const foundPost = await Post.findById(
-  //   postId,
-  //   { $inc: { views: 1 } }, // `views` 필드를 1 증가시킵니다.
-  //   { new: true, upsert: false } // 업데이트된 포스트를 반환
-  // ).populate("author");
-  console.log({ foundPost });
+
+  // let foundPost = await Post.findById(postId).populate("author");
+  // console.log({ foundPost });
+
+  // 문서가 있는 경우에만 views 필드를 증가시킵니다.
+  // if (foundPost) {
+  //   foundPost.views += 1;
+  //   await foundPost.save(); // 변경 사항을 저장합니다.
+  // }
 
   return Response.json({ post: foundPost });
 }

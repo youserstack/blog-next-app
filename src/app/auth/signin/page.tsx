@@ -14,7 +14,7 @@ export default function Signin() {
     if (error) return { error };
     localStorage.setItem("accessToken", accessToken);
     router.refresh();
-    return { accessToken: accessToken };
+    return { accessToken };
   }, null);
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { signupAction } from "@/app/actions";
 import "./page.scss";
 
 export default function Signup() {
-  const [error, action] = useFormState(signupAction, undefined);
+  const [state, action] = useFormState(signupAction, undefined);
 
   return (
     <main className="signup-page">
@@ -22,7 +22,7 @@ export default function Signup() {
           />
           <button type="submit">sign up</button>
         </form>
-        <p>{error}</p>
+        <p>{state?.error}</p>
       </section>
     </main>
   );

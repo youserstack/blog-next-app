@@ -11,7 +11,7 @@ import "./page.scss";
 // }
 
 export default async function PostId({ params: { id: postId } }: { params: { id: string } }) {
-  console.log(`\n\x1b[34m[/post/${postId}]\x1b[0m`);
+  console.log(`\n\x1b[34m[/posts/${postId}]\x1b[0m`);
 
   const { post } = await getPost(postId);
 

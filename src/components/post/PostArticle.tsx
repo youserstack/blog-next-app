@@ -48,6 +48,7 @@ export default function PostArticle({ post }: any) {
     },
     null
   );
+  console.log({ post });
 
   // 서버에서 revalidatePath를 했다면, 클라이언트에서 refresh를 해야한다.
   // useEffect(() => {
@@ -134,7 +135,7 @@ export default function PostArticle({ post }: any) {
         </p>
       </div>
       <div className="article-footer">
-        <CommentCreateForm authorImage={post.author.image} postId={post._id} />
+        <CommentCreateForm authorImage={post.author?.image} postId={post._id} />
         <CommentList postId={post._id} />
       </div>
     </article>
