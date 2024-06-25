@@ -7,7 +7,6 @@ export async function generateStaticParams() {
     res.json()
   );
   // const list = categories.map((v: any) => ({ category: v.category }));
-  console.log({ categories });
 
   // return posts.map((post:any) => ({
   //   category: post.category,
