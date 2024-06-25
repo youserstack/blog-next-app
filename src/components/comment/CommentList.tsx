@@ -5,28 +5,17 @@ import Image from "next/image";
 import CommentOptionButton from "@/components/comment/CommentOptionButton";
 import "../../styles/CommentList.scss";
 
-async function fetcher(url: string) {
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error("전체 댓글 읽기 실패");
-    return data.comments;
-  } catch (error: any) {
-    console.error(error.message);
-    return error;
-  }
-}
+const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default function CommentList({ postId }: any) {
   const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`;
-  const { isLoading, data: comments } = useSWR(url, fetcher);
+  const { isLoading, data } = useSWR(url, fetcher);
 
   if (isLoading) return <h1>Loading...</h1>;
 
   return (
     <ul className="comment-list">
-      {comments?.map((comment: any) => (
+      {data.comments?.map((comment: any) => (
         <li className="comment-item" key={comment._id}>
           <div className="thumbnail">
             <Image src={comment.author.image} alt="" width={30} height={30} />

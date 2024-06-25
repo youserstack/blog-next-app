@@ -63,8 +63,6 @@ export async function POST(request: Request) {
     );
   }
 
-  revalidatePath("/api/categories");
-
   return Response.json({ error: { message: "카테고리 생성 실패" } }, { status: 400 });
 }
 

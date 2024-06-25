@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Context } from "@/components/context/Provider";
 import { useFormState } from "react-dom";
 import { refreshAccessToken } from "@/lib/utils/auth";
@@ -29,7 +29,7 @@ export default function CategoryCreateModal() {
 
       console.log("토큰갱신 > 재요청 > 카테고리 생성", { newCategoryPath });
       setCurrentModal("");
-      router.push(`/categories${newCategoryPath}`);
+      // router.push(`/categories${newCategoryPath}`);
       router.refresh();
       return { newCategoryPath };
     } else if (error) {
@@ -39,7 +39,7 @@ export default function CategoryCreateModal() {
 
     console.log("카테고리 생성", { newCategoryPath });
     setCurrentModal("");
-    router.push(`/categories${newCategoryPath}`);
+    // router.push(`/categories${newCategoryPath}`);
     router.refresh();
     return { newCategoryPath };
   }, null);

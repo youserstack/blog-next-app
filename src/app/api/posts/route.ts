@@ -2,6 +2,7 @@ import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 import { uploadToCloudinary } from "@/lib/utils/uploader";
+import { revalidatePath } from "next/cache";
 
 // 포스트 전체 읽기
 export async function GET(request: Request) {
@@ -136,6 +137,8 @@ export async function POST(request: Request) {
   };
   const newPost = await Post.create(payload);
   console.log({ newPost });
+
+  revalidatePath("/api/posts");
 
   return Response.json({ newPost }, { status: 200 });
 }

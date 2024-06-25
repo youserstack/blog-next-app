@@ -4,9 +4,8 @@ import { PostsSearchParams } from "@/types/api";
 
 // 전체 카테고리 읽기 (레이아웃 서버컴포넌트에서 사용)
 export async function getCategories() {
-  const response = await fetch(`${process.env.ROOT_URL}/api/categories`, {
-    credentials: "include", // 쿠키를 포함하여 요청을 보냅니다.
-  });
+  const url = `${process.env.ROOT_URL}/api/categories`;
+  const response = await fetch(url, { cache: "no-cache" });
   return response.json();
 }
 
@@ -22,14 +21,12 @@ export async function getPosts({ categoryPath, searchWords, sort, page }: PostsS
 
   const url = `${process.env.ROOT_URL}/api/posts?${params.toString()}`;
   const response = await fetch(url, { cache: "no-cache" });
-
   return response.json();
 }
 
 // 포스트 읽기
 export async function getPost(postId: any) {
-  const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
-    cache: "no-cache",
-  });
+  const url = `${process.env.ROOT_URL}/api/posts/${postId}`;
+  const response = await fetch(url, { cache: "no-cache" });
   return response.json();
 }
