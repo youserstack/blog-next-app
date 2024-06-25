@@ -9,13 +9,14 @@ export default async function Category({ params: { category }, searchParams }: C
     `\n\x1b[34m[categories/${category.map((v: string) => decodeURI(v)).join("/")}]\x1b[0m`
   );
   const categorySegments: string[] = category.map((v: any) => decodeURIComponent(v));
-  const searchWords = searchParams.searchWords || "";
-  const sort = searchParams.sort || "";
+  const categoryPath: string = `/${categorySegments.join("/")}`;
+  const searchWords: string = searchParams.searchWords || "";
+  const sort: string = searchParams.sort || "";
   const page: number = parseInt(searchParams.page) || 1;
 
   // 쿼리 스트링 생성
   const params = new URLSearchParams();
-  if (categorySegments) params.append("categoryPath", `/${categorySegments.join("/")}`);
+  if (categorySegments) params.append("categoryPath", categoryPath);
   if (searchWords) params.append("searchWords", searchWords);
   if (sort) params.append("sort", sort);
   if (page) params.append("page", page.toString());

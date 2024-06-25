@@ -48,7 +48,6 @@ export default function PostArticle({ post }: any) {
     },
     null
   );
-  console.log({ post });
 
   // 서버에서 revalidatePath를 했다면, 클라이언트에서 refresh를 해야한다.
   // useEffect(() => {
