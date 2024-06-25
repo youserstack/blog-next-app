@@ -10,6 +10,7 @@ export default async function CategoryLayout({ children }: { children: React.Rea
       <section>
         <SideNav categories={categories} />
         {children}
+        {/* <Suspense fallback={<Loading />}>{children}</Suspense> */}
       </section>
       <section></section>
     </main>
