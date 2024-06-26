@@ -6,7 +6,7 @@ import { Context } from "@/components/context/Provider";
 import { useFormState } from "react-dom";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createCategoryAction } from "@/app/actions";
-import "../../styles/CategoryCreateModal.scss";
+import "./CategoryCreateModal.scss";
 
 export default function CategoryCreateModal() {
   const router = useRouter();

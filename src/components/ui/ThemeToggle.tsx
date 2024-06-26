@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { IoIosMoon, IoIosSunny } from "react-icons/io";
-import "../../styles/ThemeToggle.scss";
+import "./ThemeToggle.scss";
 
 export default function ThemeToggle() {
   // 테마모드 초기화

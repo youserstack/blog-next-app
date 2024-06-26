@@ -3,7 +3,7 @@
 import { IoIosSearch } from "react-icons/io";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import "../../styles/SearchBar.scss";
+import "./SearchBar.scss";
 
 export default function SearchBar() {
   const [searchWords, setSearchWords] = useState("");

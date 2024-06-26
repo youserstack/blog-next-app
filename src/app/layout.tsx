@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Provider from "@/components/context/Provider";
-import ModalLayer from "@/components/layout/ModalLayer";
+import ModalLayer from "@/components/modals/ModalLayer";
 import "./globals.scss";
 
 export const metadata: Metadata = {

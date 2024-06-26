@@ -2,8 +2,8 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { getCategories } from "@/lib/utils/fetchers/getters";
 import CategoriesScript from "@/components/script/CategoriesScript";
-import "../../styles/Nav.scss";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
+import "./Nav.scss";
 
 export default async function Nav() {
   const { categories } = await getCategories();

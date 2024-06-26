@@ -6,8 +6,8 @@ import { useFormState, useFormStatus } from "react-dom";
 import { useParams, useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
-import "../../styles/PostCreateModal.scss";
 import { FcAddImage } from "react-icons/fc";
+import "./PostCreateModal.scss";
 
 function Button() {
   const { pending } = useFormStatus();

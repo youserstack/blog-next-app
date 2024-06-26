@@ -1,5 +1,5 @@
 import SearchFilter from "@/components/features/SearchFilter";
-import PostList from "@/components/post/PostList";
+import PostList from "@/components/lists/PostList";
 import "./SearchArticle.scss";
 
 export default function SearchArticle({ posts, categories }: any) {

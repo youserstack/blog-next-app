@@ -7,7 +7,7 @@ import { refreshAccessToken } from "@/lib/utils/auth";
 import { deletePost } from "@/lib/utils/fetchers/deleters";
 import { useFormState } from "react-dom";
 import { Context } from "@/components/context/Provider";
-import "../../styles/PostArticleOptionButton.scss";
+import "./PostArticleOptionButton.scss";
 
 export default function PostArticleOptionButton({
   post,

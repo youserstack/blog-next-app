@@ -5,7 +5,7 @@ import { useContext } from "react";
 import PostCreateModal from "@/components/modals/PostCreateModal";
 import CategoryCreateModal from "@/components/modals/CategoryCreateModal";
 import CategoryDeleteModal from "@/components/modals/CategoryDeleteModal";
-import "../../styles/ModalLayer.scss";
+import "./ModalLayer.scss";
 
 export default function ModalLayer() {
   const { currentModal, setCurrentModal }: any = useContext(Context);

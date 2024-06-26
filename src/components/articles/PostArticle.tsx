@@ -8,9 +8,9 @@ import PostArticleEditModeButton from "@/components/post/PostArticleEditModeButt
 import { useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { updatePostAction } from "@/app/actions";
-import "../../styles/PostArticle.scss";
 import CommentCreateForm from "@/components/forms/CommentCreateForm";
 import CommentList from "@/components/lists/CommentList";
+import "./PostArticle.scss";
 
 export default function PostArticle({ post }: any) {
   const router = useRouter();

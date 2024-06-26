@@ -1,4 +1,4 @@
-import PostArticle from "@/components/post/PostArticle";
+import PostArticle from "@/components/articles/PostArticle";
 import { getPost } from "@/lib/utils/fetchers/getters";
 import "./page.scss";
 

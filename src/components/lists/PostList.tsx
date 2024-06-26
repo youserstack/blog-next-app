@@ -1,4 +1,4 @@
-import Post from "@/components/post/Post";
+import Post from "@/components/lists/Post";
 import "./PostList.scss";
 
 export default function PostList({ posts }: any) {
