@@ -12,33 +12,42 @@ export default async function Nav() {
   return (
     <nav className="nav">
       <ul className="categories">
-        {categories.map((category: any) => (
-          <li className="category" key={category._id}>
-            <Link href={`/categories/${category.name}`}>{category.name}</Link>
+        {categories.map((category: any) => {
+          const rootCategoryName = category.name;
+          const rootCategoryLabel = rootCategoryName.replaceAll("-", " ");
+          const rootCategoryPath = `/categories/${rootCategoryName}`;
+          return (
+            <li className="category" key={rootCategoryPath}>
+              <Link href={rootCategoryPath}>{rootCategoryLabel}</Link>
 
-            <ul className="sub1-categories">
-              {category.sub1Categories?.map((sub1Category: any) => (
-                <li className="sub1-category" key={sub1Category.name}>
-                  <Link href={`/categories/${category.name}/${sub1Category.name}`}>
-                    {sub1Category.name}
-                  </Link>
+              <ul className="sub1-categories">
+                {category.sub1Categories?.map((sub1Category: any) => {
+                  const sub1CategoryName = sub1Category.name;
+                  const sub1CategoryLabel = sub1CategoryName.replaceAll("-", " ");
+                  const sub1CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}`;
+                  return (
+                    <li className="sub1-category" key={sub1CategoryPath}>
+                      <Link href={sub1CategoryPath}>{sub1CategoryLabel}</Link>
 
-                  <ul className="sub2-categories">
-                    {sub1Category.sub2Categories?.map((sub2Category: any) => (
-                      <li className="sub2-category" key={sub2Category.name}>
-                        <Link
-                          href={`/categories/${category.name}/${sub1Category.name}/${sub2Category.name}`}
-                        >
-                          {sub2Category.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
+                      <ul className="sub2-categories">
+                        {sub1Category.sub2Categories?.map((sub2Category: any) => {
+                          const sub2CategoryName = sub2Category.name;
+                          const sub2CategoryLabel = sub2CategoryName.replaceAll("-", " ");
+                          const sub2CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}/${sub2CategoryName}`;
+                          return (
+                            <li className="sub2-category" key={sub2CategoryPath}>
+                              <Link href={sub2CategoryPath}>{sub2CategoryLabel}</Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </li>
+                  );
+                })}
+              </ul>
+            </li>
+          );
+        })}
         {user && (
           <li>
             <CategoryCreateButton parentCategories={[]} label="+" />
