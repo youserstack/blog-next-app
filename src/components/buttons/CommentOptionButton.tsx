@@ -5,7 +5,7 @@ import { IoIosMore } from "react-icons/io";
 import { mutate } from "swr";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { deleteComment } from "@/lib/utils/fetchers/deleters";
-import "../../styles/CommentOptionButton.scss";
+import "./CommentOptionButton.scss";
 
 export default function CommentOptionButton({ commentId, postId }: any) {
   const [isClicked, setIsClicked] = useState(false);

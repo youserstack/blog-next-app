@@ -1,4 +1,4 @@
-import SearchFilter from "@/components/articles/SearchFilter";
+import SearchFilter from "@/components/features/SearchFilter";
 import PostList from "@/components/post/PostList";
 import "./SearchArticle.scss";
 

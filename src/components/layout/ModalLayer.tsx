@@ -2,9 +2,9 @@
 
 import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
-import CategoryCreateModal from "@/components/category/CategoryCreateModal";
-import PostCreateModal from "@/components/post/PostCreateModal";
-import CategoryDeleteModal from "@/components/category/CategoryDeleteModal";
+import PostCreateModal from "@/components/modals/PostCreateModal";
+import CategoryCreateModal from "@/components/modals/CategoryCreateModal";
+import CategoryDeleteModal from "@/components/modals/CategoryDeleteModal";
 import "../../styles/ModalLayer.scss";
 
 export default function ModalLayer() {

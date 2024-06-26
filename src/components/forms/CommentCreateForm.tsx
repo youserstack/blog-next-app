@@ -8,7 +8,7 @@ import { Context } from "@/components/context/Provider";
 import { createCommentAction } from "@/app/actions";
 import Image from "next/image";
 import Link from "next/link";
-import "../../styles/CommentCreateForm.scss";
+import "./CommentCreateForm.scss";
 
 export default function CommentCreateForm({
   authorImage,

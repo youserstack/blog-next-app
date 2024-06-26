@@ -1,4 +1,4 @@
-import PostCreateButton from "@/components/post/PostCreateButton";
+import PostCreateButton from "@/components/buttons/PostCreateButton";
 import CategoryOptionButton from "@/components/buttons/CategoryOptionButton";
 import "./ControlArea.scss";
 

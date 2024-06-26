@@ -23,35 +23,10 @@
       button {
         flex: 1;
         padding: 5px;
-        &.category-create-button {
-          background-color: var(--createColor-blue);
-          color: var(--foregroundColor-white);
-        }
-        &.post-create-button {
-          background-color: var(--createColor-green);
-          color: var(--foregroundColor-white);
-        }
         &:hover {
           background-color: black;
           color: white;
         }
-      }
-    }
-  }
-}
-
-body {
-  &.light {
-    .category-option-button {
-      .option-layer {
-        background-color: var(--backgroundColor-white);
-      }
-    }
-  }
-  &.dark {
-    .category-option-button {
-      .option-layer {
-        background-color: var(--backgroundColor-offBlack);
       }
     }
   }

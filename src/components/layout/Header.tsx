@@ -1,9 +1,9 @@
 import SearchBar from "@/components/ui/SearchBar";
 import Etc from "@/components/ui/Etc";
 import Nav from "@/components/ui/Nav";
-import UserArea from "@/components/ui/UserArea";
 import Link from "next/link";
 import HeaderScript from "@/components/script/HeaderScript";
+import UserArea from "@/components/areas/UserArea";
 
 export default async function Header() {
   return (

@@ -2,6 +2,7 @@
 
 import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
+import "./CategoryCreateButton.scss";
 
 export default function CategoryCreateButton({
   parentCategories,

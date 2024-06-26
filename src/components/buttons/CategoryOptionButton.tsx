@@ -3,7 +3,7 @@
 import { MouseEvent, useContext, useEffect, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { Context } from "@/components/context/Provider";
-import PostCreateButton from "@/components/post/PostCreateButton";
+import PostCreateButton from "@/components/buttons/PostCreateButton";
 import CategoryDeleteButton from "@/components/buttons/CategoryDeleteButton";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
 import "./CategoryOptionButton.scss";
@@ -14,7 +14,7 @@ export default function CategoryOptionButton({
   categorySegments: string[] | null;
 }) {
   const [isClicked, setIsClicked] = useState(false);
-  const { user, setCurrentModal }: any = useContext(Context);
+  const { user }: any = useContext(Context);
 
   const handleClickOptionButton = (e: MouseEvent) => {
     e.stopPropagation();
@@ -45,7 +45,7 @@ export default function CategoryOptionButton({
               <PostCreateButton />
             </li>
             <li>
-              <CategoryDeleteButton setCurrentModal={setCurrentModal} />
+              <CategoryDeleteButton />
             </li>
           </ul>
         </div>

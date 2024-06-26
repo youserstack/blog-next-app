@@ -2,7 +2,7 @@ import React from "react";
 import PostList from "@/components/post/PostList";
 import Pagination from "@/components/ui/Pagination";
 import Breadcrumb from "@/components/post/Breadcrumb";
-import ControlArea from "@/components/post/ControlArea";
+import ControlArea from "@/components/areas/ControlArea";
 import "./PostListArticle.scss";
 
 export default function PostListArticle({ categorySegments, posts, totalCount, page }: any) {

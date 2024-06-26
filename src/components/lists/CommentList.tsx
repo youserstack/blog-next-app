@@ -2,8 +2,8 @@
 
 import useSWR from "swr";
 import Image from "next/image";
-import CommentOptionButton from "@/components/comment/CommentOptionButton";
-import "../../styles/CommentList.scss";
+import CommentOptionButton from "@/components/buttons/CommentOptionButton";
+import "./CommentList.scss";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 

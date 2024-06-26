@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormState } from "react-dom";
 import { FcAddImage } from "react-icons/fc";
-import CommentList from "@/components/comment/CommentList";
-import CommentCreateForm from "@/components/comment/CommentCreateForm";
 import PostArticleOptionButton from "@/components/post/PostArticleOptionButton";
 import PostArticleEditModeButton from "@/components/post/PostArticleEditModeButton";
 import { useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { updatePostAction } from "@/app/actions";
 import "../../styles/PostArticle.scss";
+import CommentCreateForm from "@/components/forms/CommentCreateForm";
+import CommentList from "@/components/lists/CommentList";
 
 export default function PostArticle({ post }: any) {
   const router = useRouter();

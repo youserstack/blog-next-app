@@ -45,7 +45,7 @@
 
 "use client";
 
-import PostListArticle from "@/components/category/PostListArticle";
+import PostListArticle from "@/components/articles/PostListArticle";
 import { CategoryProps } from "@/types/api";
 import useSWR from "swr";
 import Loading from "@/components/ui/Loading";
