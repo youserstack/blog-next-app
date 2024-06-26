@@ -3,8 +3,8 @@ import { getPost } from "@/lib/utils/fetchers/getters";
 import "./page.scss";
 
 export async function generateStaticParams() {
-  const { categories } = await fetch(`${process.env.ROOT_URL}/api/static/posts`).then((res) =>
-    res.json()
+  const { categoryPaths } = await fetch(`${process.env.ROOT_URL}/api/static/category-paths`).then(
+    (res) => res.json()
   );
   // const list = categories.map((v: any) => ({ category: v.category }));
 

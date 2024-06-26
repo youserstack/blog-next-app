@@ -5,8 +5,8 @@ export async function GET(request: Request) {
   await connectDB();
 
   // const foundPosts = await Post.find({}).select("category");
-  const uniqueCategories = await Post.distinct("category");
-  console.log({ uniqueCategories });
+  const uniqueCategoryPaths = await Post.distinct("category");
+  console.log({ uniqueCategoryPaths });
 
-  return Response.json({ categories: uniqueCategories }, { status: 200 });
+  return Response.json({ categoryPaths: uniqueCategoryPaths }, { status: 200 });
 }

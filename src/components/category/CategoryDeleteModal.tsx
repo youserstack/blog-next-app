@@ -58,6 +58,7 @@ export default function CategoryDeleteModal() {
   return (
     <div className="category-delete-modal" onClick={(e) => e.stopPropagation()}>
       <h3>현재 카테고리를 삭제하시겠습니까?</h3>
+      <p>카테고리를 삭제하면 해당된 포스트 게시글이 삭제됩니다.</p>
       <div className="buttons">
         <button onClick={handleClickDeleteButton}>delete</button>
         <button onClick={handleClickCancelButton}>cancel</button>

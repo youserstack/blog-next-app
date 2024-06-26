@@ -1,5 +1,6 @@
 import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
+import Post from "@/lib/models/Post";
 import { revalidatePath } from "next/cache";
 
 // 카테고리 생성
@@ -86,12 +87,17 @@ export async function DELETE(request: Request) {
   const categories = temp.map((v: string) => decodeURI(v));
   const length = categories.length;
   console.log({ categories });
+  // const [rootCategory, sub1Category, sub2Category] = categories;
+  // console.log({ rootCategory, sub1Category, sub2Category });
 
   // query
   if (length === 1) {
     // 최상위 카테고리 삭제
-    await Category.findOneAndDelete({ name: categories[0] });
-    console.log({ deletedCategory: categories[0] });
+    const deletedCategory = await Category.findOneAndDelete({ name: categories[0] });
+
+    // 카테고리를 가지고 있는 포스트 삭제
+    await Post.deleteMany({ category: `/${categories[0]}` });
+    console.log({ deletedCategory });
   } else if (length === 2) {
     // 최상위 카테고리 찾기
     let category = await Category.findOne({ name: categories[0] });
@@ -102,6 +108,9 @@ export async function DELETE(request: Request) {
       (sub: any) => sub.name !== categories[1]
     );
     await category.save();
+
+    // 카테고리를 가지고 있는 포스트 삭제
+    await Post.deleteMany({ category: `/${categories[1]}` });
     console.log({ deletedCategory: categories[1] });
   } else if (length === 3) {
     // 최상위 카테고리 찾기
@@ -117,6 +126,9 @@ export async function DELETE(request: Request) {
       (sub: any) => sub.name !== categories[2]
     );
     await category.save();
+
+    // 카테고리를 가지고 있는 포스트 삭제
+    await Post.deleteMany({ category: `/${categories[2]}` });
     console.log({ deletedCategory: categories[2] });
   }
 
