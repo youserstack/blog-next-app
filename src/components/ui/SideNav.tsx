@@ -80,11 +80,13 @@ export default function SideNav({ categories }: any) {
     <nav className="side-nav">
       <ul className="categories">
         {categories.map((category: any) => {
-          const categoryPath = `/categories/${category.name}`;
+          const rootCategoryName = category.name;
+          const rootCategoryLabel = rootCategoryName.replaceAll("-", " ");
+          const categoryPath = `/categories/${rootCategoryName}`;
           return (
             <li className="category" key={categoryPath} data-is-expanded={"false"}>
               <Link href={categoryPath} onClick={handleClick}>
-                <span>{category.name}</span>
+                <span>{rootCategoryLabel}</span>
                 <button onClick={(e) => e.preventDefault()}>
                   <SlArrowRight />
                 </button>
@@ -92,11 +94,13 @@ export default function SideNav({ categories }: any) {
 
               <ul className="sub1-categories">
                 {category.sub1Categories?.map((sub1Category: any) => {
-                  const categoryPath = `/categories/${category.name}/${sub1Category.name}`;
+                  const sub1CategoryName = sub1Category.name;
+                  const sub1CategoryLabel = sub1CategoryName.replaceAll("-", " ");
+                  const categoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}`;
                   return (
                     <li className="sub1-category" key={categoryPath} data-is-expanded={"false"}>
                       <Link href={categoryPath} onClick={handleClick}>
-                        <span>{sub1Category.name}</span>
+                        <span>{sub1CategoryLabel}</span>
                         <button onClick={(e) => e.preventDefault()}>
                           <SlArrowRight />
                         </button>
@@ -104,11 +108,13 @@ export default function SideNav({ categories }: any) {
 
                       <ul className="sub2-categories">
                         {sub1Category.sub2Categories?.map((sub2Category: any) => {
-                          const sub2Path = `/categories/${category.name}/${sub1Category.name}/${sub2Category.name}`;
+                          const sub2CategoryName = sub2Category.name;
+                          const sub2CategoryLabel = sub2CategoryName.replaceAll("-", " ");
+                          const sub2Path = `/categories/${rootCategoryName}/${sub1CategoryName}/${sub2CategoryName}`;
                           return (
                             <li className="sub2-category" key={sub2Path}>
                               <Link href={sub2Path}>
-                                <span>{sub2Category.name}</span>
+                                <span>{sub2CategoryLabel}</span>
                               </Link>
                             </li>
                           );

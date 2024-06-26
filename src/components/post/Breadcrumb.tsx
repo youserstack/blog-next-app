@@ -11,7 +11,7 @@ export default function Breadcrumb({ categorySegments }: { categorySegments: str
         const key = "/" + categorySegments.slice(0, i + 1).join("/");
         return (
           <React.Fragment key={key}>
-            <Link href={""}>{v}</Link>
+            <Link href={""}>{v.replaceAll("-", " ")}</Link>
             <span>{">"}</span>
           </React.Fragment>
         );

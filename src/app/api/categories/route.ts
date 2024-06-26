@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   const parentCategories = JSON.parse(formData.get("parentCategories") as string).map((v: string) =>
     decodeURI(v)
   );
-  const childCategory = decodeURI(formData.get("childCategory") as string);
+  const childCategory = decodeURI(formData.get("childCategory") as string).replace(/\s+/g, "-");
   console.log({ parentCategories, childCategory });
 
   // 부모 카테고리 0개 (최상위로서 네비게이션메뉴에서 카테고리를 생성한 경우)
