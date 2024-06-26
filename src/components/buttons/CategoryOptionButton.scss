@@ -31,10 +31,6 @@
           background-color: var(--createColor-green);
           color: var(--foregroundColor-white);
         }
-        &.category-delete-button {
-          background-color: var(--deleteColor-red);
-          color: var(--foregroundColor-white);
-        }
         &:hover {
           background-color: black;
           color: white;

@@ -2,7 +2,7 @@
 
 import { useContext } from "react";
 import { Context } from "@/components/context/Provider";
-import "../../styles/SignOutButton.scss";
+import "./SignOutButton.scss";
 
 export default function SignOutButton() {
   const { signout }: any = useContext(Context);

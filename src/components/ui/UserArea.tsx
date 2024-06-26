@@ -1,9 +1,9 @@
 import { headers } from "next/headers";
-import SignOutButton from "@/components/ui/SignOutButton";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import AuthScript from "@/components/script/AuthScript";
 import Link from "next/link";
 import "../../styles/UserArea.scss";
+import SignOutButton from "@/components/buttons/SignOutButton";
 
 export default async function UserArea() {
   const user = JSON.parse(headers().get("user") as string);

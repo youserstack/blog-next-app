@@ -1,6 +1,6 @@
-import CategoryCreateButton from "@/components/category/CategoryCreateButton";
 import Link from "next/link";
 import React from "react";
+import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
 import "./Breadcrumb.scss";
 
 export default function Breadcrumb({ categorySegments }: { categorySegments: string[] }) {

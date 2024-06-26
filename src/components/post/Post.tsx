@@ -7,10 +7,11 @@ export default function Post({ post }: any) {
     <li className="post">
       <Link href={`/posts/${post._id}`}>
         <div className="details">
-          <div>
+          <div className="details-header">
             <p className="author">작성자({post.author?.name})</p>
             <p>{post.createdAt.slice(0, 10)}</p>
             <p>조회수 : {post.views}</p>
+            <p>카테고리 {post.category.replaceAll("/", " > ")}</p>
           </div>
           <div className="content">
             <h3 className="title">{post.title}</h3>

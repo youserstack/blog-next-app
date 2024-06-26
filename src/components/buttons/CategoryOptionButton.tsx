@@ -3,9 +3,10 @@
 import { MouseEvent, useContext, useEffect, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { Context } from "@/components/context/Provider";
-import CategoryCreateButton from "@/components/category/CategoryCreateButton";
 import PostCreateButton from "@/components/post/PostCreateButton";
-import "../../styles/CategoryOptionButton.scss";
+import CategoryDeleteButton from "@/components/buttons/CategoryDeleteButton";
+import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
+import "./CategoryOptionButton.scss";
 
 export default function CategoryOptionButton({
   categorySegments,
@@ -19,8 +20,6 @@ export default function CategoryOptionButton({
     e.stopPropagation();
     setIsClicked(!isClicked);
   };
-
-  const handleClickDeleteButton = () => setCurrentModal("category-delete-modal");
 
   useEffect(() => {
     const handleClick = () => setIsClicked(false);
@@ -46,15 +45,7 @@ export default function CategoryOptionButton({
               <PostCreateButton />
             </li>
             <li>
-              <button>menu 1</button>
-            </li>
-            <li>
-              <button>menu 1</button>
-            </li>
-            <li>
-              <button className="category-delete-button" onClick={handleClickDeleteButton}>
-                delete this category
-              </button>
+              <CategoryDeleteButton setCurrentModal={setCurrentModal} />
             </li>
           </ul>
         </div>

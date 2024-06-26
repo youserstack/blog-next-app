@@ -2,6 +2,7 @@
 
 import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
+import "./PostCreateButton.scss";
 
 export default function PostCreateButton() {
   const { user, setCurrentModal }: any = useContext(Context);

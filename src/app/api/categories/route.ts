@@ -96,8 +96,11 @@ export async function DELETE(request: Request) {
     const deletedCategory = await Category.findOneAndDelete({ name: categories[0] });
 
     // 카테고리를 가지고 있는 포스트 삭제
-    await Post.deleteMany({ category: `/${categories[0]}` });
-    console.log({ deletedCategory });
+    // await Post.deleteMany({ category: `/${categories[0]}` });
+    const deletedPosts = await Post.deleteMany({
+      category: { $regex: `/${categories[0]}`, $options: "i" },
+    });
+    console.log({ deletedCategory, deletedPosts });
   } else if (length === 2) {
     // 최상위 카테고리 찾기
     let category = await Category.findOne({ name: categories[0] });
@@ -110,8 +113,10 @@ export async function DELETE(request: Request) {
     await category.save();
 
     // 카테고리를 가지고 있는 포스트 삭제
-    await Post.deleteMany({ category: `/${categories[1]}` });
-    console.log({ deletedCategory: categories[1] });
+    const deletedPosts = await Post.deleteMany({
+      category: { $regex: `/${categories[1]}`, $options: "i" },
+    });
+    console.log({ deletedCategory: categories[1], deletedPosts });
   } else if (length === 3) {
     // 최상위 카테고리 찾기
     let category = await Category.findOne({ name: categories[0] });
@@ -128,8 +133,10 @@ export async function DELETE(request: Request) {
     await category.save();
 
     // 카테고리를 가지고 있는 포스트 삭제
-    await Post.deleteMany({ category: `/${categories[2]}` });
-    console.log({ deletedCategory: categories[2] });
+    const deletedPosts = await Post.deleteMany({
+      category: { $regex: `/${categories[2]}`, $options: "i" },
+    });
+    console.log({ deletedCategory: categories[2], deletedPosts });
   }
 
   revalidatePath("/api/categories");
