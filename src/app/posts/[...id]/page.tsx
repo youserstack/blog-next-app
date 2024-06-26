@@ -3,15 +3,12 @@ import { getPost } from "@/lib/utils/fetchers/getters";
 import "./page.scss";
 
 export async function generateStaticParams() {
-  const { categoryPaths } = await fetch(`${process.env.ROOT_URL}/api/static/category-paths`).then(
-    (res) => res.json()
+  const { posts } = await fetch(`${process.env.ROOT_URL}/api/static/all-posts`).then((res) =>
+    res.json()
   );
-  // const list = categories.map((v: any) => ({ category: v.category }));
-
-  // return posts.map((post:any) => ({
-  //   category: post.category,
-  // }))
-  return [{ category: "navi" }];
+  console.log({ posts });
+  return posts;
+  // return posts.map((post: any) => ({ id: post._id }));
 }
 
 export default async function PostId({ params: { id: postId } }: { params: { id: string } }) {

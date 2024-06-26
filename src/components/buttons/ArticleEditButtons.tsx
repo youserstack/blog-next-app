@@ -1,9 +1,7 @@
 import { MouseEvent } from "react";
+import "./ArticleEditButtons.scss";
 
-export default function PostArticleEditModeButton({
-  setIsEditMode,
-  setIsClickedOptionButton,
-}: any) {
+export default function ArticleEditButtons({ setIsEditMode, setIsClickedOptionButton }: any) {
   const handleClickCancelButton = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEditMode(false);
@@ -11,7 +9,7 @@ export default function PostArticleEditModeButton({
   };
 
   return (
-    <div className="post-article-edit-mode-button">
+    <div className="article-edit-buttons">
       <button type="submit">save</button>
       <button onClick={handleClickCancelButton}>cancel</button>
     </div>

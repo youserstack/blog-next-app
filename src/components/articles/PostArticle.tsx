@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useFormState } from "react-dom";
 import { FcAddImage } from "react-icons/fc";
-import PostArticleOptionButton from "@/components/post/PostArticleOptionButton";
-import PostArticleEditModeButton from "@/components/post/PostArticleEditModeButton";
+import ArticleOptionButton from "@/components/buttons/ArticleOptionButton";
 import { useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { updatePostAction } from "@/app/actions";
 import CommentCreateForm from "@/components/forms/CommentCreateForm";
 import CommentList from "@/components/lists/CommentList";
+import ArticleEditButtons from "@/components/buttons/ArticleEditButtons";
 import "./PostArticle.scss";
 
 export default function PostArticle({ post }: any) {
@@ -62,21 +62,19 @@ export default function PostArticle({ post }: any) {
     return (
       <form className="post-article edit-mode" action={updateAction}>
         <div className="article-header">
-          <PostArticleEditModeButton
-            setIsEditMode={setIsEditMode}
-            setIsClickedOptionButton={setIsClickedOptionButton}
-          />
           <input className="title edit-title" type="text" name="title" defaultValue={post.title} />
-          <div className="wrapper">
-            <div className="writer">
-              <p>작성자 : {post.author?.name}</p>
-              <p>{post.createdAt?.slice(0, 10)}</p>
-            </div>
+          <div className="article-info">
+            <p>작성자 : {post.author?.name}</p>
+            <p>{post.createdAt?.slice(0, 10)}</p>
           </div>
           <small>
             <span>카테고리 : </span>
             <input type="text" name="category" defaultValue={post.category} />
           </small>
+          <ArticleEditButtons
+            setIsEditMode={setIsEditMode}
+            setIsClickedOptionButton={setIsClickedOptionButton}
+          />
         </div>
         <div className="article-body">
           <p className="content">{post.content}</p>
@@ -98,7 +96,7 @@ export default function PostArticle({ post }: any) {
           <button type="submit">저장</button>
         </div>
         <div className="article-footer">
-          <PostArticleEditModeButton
+          <ArticleEditButtons
             setIsEditMode={setIsEditMode}
             setIsClickedOptionButton={setIsClickedOptionButton}
           />
@@ -111,27 +109,20 @@ export default function PostArticle({ post }: any) {
     <article className="post-article">
       <div className="article-header">
         <h1 className="title">{post.title}</h1>
-        <div className="wrapper">
-          <div className="writer">
-            <p>작성자 : {post.author?.name}</p>
-            <p>{post.createdAt?.slice(0, 10)}</p>
-          </div>
-          <PostArticleOptionButton
-            post={post}
-            isClickedOptionButton={isClickedOptionButton}
-            setIsClickedOptionButton={setIsClickedOptionButton}
-            setIsEditMode={setIsEditMode}
-          />
+        <div className="info">
+          <p>작성자 : {post.author?.name}</p>
+          <p>{post.createdAt?.slice(0, 10)}</p>
+          <p>카테고리 {post.category.replaceAll("/", " > ")}</p>
         </div>
+        <ArticleOptionButton
+          post={post}
+          isClickedOptionButton={isClickedOptionButton}
+          setIsClickedOptionButton={setIsClickedOptionButton}
+          setIsEditMode={setIsEditMode}
+        />
       </div>
       <div className="article-body">
         <p className="content">{post.content}</p>
-
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum harum aliquam iste
-          voluptas doloremque maiores qui tempore corporis dolorem nisi eum vero, iusto ipsum cum
-          esse? Quae ratione inventore mollitia?
-        </p>
       </div>
       <div className="article-footer">
         <CommentCreateForm authorImage={post.author?.image} postId={post._id} />

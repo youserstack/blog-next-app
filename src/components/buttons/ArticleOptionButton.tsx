@@ -7,9 +7,9 @@ import { refreshAccessToken } from "@/lib/utils/auth";
 import { deletePost } from "@/lib/utils/fetchers/deleters";
 import { useFormState } from "react-dom";
 import { Context } from "@/components/context/Provider";
-import "./PostArticleOptionButton.scss";
+import "./ArticleOptionButton.scss";
 
-export default function PostArticleOptionButton({
+export default function ArticleOptionButton({
   post,
   isClickedOptionButton,
   setIsClickedOptionButton,
@@ -59,7 +59,7 @@ export default function PostArticleOptionButton({
   if (!user) return null;
 
   return (
-    <div className="post-article-option-button">
+    <div className="article-option-button">
       <IoIosMore
         className="more-button"
         onClick={(e) => {
