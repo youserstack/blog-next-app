@@ -7,14 +7,12 @@ const PROTECTED_APIS = ["/api/categories", "/api/comments", "/api/posts"];
 const PROTECTED_METHODS = ["POST", "DELETE", "PATCH"];
 
 export default async function middleware(request: NextRequest) {
-  // extract (pathname, tokens)
-  // if (pathname.startsWith("/_next")) return;
+  // extract
   const { pathname } = request.nextUrl;
   const accessToken = request.headers.get("Authorization")?.split(" ")[1] as string;
   const refreshToken: any = cookies().get("refreshToken")?.value;
 
   // authenticate
-  // const user = await verifyRefreshToken(refreshToken).catch((error: any) => null);
   let user = null;
   try {
     user = await verifyRefreshToken(refreshToken);
@@ -53,13 +51,6 @@ export default async function middleware(request: NextRequest) {
       return NextResponse.json({ error: { message } }, { status: 401 });
     }
 
-    // const user = await verifyAccessToken(accessToken).catch((error: any) => error);
-    // if (user instanceof Error) {
-    //   console.error("accessToken 이 유효하지 않습니다.");
-    //   return NextResponse.json({ error: user }, { status: 403 });
-    // }
-    // console.log("accessToken.user", user);
-
     try {
       user = await verifyAccessToken(accessToken);
       console.log({ user });
@@ -88,8 +79,6 @@ export default async function middleware(request: NextRequest) {
   //     : null
   // );
   // response.headers.set("user", payload);
-  // response.cookies.set("user", payload);
-
   // return response;
 
   let headers = new Headers(request.headers);

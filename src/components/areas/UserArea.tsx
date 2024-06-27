@@ -7,8 +7,8 @@ import "./UserArea.scss";
 
 export default async function UserArea() {
   const user = JSON.parse(headers().get("user") as string);
-  console.log("testing auth...");
-  console.log({ headerUser: user });
+  const allCookies = cookies().getAll();
+  console.log("zivi", { headerUser: user, allCookies });
 
   return (
     <div className="user-area">
