@@ -7,9 +7,8 @@ import "./UserArea.scss";
 
 export default async function UserArea() {
   const user = JSON.parse(headers().get("user") as string);
-  const cookieUser = JSON.parse(cookies().get("user")?.value as string);
   console.log("testing auth...");
-  console.log({ headerUser: user, cookieUser });
+  console.log({ headerUser: user });
 
   return (
     <div className="user-area">
