@@ -1,4 +1,4 @@
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import AuthScript from "@/components/script/AuthScript";
 import Link from "next/link";
@@ -7,6 +7,9 @@ import "./UserArea.scss";
 
 export default async function UserArea() {
   const user = JSON.parse(headers().get("user") as string);
+  const cookieUser = JSON.parse(cookies().get("user")?.value as string);
+  console.log("testing auth...");
+  console.log({ headerUser: user, cookieUser });
 
   return (
     <div className="user-area">

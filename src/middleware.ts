@@ -78,18 +78,17 @@ export default async function middleware(request: NextRequest) {
 
   // configurate the custom header
   let response = NextResponse.next();
-  response.headers.set(
-    "user",
-    JSON.stringify(
-      user
-        ? {
-            ...user,
-            refreshToken: refreshToken?.slice(-5),
-            accessToken: accessToken?.slice(-5),
-          }
-        : null
-    )
+  const payload = JSON.stringify(
+    user
+      ? {
+          ...user,
+          refreshToken: refreshToken?.slice(-5),
+          accessToken: accessToken?.slice(-5),
+        }
+      : null
   );
+  response.headers.set("user", payload);
+  response.cookies.set("user", payload);
 
   return response;
 
