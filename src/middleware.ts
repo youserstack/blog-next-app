@@ -77,11 +77,8 @@ export default async function middleware(request: NextRequest) {
   }
 
   // configurate the custom header
-  // let response;
-  // response = NextResponse.next({ headers });
-
-  const headers = new Headers(request.headers);
-  headers.set(
+  let response = NextResponse.next();
+  response.headers.set(
     "user",
     JSON.stringify(
       user
@@ -93,7 +90,23 @@ export default async function middleware(request: NextRequest) {
         : null
     )
   );
-  return NextResponse.next({ request: { headers } });
+
+  return response;
+
+  // const headers = new Headers(request.headers);
+  // headers.set(
+  //   "user",
+  //   JSON.stringify(
+  //     user
+  //       ? {
+  //           ...user,
+  //           refreshToken: refreshToken?.slice(-5),
+  //           accessToken: accessToken?.slice(-5),
+  //         }
+  //       : null
+  //   )
+  // );
+  // return NextResponse.next({ request: { headers } });
 }
 
 export const config = { matcher: ["/:path*"] };
