@@ -33,22 +33,20 @@ export default function CategoryOptionButton({
     <div className="category-option-button" onClick={handleClickOptionButton}>
       <IoIosMore className="more" />
       {isClicked && (
-        <div className="option-layer" onClick={(e) => e.stopPropagation()}>
-          <ul>
-            <li>
-              <CategoryCreateButton
-                parentCategories={categorySegments}
-                label="create a new category"
-              />
-            </li>
-            <li>
-              <PostCreateButton />
-            </li>
-            <li>
-              <CategoryDeleteButton />
-            </li>
-          </ul>
-        </div>
+        <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+          <li>
+            <CategoryCreateButton
+              parentCategories={categorySegments}
+              label="create a new category"
+            />
+          </li>
+          <li>
+            <PostCreateButton />
+          </li>
+          <li>
+            <CategoryDeleteButton />
+          </li>
+        </ul>
       )}
     </div>
   );

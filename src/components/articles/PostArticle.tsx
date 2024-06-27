@@ -14,7 +14,6 @@ import "./PostArticle.scss";
 
 export default function PostArticle({ post }: any) {
   const router = useRouter();
-  const [isClickedOptionButton, setIsClickedOptionButton] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [updateState, updateAction] = useFormState(
     async (currentState: any, formData: FormData) => {
@@ -27,22 +26,22 @@ export default function PostArticle({ post }: any) {
 
         if (error) {
           console.error("재요청에 대한 에러가 발생했습니다.", error);
+          setIsEditMode(false);
           return { error };
         }
 
         console.log("토큰갱신 > 재요청 > 포스트 수정", { updatedPost });
         setIsEditMode(false);
-        setIsClickedOptionButton(false);
         router.refresh();
         return { updatedPost };
       } else if (error) {
         console.error("에러가 발생했습니다.", error);
+        setIsEditMode(false);
         return { error };
       }
 
       console.log("포스트 수정", { updatedPost });
       setIsEditMode(false);
-      setIsClickedOptionButton(false);
       router.refresh();
       return { updatedPost };
     },
@@ -71,10 +70,7 @@ export default function PostArticle({ post }: any) {
             <span>카테고리 : </span>
             <input type="text" name="category" defaultValue={post.category} />
           </small>
-          <ArticleEditButtons
-            setIsEditMode={setIsEditMode}
-            setIsClickedOptionButton={setIsClickedOptionButton}
-          />
+          <ArticleEditButtons setIsEditMode={setIsEditMode} />
         </div>
         <div className="article-body">
           <p className="content">{post.content}</p>
@@ -96,10 +92,7 @@ export default function PostArticle({ post }: any) {
           <button type="submit">저장</button>
         </div>
         <div className="article-footer">
-          <ArticleEditButtons
-            setIsEditMode={setIsEditMode}
-            setIsClickedOptionButton={setIsClickedOptionButton}
-          />
+          <ArticleEditButtons setIsEditMode={setIsEditMode} />
         </div>
       </form>
     );
@@ -114,12 +107,7 @@ export default function PostArticle({ post }: any) {
           <p>{post.createdAt?.slice(0, 10)}</p>
           <p>카테고리 {post.category.replaceAll("/", " > ")}</p>
         </div>
-        <ArticleOptionButton
-          post={post}
-          isClickedOptionButton={isClickedOptionButton}
-          setIsClickedOptionButton={setIsClickedOptionButton}
-          setIsEditMode={setIsEditMode}
-        />
+        <ArticleOptionButton post={post} setIsEditMode={setIsEditMode} />
       </div>
       <div className="article-body">
         <p className="content">{post.content}</p>

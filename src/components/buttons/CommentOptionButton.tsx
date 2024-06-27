@@ -10,12 +10,12 @@ import "./CommentOptionButton.scss";
 export default function CommentOptionButton({ commentId, postId }: any) {
   const [isClicked, setIsClicked] = useState(false);
 
-  const handleClickOptionButton = (e: MouseEvent) => {
+  const handleOpenOptions = (e: MouseEvent) => {
     e.stopPropagation();
     setIsClicked(!isClicked);
   };
 
-  const handleClickDeleteButton = async (e: MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteComment = async (e: MouseEvent<HTMLButtonElement>) => {
     // console.log({ comment });
     e.preventDefault();
     try {
@@ -53,22 +53,20 @@ export default function CommentOptionButton({ commentId, postId }: any) {
   }, []);
 
   return (
-    <div className="comment-option-button" onClick={handleClickOptionButton}>
+    <div className="comment-option-button" onClick={handleOpenOptions}>
       <IoIosMore className="more" />
       {isClicked && (
-        <div className="option-layer" onClick={(e) => e.stopPropagation()}>
-          <ul>
-            <li>
-              <button onClick={handleClickDeleteButton}>삭제</button>
-            </li>
-            <li>
-              <button onClick={() => console.log({ commentId })}>test</button>
-            </li>
-            <li>
-              <button>menu</button>
-            </li>
-          </ul>
-        </div>
+        <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+          <li>
+            <button onClick={handleDeleteComment}>삭제</button>
+          </li>
+          <li>
+            <button onClick={() => console.log({ commentId })}>test</button>
+          </li>
+          <li>
+            <button>menu</button>
+          </li>
+        </ul>
       )}
     </div>
   );

@@ -1,11 +1,10 @@
 import { MouseEvent } from "react";
 import "./ArticleEditButtons.scss";
 
-export default function ArticleEditButtons({ setIsEditMode, setIsClickedOptionButton }: any) {
+export default function ArticleEditButtons({ setIsEditMode }: any) {
   const handleClickCancelButton = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEditMode(false);
-    setIsClickedOptionButton(false);
   };
 
   return (

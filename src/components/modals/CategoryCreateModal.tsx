@@ -17,29 +17,28 @@ export default function CategoryCreateModal() {
     const accessToken = localStorage.getItem("accessToken") as string;
     const { error, newCategoryPath } = await createCategoryAction(formData, accessToken);
 
-    // 토큰만료시 > 토큰갱신 > 재요청
     if (error?.code === "ERR_JWT_EXPIRED") {
-      const newAccessToken = await refreshAccessToken(); // 재발급
-      const { error, newCategoryPath } = await createCategoryAction(formData, newAccessToken); // 재요청
+      const newAccessToken = await refreshAccessToken();
+      const { error, newCategoryPath } = await createCategoryAction(formData, newAccessToken);
 
       if (error) {
         console.error("재요청에 대한 에러가 발생했습니다.", error);
+        setCurrentModal("");
         return { error };
       }
 
       console.log("토큰갱신 > 재요청 > 카테고리 생성", { newCategoryPath });
       setCurrentModal("");
-      // router.push(`/categories${newCategoryPath}`);
       router.refresh();
       return { newCategoryPath };
     } else if (error) {
       console.error("에러가 발생했습니다.", error);
+      setCurrentModal("");
       return { error };
     }
 
     console.log("카테고리 생성", { newCategoryPath });
     setCurrentModal("");
-    // router.push(`/categories${newCategoryPath}`);
     router.refresh();
     return { newCategoryPath };
   }, null);
