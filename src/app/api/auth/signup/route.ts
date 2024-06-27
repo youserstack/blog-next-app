@@ -6,10 +6,7 @@ export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/auth/signup]:::[POST]\x1b[0m");
 
   // Read data
-  const formData = await request.formData();
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
+  const { name, email, password } = await request.json();
   if (!name || !email || !password) {
     return Response.json({ error: "missing payload" }, { status: 400 });
   }

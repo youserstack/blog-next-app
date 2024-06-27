@@ -4,66 +4,64 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function createCategoryAction(formData: FormData, accessToken: string) {
-  // console.log("\x1b[35m\n<createCategoryAction>\x1b[0m");
-
+  const parentCategories = JSON.parse(formData.get("parentCategories") as string).map((v: string) =>
+    decodeURI(v)
+  );
+  const childCategory = decodeURI(formData.get("childCategory") as string).replace(/\s+/g, "-");
+  console.log({ parentCategories, childCategory });
   const response = await fetch(`${process.env.ROOT_URL}/api/categories`, {
     method: "POST",
     headers: { Authorization: `Bearer ${accessToken}` },
-    body: formData,
+    body: JSON.stringify({ parentCategories, childCategory }),
   });
-
   return response.json();
 }
 
 export async function createPostAction(formData: FormData, accessToken: string) {
-  // console.log("\x1b[35m\n<createPostAction>\x1b[0m");
-
+  const category = formData.get("category") as string;
+  const title = formData.get("title") as string;
+  const content = formData.get("content") as string;
+  const author = formData.get("author") as string;
+  const tags = (formData.get("tags") as string).split(",").map((tag) => tag.trim());
+  const image = formData.get("image") as File;
   const response = await fetch(`${process.env.ROOT_URL}/api/posts`, {
     method: "POST",
     headers: { Authorization: `Bearer ${accessToken}` },
-    body: formData,
+    body: JSON.stringify({ category, title, content, author, tags, image }),
   });
-
   return response.json();
 }
 
 export async function createCommentAction(formData: FormData, postId: string, accessToken: string) {
-  // console.log("\n\x1b[35m<createCommentAction>\x1b[0m");
-
   const content = formData.get("content");
-
   const response = await fetch(`${process.env.ROOT_URL}/api/comments?postId=${postId}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${accessToken}` },
     body: JSON.stringify({ content }),
-    // body: formData,
   });
-
   return response.json();
 }
 
 export async function updatePostAction(formData: FormData, postId: string, accessToken: string) {
-  // console.log("\n\x1b[35m\n<updatePostAction>\x1b[0m");
-
+  const category = formData.get("category");
+  const title = formData.get("title");
+  const content = formData.get("content");
+  const tags = formData.get("tags");
+  const image = formData.get("image");
   const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
     method: "PATCH",
     headers: { Authorization: `Bearer ${accessToken}` },
-    body: formData,
+    body: JSON.stringify({ category, title, content, tags, image }),
   });
-
   return response.json();
 }
 
 export async function signinAction(formData: FormData) {
-  // console.log("\n\x1b[35m<signinAction>\x1b[0m");
-
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-
   const response = await fetch(`${process.env.ROOT_URL}/api/auth/signin`, {
     method: "POST",
     body: JSON.stringify({ email, password }),
-    // body: formData,
   });
   const { error, accessToken, refreshToken } = await response.json();
 
@@ -82,11 +80,12 @@ export async function signinAction(formData: FormData) {
 }
 
 export async function signupAction(prevState: any, formData: FormData) {
-  // console.log("\n\x1b[35m<signupAction>\x1b[0m");
-
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
   const response = await fetch(`${process.env.ROOT_URL}/api/auth/signup`, {
     method: "POST",
-    body: formData,
+    body: JSON.stringify({ name, email, password }),
   });
   const { error, newUser } = await response.json();
 

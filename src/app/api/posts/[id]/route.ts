@@ -36,13 +36,8 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   console.log("\n\x1b[32m[api/posts/[id]]:::[PATCH]\x1b[0m");
 
   // extract the formData
-  const formData = await request.formData();
   const postId = params.id;
-  const category = formData.get("category");
-  const title = formData.get("title");
-  const content = formData.get("content");
-  const tags = formData.get("tags");
-  const image = formData.get("image");
+  const { category, title, content, tags, image } = await request.json();
 
   // create a image url
   let imageUrl: string | null;

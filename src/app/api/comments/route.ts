@@ -42,8 +42,6 @@ export async function POST(request: Request) {
   // extract
   const { searchParams } = new URL(request.url);
   const postId = searchParams.get("postId");
-  // const formData = await request.formData();
-  // const content = formData.get("content");
   const { content } = await request.json();
   if (!content) {
     const error = { error: { message: "댓글내용을 누락하였습니다." } };

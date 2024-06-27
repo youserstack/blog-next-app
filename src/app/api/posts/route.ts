@@ -102,13 +102,8 @@ export async function POST(request: Request) {
   }
 
   // extract
-  const formData = await request.formData();
-  const category = formData.get("category") as string;
-  const title = formData.get("title") as string;
-  const content = formData.get("content") as string;
-  const author = formData.get("author") as string;
-  const tags = (formData.get("tags") as string).split(",").map((tag) => tag.trim());
-  const image = formData.get("image") as File;
+
+  const { category, title, content, author, tags, image } = await request.json();
   if (!category || !title || !content || !author || !tags || !image) {
     const error = { error: { message: "포스트 게시물의 필수 정보를 모두 입력하세요." } };
     return Response.json(error, { status: 400 });
