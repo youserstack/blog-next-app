@@ -2,6 +2,8 @@ import PostArticle from "@/components/articles/PostArticle";
 import { getPost } from "@/lib/utils/fetchers/getters";
 import "./page.scss";
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const { posts } = await fetch(`${process.env.ROOT_URL}/api/static/all-posts`).then((res) =>
     res.json()
