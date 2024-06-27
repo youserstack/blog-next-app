@@ -77,7 +77,22 @@ export default async function middleware(request: NextRequest) {
   }
 
   // configurate the custom header
-  let response = NextResponse.next();
+  // let response = NextResponse.next();
+  // const payload = JSON.stringify(
+  //   user
+  //     ? {
+  //         ...user,
+  //         refreshToken: refreshToken?.slice(-5),
+  //         accessToken: accessToken?.slice(-5),
+  //       }
+  //     : null
+  // );
+  // response.headers.set("user", payload);
+  // response.cookies.set("user", payload);
+
+  // return response;
+
+  let headers = new Headers(request.headers);
   const payload = JSON.stringify(
     user
       ? {
@@ -87,24 +102,8 @@ export default async function middleware(request: NextRequest) {
         }
       : null
   );
-  response.headers.set("user", payload);
-  response.cookies.set("user", payload);
-
-  return response;
-
-  // const headers = new Headers(request.headers);
-  // headers.set(
-  //   "user",
-  //   JSON.stringify(
-  //     user
-  //       ? {
-  //           ...user,
-  //           refreshToken: refreshToken?.slice(-5),
-  //           accessToken: accessToken?.slice(-5),
-  //         }
-  //       : null
-  //   )
-  // );
+  headers.set("user", payload);
+  return NextResponse.next({ headers });
   // return NextResponse.next({ request: { headers } });
 }
 
