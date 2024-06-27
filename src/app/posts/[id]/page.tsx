@@ -9,8 +9,8 @@ export async function generateStaticParams() {
     res.json()
   );
   console.log({ posts });
-  // return posts;
-  return posts.map((post: any) => ({ id: post._id }));
+  return posts;
+  // return posts.map((post: any) => ({ "...id": post._id }));
 }
 
 export default async function PostId({ params: { id: postId } }: { params: { id: string } }) {
