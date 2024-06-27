@@ -30,10 +30,13 @@ export async function createPostAction(formData: FormData, accessToken: string) 
 export async function createCommentAction(formData: FormData, postId: string, accessToken: string) {
   // console.log("\n\x1b[35m<createCommentAction>\x1b[0m");
 
+  const content = formData.get("content");
+
   const response = await fetch(`${process.env.ROOT_URL}/api/comments?postId=${postId}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${accessToken}` },
-    body: formData,
+    body: JSON.stringify({ content }),
+    // body: formData,
   });
 
   return response.json();
