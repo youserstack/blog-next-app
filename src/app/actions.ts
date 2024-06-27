@@ -69,8 +69,8 @@ export async function signinAction(formData: FormData) {
     return { error };
   } else {
     cookies().set("refreshToken", refreshToken, {
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: true,
       sameSite: "lax",
       expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
       path: "/",
