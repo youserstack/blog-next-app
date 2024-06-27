@@ -11,9 +11,7 @@ export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const accessToken = request.headers.get("Authorization")?.split(" ")[1] as string;
   const refreshToken: any = cookies().get("refreshToken")?.value;
-  if (pathname === "/") {
-    console.log("zivi", { refreshToken });
-  }
+  console.log("zivi", { refreshToken });
 
   // authenticate
   let user = null;
