@@ -1,7 +1,7 @@
 import React from "react";
 import PostList from "@/components/lists/PostList";
 import Pagination from "@/components/ui/Pagination";
-import Breadcrumb from "@/components/post/Breadcrumb";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import ControlArea from "@/components/areas/ControlArea";
 import "./PostListArticle.scss";
 
