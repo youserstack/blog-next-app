@@ -19,7 +19,7 @@ export default function Signin() {
 
   useEffect(() => {
     if (state?.accessToken) router.back();
-  }, [state]);
+  }, [state, router]);
 
   return (
     <main className="signin-page">

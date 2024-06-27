@@ -20,13 +20,10 @@ function Button() {
 }
 
 export default function PostCreateModal() {
-  const { category } = useParams();
-  if (!(category instanceof Array)) return null;
-  const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
-  // console.log({ categoryPath });
-
   const router = useRouter();
   const { setCurrentModal }: any = useContext(Context);
+  const { category }: any = useParams();
+  const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
   const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
     const accessToken = localStorage.getItem("accessToken") as string;
     const data = await createPostAction(formData, accessToken);
