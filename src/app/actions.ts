@@ -57,8 +57,8 @@ export async function updatePostAction(formData: FormData, postId: string, acces
 }
 
 export async function signinAction(formData: FormData) {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
+  const email = formData.get("email");
+  const password = formData.get("password");
   const response = await fetch(`${process.env.ROOT_URL}/api/auth/signin`, {
     method: "POST",
     body: JSON.stringify({ email, password }),
@@ -66,7 +66,7 @@ export async function signinAction(formData: FormData) {
   const { error, accessToken, refreshToken } = await response.json();
 
   if (!response.ok) {
-    return { error };
+    return { error: error || "25234234243" };
   } else {
     cookies().set("refreshToken", refreshToken, {
       httpOnly: true,
@@ -75,13 +75,6 @@ export async function signinAction(formData: FormData) {
       expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
       path: "/",
     });
-    // cookies().set("refreshToken", refreshToken, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: "strict",
-    //   expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
-    //   path: "/",
-    // });
     return { accessToken };
   }
 }

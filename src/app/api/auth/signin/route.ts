@@ -8,7 +8,6 @@ import {
 } from "@/lib/utils/auth";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   console.log("\n\x1b[32m[api/auth/signin]:::[POST]\x1b[0m");
@@ -16,6 +15,7 @@ export async function POST(request: Request) {
 
   // extract
   const { email, password } = await request.json();
+  console.log({ email, password });
   const isPayloadMissing = !email || !password;
   if (isPayloadMissing) return Response.json({ error: "missing payload" }, { status: 400 });
 
@@ -47,5 +47,5 @@ export async function POST(request: Request) {
   revalidatePath("/", "layout");
 
   // server action 에서 refreshToken 을 쿠키에 저장하고, accessToken 을 리턴한다.
-  return Response.json({ accessToken, refreshToken });
+  return Response.json({ accessToken, refreshToken }, { status: 200 });
 }

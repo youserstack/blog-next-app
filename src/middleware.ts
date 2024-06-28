@@ -11,7 +11,6 @@ export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const accessToken = request.headers.get("Authorization")?.split(" ")[1] as string;
   const refreshToken: any = cookies().get("refreshToken")?.value;
-  console.log("zivi", { refreshToken });
 
   // authenticate
   let user = null;
@@ -63,10 +62,10 @@ export default async function middleware(request: NextRequest) {
   }
 
   // 인증된 사용자라면 로그인이 필요하지 않으므로 홈페이지로 리다이렉트한다.
-  if (pathname.startsWith("/auth/signin") && user) {
-    console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  // if (pathname.startsWith("/auth/signin") && user) {
+  //   console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
 
   // configurate the custom header
   // let response = NextResponse.next();
@@ -93,8 +92,7 @@ export default async function middleware(request: NextRequest) {
       : null
   );
   headers.set("user", payload);
-  return NextResponse.next({ headers });
-  // return NextResponse.next({ request: { headers } });
+  return NextResponse.next({ request: { headers } });
 }
 
 export const config = { matcher: ["/:path*"] };
