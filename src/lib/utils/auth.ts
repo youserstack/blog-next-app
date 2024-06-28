@@ -31,9 +31,12 @@ export async function refreshAccessToken() {
     const response = await fetch("/api/auth/refresh");
     const data = await response.json();
 
-    if (!response.ok) throw new Error(data.error.message || "accessToken 갱신을 실패했습니다.");
-    localStorage.setItem("accessToken", data.newAccessToken);
-    return data.newAccessToken;
+    if (!response.ok) {
+      throw new Error(data.error.message || "accessToken 갱신을 실패했습니다.");
+    } else {
+      localStorage.setItem("accessToken", data.newAccessToken);
+      return data.newAccessToken;
+    }
   } catch (error) {
     console.error("액세스 토큰 갱신을 실패했습니다.", error);
     return error;

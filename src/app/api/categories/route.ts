@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     );
   }
 
-  return Response.json({ error: { message: "카테고리 생성 실패" } }, { status: 400 });
+  return Response.json({ error: "카테고리 생성 실패" }, { status: 400 });
 }
 
 // 전체 카테고리 읽기

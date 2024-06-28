@@ -46,9 +46,8 @@ export default async function middleware(request: NextRequest) {
     console.log({ protectedApi: pathname, method: request.method });
 
     if (!accessToken) {
-      const message = "요청된 API는 accessToken이 요구됩니다.";
-      console.log(message);
-      return NextResponse.json({ error: { message } }, { status: 401 });
+      console.log("accessToken이 요구됩니다.");
+      return NextResponse.json({ error: "accessToken이 요구됩니다." }, { status: 401 });
     }
 
     try {

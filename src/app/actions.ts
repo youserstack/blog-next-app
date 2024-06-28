@@ -8,7 +8,7 @@ export async function createCategoryAction(formData: FormData, accessToken: stri
     decodeURI(v)
   );
   const childCategory = decodeURI(formData.get("childCategory") as string).replace(/\s+/g, "-");
-  console.log({ parentCategories, childCategory });
+  // console.log({ parentCategories, childCategory });
   const response = await fetch(`${process.env.ROOT_URL}/api/categories`, {
     method: "POST",
     headers: { Authorization: `Bearer ${accessToken}` },
@@ -65,6 +65,7 @@ export async function signinAction(formData: FormData) {
   });
   const { error, accessToken, refreshToken } = await response.json();
 
+  // client browser localStorage에 accessToken을 저장시키기 위해서 새로운 객체를 리턴한다.
   if (!response.ok) {
     return { error: error || "25234234243" };
   } else {
@@ -90,7 +91,7 @@ export async function signupAction(prevState: any, formData: FormData) {
   const { error, newUser } = await response.json();
 
   if (!response.ok) {
-    return { error };
+    return { error: error || "34536548834758" };
   } else {
     redirect("/auth/signin");
   }

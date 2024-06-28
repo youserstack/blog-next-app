@@ -96,18 +96,16 @@ export async function POST(request: Request) {
   // authenticate
   const user = JSON.parse(request.headers.get("user") as string);
   const foundUser = await User.findOne({ email: user.email });
-  if (!foundUser) {
-    const error = { error: { message: "해당 사용자가 존재하지 않습니다." } };
-    return Response.json(error, { status: 404 });
-  }
+  if (!foundUser)
+    return Response.json({ error: "해당 사용자가 존재하지 않습니다." }, { status: 404 });
 
   // extract
-
   const { category, title, content, author, tags, image } = await request.json();
-  if (!category || !title || !content || !author || !tags || !image) {
-    const error = { error: { message: "포스트 게시물의 필수 정보를 모두 입력하세요." } };
-    return Response.json(error, { status: 400 });
-  }
+  if (!category || !title || !content || !author || !tags || !image)
+    return Response.json(
+      { error: "포스트 게시물의 필수 정보를 모두 입력하세요." },
+      { status: 400 }
+    );
 
   // create a image url
   let imageUrl: string | null;
@@ -116,7 +114,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error(error);
     return Response.json(
-      { error: { message: "이미지 파일을 클라우드에 저장하는데 실패했습니다." } },
+      { error: "이미지 파일을 클라우드에 저장하는데 실패했습니다." },
       { status: 400 }
     );
   }

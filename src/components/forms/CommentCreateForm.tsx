@@ -29,7 +29,7 @@ export default function CommentCreateForm({
       const { error, newComment } = await createCommentAction(formData, postId, newAccessToken);
 
       if (error) {
-        console.error("재요청에 대한 에러가 발생했습니다.", error);
+        console.error("재요청에 대한 에러가 발생했습니다.", { error });
         return { error: error };
       }
 
@@ -37,7 +37,7 @@ export default function CommentCreateForm({
       mutate(url); // 클라이언트 리패칭 (swr)
       return { newComment };
     } else if (error) {
-      console.error("에러가 발생했습니다.", error);
+      console.error("에러가 발생했습니다.", { error });
       return { error };
     }
 

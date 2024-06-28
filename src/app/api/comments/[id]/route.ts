@@ -13,31 +13,22 @@ export async function DELETE(request: Request, { params }: any) {
   const { email } = user;
   const foundUser = await User.findOne({ email });
   if (!foundUser) {
-    return Response.json(
-      {
-        error: {
-          message: "유저 이메일(토큰에 저장된)을 조회하였지만 해당 사용자가 존재하지 않습니다.",
-        },
-      },
-      { status: 404 }
-    );
+    const error = "이메일을 조회하였지만 사용자가 존재하지 않습니다.";
+    return Response.json({ error }, { status: 404 });
   }
   // console.log({ foundUser });
 
   // extract
   const commentId = params.id;
   if (!commentId) {
-    return Response.json({ error: { message: "댓글 ID가 제공되지 않았습니다." } }, { status: 400 });
+    return Response.json({ error: "댓글 ID가 제공되지 않았습니다." }, { status: 400 });
   }
   console.log({ commentId });
 
   // delete
   const deletedComment = await Comment.findByIdAndDelete(commentId).populate("post");
   if (!deletedComment) {
-    return Response.json(
-      { error: { message: "삭제할 댓글이 존재하지 않습니다." } },
-      { status: 404 }
-    );
+    return Response.json({ error: "삭제할 댓글이 존재하지 않습니다." }, { status: 404 });
   }
   console.log({ deletedComment });
 

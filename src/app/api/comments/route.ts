@@ -11,17 +11,15 @@ export async function GET(request: Request) {
   // extract
   const { searchParams } = new URL(request.url);
   const postId = searchParams.get("postId");
-  if (!postId) {
-    return Response.json({ error: { message: "포스트 아이디가 없습니다." } }, { status: 400 });
-  }
+  if (!postId) return Response.json({ error: "포스트 아이디가 없습니다." }, { status: 400 });
 
   // query
-  const comments = await Comment.find({ post: postId }).populate("author").populate("post");
   // console.log({ comments });
   // const transformedComments = comments.map((comment: any) => ({
   //   ...comment.toObject(),
   //   author: comment.author.name,
   // }));
+  const comments = await Comment.find({ post: postId }).populate("author").populate("post");
 
   return Response.json({ comments }, { status: 200 });
 }
@@ -34,23 +32,15 @@ export async function POST(request: Request) {
   const user = JSON.parse(request.headers.get("user") as string);
   const { email } = user;
   const foundUser = await User.findOne({ email });
-  if (!foundUser) {
-    const error = { error: { message: "해당 사용자가 존재하지 않습니다." } };
-    return Response.json(error, { status: 404 });
-  }
+  if (!foundUser)
+    return Response.json({ error: "해당 사용자가 존재하지 않습니다." }, { status: 404 });
 
   // extract
   const { searchParams } = new URL(request.url);
   const postId = searchParams.get("postId");
   const { content } = await request.json();
-  if (!content) {
-    const error = { error: { message: "댓글내용을 누락하였습니다." } };
-    return Response.json(error, { status: 404 });
-  }
-  if (!postId) {
-    const error = { error: { message: "포스트아이디를 누락하였습니다." } };
-    return Response.json(error, { status: 404 });
-  }
+  if (!content) return Response.json({ error: "댓글내용을 누락하였습니다." }, { status: 404 });
+  if (!postId) return Response.json({ error: "포스트아이디를 누락하였습니다." }, { status: 404 });
 
   // create
   const newComment = await Comment.create({ post: postId, author: foundUser._id, content });
