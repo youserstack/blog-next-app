@@ -66,7 +66,6 @@ export default function PostCreateModal() {
         </select>
         <input type="text" name="title" placeholder="title" />
         <textarea name="content" placeholder="content" />
-        <input type="text" name="author" placeholder="author" />
         <input type="text" name="tags" placeholder="tags" />
         <input type="file" name="image" id="image" />
         <label htmlFor="image">

@@ -26,7 +26,7 @@ export async function GET(request: Request) {
 
 // 댓글 생성
 export async function POST(request: Request) {
-  console.log(`\n\x1b[32m[api/comments]:::[POST]\x1b[0m`);
+  console.log(`\n\x1b[34m[api/comments]:::[POST]\x1b[0m`);
 
   // authenticate
   const user = JSON.parse(request.headers.get("user") as string);

@@ -33,7 +33,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
 // 포스트 수정 (update)
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-  console.log("\n\x1b[32m[api/posts/[id]]:::[PATCH]\x1b[0m");
+  console.log("\n\x1b[38;2;255;100;0m[api/posts/[id]]:::[PATCH]\x1b[0m");
 
   // extract the formData
   const postId = params.id;
@@ -78,7 +78,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 
 // 포스트 삭제 (delete)
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-  console.log("\n\x1b[32m[api/posts/[id]]:::[DELETE]\x1b[0m");
+  console.log("\n\x1b[31m[api/posts/[id]]:::[DELETE]\x1b[0m");
 
   // authenticate
   const user = JSON.parse(request.headers.get("user") as string);

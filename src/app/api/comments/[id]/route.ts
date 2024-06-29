@@ -5,7 +5,7 @@ import User from "@/lib/models/User";
 
 // 댓글 삭제
 export async function DELETE(request: Request, { params }: any) {
-  console.log("\n\x1b[32m[api/comments]:::[DELETE]\x1b[0m");
+  console.log("\n\x1b[31m[api/comments]:::[DELETE]\x1b[0m");
   await connectDB();
 
   // authenticate

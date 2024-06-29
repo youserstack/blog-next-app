@@ -7,6 +7,12 @@ const some = () => {
   console.log("\x1b[35m%s\x1b[0m", "Magenta"); // 마젠타
   console.log("\x1b[36m%s\x1b[0m", "Cyan"); // 시안
   console.log("\x1b[37m%s\x1b[0m", "White"); // 흰색
+
+  console.log("\x1b[38;2;255;100;0m%s\x1b[0m", "Orange");
+  console.log("\x1b[38;2;0;255;0m%s\x1b[0m", "Lime");
+  console.log("\x1b[38;2;0;255;255m%s\x1b[0m", "Cyan");
+  console.log("\x1b[38;2;255;0;255m%s\x1b[0m", "Magenta");
+  console.log("\x1b[38;2;0;0;255m%s\x1b[0m", "Blue");
 };
 
 export const logUrlCategory = (category: string[]) => {

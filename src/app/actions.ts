@@ -18,16 +18,10 @@ export async function createCategoryAction(formData: FormData, accessToken: stri
 }
 
 export async function createPostAction(formData: FormData, accessToken: string) {
-  const category = formData.get("category") as string;
-  const title = formData.get("title") as string;
-  const content = formData.get("content") as string;
-  const author = formData.get("author") as string;
-  const tags = (formData.get("tags") as string).split(",").map((tag) => tag.trim());
-  const image = formData.get("image") as File;
   const response = await fetch(`${process.env.ROOT_URL}/api/posts`, {
     method: "POST",
     headers: { Authorization: `Bearer ${accessToken}` },
-    body: JSON.stringify({ category, title, content, author, tags, image }),
+    body: formData,
   });
   return response.json();
 }

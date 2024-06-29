@@ -3,7 +3,7 @@ import { validateEmail, validatePassword } from "@/lib/utils/auth";
 import bcrypt from "bcrypt";
 
 export async function POST(request: Request) {
-  console.log("\n\x1b[32m[api/auth/signup]:::[POST]\x1b[0m");
+  console.log("\n\x1b[34m[api/auth/signup]:::[POST]\x1b[0m");
 
   // Read data
   const { name, email, password } = await request.json();
