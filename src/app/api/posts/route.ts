@@ -11,15 +11,12 @@ export async function GET(request: Request) {
 
   // extract
   const { searchParams } = new URL(request.url);
-
   const searchWords = searchParams.get("searchWords") || null;
   const categoryPath = searchParams.get("categoryPath") || null;
   const sort = searchParams.get("sort") || "newest";
   const page = searchParams.get("page") || "1";
-
   const POST_PER_PAGE = 5;
   const skip = ((parseInt(page) || 1) - 1) * POST_PER_PAGE;
-
   console.log({ searchWords, categoryPath, sort, page });
 
   // 쿼리 조건 생성

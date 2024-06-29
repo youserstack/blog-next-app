@@ -10,9 +10,10 @@ import "./CategoryDeleteModal.scss";
 export default function CategoryDeleteModal() {
   const router = useRouter();
   const params = useParams();
-  const categories = params.category as string[];
+  const categories = (params.category as string[]).map((v: string) => decodeURI(v));
   const parentCategories = categories.slice(0, -1);
   const { setCurrentModal, categoryPaths }: any = useContext(Context);
+  console.log({ categories, categoryPaths });
 
   const handleClickDeleteButton = async () => {
     const accessToken = localStorage.getItem("accessToken") as string;
@@ -60,9 +61,17 @@ export default function CategoryDeleteModal() {
       <h3>현재 카테고리를 삭제하시겠습니까?</h3>
       <p>카테고리를 삭제하면 해당된 포스트 게시글이 삭제됩니다.</p>
       <div className="buttons">
-        <button onClick={handleClickDeleteButton}>delete</button>
+        <button
+          onClick={handleClickDeleteButton}
+          disabled={categories.some((category: string) => protectedCategories.includes(category))}
+          // disabled={categories.some((category: string) => category.startsWith("Coding"))}
+        >
+          delete
+        </button>
         <button onClick={handleClickCancelButton}>cancel</button>
       </div>
     </div>
   );
 }
+
+const protectedCategories = ["Coding", "테스트"];
