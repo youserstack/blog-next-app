@@ -6,7 +6,7 @@ export async function generateStaticParams() {
   const { posts } = await fetch(`${process.env.ROOT_URL}/api/static/all-posts`).then((res) =>
     res.json()
   );
-  console.log({ posts });
+  // console.log({ posts });
 
   // return posts;
   return posts.map((post: any) => ({ id: post._id }));

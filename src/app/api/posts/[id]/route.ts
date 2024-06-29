@@ -37,43 +37,73 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 
   // extract the formData
   const postId = params.id;
-  const { category, title, content, tags, image } = await request.json();
-
-  // create a image url
-  let imageUrl: string | null;
-  if (image && image instanceof File && image.size > 0) {
-    // upload a image
-    imageUrl = await uploadToCloudinary(image);
-  } else {
-    imageUrl = null;
-    // console.error("Provided image is not a valid file or it is empty.");
-    console.error("제공된 이미지 파일은 유효하지 않습니다.");
-  }
+  const formData = await request.formData();
+  const category = formData.get("category") as string | null;
+  const title = formData.get("title") as string | null;
+  const content = formData.get("content") as string | null;
+  const tags = formData.get("tags") as string | null;
+  const image = formData.get("image") as File | null;
 
   // 업데이트할 객체를 준비한다.
-  // payload에서 null이나 빈 객체 {}인 필드를 제거합니다.
-  const payload = { category, title, content, tags, image: imageUrl };
-  const filteredPayload = Object.entries(payload).reduce((acc, [key, value]: any) => {
-    // value가 null이거나 빈 객체이면 acc에 추가하지 않고, 다음으로 넘어갑니다.
-    const isNull = value === null;
-    const isEmptyObject =
-      typeof value === "object" && value !== null && Object.keys(value).length === 0;
-    if (isNull || isEmptyObject) return acc;
+  const payload: { [key: string]: any } = {};
+  if (category !== null && category !== undefined) payload.category = category;
+  if (title !== null && title !== undefined) payload.title = title;
+  if (content !== null && content !== undefined) payload.content = content;
+  if (tags !== null && tags !== undefined) {
+    // 태그 문자열이 제공된 경우 배열로 변환합니다.
+    payload.tags = tags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag !== ""); // 공백 태그 제거
+  }
+  if (image !== null && image !== undefined) {
+    const isValidImage =
+      image.size > 0 && image.name !== "undefined" && image.type !== "application/octet-stream";
+    if (isValidImage) {
+      try {
+        const imageUrl = await uploadToCloudinary(image);
+        payload.image = imageUrl;
+      } catch (error) {
+        console.error(error);
+        return Response.json(
+          { error: "이미지 파일을 클라우드에 저장하는데 실패했습니다." },
+          { status: 400 }
+        );
+      }
+    } else {
+      console.log("유효하지 않은 이미지, 업로드 생략");
+    }
+  }
 
-    acc[key] = value; // null도 아니고 빈 객체도 아닌 경우, acc에 key-value 쌍을 추가합니다.
-    return acc; // 누적된 객체를 반환합니다.
-  }, {} as { [key: string]: any });
-  // console.log({ filteredPayload });
+  // payload가 비어있는 경우, 업데이트할 데이터가 없음을 알립니다.
+  if (Object.keys(payload).length === 0) {
+    return Response.json({ error: "업데이트할 데이터가 제공되지 않았습니다." }, { status: 400 });
+  }
+  console.log({ payload });
 
-  // update
-  const updatedPost = await Post.findByIdAndUpdate(postId, filteredPayload, { new: true });
-  console.log({ updatedPost });
+  // 데이터베이스 업데이트
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(postId, payload, { new: true });
+    console.log({ updatedPost });
 
-  // 서버 캐시 재검증
-  revalidatePath("/posts/[...id]", "page");
-  // revalidatePath("/", "layout");
+    // 서버 캐시 재검증
+    revalidatePath("/posts/[...id]", "page");
 
-  return Response.json({ updatedPost }, { status: 200 });
+    return Response.json({ updatedPost }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return Response.json({ error: "업데이트 중 오류가 발생했습니다." }, { status: 500 });
+  }
+
+  // // update
+  // const updatedPost = await Post.findByIdAndUpdate(postId, payload, { new: true });
+  // console.log({ updatedPost });
+
+  // // 서버 캐시 재검증
+  // revalidatePath("/posts/[...id]", "page");
+  // // revalidatePath("/", "layout");
+
+  // return Response.json({ updatedPost }, { status: 200 });
 }
 
 // 포스트 삭제 (delete)

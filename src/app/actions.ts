@@ -37,15 +37,10 @@ export async function createCommentAction(formData: FormData, postId: string, ac
 }
 
 export async function updatePostAction(formData: FormData, postId: string, accessToken: string) {
-  const category = formData.get("category");
-  const title = formData.get("title");
-  const content = formData.get("content");
-  const tags = formData.get("tags");
-  const image = formData.get("image");
   const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
     method: "PATCH",
     headers: { Authorization: `Bearer ${accessToken}` },
-    body: JSON.stringify({ category, title, content, tags, image }),
+    body: formData,
   });
   return response.json();
 }
