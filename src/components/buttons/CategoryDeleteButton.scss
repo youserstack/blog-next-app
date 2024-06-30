@@ -1,4 +1,8 @@
 .category-delete-button {
   background-color: var(--deleteColor-red);
   color: var(--foregroundColor-white);
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }

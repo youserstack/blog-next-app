@@ -5,7 +5,8 @@
 import PostListArticle from "@/components/articles/PostListArticle";
 import { CategoryProps } from "@/types/api";
 import useSWR from "swr";
-import Loading from "@/components/ui/Loading";
+import { useContext } from "react";
+import { Context } from "@/components/context/Provider";
 import "./page.scss";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
@@ -29,9 +30,14 @@ export default function Category({ params: { category }, searchParams }: Categor
   const { data, isLoading } = useSWR(url, fetcher);
 
   // 로딩중
-  if (isLoading) return <Loading />;
+  const { setIsLoading }: any = useContext(Context);
+  if (isLoading) {
+    setIsLoading(true);
+    return null;
+  }
 
   // 데이터가 로드된 경우에만 렌더링
+  setIsLoading(false);
   const { totalCount, posts } = data;
   return (
     <div className="category">

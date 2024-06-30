@@ -3,6 +3,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Provider from "@/components/context/Provider";
 import ModalLayer from "@/components/modals/ModalLayer";
+import Loading from "@/components/ui/Loading";
 import "./globals.scss";
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ export default function RootLayout({
 
           {/* client components */}
           <ModalLayer />
+          <Loading />
         </Provider>
       </body>
     </html>

@@ -9,6 +9,7 @@ export default async function Search({ searchParams }: any) {
     sort: searchParams.sort || "newest",
     page: searchParams.page || "1",
   };
+
   const { posts } = await getPosts(postsSearchParams);
   const { categories } = await getCategories();
 

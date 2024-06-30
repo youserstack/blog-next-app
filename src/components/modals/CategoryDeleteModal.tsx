@@ -13,7 +13,7 @@ export default function CategoryDeleteModal() {
   const categories = (params.category as string[]).map((v: string) => decodeURI(v));
   const parentCategories = categories.slice(0, -1);
   const { setCurrentModal, categoryPaths }: any = useContext(Context);
-  console.log({ categories, categoryPaths });
+  // console.log({ categories, categoryPaths });
 
   const handleClickDeleteButton = async () => {
     const accessToken = localStorage.getItem("accessToken") as string;
@@ -64,7 +64,6 @@ export default function CategoryDeleteModal() {
         <button
           onClick={handleClickDeleteButton}
           disabled={categories.some((category: string) => protectedCategories.includes(category))}
-          // disabled={categories.some((category: string) => category.startsWith("Coding"))}
         >
           delete
         </button>
@@ -74,4 +73,4 @@ export default function CategoryDeleteModal() {
   );
 }
 
-const protectedCategories = ["Coding", "테스트"];
+const protectedCategories = ["Coding"];

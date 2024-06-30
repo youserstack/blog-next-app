@@ -3,6 +3,8 @@
 import useSWR from "swr";
 import Image from "next/image";
 import CommentOptionButton from "@/components/buttons/CommentOptionButton";
+import { useContext } from "react";
+import { Context } from "@/components/context/Provider";
 import "./CommentList.scss";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
@@ -10,9 +12,14 @@ const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) =>
 export default function CommentList({ postId }: any) {
   const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`;
   const { isLoading, data } = useSWR(url, fetcher);
+  const { setIsLoading }: any = useContext(Context);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (!isLoading) {
+    setIsLoading(true);
+    return null;
+  }
 
+  setIsLoading(false);
   return (
     <ul className="comment-list">
       {data.comments?.map((comment: any) => (

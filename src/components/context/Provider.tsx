@@ -6,6 +6,7 @@ import { createContext, useEffect, useState } from "react";
 export const Context = createContext({});
 
 export default function Provider({ children }: { children: React.ReactNode }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [categories, setCategories] = useState([]); // 서버로부터 요청한 카테고리 데이터를 이곳에 저장한다.
   const [parentCategories, setParentCategories] = useState<string[]>([]); // 새 카테고리 항목을 생성할때 사용한다.
@@ -61,6 +62,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   return (
     <Context.Provider
       value={{
+        // 로딩
+        isLoading,
+        setIsLoading,
         // 인증
         user,
         setUser,
