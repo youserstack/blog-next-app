@@ -35,7 +35,16 @@ export async function GET(request: Request, { params }: { params: { id: string }
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[38;2;255;100;0m[api/posts/[id]]:::[PATCH]\x1b[0m");
 
-  // extract the formData
+  // authenticate
+  const user = JSON.parse(request.headers.get("user") as string);
+  const { email } = user;
+  const foundUser = await User.findOne({ email });
+  if (!foundUser) {
+    const error = "유저 이메일(토큰에 저장된)을 조회하였지만 해당 사용자가 존재하지 않습니다.";
+    return Response.json({ error }, { status: 404 });
+  }
+
+  // extract
   const postId = params.id;
   const formData = await request.formData();
   const category = formData.get("category") as string | null;
@@ -82,28 +91,14 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   console.log({ payload });
 
   // 데이터베이스 업데이트
-  try {
-    const updatedPost = await Post.findByIdAndUpdate(postId, payload, { new: true });
-    console.log({ updatedPost });
+  const updatedPost = await Post.findByIdAndUpdate(postId, payload, { new: true });
+  console.log({ updatedPost });
 
-    // 서버 캐시 재검증
-    revalidatePath("/posts/[...id]", "page");
+  // 서버 캐시 재검증
+  revalidatePath("/posts/[...id]", "page");
 
-    return Response.json({ updatedPost }, { status: 200 });
-  } catch (error) {
-    console.error(error);
-    return Response.json({ error: "업데이트 중 오류가 발생했습니다." }, { status: 500 });
-  }
-
-  // // update
-  // const updatedPost = await Post.findByIdAndUpdate(postId, payload, { new: true });
-  // console.log({ updatedPost });
-
-  // // 서버 캐시 재검증
-  // revalidatePath("/posts/[...id]", "page");
-  // // revalidatePath("/", "layout");
-
-  // return Response.json({ updatedPost }, { status: 200 });
+  // 응답
+  return Response.json({ updatedPost }, { status: 200 });
 }
 
 // 포스트 삭제 (delete)
@@ -115,14 +110,8 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   const { email } = user;
   const foundUser = await User.findOne({ email });
   if (!foundUser) {
-    return Response.json(
-      {
-        error: {
-          message: "유저 이메일(토큰에 저장된)을 조회하였지만 해당 사용자가 존재하지 않습니다.",
-        },
-      },
-      { status: 404 }
-    );
+    const error = "유저 이메일(토큰에 저장된)을 조회하였지만 해당 사용자가 존재하지 않습니다.";
+    return Response.json({ error }, { status: 404 });
   }
 
   // extract
@@ -131,8 +120,6 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   // delete
   const deletedPost = await Post.findByIdAndDelete(postId);
   console.log({ deletedPost });
-
   revalidatePath("/categories/[...category]", "page");
-
   return Response.json({ deletedPost });
 }

@@ -14,11 +14,6 @@ export async function GET(request: Request) {
   if (!postId) return Response.json({ error: "포스트 아이디가 없습니다." }, { status: 400 });
 
   // query
-  // console.log({ comments });
-  // const transformedComments = comments.map((comment: any) => ({
-  //   ...comment.toObject(),
-  //   author: comment.author.name,
-  // }));
   const comments = await Comment.find({ post: postId }).populate("author").populate("post");
 
   return Response.json({ comments }, { status: 200 });
@@ -27,6 +22,7 @@ export async function GET(request: Request) {
 // 댓글 생성
 export async function POST(request: Request) {
   console.log(`\n\x1b[34m[api/comments]:::[POST]\x1b[0m`);
+  await connectDB();
 
   // authenticate
   const user = JSON.parse(request.headers.get("user") as string);
