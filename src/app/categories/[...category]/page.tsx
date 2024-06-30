@@ -5,7 +5,7 @@
 import PostListArticle from "@/components/articles/PostListArticle";
 import { CategoryProps } from "@/types/api";
 import useSWR from "swr";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Context } from "@/components/context/Provider";
 import "./page.scss";
 
@@ -27,17 +27,18 @@ export default function Category({ params: { category }, searchParams }: Categor
 
   // 데이터 패칭
   const url = `${process.env.ROOT_URL}/api/posts?${params.toString()}`;
-  const { data, isLoading } = useSWR(url, fetcher);
-
-  // 로딩중
+  const { isLoading, data } = useSWR(url, fetcher);
   const { setIsLoading }: any = useContext(Context);
-  if (isLoading) {
-    setIsLoading(true);
-    return null;
-  }
+
+  useEffect(() => {
+    // isLoading은 처음 로드시에만 값이 true에서 false로 변경된다.
+    // 하지만, isValidating은 데이터를 패칭할때마다 true에서 false로 변경된다.
+    setIsLoading(isLoading);
+  }, [isLoading]);
+
+  if (isLoading) return null;
 
   // 데이터가 로드된 경우에만 렌더링
-  setIsLoading(false);
   const { totalCount, posts } = data;
   return (
     <div className="category">

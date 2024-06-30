@@ -3,7 +3,7 @@
 import useSWR from "swr";
 import Image from "next/image";
 import CommentOptionButton from "@/components/buttons/CommentOptionButton";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Context } from "@/components/context/Provider";
 import "./CommentList.scss";
 
@@ -14,15 +14,17 @@ export default function CommentList({ postId }: any) {
   const { isLoading, data } = useSWR(url, fetcher);
   const { setIsLoading }: any = useContext(Context);
 
-  if (!isLoading) {
-    setIsLoading(true);
-    return null;
-  }
+  useEffect(() => {
+    // isLoading은 처음 로드시에만 값이 true에서 false로 변경된다.
+    // 하지만, isValidating은 데이터를 패칭할때마다 true에서 false로 변경된다.
+    setIsLoading(isLoading);
+  }, [isLoading]);
 
-  setIsLoading(false);
+  if (isLoading) return null;
+
   return (
     <ul className="comment-list">
-      {data.comments?.map((comment: any) => (
+      {data?.comments?.map((comment: any) => (
         <li className="comment-item" key={comment._id}>
           <div className="thumbnail">
             <Image src={comment.author.image} alt="" width={30} height={30} />
