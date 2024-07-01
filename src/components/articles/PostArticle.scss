@@ -1,7 +1,7 @@
 .post-article {
   min-height: 100vh;
   flex: 1;
-  // border: 1px dashed red;
+  border: 1px dashed red;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -33,8 +33,6 @@
   }
 
   .article-body {
-    // border: 1px dashed red;
-
     .content {
       white-space: break-spaces;
     }

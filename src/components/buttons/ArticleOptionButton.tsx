@@ -8,8 +8,9 @@ import { deletePost } from "@/lib/utils/fetchers/deleters";
 import { useFormState } from "react-dom";
 import { Context } from "@/components/context/Provider";
 import "./ArticleOptionButton.scss";
+import Link from "next/link";
 
-export default function ArticleOptionButton({ post, setIsEditMode }: any) {
+export default function ArticleOptionButton({ post }: any) {
   const router = useRouter();
   const { user }: any = useContext(Context);
   const [isClicked, setIsClicked] = useState(false);
@@ -53,7 +54,6 @@ export default function ArticleOptionButton({ post, setIsEditMode }: any) {
     e.stopPropagation();
     setIsClicked(!isClicked);
   };
-  const handleClickEditButton = () => setIsEditMode(true);
 
   if (!user) return null;
 
@@ -63,7 +63,7 @@ export default function ArticleOptionButton({ post, setIsEditMode }: any) {
       {isClicked && (
         <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
           <li>
-            <button onClick={handleClickEditButton}>edit</button>
+            <Link href={`/posts/${post._id}/edit`}>edit</Link>
           </li>
           <li>
             <form action={action}>
