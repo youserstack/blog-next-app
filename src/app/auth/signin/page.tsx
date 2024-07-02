@@ -4,6 +4,7 @@ import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { signinAction } from "@/app/actions";
+import { Box, Button, TextField } from "@mui/material";
 import "./page.scss";
 
 export default function Signin() {
@@ -28,11 +29,31 @@ export default function Signin() {
   return (
     <main className="signin-page">
       <section>
-        <form action={formAction}>
-          <input type="email" name="email" placeholder="email" required />
-          <input type="password" name="password" placeholder="password" required />
-          <button type="submit">sign in</button>
-        </form>
+        <Box
+          component={"form"}
+          action={formAction}
+          sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+        >
+          <TextField
+            id="outlined-basic"
+            label="email"
+            variant="outlined"
+            // default
+            type="email"
+            name="email"
+            required
+          />
+          <TextField
+            id="outlined-basic"
+            label="password"
+            variant="outlined"
+            // default
+            type="password"
+            name="password"
+            required
+          />
+          <Button type="submit">sign in</Button>
+        </Box>
         {state?.error && (
           <>
             <p>{state.error}</p>

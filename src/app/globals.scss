@@ -18,12 +18,14 @@
   --foregroundColor-offBlack: #222;
   --foregroundColor-white: #fff;
   --foregroundColor-offWhite: #eee;
+  --color-white: #fff;
 
   --hoverColor-blue: #0072f5;
   --tempColor-gray: gray;
-  --deleteColor-red: #d9534f;
   --createColor-blue: #03a9f4;
   --createColor-green: mediumseagreen;
+  --updateColor-coral: #ff7f50;
+  --deleteColor-red: #d9534f;
 }
 
 // theme
@@ -170,6 +172,13 @@ html {
   button {
     cursor: pointer;
     border: none;
+    &.delete-button {
+      background-color: var(--deleteColor-red);
+    }
+    &.update-button {
+      background-color: var(--updateColor-coral);
+      color: var(--color-white);
+    }
   }
 
   input {

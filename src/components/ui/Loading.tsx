@@ -2,6 +2,7 @@
 
 import { useContext } from "react";
 import { Context } from "@/components/context/Provider";
+import CircularProgress from "@mui/material/CircularProgress";
 import "./Loading.scss";
 
 export default function Loading() {
@@ -9,5 +10,9 @@ export default function Loading() {
 
   if (!isLoading) return null;
 
-  return <div className="loading">Loading...</div>;
+  return (
+    <div className="loading">
+      <CircularProgress />
+    </div>
+  );
 }

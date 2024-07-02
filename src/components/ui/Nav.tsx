@@ -1,14 +1,17 @@
+"use client";
+
 import Link from "next/link";
-import { headers } from "next/headers";
-import { getCategories } from "@/lib/utils/fetchers/getters";
-import CategoriesScript from "@/components/script/CategoriesScript";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
+import dynamic from "next/dynamic";
 import "./Nav.scss";
+// import CategoriesScript from "@/components/script/CategoriesScript";
 
-export default async function Nav() {
-  const { categories } = await getCategories();
-  const user = JSON.parse(headers().get("user") as string);
+// Client 에서만 로드 (Lazy Loading)
+const CategoriesScript = dynamic(() => import("@/components/script/CategoriesScript"), {
+  ssr: false,
+});
 
+export default function Nav({ categories, user }: any) {
   return (
     <nav className="nav">
       <ul className="categories">

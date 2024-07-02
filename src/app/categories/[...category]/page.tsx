@@ -2,11 +2,11 @@
 
 "use client";
 
-import PostListArticle from "@/components/articles/PostListArticle";
 import { CategoryProps } from "@/types/api";
-import useSWR from "swr";
 import { useContext, useEffect } from "react";
 import { Context } from "@/components/context/Provider";
+import PostListArticle from "@/components/articles/PostListArticle";
+import useSWR from "swr";
 import "./page.scss";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());

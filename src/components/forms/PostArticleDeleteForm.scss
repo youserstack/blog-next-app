@@ -1,0 +1,9 @@
+.post-article-delete-form {
+  text-align: right;
+
+  button {
+    background-color: var(--deleteColor-red);
+    color: var(--foregroundColor-white);
+    padding: 1rem;
+  }
+}

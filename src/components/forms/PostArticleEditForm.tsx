@@ -5,12 +5,14 @@ import { refreshAccessToken } from "@/lib/utils/auth";
 import { useRouter } from "next/navigation";
 import { useFormState } from "react-dom";
 import { FcAddImage } from "react-icons/fc";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Button from "@mui/material/Button";
 import "./PostArticleEditForm.scss";
 
 export default function PostArticleEditForm({ post }: any) {
   const router = useRouter();
+  const [thumbnail, setThumbnail] = useState(post.image);
   const [updateState, updateAction] = useFormState(
     async (currentState: any, formData: FormData) => {
       const accessToken = localStorage.getItem("accessToken") as string;
@@ -50,6 +52,18 @@ export default function PostArticleEditForm({ post }: any) {
     if (updateState?.updatedPost) router.back();
   }, [updateState, router]);
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // URL 객체를 이용한 blob object의 url 생성
+      const objectUrl = URL.createObjectURL(file);
+      setThumbnail(objectUrl);
+
+      // Clean up the URL object after using it
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  };
+
   return (
     <form className="post-article-edit-form" action={updateAction}>
       <div className="form-header">
@@ -57,26 +71,36 @@ export default function PostArticleEditForm({ post }: any) {
         <div className="info">
           <p>작성자 : {post.author?.name}</p>
           <p>{post.createdAt?.slice(0, 10)}</p>
-        </div>
-        <div>
-          <span>카테고리 : </span>
-          <input type="text" name="category" defaultValue={post.category} />
+          <p>
+            <span>카테고리 : </span>
+            <input className="category" type="text" name="category" defaultValue={post.category} />
+          </p>
         </div>
       </div>
       <div className="form-body">
         <div className="thumbnail">
-          <Image src={post.image} alt="" width={1000} height={1000} />
-          <input type="file" id="image" name="image" style={{ display: "none" }} />
+          <Image src={thumbnail} alt="" width={1000} height={1000} />
+          <input
+            type="file"
+            id="image"
+            name="image"
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
           <label className="image-label" htmlFor="image">
             <FcAddImage size={30} />
             <span>썸네일 변경하기</span>
           </label>
         </div>
-        <textarea className="content">{post.content}</textarea>
+        <textarea className="content" name="content" defaultValue={post.content} />
       </div>
       <div className="form-footer">
-        <button type="submit">저장</button>
-        <button onClick={() => router.back()}>취소</button>
+        <Button className="update-button" variant="contained" type="submit">
+          저장
+        </Button>
+        <Button className="cancel-button" variant="contained" onClick={() => router.back()}>
+          취소
+        </Button>
       </div>
     </form>
   );

@@ -2,10 +2,20 @@ import SearchBar from "@/components/ui/SearchBar";
 import Etc from "@/components/ui/Etc";
 import Nav from "@/components/ui/Nav";
 import Link from "next/link";
-import HeaderScript from "@/components/script/HeaderScript";
 import UserArea from "@/components/areas/UserArea";
+import { getCategories } from "@/lib/utils/fetchers/getters";
+import { headers } from "next/headers";
+import dynamic from "next/dynamic";
+// import HeaderScript from "@/components/script/HeaderScript";
+
+const HeaderScript = dynamic(() => import("@/components/script/HeaderScript"), {
+  ssr: false,
+});
 
 export default async function Header() {
+  const { categories } = await getCategories();
+  const user = JSON.parse(headers().get("user") as string);
+
   return (
     <header>
       <div className="header-upper-wrapper">
@@ -14,13 +24,13 @@ export default async function Header() {
             <Link href={"/"}>blog</Link>
           </h1>
           <SearchBar />
-          <UserArea />
+          <UserArea user={user} />
         </section>
       </div>
       <div className="header-lower-wrapper">
         <section className="header-lower">
-          <Nav />
-          <Etc />
+          <Nav categories={categories} user={user} />
+          <Etc user={user} />
         </section>
       </div>
       <HeaderScript />

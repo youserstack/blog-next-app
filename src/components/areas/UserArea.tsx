@@ -1,13 +1,15 @@
-import { headers } from "next/headers";
 import ThemeToggle from "@/components/ui/ThemeToggle";
-import AuthScript from "@/components/script/AuthScript";
-import Link from "next/link";
 import SignOutButton from "@/components/buttons/SignOutButton";
+import Link from "next/link";
+import dynamic from "next/dynamic";
 import "./UserArea.scss";
+// import AuthScript from "@/components/script/AuthScript";
 
-export default async function UserArea() {
-  const user = JSON.parse(headers().get("user") as string);
+const AuthScript = dynamic(() => import("@/components/script/AuthScript"), {
+  ssr: false,
+});
 
+export default function UserArea({ user }: any) {
   return (
     <div className="user-area">
       {user ? (

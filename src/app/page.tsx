@@ -1,15 +1,35 @@
-import { headers } from "next/headers";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Link from "next/link";
+import "./page.scss";
+
+import type { Metadata } from "next";
+import BasicMenu from "@/components/ui/BasicMenu";
+
+export const metadata: Metadata = {
+  description: "...",
+};
 
 export default function Home() {
-  // console.log("\n\x1b[34m[/]\x1b[0m");
-  // const user = JSON.parse(headers().get("user") as string);
-
   return (
     <main className="home">
       <section>
-        <h1>card list component</h1>
-        <h1>side menu component</h1>
+        <Container maxWidth="lg">
+          <Box className="test">
+            <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
+              Material UI - Next.js App Router example in TypeScript
+            </Typography>
+            {/* <Link href="/about" color="secondary" component={NextLink}>
+              Go to the about page
+            </Link>
+            <ProTip />
+            <Copyright /> */}
+            <BasicMenu list={[{ name: "sdfsdfsfd" }, { name: "345345" }]} />
+          </Box>
+        </Container>
       </section>
+      <section></section>
     </main>
   );
 }

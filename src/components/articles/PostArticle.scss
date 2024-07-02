@@ -1,14 +1,12 @@
 .post-article {
   min-height: 100vh;
   flex: 1;
-  border: 1px dashed red;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 
   .article-header {
-    // border: 1px dashed green;
     position: relative;
 
     .title,
@@ -23,12 +21,6 @@
       display: flex;
       gap: 1rem;
       margin-top: 1rem;
-    }
-
-    .article-edit-buttons {
-      position: absolute;
-      top: 5px;
-      right: 5px;
     }
   }
 

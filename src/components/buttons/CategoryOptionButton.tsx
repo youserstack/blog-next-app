@@ -1,11 +1,12 @@
 "use client";
 
-import { MouseEvent, useContext, useEffect, useState } from "react";
+import { Modal } from "@mui/material";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { IoIosMore } from "react-icons/io";
+import { MouseEvent, useContext, useState } from "react";
 import { Context } from "@/components/context/Provider";
-import PostCreateButton from "@/components/buttons/PostCreateButton";
-import CategoryDeleteButton from "@/components/buttons/CategoryDeleteButton";
-import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
 import "./CategoryOptionButton.scss";
 
 export default function CategoryOptionButton({
@@ -13,41 +14,41 @@ export default function CategoryOptionButton({
 }: {
   categorySegments: string[] | null;
 }) {
-  const [isClicked, setIsClicked] = useState(false);
-  const { user }: any = useContext(Context);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
+  const handleClose = () => setAnchorEl(null);
 
-  const handleClickOptionButton = (e: MouseEvent) => {
-    e.stopPropagation();
-    setIsClicked(!isClicked);
+  const { setParentCategories, setCurrentModal }: any = useContext(Context);
+  const handleClickCreate = () => {
+    setParentCategories(categorySegments);
+    setCurrentModal("category-create-modal");
+    handleClose();
+  };
+  const handleClickCreatePost = () => {
+    setCurrentModal("post-create-modal");
+    handleClose();
+  };
+  const handleClickDelete = () => {
+    setCurrentModal("category-delete-modal");
+    handleClose();
   };
 
-  useEffect(() => {
-    const handleClick = () => setIsClicked(false);
-    window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
-  }, []);
-
-  if (!user) return null;
-
   return (
-    <div className="category-option-button" onClick={handleClickOptionButton}>
-      <IoIosMore className="more" />
-      {isClicked && (
-        <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
-          <li>
-            <CategoryCreateButton
-              parentCategories={categorySegments}
-              label="create a new category"
-            />
-          </li>
-          <li>
-            <PostCreateButton />
-          </li>
-          <li>
-            <CategoryDeleteButton />
-          </li>
-        </ul>
-      )}
+    <div className="category-option-button">
+      <Button id="basic-button" onClick={handleClick}>
+        <IoIosMore className="more" />
+      </Button>
+
+      <Modal open={open} onClose={handleClose} disableScrollLock hideBackdrop>
+        <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
+          <MenuItem onClick={handleClickCreate}>create a new category</MenuItem>
+          <MenuItem onClick={handleClickCreatePost}>create a post</MenuItem>
+          <MenuItem onClick={handleClickDelete} disabled>
+            delete this category
+          </MenuItem>
+        </Menu>
+      </Modal>
     </div>
   );
 }

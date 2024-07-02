@@ -1,14 +1,11 @@
 import Link from "next/link";
-import { cookies } from "next/headers";
 import "./Etc.scss";
 
-export default function Etc() {
-  const refreshToken = cookies().get("refreshToken");
-
+export default function Etc({ user }: any) {
   return (
     <div className="etc">
       <ul>
-        {refreshToken && (
+        {user && (
           <li>
             <Link href={"/posts/create"}>create a post</Link>
           </li>
