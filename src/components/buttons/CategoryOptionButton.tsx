@@ -1,9 +1,6 @@
 "use client";
 
-import { Modal } from "@mui/material";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import { Button, Menu, MenuItem, Modal } from "@mui/material";
 import { IoIosMore } from "react-icons/io";
 import { MouseEvent, useContext, useState } from "react";
 import { Context } from "@/components/context/Provider";

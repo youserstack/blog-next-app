@@ -14,6 +14,11 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   const [currentModal, setCurrentModal] = useState(""); // 모달창을 스위칭할때 사용한다.
   const router = useRouter();
 
+  // Modal
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const signout = async () => {
     try {
       const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
@@ -65,6 +70,10 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         // 로딩
         isLoading,
         setIsLoading,
+        // 모달
+        open,
+        handleOpen,
+        handleClose,
         // 인증
         user,
         setUser,
