@@ -8,7 +8,7 @@ import { MouseEvent, useState } from "react";
 
 export default function BasicMenu({ label, list }: any) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const isModalOpen = Boolean(anchorEl);
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
@@ -18,8 +18,8 @@ export default function BasicMenu({ label, list }: any) {
       <Button id="basic-button" onClick={handleClick}>
         {label}
       </Button>
-      <Modal open={open} onClose={handleClose} disableScrollLock hideBackdrop>
-        <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
+      <Modal open={isModalOpen} onClose={handleClose} disableScrollLock hideBackdrop>
+        <Menu id="basic-menu" anchorEl={anchorEl} open={isModalOpen} onClose={handleClose}>
           {list.map((item: any) => (
             <MenuItem onClick={handleClose}>{item.name}</MenuItem>
           ))}

@@ -61,10 +61,10 @@ export default async function middleware(request: NextRequest) {
   }
 
   // 인증된 사용자라면 로그인이 필요하지 않으므로 홈페이지로 리다이렉트한다.
-  // if (pathname.startsWith("/auth/signin") && user) {
-  //   console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
-  //   return NextResponse.redirect(new URL("/", request.url));
-  // }
+  if ((pathname.startsWith("/auth/signin") || pathname.startsWith("/auth/signup")) && user) {
+    console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   // configurate the custom header
   // let response = NextResponse.next();

@@ -21,7 +21,7 @@ function Button() {
 
 export default function PostCreateModal() {
   const router = useRouter();
-  const { setCurrentModal }: any = useContext(Context);
+  const { closeModal }: any = useContext(Context);
   const { category }: any = useParams();
   const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
   const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
@@ -53,13 +53,16 @@ export default function PostCreateModal() {
 
   useEffect(() => {
     if (state?.newPost) {
-      setCurrentModal("");
+      closeModal();
       router.refresh();
     }
-  }, [state, setCurrentModal, router]);
+  }, [state, closeModal, router]);
 
   return (
-    <div className="post-create-modal" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="post-create-modal"
+      // onClick={(e) => e.stopPropagation()}
+    >
       <form action={formAction}>
         <select name="category" id="category">
           <option value={categoryPath}>{categoryPath.replaceAll("/", " > ")}</option>

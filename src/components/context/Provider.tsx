@@ -6,18 +6,22 @@ import { createContext, useEffect, useState } from "react";
 export const Context = createContext({});
 
 export default function Provider({ children }: { children: React.ReactNode }) {
+  // Loading
   const [isLoading, setIsLoading] = useState(false);
+
+  // Modal
+  const [modal, setModal] = useState("");
+  const openModal = (type: string) => setModal(type);
+  const closeModal = () => setModal("");
+
+  // Auth
   const [user, setUser] = useState(null);
+
+  //
   const [categories, setCategories] = useState([]); // 서버로부터 요청한 카테고리 데이터를 이곳에 저장한다.
   const [parentCategories, setParentCategories] = useState<string[]>([]); // 새 카테고리 항목을 생성할때 사용한다.
   const [categoryPaths, setCategoryPaths] = useState<string[]>([]); // 전체 카테고리 경로이고 새 포스트 글을 생성할때 해당 카테고리를 지정해야하는데 그때에 사용한다.
-  const [currentModal, setCurrentModal] = useState(""); // 모달창을 스위칭할때 사용한다.
   const router = useRouter();
-
-  // Modal
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const signout = async () => {
     try {
@@ -71,9 +75,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         isLoading,
         setIsLoading,
         // 모달
-        open,
-        handleOpen,
-        handleClose,
+        modal,
+        openModal,
+        closeModal,
         // 인증
         user,
         setUser,
@@ -85,9 +89,6 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         setCategoryPaths,
         setParentCategories,
         setCategories,
-        // 모달창
-        currentModal,
-        setCurrentModal,
       }}
     >
       {children}

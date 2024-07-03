@@ -2,18 +2,18 @@
 
 import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
+import { Modal } from "@mui/material";
 import PostCreateModal from "@/components/modals/PostCreateModal";
 import CategoryCreateModal from "@/components/modals/CategoryCreateModal";
 import CategoryDeleteModal from "@/components/modals/CategoryDeleteModal";
-import { Modal } from "@mui/material";
 
 export default function GlobalModal() {
-  const { open, handleClose, currentModal }: any = useContext(Context);
+  const { modal, closeModal }: any = useContext(Context);
 
   return (
     <Modal
-      open={open}
-      onClose={handleClose}
+      open={modal}
+      onClose={closeModal}
       disableScrollLock
       sx={{
         display: "flex",
@@ -21,21 +21,13 @@ export default function GlobalModal() {
         alignItems: "center",
         zIndex: "999999",
       }}
-      slotProps={{
-        backdrop: {
-          sx: {
-            backgroundColor: "rgba(0,0,0,0.2)",
-          },
-        },
-      }}
+      slotProps={{ backdrop: { sx: { backgroundColor: "rgba(0,0,0,0.2)" } } }}
     >
       <>
-        {currentModal === "post-create-modal" && <PostCreateModal />}
-        {currentModal === "category-create-modal" && <CategoryCreateModal />}
-        {currentModal === "category-delete-modal" && <CategoryDeleteModal />}
+        {modal === "post-create-modal" && <PostCreateModal />}
+        {modal === "category-create-modal" && <CategoryCreateModal />}
+        {modal === "category-delete-modal" && <CategoryDeleteModal />}
       </>
     </Modal>
-    // <div className="modal-layer" onClick={() => setCurrentModal("")}>
-    // </div>
   );
 }

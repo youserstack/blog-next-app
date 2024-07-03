@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Context } from "@/components/context/Provider";
 import { deleteCategory } from "@/lib/utils/fetchers/deleters";
@@ -12,7 +12,7 @@ export default function CategoryDeleteModal() {
   const params = useParams();
   const categories = (params.category as string[]).map((v: string) => decodeURI(v));
   const parentCategories = categories.slice(0, -1);
-  const { setCurrentModal, categoryPaths }: any = useContext(Context);
+  const { closeModal, categoryPaths }: any = useContext(Context);
   // console.log({ categories, categoryPaths });
 
   const handleClickDeleteButton = async () => {
@@ -29,8 +29,8 @@ export default function CategoryDeleteModal() {
         return { error: error };
       }
 
-      console.log("토큰갱신 > 재요청 > 카테고리 삭제", { deletedCategory });
-      setCurrentModal("");
+      console.log("재요청", { deletedCategory });
+      closeModal();
       // 최상위 카테고리인 경우는 카테고리 홈경로(categoryPaths[0])로 이동한다.
       // 이외는 부모 카테고리로 이동한다.
       !parentCategories.length
@@ -43,8 +43,8 @@ export default function CategoryDeleteModal() {
       return { error: error };
     }
 
-    console.log("카테고리 삭제 완료", { deletedCategory });
-    setCurrentModal("");
+    console.log({ deletedCategory });
+    closeModal();
     // 최상위 카테고리인 경우는 카테고리 홈경로(categoryPaths[0])로 이동한다.
     // 이외는 부모 카테고리로 이동한다.
     !parentCategories.length
@@ -54,7 +54,7 @@ export default function CategoryDeleteModal() {
     return { deletedCategory };
   };
 
-  const handleClickCancelButton = () => setCurrentModal("");
+  const handleClickCancelButton = () => closeModal();
 
   return (
     <div className="category-delete-modal" onClick={(e) => e.stopPropagation()}>

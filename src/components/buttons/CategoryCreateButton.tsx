@@ -11,17 +11,18 @@ export default function CategoryCreateButton({
   parentCategories: string[] | null;
   label: string;
 }) {
-  const { user, setParentCategories, setCurrentModal }: any = useContext(Context);
-
-  const handleClick = (e: any) => {
-    setParentCategories(parentCategories);
-    setCurrentModal("category-create-modal");
-  };
+  const { user, setParentCategories, openModal }: any = useContext(Context);
 
   if (!user) return null;
 
   return (
-    <button className="category-create-button" onClick={handleClick}>
+    <button
+      className="category-create-button"
+      onClick={() => {
+        setParentCategories(parentCategories);
+        openModal("category-create-modal");
+      }}
+    >
       {label}
     </button>
   );

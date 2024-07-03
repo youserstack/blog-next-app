@@ -6,7 +6,6 @@ import "./page.scss";
 
 import type { Metadata } from "next";
 import BasicMenu from "@/components/ui/BasicMenu";
-import MenuIntroduction from "@/components/ui/Test";
 
 export const metadata: Metadata = {
   description: "...",
@@ -25,9 +24,7 @@ export default function Home() {
           </Box>
         </Container>
       </section> */}
-      <section>
-        <MenuIntroduction />
-      </section>
+      <section></section>
     </main>
   );
 }
