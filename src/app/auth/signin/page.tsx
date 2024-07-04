@@ -9,22 +9,15 @@ import "./page.scss";
 
 export default function Signin() {
   const router = useRouter();
-
-  const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
-    const { error, accessToken } = await signinAction(formData);
-
-    if (error) {
-      return { error };
-    } else {
-      localStorage.setItem("accessToken", accessToken);
-      router.refresh();
-      return { accessToken };
-    }
-  }, null);
+  const [state, formAction] = useFormState(signinAction, null);
 
   useEffect(() => {
-    if (state?.accessToken) router.back();
-  }, [state]);
+    if (state?.accessToken) {
+      localStorage.setItem("accessToken", state.accessToken);
+      router.refresh();
+    }
+    // if (state?.accessToken) router.back();
+  }, [state, router]);
 
   return (
     <main className="signin-page">

@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -40,13 +41,9 @@ export async function updatePostAction(formData: FormData, postId: string, acces
   return response.json();
 }
 
-export async function signinAction(formData: FormData) {
-  const email = formData.get("email");
-  const password = formData.get("password");
-  const response = await fetch(`${process.env.ROOT_URL}/api/auth/signin`, {
-    method: "POST",
-    body: JSON.stringify({ email, password }),
-  });
+export async function signinAction(prevState: any, formData: FormData) {
+  const url = `${process.env.ROOT_URL}/api/auth/signin`;
+  const response = await fetch(url, { method: "POST", body: formData });
   const { error, accessToken, refreshToken } = await response.json();
 
   // client browser localStorage에 accessToken을 저장시키기 위해서 새로운 객체를 리턴한다.
@@ -72,5 +69,4 @@ export async function signupAction(previousState: any, formData: FormData) {
 
   if (!response.ok) return { error };
   else return { newUser };
-  // redirect("/auth/signin");
 }
