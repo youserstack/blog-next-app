@@ -1,87 +1,111 @@
 .nav {
+  // rootCategories
   .categories {
     display: flex;
-    .category,
-    .category-create-button {
+    .category {
+      height: 100%;
       position: relative;
+      padding: 0;
       &:hover .sub1-categories {
         display: block;
       }
     }
-    .category-create-button {
-      background-color: var(--createColor-blue);
-    }
-    li {
-      display: flex;
+  }
 
-      a,
-      button {
-        flex: 1;
-        padding: 0 10px;
+  // sub1Categories
+  .sub1-categories {
+    display: none;
+    position: absolute;
+    top: 100%;
+    .sub1-category {
+      position: relative;
+      &:hover .sub2-categories {
+        display: block;
+      }
+    }
+  }
+
+  // sub2Categories
+  .sub2-categories {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+  }
+
+  ul.categories {
+    padding: 0;
+    li.category {
+      padding: 0;
+
+      > a,
+      > button {
+        padding: 0 1rem;
       }
     }
 
-    .sub1-categories {
-      display: none;
-      position: absolute;
-      top: 100%;
-      background-color: #fff;
-      transform: translateX(-1px);
-      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-      .sub1-category {
-        position: relative;
-        &:last-of-type {
-          border-bottom: none;
-        }
-        &:hover {
-          background-color: #eee;
-          .sub2-categories {
-            display: block;
-          }
-        }
-        a {
-          padding: 10px;
-        }
-      }
+    ul {
+      padding: 0;
 
-      .sub2-categories {
-        display: none;
-        position: absolute;
-        left: 100%;
-        top: 0;
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        background-color: #fff;
-        .sub2-category {
-          &:hover {
-            background-color: #eee;
-          }
+      li {
+        padding: 0;
+        display: flex;
+
+        a,
+        button {
+          padding: 1rem;
+          flex: 1;
         }
       }
     }
   }
 }
 
-html {
-  body.light {
-    .nav {
-      .category,
-      .category-create-button {
-        &:hover {
-          background-color: var(--backgroundColor-white);
-          color: var(--foregroundColor-black);
-        }
-      }
-    }
-  }
-  body.dark {
-    .nav {
-      .category,
-      .category-create-button {
-        &:hover {
-          background-color: var(--backgroundColor-offWhite);
-          color: var(--foregroundColor-offBlack);
-        }
-      }
+body.light {
+  li.sub1-category,
+  li.sub2-category {
+    background-color: var(--backgroundColor-white);
+    color: var(--color-black);
+    &:hover {
+      background-color: var(--backgroundColor-gray);
+      color: var(--color-white);
     }
   }
 }
+
+body.dark {
+  li.sub1-category,
+  li.sub2-category {
+    background-color: var(--backgroundColor-gray);
+    color: var(--color-white);
+    &:hover {
+      background-color: var(--backgroundColor-offWhite);
+      color: var(--color-black);
+    }
+  }
+}
+
+// html {
+//   body.light {
+//     .nav {
+//       .category,
+//       .category-create-button {
+//         &:hover {
+//           background-color: var(--backgroundColor-white);
+//           color: var(--foregroundColor-black);
+//         }
+//       }
+//     }
+//   }
+//   body.dark {
+//     .nav {
+//       .category,
+//       .category-create-button {
+//         &:hover {
+//           background-color: var(--backgroundColor-offWhite);
+//           color: var(--foregroundColor-offBlack);
+//         }
+//       }
+//     }
+//   }
+// }

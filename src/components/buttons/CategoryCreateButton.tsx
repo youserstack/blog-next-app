@@ -11,9 +11,7 @@ export default function CategoryCreateButton({
   parentCategories: string[] | null;
   label: string;
 }) {
-  const { user, setParentCategories, openModal }: any = useContext(Context);
-
-  if (!user) return null;
+  const { setParentCategories, openModal }: any = useContext(Context);
 
   return (
     <button
