@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { MouseEventHandler, useEffect } from "react";
+import { MouseEventHandler } from "react";
 import { useParams } from "next/navigation";
 import { SlArrowRight } from "react-icons/sl";
+import { List, ListItem } from "@mui/material";
 import "./SideNav.scss";
 
 export default function SideNav({ categories }: any) {
@@ -33,7 +34,7 @@ export default function SideNav({ categories }: any) {
 
   return (
     <nav className="side-nav">
-      <ul className="categories">
+      <ul className="root-categories">
         {/* rootCategories */}
         {categories.map((category: any) => {
           const rootCategoryName = category.name;

@@ -9,10 +9,10 @@ export default function ThemeToggle() {
   // 테마모드 초기화
   const { theme, setTheme, toggleTheme }: any = useContext(Context);
 
-  useEffect(() => {
-    const osTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    setTheme(osTheme);
-  }, []);
+  // useEffect(() => {
+  //   const osTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  //   setTheme(osTheme);
+  // }, []);
 
   // 운영체제에 의한 테마변경
   useEffect(() => {

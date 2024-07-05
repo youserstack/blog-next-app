@@ -27,8 +27,6 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <Provider>
-          {/* <CssBaseline /> */}
-
           {/* server components */}
           <Header />
           {children}
