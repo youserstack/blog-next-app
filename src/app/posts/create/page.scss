@@ -33,7 +33,7 @@ html {
       form input {
         background-color: var(--backgroundColor-gray);
         &::placeholder {
-          color: var(--foregroundColor-white);
+          color: var(--color-white);
         }
       }
     }

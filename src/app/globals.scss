@@ -14,11 +14,10 @@
   --backgroundColor-white: #fff;
   --backgroundColor-offWhite: #eee;
 
-  --foregroundColor-black: #000;
-  --foregroundColor-offBlack: #222;
-  --foregroundColor-white: #fff;
-  --foregroundColor-offWhite: #eee;
+  --color-black: #000;
+  --color-offBlack: #222;
   --color-white: #fff;
+  --color-offWhite: #eee;
 
   --hoverColor-blue: #0072f5;
   --tempColor-gray: gray;
@@ -26,47 +25,6 @@
   --createColor-green: mediumseagreen;
   --updateColor-coral: #ff7f50;
   --deleteColor-red: #d9534f;
-}
-
-// theme
-html {
-  body {
-    transition: background-color 1s;
-  }
-
-  // custom theme mode
-  body.light {
-    background-color: var(--backgroundColor-white);
-    color: var(--foregroundColor-black);
-    header,
-    footer {
-      background-color: var(--backgroundColor-offWhite);
-      color: var(--foregroundColor-offBlack);
-    }
-  }
-  body.dark {
-    background-color: var(--backgroundColor-darkGray);
-    color: var(--foregroundColor-offWhite);
-    header,
-    footer {
-      background-color: var(--backgroundColor-offBlack);
-      color: var(--foregroundColor-offWhite);
-    }
-  }
-
-  // depend on os theme mode
-  // @media (prefers-color-scheme: light) {
-  //   body.light {
-  //     background-color: var(--backgroundColor-white);
-  //     color: var(--foregroundColor-black);
-  //   }
-  // }
-  // @media (prefers-color-scheme: dark) {
-  //   body.dark {
-  //     background-color: var(--backgroundColor-darkGray);
-  //     color: var(--foregroundColor-offWhite);
-  //   }
-  // }
 }
 
 // layout

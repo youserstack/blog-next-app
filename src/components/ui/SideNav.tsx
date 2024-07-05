@@ -4,7 +4,7 @@ import Link from "next/link";
 import { MouseEventHandler } from "react";
 import { useParams } from "next/navigation";
 import { SlArrowRight } from "react-icons/sl";
-import { List, ListItem } from "@mui/material";
+import { List, ListItem, Paper } from "@mui/material";
 import "./SideNav.scss";
 
 export default function SideNav({ categories }: any) {

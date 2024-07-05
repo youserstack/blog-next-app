@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 
@@ -99,9 +99,10 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         setCategories,
       }}
     >
-      {/* <CssBaseline /> */}
-
-      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>{children}</ThemeProvider>
+      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+        <CssBaseline enableColorScheme />
+        {children}
+      </ThemeProvider>
     </Context.Provider>
   );
 }
