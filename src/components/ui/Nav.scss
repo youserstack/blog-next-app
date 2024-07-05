@@ -64,11 +64,8 @@
 body.light {
   li.sub1-category,
   li.sub2-category {
-    background-color: var(--backgroundColor-white);
-    color: var(--color-black);
     &:hover {
-      background-color: var(--backgroundColor-gray);
-      color: var(--color-white);
+      background-color: var(--backgroundColor-offWhite);
     }
   }
 }
@@ -76,36 +73,8 @@ body.light {
 body.dark {
   li.sub1-category,
   li.sub2-category {
-    background-color: var(--backgroundColor-gray);
-    color: var(--color-white);
     &:hover {
-      background-color: var(--backgroundColor-offWhite);
-      color: var(--color-black);
+      background-color: var(--backgroundColor-darkGray);
     }
   }
 }
-
-// html {
-//   body.light {
-//     .nav {
-//       .category,
-//       .category-create-button {
-//         &:hover {
-//           background-color: var(--backgroundColor-white);
-//           color: var(--foregroundColor-black);
-//         }
-//       }
-//     }
-//   }
-//   body.dark {
-//     .nav {
-//       .category,
-//       .category-create-button {
-//         &:hover {
-//           background-color: var(--backgroundColor-offWhite);
-//           color: var(--foregroundColor-offBlack);
-//         }
-//       }
-//     }
-//   }
-// }

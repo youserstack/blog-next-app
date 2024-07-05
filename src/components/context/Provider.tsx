@@ -2,10 +2,26 @@
 
 import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const lightTheme = createTheme({
+  palette: {
+    mode: "light",
+  },
+});
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 export const Context = createContext({});
 
 export default function Provider({ children }: { children: React.ReactNode }) {
+  // Theme
+  const [theme, setTheme] = useState("light");
+  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+
   // Loading
   const [isLoading, setIsLoading] = useState(false);
 
@@ -47,7 +63,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error.message || "accessToken 갱신을 실패했습니다.");
+        throw new Error(data.error || "accessToken 갱신을 실패했습니다.");
       } else {
         localStorage.setItem("accessToken", data.newAccessToken);
       }
@@ -71,6 +87,10 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   return (
     <Context.Provider
       value={{
+        // 테마
+        theme,
+        setTheme,
+        toggleTheme,
         // 로딩
         isLoading,
         setIsLoading,
@@ -91,7 +111,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         setCategories,
       }}
     >
-      {children}
+      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>{children}</ThemeProvider>
     </Context.Provider>
   );
 }
