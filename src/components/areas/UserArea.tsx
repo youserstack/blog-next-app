@@ -1,13 +1,7 @@
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import SignOutButton from "@/components/buttons/SignOutButton";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import "./UserArea.scss";
-// import AuthScript from "@/components/script/AuthScript";
-
-const AuthScript = dynamic(() => import("@/components/script/AuthScript"), {
-  ssr: false,
-});
 
 export default function UserArea({ user }: any) {
   return (
@@ -25,7 +19,6 @@ export default function UserArea({ user }: any) {
         </>
       )}
       <ThemeToggle />
-      <AuthScript user={user} />
     </div>
   );
 }

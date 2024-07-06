@@ -38,7 +38,7 @@ export default function SearchBar() {
             {...params}
             fullWidth
             variant="filled"
-            sx={{ "& .MuiInputBase-root": { padding: "2px 4px" } }}
+            sx={{ "& .MuiInputBase-root": { padding: "2px 4px" }, backgroundColor: "white" }}
             onChange={(e) => setSearchWords(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {

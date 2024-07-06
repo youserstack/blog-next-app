@@ -1,9 +1,9 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { IoIosMoon, IoIosSunny } from "react-icons/io";
-import "./ThemeToggle.scss";
 import { Context } from "@/components/context/Provider";
+import "./ThemeToggle.scss";
 
 export default function ThemeToggle() {
   // 테마모드 초기화

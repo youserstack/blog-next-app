@@ -38,18 +38,19 @@ export default function SideNav({ categories }: any) {
         {categories.map((category: any) => {
           const rootCategoryName = category.name;
           const rootCategoryLabel = rootCategoryName.replaceAll("-", " ");
-          const categoryPath = `/categories/${rootCategoryName}`;
+          const rootCategoryPath = `/categories/${rootCategoryName}`;
           const isMatched =
             categorySegments.length >= 1 && rootCategoryName === categorySegments[0];
           const isLeaf = rootCategoryName === categorySegments[categorySegments.length - 1];
+          console.log({ rootCategoryPath });
           return (
             <li
               className="category"
-              key={categoryPath}
+              key={rootCategoryPath}
               data-is-expanded={isMatched ? "true" : "false"}
             >
               <Link
-                href={categoryPath}
+                href={rootCategoryPath}
                 onClick={handleClick}
                 style={{ color: isLeaf ? "#0072f5" : "initial" }}
               >
@@ -67,18 +68,19 @@ export default function SideNav({ categories }: any) {
                 {category.sub1Categories?.map((sub1Category: any) => {
                   const sub1CategoryName = sub1Category.name;
                   const sub1CategoryLabel = sub1CategoryName.replaceAll("-", " ");
-                  const categoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}`;
+                  const sub1CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}`;
                   const isMatched =
                     categorySegments.length >= 2 && sub1CategoryName === categorySegments[1];
                   const isLeaf = sub1CategoryName === categorySegments[categorySegments.length - 1];
+                  console.log({ sub1CategoryPath });
                   return (
                     <li
                       className="sub1-category"
-                      key={categoryPath}
+                      key={sub1CategoryPath}
                       data-is-expanded={isMatched ? "true" : "false"}
                     >
                       <Link
-                        href={categoryPath}
+                        href={sub1CategoryPath}
                         onClick={handleClick}
                         style={{ color: isLeaf ? "#0072f5" : "initial" }}
                       >
@@ -99,13 +101,14 @@ export default function SideNav({ categories }: any) {
                         {sub1Category.sub2Categories?.map((sub2Category: any) => {
                           const sub2CategoryName = sub2Category.name;
                           const sub2CategoryLabel = sub2CategoryName.replaceAll("-", " ");
-                          const sub2Path = `/categories/${rootCategoryName}/${sub1CategoryName}/${sub2CategoryName}`;
+                          const sub2CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}/${sub2CategoryName}`;
                           const isLeaf =
                             sub2CategoryName === categorySegments[categorySegments.length - 1];
+                          console.log({ sub2CategoryPath });
                           return (
-                            <li className="sub2-category" key={sub2Path}>
+                            <li className="sub2-category" key={sub2CategoryPath}>
                               <Link
-                                href={sub2Path}
+                                href={sub2CategoryPath}
                                 style={{ color: isLeaf ? "#0072f5" : "initial" }}
                               >
                                 <span>{sub2CategoryLabel}</span>

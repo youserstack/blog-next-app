@@ -11,10 +11,18 @@ export async function POST(request: Request) {
   // extract
   const formData = await request.formData();
   const parentCategories = JSON.parse(formData.get("parentCategories") as string);
+  const isEmptyString = (formData.get("childCategory") as string).trim();
+  if (!isEmptyString) {
+    return Response.json({ error: "Empty String" }, { status: 400 });
+  }
   const childCategory = (formData.get("childCategory") as string).replace(/\s+/g, "-");
 
   // 부모 카테고리 0개 (최상위로서 네비게이션메뉴에서 카테고리를 생성한 경우)
   if (parentCategories.length === 0) {
+    // 루트 카테고리에서 중복 확인
+    const rootCategory = await Category.findOne({ name: childCategory });
+    if (rootCategory) return Response.json({ error: "카테고리 중복" }, { status: 409 }); // 409 Conflict
+
     const newCategory = await Category.create({ name: childCategory });
     console.log({ newCategory });
     return Response.json({ newCategoryPath: `/${childCategory}` }, { status: 200 });
@@ -22,13 +30,16 @@ export async function POST(request: Request) {
 
   // 부모 카테고리 1개
   if (parentCategories.length === 1) {
-    // Find the category
-    const foundCategory = await Category.findOne({ name: parentCategories[0] });
-    if (!foundCategory) return Response.json({ error: "no category" }, { status: 404 });
+    const rootCategory = await Category.findOne({ name: parentCategories[0] });
+    if (!rootCategory) return Response.json({ error: "no category" }, { status: 404 });
+
+    // 서브1 카테고리에서 중복 확인
+    const sub1Category = rootCategory.sub1Categories.some((sub: any) => sub.name === childCategory);
+    if (sub1Category) return Response.json({ error: "카테고리 중복" }, { status: 409 }); // 409 Conflict
 
     // Set the category
-    foundCategory.sub1Categories.push({ name: childCategory, sub2Categories: [] });
-    const savedCategory = await foundCategory.save();
+    rootCategory.sub1Categories.push({ name: childCategory, sub2Categories: [] });
+    const savedCategory = await rootCategory.save();
     console.log({ savedCategory });
 
     return Response.json(
@@ -39,20 +50,22 @@ export async function POST(request: Request) {
 
   // 부모 카테고리 2개
   if (parentCategories.length === 2) {
-    // Find the category
-    const foundCategory = await Category.findOne({ name: parentCategories[0] });
+    const rootCategory = await Category.findOne({ name: parentCategories[0] });
+    if (!rootCategory) return Response.json({ error: "no category" }, { status: 404 });
 
-    // Find the sub1category
-    const foundSub1Category = foundCategory.sub1Categories.find(
+    const sub1Category = rootCategory.sub1Categories.find(
       (v: any) => v.name === parentCategories[1]
     );
-    if (!foundSub1Category)
-      return Response.json({ error: "no foundSub1Category" }, { status: 404 });
-    console.log({ foundSub1Category });
+    if (!sub1Category) return Response.json({ error: "no sub1Category" }, { status: 404 });
+
+    // 서브2 카테고리에서 중복 확인
+    const sub2Category = sub1Category.sub2Categories.some((sub: any) => sub.name === childCategory);
+    if (sub2Category)
+      return Response.json({ error: "Sub-sub-category already exists" }, { status: 409 }); // 409 Conflict
 
     // Set the category
-    foundSub1Category.sub2Categories.push({ name: childCategory });
-    const savedCategory = await foundCategory.save();
+    sub1Category.sub2Categories.push({ name: childCategory });
+    const savedCategory = await rootCategory.save();
     console.log({ savedCategory });
 
     return Response.json(

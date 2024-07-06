@@ -8,9 +8,11 @@ import { headers } from "next/headers";
 import dynamic from "next/dynamic";
 import AppBar from "@mui/material/AppBar";
 
-// import HeaderScript from "@/components/script/HeaderScript";
-
 const HeaderScript = dynamic(() => import("@/components/script/HeaderScript"), {
+  ssr: false,
+});
+
+const AuthScript = dynamic(() => import("@/components/script/AuthScript"), {
   ssr: false,
 });
 
@@ -21,23 +23,22 @@ export default async function Header() {
   return (
     <header>
       <AppBar component="nav">
-        <div className="header-upper-wrapper">
-          <section className="header-upper">
-            <h1>
-              <Link href={"/"}>blog</Link>
-            </h1>
-            <SearchBar />
-            <UserArea user={user} />
-          </section>
-        </div>
-        <div className="header-lower-wrapper">
-          <section className="header-lower">
-            <Nav categories={categories} user={user} />
-            <Etc user={user} />
-          </section>
-        </div>
+        <section className="header-upper">
+          <h1>
+            <Link href={"/"}>blog</Link>
+          </h1>
+          <SearchBar />
+          <UserArea user={user} />
+        </section>
+        <section className="header-lower">
+          <Nav categories={categories} user={user} />
+          <Etc user={user} />
+        </section>
       </AppBar>
+
+      {/* scripts */}
       <HeaderScript />
+      <AuthScript user={user} />
     </header>
   );
 }

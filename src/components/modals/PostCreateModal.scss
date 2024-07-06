@@ -2,14 +2,11 @@
   min-width: 500px;
   min-height: 500px;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    input#image {
-      display: none;
-    }
+  input#image {
+    display: none;
   }
 }

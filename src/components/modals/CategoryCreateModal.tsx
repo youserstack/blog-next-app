@@ -6,6 +6,10 @@ import { Context } from "@/components/context/Provider";
 import { useFormState } from "react-dom";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createCategoryAction } from "@/app/actions";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import "./CategoryCreateModal.scss";
 
 export default function CategoryCreateModal() {
@@ -37,18 +41,15 @@ export default function CategoryCreateModal() {
     }
     if (state?.error) {
       console.error({ error: state.error });
-      closeModal();
+      // closeModal();
     }
   }, [state, closeModal, router]);
 
   return (
-    <div className="category-create-modal">
-      <h3>새 카테고리 생성</h3>
-      <small>생성할 새 카테고리 이름을 작성하세요.</small>
-      <form action={formAction}>
-        <input type="text" name="childCategory" />
-        <button type="submit">add</button>
-      </form>
-    </div>
+    <Paper component={"form"} className="category-create-modal" elevation={5} action={formAction}>
+      <Typography variant="h5">카테고리 생성</Typography>
+      <TextField type="text" name="childCategory" label="카테고리" required />
+      <Button type="submit">생성</Button>
+    </Paper>
   );
 }

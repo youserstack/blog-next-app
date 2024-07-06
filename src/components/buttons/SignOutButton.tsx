@@ -2,14 +2,18 @@
 
 import { useContext } from "react";
 import { Context } from "@/components/context/Provider";
-import "./SignOutButton.scss";
+import Button from "@mui/material/Button";
 
 export default function SignOutButton() {
   const { signout }: any = useContext(Context);
 
   return (
-    <button className="sign-out-button" onClick={signout}>
+    <Button
+      className="sign-out-button"
+      onClick={signout}
+      sx={{ color: "white", whiteSpace: "nowrap" }}
+    >
       sign out
-    </button>
+    </Button>
   );
 }
