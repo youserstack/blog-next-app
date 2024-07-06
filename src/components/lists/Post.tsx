@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import Card from "@mui/material/Card";
 import "./Post.scss";
 
 export default function Post({ post }: any) {
   return (
-    <li className="post">
+    <Card component={"li"} className="post">
       <Link href={`/posts/${post._id}`}>
         <div className="details">
           <div className="details-header">
@@ -26,6 +27,6 @@ export default function Post({ post }: any) {
           )}
         </div>
       </Link>
-    </li>
+    </Card>
   );
 }

@@ -4,7 +4,7 @@ import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { signinAction } from "@/app/actions";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Paper, TextField } from "@mui/material";
 import "./page.scss";
 
 export default function Signin() {
@@ -22,10 +22,10 @@ export default function Signin() {
   return (
     <main className="signin-page">
       <section>
-        <Box
+        <Paper
           component={"form"}
           action={formAction}
-          sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          sx={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "5rem" }}
         >
           <TextField
             id="outlined-basic"
@@ -46,7 +46,7 @@ export default function Signin() {
             required
           />
           <Button type="submit">sign in</Button>
-        </Box>
+        </Paper>
         {state?.error && (
           <>
             <p>{state.error}</p>

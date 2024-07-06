@@ -25,6 +25,9 @@
   }
 
   .article-body {
+    .thumbnail {
+      height: 500px;
+    }
     .content {
       white-space: break-spaces;
     }
