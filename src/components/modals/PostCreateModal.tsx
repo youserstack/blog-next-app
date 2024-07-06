@@ -6,16 +6,23 @@ import { useFormState, useFormStatus } from "react-dom";
 import { useParams, useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
-import { FcAddImage } from "react-icons/fc";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import Paper from "@mui/material/Paper";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
+import { MdCloudUpload } from "react-icons/md";
 import "./PostCreateModal.scss";
 
-function Button() {
+function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <button type="submit" disabled={pending}>
-      publish (게시하기)
-    </button>
+    <Button type="submit" disabled={pending} variant="contained">
+      {pending ? "게시중..." : "게시하기"}
+    </Button>
   );
 }
 
@@ -59,24 +66,60 @@ export default function PostCreateModal() {
   }, [state, closeModal, router]);
 
   return (
-    <div
-      className="post-create-modal"
-      // onClick={(e) => e.stopPropagation()}
-    >
+    <Paper className="post-create-modal" elevation={5}>
       <form action={formAction}>
-        <select name="category" id="category">
-          <option value={categoryPath}>{categoryPath.replaceAll("/", " > ")}</option>
-        </select>
-        <input type="text" name="title" placeholder="title" />
-        <textarea name="content" placeholder="content" />
-        <input type="text" name="tags" placeholder="tags" />
+        <FormControl>
+          <Select value={categoryPath} name="category" id="category">
+            <MenuItem value={categoryPath}>{categoryPath.replaceAll("/", " > ")}</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField type="text" name="title" label="제목" />
+        <TextField type="text" name="content" label="내용" minRows={10} multiline />
+        <TextField
+          type="text"
+          name="tags"
+          label="태그를 comma로 나열해주세요. (예시 spring,summer)"
+        />
         <input type="file" name="image" id="image" />
-        <label htmlFor="image">
-          <FcAddImage size={30} />
-        </label>
+        <Button
+          component="label"
+          role={undefined}
+          variant="contained"
+          startIcon={<MdCloudUpload />}
+          htmlFor="image"
+        >
+          이미지 업로드
+        </Button>
 
-        <Button />
+        <SubmitButton />
       </form>
-    </div>
+    </Paper>
   );
+  // return (
+  //   <Paper className="post-create-modal" elevation={5}>
+  //     <form action={formAction}>
+  //       <select
+  //         name="category"
+  //         id="category"
+  //         className="MuiSelect-root MuiSelect-outlined MuiInputBase-input"
+  //       >
+  //         <option value={categoryPath}>{categoryPath.replaceAll("/", " > ")}</option>
+  //       </select>
+  //       <input
+  //         type="text"
+  //         name="title"
+  //         placeholder="title"
+  //         className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-input"
+  //       />
+  //       <textarea name="content" placeholder="content" />
+  //       <input type="text" name="tags" placeholder="tags" />
+  //       <input type="file" name="image" id="image" />
+  //       <label htmlFor="image">
+  //         <FcAddImage size={30} />
+  //       </label>
+
+  //       <Button />
+  //     </form>
+  //   </Paper>
+  // );
 }

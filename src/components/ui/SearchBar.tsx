@@ -29,12 +29,8 @@ export default function SearchBar() {
         fullWidth
         freeSolo
         sx={{
-          "& .MuiAutocomplete-endAdornment": {
-            padding: 0, // Autocomplete의 endAdornment padding 조정
-          },
-          "& .MuiAutocomplete-popupIndicator": {
-            padding: 0, // Autocomplete의 popupIndicator padding 조정
-          },
+          "& .MuiAutocomplete-endAdornment": { padding: 0 }, // Autocomplete의 endAdornment padding 조정
+          "& .MuiAutocomplete-popupIndicator": { padding: 0 }, // Autocomplete의 popupIndicator padding 조정
         }}
         clearIcon={false}
         renderInput={(params) => (
@@ -48,7 +44,6 @@ export default function SearchBar() {
               if (e.key === "Enter") {
                 e.preventDefault();
                 search();
-                console.log({ searchWords });
               }
             }}
           />
