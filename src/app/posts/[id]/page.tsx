@@ -19,7 +19,6 @@ export default async function PostId({ params: { id: postId } }: { params: { id:
       <section>
         <PostArticle post={post} />
       </section>
-      <section></section>
     </main>
   );
 }

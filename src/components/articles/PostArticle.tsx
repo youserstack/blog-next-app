@@ -3,12 +3,13 @@ import CommentCreateForm from "@/components/forms/CommentCreateForm";
 import CommentList from "@/components/lists/CommentList";
 import Image from "next/image";
 import "./PostArticle.scss";
+import Paper from "@mui/material/Paper";
 
 export default function PostArticle({ post }: any) {
   if (!post) return null;
 
   return (
-    <article className="post-article">
+    <Paper component={"article"} className="post-article" variant="outlined">
       <div className="article-header">
         <h1 className="title">{post.title}</h1>
         <div className="info">
@@ -28,6 +29,6 @@ export default function PostArticle({ post }: any) {
         <CommentCreateForm authorImage={post.author?.image} postId={post._id} />
         <CommentList postId={post._id} />
       </div>
-    </article>
+    </Paper>
   );
 }

@@ -9,6 +9,8 @@ import { createCommentAction } from "@/app/actions";
 import Image from "next/image";
 import Link from "next/link";
 import "./CommentCreateForm.scss";
+import Paper from "@mui/material/Paper";
+import { Button, TextField } from "@mui/material";
 
 export default function CommentCreateForm({
   authorImage,
@@ -47,20 +49,42 @@ export default function CommentCreateForm({
   }, null);
 
   return (
-    <form className="comment-create-form" action={formAction}>
+    <Paper
+      component={"form"}
+      className="comment-create-form"
+      action={formAction}
+      variant="outlined"
+      sx={{
+        padding: "1rem",
+        display: "flex",
+        alignItems: "center",
+        gap: "1rem",
+        "& .author-thumbnail": {
+          width: "30px",
+          height: "30px",
+          borderRadius: "50%",
+          overflow: "hidden",
+          border: "2px solid green",
+          alignSelf: "flex-start",
+        },
+        "& .main": { flex: 1 },
+      }}
+    >
       <div className="author-thumbnail">
         <Image src={authorImage} alt="" width={30} height={30} />
       </div>
-      {user ? (
-        <div className="main">
-          <textarea name="content" placeholder="댓글 추가" maxLength={500} />
-          <button type="submit">등록하기</button>
-        </div>
-      ) : (
-        <div className="main">
-          <Link href={"/auth/signin"}>로그인</Link>
-        </div>
-      )}
-    </form>
+      <div className="main">
+        {user ? (
+          <>
+            <TextField multiline maxRows={30} name="content" fullWidth label="댓글" />
+            <Button type="submit">등록하기</Button>
+          </>
+        ) : (
+          <Button>
+            <Link href={"/auth/signin"}>로그인</Link>
+          </Button>
+        )}
+      </div>
+    </Paper>
   );
 }

@@ -6,6 +6,7 @@ import CommentOptionButton from "@/components/buttons/CommentOptionButton";
 import { useContext, useEffect } from "react";
 import { Context } from "@/components/context/Provider";
 import "./CommentList.scss";
+import { Paper } from "@mui/material";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
@@ -23,7 +24,7 @@ export default function CommentList({ postId }: any) {
   if (isLoading) return null;
 
   return (
-    <ul className="comment-list">
+    <Paper component={"ul"} className="comment-list" variant="outlined" sx={{ padding: "1rem" }}>
       {data?.comments?.map((comment: any) => (
         <li className="comment-item" key={comment._id}>
           <div className="thumbnail">
@@ -44,6 +45,6 @@ export default function CommentList({ postId }: any) {
           <CommentOptionButton commentId={comment._id} postId={comment.post._id} />
         </li>
       ))}
-    </ul>
+    </Paper>
   );
 }

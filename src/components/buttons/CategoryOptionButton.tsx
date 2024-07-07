@@ -15,7 +15,7 @@ export default function CategoryOptionButton({
 }) {
   const { setParentCategories, openModal }: any = useContext(Context);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const isModalOpen = Boolean(anchorEl);
+  const isOpen = Boolean(anchorEl);
 
   const handleOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
@@ -25,12 +25,15 @@ export default function CategoryOptionButton({
       className="category-option-button"
       style={{ position: "relative", display: "flex", alignItems: "center" }}
     >
-      <Button onClick={handleOpen}>
-        <IoIosMore className="more" />
+      <Button
+        onClick={handleOpen}
+        // sx={{ "& .more": { rotate: "90deg" } }}
+      >
+        <IoIosMore size={20} className="more" />
       </Button>
 
-      <Popper open={isModalOpen}>
-        <Menu anchorEl={anchorEl} open={isModalOpen} onClose={handleClose}>
+      <Popper open={isOpen}>
+        <Menu anchorEl={anchorEl} open={isOpen} onClose={handleClose}>
           <MenuItem
             onClick={() => {
               setParentCategories(categorySegments);

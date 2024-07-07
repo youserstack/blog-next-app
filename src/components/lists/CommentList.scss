@@ -1,12 +1,10 @@
 .comment-list {
-  // border: 1px dashed;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
   .comment-item {
     display: flex;
-    background-color: var(--backgroundColor-offWhite);
 
     .thumbnail {
       width: 30px;
