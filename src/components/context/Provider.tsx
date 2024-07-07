@@ -34,6 +34,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   const [categoryPaths, setCategoryPaths] = useState<string[]>([]); // 전체 카테고리 경로이고 새 포스트 글을 생성할때 해당 카테고리를 지정해야하는데 그때에 사용한다.
   const router = useRouter();
 
+  // Dynamic Urls
+  const [dynamicUrl, setDynamicUrl] = useState("");
+
   const signout = useCallback(async () => {
     try {
       const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
@@ -97,6 +100,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         setCategoryPaths,
         setParentCategories,
         setCategories,
+        // 데이터 패칭 URLs
+        dynamicUrl,
+        setDynamicUrl,
       }}
     >
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>

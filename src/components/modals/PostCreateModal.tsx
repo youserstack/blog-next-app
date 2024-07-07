@@ -29,7 +29,7 @@ function SubmitButton() {
 
 export default function PostCreateModal() {
   const router = useRouter();
-  const { closeModal }: any = useContext(Context);
+  const { closeModal, dynamicUrl }: any = useContext(Context);
   const { category }: any = useParams();
   const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
   const url = `${process.env.ROOT_URL}/api/posts?categoryPath=${encodeURIComponent(categoryPath)}`;
@@ -64,7 +64,8 @@ export default function PostCreateModal() {
   useEffect(() => {
     if (state?.newPost) {
       closeModal();
-      mutate("categorized-posts");
+      // mutate("categorized-posts");
+      mutate(dynamicUrl);
     }
   }, [state, closeModal, router]);
 
