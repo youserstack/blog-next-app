@@ -42,7 +42,7 @@ export default function SideNav({ categories }: any) {
           const isMatched =
             categorySegments.length >= 1 && rootCategoryName === categorySegments[0];
           const isLeaf = rootCategoryName === categorySegments[categorySegments.length - 1];
-          console.log({ rootCategoryPath });
+          // console.log({ rootCategoryPath });
           return (
             <li
               className="category"
@@ -72,7 +72,7 @@ export default function SideNav({ categories }: any) {
                   const isMatched =
                     categorySegments.length >= 2 && sub1CategoryName === categorySegments[1];
                   const isLeaf = sub1CategoryName === categorySegments[categorySegments.length - 1];
-                  console.log({ sub1CategoryPath });
+                  // console.log({ sub1CategoryPath });
                   return (
                     <li
                       className="sub1-category"
@@ -104,7 +104,7 @@ export default function SideNav({ categories }: any) {
                           const sub2CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}/${sub2CategoryName}`;
                           const isLeaf =
                             sub2CategoryName === categorySegments[categorySegments.length - 1];
-                          console.log({ sub2CategoryPath });
+                          // console.log({ sub2CategoryPath });
                           return (
                             <li className="sub2-category" key={sub2CategoryPath}>
                               <Link

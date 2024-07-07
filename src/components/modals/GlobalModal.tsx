@@ -19,7 +19,6 @@ export default function GlobalModal() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        // zIndex: "999999",
       }}
       slotProps={{ backdrop: { sx: { backgroundColor: "rgba(0,0,0,0.2)" } } }}
     >

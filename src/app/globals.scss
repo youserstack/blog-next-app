@@ -40,7 +40,6 @@ html {
     left: 0;
     right: 0;
     transition: all 1s;
-    z-index: 10000;
 
     .header-upper,
     .header-lower {
@@ -144,5 +143,23 @@ html {
   input {
     border: none;
     outline: none;
+  }
+}
+
+// layer
+html {
+  body {
+    header {
+      z-index: 10000;
+    }
+  }
+
+  .loading {
+    z-index: 99999999999;
+  }
+
+  // 검색창 아래의 자동완성창
+  .base-Popper-root {
+    z-index: 9999999;
   }
 }

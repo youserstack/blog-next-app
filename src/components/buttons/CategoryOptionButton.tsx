@@ -1,10 +1,12 @@
 "use client";
 
-import { Button, Menu, MenuItem, Modal } from "@mui/material";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Popper from "@mui/material/Popper";
 import { IoIosMore } from "react-icons/io";
 import { MouseEvent, useContext, useState } from "react";
 import { Context } from "@/components/context/Provider";
-import "./CategoryOptionButton.scss";
 
 export default function CategoryOptionButton({
   categorySegments,
@@ -15,17 +17,20 @@ export default function CategoryOptionButton({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isModalOpen = Boolean(anchorEl);
 
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
+  const handleOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
   return (
-    <div className="category-option-button">
-      <Button id="basic-button" onClick={handleClick}>
+    <div
+      className="category-option-button"
+      style={{ position: "relative", display: "flex", alignItems: "center" }}
+    >
+      <Button onClick={handleOpen}>
         <IoIosMore className="more" />
       </Button>
 
-      <Modal open={isModalOpen} onClose={handleClose} disableScrollLock hideBackdrop>
-        <Menu id="basic-menu" anchorEl={anchorEl} open={isModalOpen} onClose={handleClose}>
+      <Popper open={isModalOpen}>
+        <Menu anchorEl={anchorEl} open={isModalOpen} onClose={handleClose}>
           <MenuItem
             onClick={() => {
               setParentCategories(categorySegments);
@@ -52,7 +57,7 @@ export default function CategoryOptionButton({
             delete this category
           </MenuItem>
         </Menu>
-      </Modal>
+      </Popper>
     </div>
   );
 }

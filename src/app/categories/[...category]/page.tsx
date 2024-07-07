@@ -27,16 +27,18 @@ export default function Category({ params: { category }, searchParams }: Categor
 
   // 데이터 패칭
   const url = `${process.env.ROOT_URL}/api/posts?${params.toString()}`;
-  const { isLoading, data } = useSWR(url, fetcher);
+  const { isLoading, isValidating, data } = useSWR("categorized-posts", () =>
+    fetch(url, { cache: "no-cache" }).then((res) => res.json())
+  );
   const { setIsLoading }: any = useContext(Context);
 
   useEffect(() => {
     // isLoading은 처음 로드시에만 값이 true에서 false로 변경된다.
     // 하지만, isValidating은 데이터를 패칭할때마다 true에서 false로 변경된다.
-    setIsLoading(isLoading);
-  }, [isLoading]);
+    setIsLoading(isValidating);
+  }, [isValidating]);
 
-  if (isLoading) return null;
+  if (isValidating) return null;
 
   // 데이터가 로드된 경우에만 렌더링
   const { totalCount, posts } = data;

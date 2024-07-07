@@ -3,7 +3,7 @@
 import { Context } from "@/components/context/Provider";
 import { useContext, useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
 import Button from "@mui/material/Button";
@@ -15,6 +15,7 @@ import TextField from "@mui/material/TextField";
 import { MdCloudUpload } from "react-icons/md";
 import "./PostCreateModal.scss";
 import Typography from "@mui/material/Typography";
+import { mutate, useSWRConfig } from "swr";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -31,6 +32,9 @@ export default function PostCreateModal() {
   const { closeModal }: any = useContext(Context);
   const { category }: any = useParams();
   const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
+  const url = `${process.env.ROOT_URL}/api/posts?categoryPath=${encodeURIComponent(categoryPath)}`;
+  // const { mutate } = useSWRConfig();
+
   const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
     const accessToken = localStorage.getItem("accessToken") as string;
     const data = await createPostAction(formData, accessToken);
@@ -46,7 +50,6 @@ export default function PostCreateModal() {
         console.error("재요청에 대한 에러가 발생했습니다.", error);
         return data;
       }
-
       console.log("토큰갱신 > 재요청 > 포스트를 생성하였습니다.", { newPost });
       return { newPost };
     } else if (error) {
@@ -61,7 +64,7 @@ export default function PostCreateModal() {
   useEffect(() => {
     if (state?.newPost) {
       closeModal();
-      router.refresh();
+      mutate("categorized-posts");
     }
   }, [state, closeModal, router]);
 
