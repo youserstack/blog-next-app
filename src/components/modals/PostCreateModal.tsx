@@ -3,19 +3,18 @@
 import { Context } from "@/components/context/Provider";
 import { useContext, useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
+import { MdCloudUpload } from "react-icons/md";
+import { mutate } from "swr";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Paper from "@mui/material/Paper";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
-import { MdCloudUpload } from "react-icons/md";
-import "./PostCreateModal.scss";
 import Typography from "@mui/material/Typography";
-import { mutate, useSWRConfig } from "swr";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -33,7 +32,6 @@ export default function PostCreateModal() {
   const { category }: any = useParams();
   const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
   const url = `${process.env.ROOT_URL}/api/posts?categoryPath=${encodeURIComponent(categoryPath)}`;
-  // const { mutate } = useSWRConfig();
 
   const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
     const accessToken = localStorage.getItem("accessToken") as string;
@@ -70,21 +68,37 @@ export default function PostCreateModal() {
   }, [state, closeModal, router]);
 
   return (
-    <Paper component={"form"} className="post-create-modal" elevation={5} action={formAction}>
+    <Paper
+      component={"form"}
+      className="post-create-modal"
+      elevation={5}
+      action={formAction}
+      sx={{
+        minWidth: "500px",
+        minHeight: "500px",
+        padding: "1rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        "& input#image": {
+          display: "none",
+        },
+      }}
+    >
       <Typography variant="h5">포스트 게시물 등록</Typography>
       <FormControl>
         <Select value={categoryPath} name="category" id="category">
           <MenuItem value={categoryPath}>{categoryPath.replaceAll("/", " > ")}</MenuItem>
         </Select>
       </FormControl>
-      <TextField type="text" name="title" label="제목" />
-      <TextField type="text" name="content" label="내용" minRows={10} multiline />
+      <TextField type="text" name="title" label="제목" required />
+      <TextField type="text" name="content" label="내용" minRows={10} multiline required />
       <TextField
         type="text"
         name="tags"
         label="태그를 comma로 나열해주세요. (예시 spring,summer)"
       />
-      <input type="file" name="image" id="image" />
+      <input type="file" name="image" id="image" required />
       <Button component="label" variant="contained" startIcon={<MdCloudUpload />} htmlFor="image">
         이미지 업로드
       </Button>

@@ -4,11 +4,10 @@ import { updatePostAction } from "@/app/actions";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { useRouter } from "next/navigation";
 import { useFormState } from "react-dom";
-import { FcAddImage } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Button from "@mui/material/Button";
-import { Paper, TextField } from "@mui/material";
+import { Box, Paper, TextField } from "@mui/material";
 import "./PostArticleEditForm.scss";
 import { MdCloudUpload } from "react-icons/md";
 
@@ -75,65 +74,56 @@ export default function PostArticleEditForm({ post }: any) {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        gap: "2rem",
+        gap: "1rem",
         padding: "1rem",
-        "& .info": {
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
-          marginTop: "1rem",
-        },
       }}
     >
-      <div className="form-header">
+      <Box sx={{ display: "flex", gap: "1rem" }}>
+        <p>작성자 : {post.author?.name}</p>
+        <p>{post.createdAt?.slice(0, 10)}</p>
+      </Box>
+
+      <Box
+        sx={{
+          minHeight: "300px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "1rem",
+        }}
+      >
+        <Image src={thumbnail} alt="" width={1000} height={1000} style={{ height: "300px" }} />
+        <input
+          type="file"
+          id="image"
+          name="image"
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+        />
+        <Button
+          component="label"
+          className="image-label"
+          startIcon={<MdCloudUpload />}
+          htmlFor="image"
+        >
+          썸네일 변경하기
+        </Button>
+      </Box>
+
+      <Box sx={{ display: "flex", gap: "1rem" }}>
         <TextField
-          type="text"
-          name="title"
-          defaultValue={post.title}
+          name="category"
+          defaultValue={post.category}
+          label="카테고리"
+          disabled
           fullWidth
-          label="제목"
-          required
         />
-        <div className="info">
-          <p>작성자 : {post.author?.name}</p>
-          <p>{post.createdAt?.slice(0, 10)}</p>
-          <TextField
-            className="category"
-            type="text"
-            name="category"
-            defaultValue={post.category}
-            label="카테고리"
-            required
-          />
-        </div>
-      </div>
-      <div className="form-body">
-        <div className="thumbnail">
-          <Image src={thumbnail} alt="" width={1000} height={1000} />
-          <input
-            type="file"
-            id="image"
-            name="image"
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
-          <Button
-            component="label"
-            className="image-label"
-            startIcon={<MdCloudUpload />}
-            htmlFor="image"
-          >
-            썸네일 변경하기
-          </Button>
-        </div>
-        <TextField
-          multiline
-          className="content"
-          name="content"
-          defaultValue={post.content}
-          label="본문내용"
-        />
-      </div>
+        <TextField name="title" defaultValue={post.title} label="제목" required fullWidth />
+      </Box>
+
+      <TextField name="content" defaultValue={post.content} label="본문내용" multiline />
+
       <div className="form-footer">
         <Button className="update-button" variant="contained" type="submit">
           저장
