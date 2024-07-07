@@ -5,8 +5,9 @@ import Image from "next/image";
 import CommentOptionButton from "@/components/buttons/CommentOptionButton";
 import { useContext, useEffect } from "react";
 import { Context } from "@/components/context/Provider";
+import Paper from "@mui/material/Paper";
 import "./CommentList.scss";
-import { Paper } from "@mui/material";
+import { Button } from "@mui/material";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
@@ -38,7 +39,7 @@ export default function CommentList({ postId }: any) {
               <p>{comment.content}</p>
             </div>
             <div className="footer">
-              <button>답글</button>
+              <Button>답글</Button>
             </div>
           </div>
 

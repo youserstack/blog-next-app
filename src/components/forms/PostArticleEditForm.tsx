@@ -8,7 +8,9 @@ import { FcAddImage } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Button from "@mui/material/Button";
+import { Paper, TextField } from "@mui/material";
 import "./PostArticleEditForm.scss";
+import { MdCloudUpload } from "react-icons/md";
 
 export default function PostArticleEditForm({ post }: any) {
   const router = useRouter();
@@ -42,11 +44,11 @@ export default function PostArticleEditForm({ post }: any) {
     null
   );
 
-  useEffect(() => {
-    const content: HTMLTextAreaElement | null = document.querySelector(".content");
-    if (!content) return;
-    content.style.height = `${content.scrollHeight}px`;
-  }, [post.content]);
+  // useEffect(() => {
+  //   const content: HTMLTextAreaElement | null = document.querySelector(".content");
+  //   if (!content) return;
+  //   content.style.height = `${content.scrollHeight}px`;
+  // }, [post.content]);
 
   useEffect(() => {
     if (updateState?.updatedPost) router.back();
@@ -65,16 +67,44 @@ export default function PostArticleEditForm({ post }: any) {
   };
 
   return (
-    <form className="post-article-edit-form" action={updateAction}>
+    <Paper
+      component={"form"}
+      className="post-article-edit-form"
+      action={updateAction}
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        gap: "2rem",
+        padding: "1rem",
+        "& .info": {
+          display: "flex",
+          alignItems: "center",
+          gap: "1rem",
+          marginTop: "1rem",
+        },
+      }}
+    >
       <div className="form-header">
-        <input className="title" type="text" name="title" defaultValue={post.title} />
+        <TextField
+          type="text"
+          name="title"
+          defaultValue={post.title}
+          fullWidth
+          label="제목"
+          required
+        />
         <div className="info">
           <p>작성자 : {post.author?.name}</p>
           <p>{post.createdAt?.slice(0, 10)}</p>
-          <p>
-            <span>카테고리 : </span>
-            <input className="category" type="text" name="category" defaultValue={post.category} />
-          </p>
+          <TextField
+            className="category"
+            type="text"
+            name="category"
+            defaultValue={post.category}
+            label="카테고리"
+            required
+          />
         </div>
       </div>
       <div className="form-body">
@@ -87,12 +117,22 @@ export default function PostArticleEditForm({ post }: any) {
             style={{ display: "none" }}
             onChange={handleFileChange}
           />
-          <label className="image-label" htmlFor="image">
-            <FcAddImage size={30} />
-            <span>썸네일 변경하기</span>
-          </label>
+          <Button
+            component="label"
+            className="image-label"
+            startIcon={<MdCloudUpload />}
+            htmlFor="image"
+          >
+            썸네일 변경하기
+          </Button>
         </div>
-        <textarea className="content" name="content" defaultValue={post.content} />
+        <TextField
+          multiline
+          className="content"
+          name="content"
+          defaultValue={post.content}
+          label="본문내용"
+        />
       </div>
       <div className="form-footer">
         <Button className="update-button" variant="contained" type="submit">
@@ -102,6 +142,6 @@ export default function PostArticleEditForm({ post }: any) {
           취소
         </Button>
       </div>
-    </form>
+    </Paper>
   );
 }

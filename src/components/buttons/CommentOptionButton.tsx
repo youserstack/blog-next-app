@@ -1,21 +1,23 @@
 "use client";
 
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { mutate } from "swr";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { deleteComment } from "@/lib/utils/fetchers/deleters";
-import "./CommentOptionButton.scss";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Popper from "@mui/material/Popper";
 
 export default function CommentOptionButton({ commentId, postId }: any) {
-  const [isClicked, setIsClicked] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const isOpen = Boolean(anchorEl);
 
-  const handleOpenOptions = (e: MouseEvent) => {
-    e.stopPropagation();
-    setIsClicked(!isClicked);
-  };
+  const handleOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
+  const handleClose = () => setAnchorEl(null);
 
-  const handleDeleteComment = async (e: MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteComment = async (e: MouseEvent<HTMLLIElement>) => {
     // console.log({ comment });
     e.preventDefault();
     try {
@@ -46,28 +48,17 @@ export default function CommentOptionButton({ commentId, postId }: any) {
     }
   };
 
-  useEffect(() => {
-    const handleClick = () => setIsClicked(false);
-    window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
-  }, []);
-
   return (
-    <div className="comment-option-button" onClick={handleOpenOptions}>
-      <IoIosMore className="more" />
-      {isClicked && (
-        <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
-          <li>
-            <button onClick={handleDeleteComment}>삭제</button>
-          </li>
-          <li>
-            <button onClick={() => console.log({ commentId })}>test</button>
-          </li>
-          <li>
-            <button>menu</button>
-          </li>
-        </ul>
-      )}
+    <div className="comment-option-button">
+      <Button onClick={handleOpen}>
+        <IoIosMore className="more" />
+      </Button>
+
+      <Popper open={isOpen}>
+        <Menu anchorEl={anchorEl} open={isOpen} onClose={handleClose}>
+          <MenuItem onClick={handleDeleteComment}>삭제</MenuItem>
+        </Menu>
+      </Popper>
     </div>
   );
 }

@@ -20,45 +20,34 @@ export default function CategoryOptionButton({
   const handleOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
+  const handleOpenCreateCategoryModal = () => {
+    setParentCategories(categorySegments);
+    openModal("category-create-modal");
+    handleClose();
+  };
+  const handleOpenCreatePostModal = () => {
+    openModal("post-create-modal");
+    handleClose();
+  };
+  const handleOpenDeleteCategoryModal = () => {
+    openModal("category-delete-modal");
+    handleClose();
+  };
+
   return (
     <div
       className="category-option-button"
       style={{ position: "relative", display: "flex", alignItems: "center" }}
     >
-      <Button
-        onClick={handleOpen}
-        // sx={{ "& .more": { rotate: "90deg" } }}
-      >
+      <Button onClick={handleOpen}>
         <IoIosMore size={20} className="more" />
       </Button>
 
       <Popper open={isOpen}>
         <Menu anchorEl={anchorEl} open={isOpen} onClose={handleClose}>
-          <MenuItem
-            onClick={() => {
-              setParentCategories(categorySegments);
-              openModal("category-create-modal");
-              handleClose();
-            }}
-          >
-            create a new category
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              openModal("post-create-modal");
-              handleClose();
-            }}
-          >
-            create a post
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              openModal("category-delete-modal");
-              handleClose();
-            }}
-          >
-            delete this category
-          </MenuItem>
+          <MenuItem onClick={handleOpenCreateCategoryModal}>create a new category</MenuItem>
+          <MenuItem onClick={handleOpenCreatePostModal}>create a post</MenuItem>
+          <MenuItem onClick={handleOpenDeleteCategoryModal}>delete this category</MenuItem>
         </Menu>
       </Popper>
     </div>

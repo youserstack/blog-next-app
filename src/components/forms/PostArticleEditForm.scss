@@ -1,39 +1,5 @@
 .post-article-edit-form {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 1rem;
-
-  > * {
-    // border: 1px solid red;
-  }
-
-  .form-header {
-    .title {
-      font-size: 3rem;
-      width: 100%;
-      display: block;
-    }
-
-    .info {
-      font-size: 12px;
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-
-      .category {
-        min-width: 300px;
-        max-width: 700px;
-      }
-    }
-  }
-
   .form-body {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
     .thumbnail {
       label {
         display: block;
@@ -50,12 +16,5 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-  }
-
-  input,
-  textarea,
-  label {
-    background-color: var(--backgroundColor-offWhite);
-    border: none;
   }
 }

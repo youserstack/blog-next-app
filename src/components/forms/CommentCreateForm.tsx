@@ -8,7 +8,6 @@ import { Context } from "@/components/context/Provider";
 import { createCommentAction } from "@/app/actions";
 import Image from "next/image";
 import Link from "next/link";
-import "./CommentCreateForm.scss";
 import Paper from "@mui/material/Paper";
 import { Button, TextField } from "@mui/material";
 

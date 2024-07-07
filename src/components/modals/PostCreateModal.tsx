@@ -85,13 +85,7 @@ export default function PostCreateModal() {
         label="태그를 comma로 나열해주세요. (예시 spring,summer)"
       />
       <input type="file" name="image" id="image" />
-      <Button
-        component="label"
-        role={undefined}
-        variant="contained"
-        startIcon={<MdCloudUpload />}
-        htmlFor="image"
-      >
+      <Button component="label" variant="contained" startIcon={<MdCloudUpload />} htmlFor="image">
         이미지 업로드
       </Button>
 
