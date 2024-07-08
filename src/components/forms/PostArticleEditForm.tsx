@@ -3,13 +3,16 @@
 import { updatePostAction } from "@/app/actions";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { useRouter } from "next/navigation";
-import { useFormState } from "react-dom";
-import { useEffect, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { useContext, useEffect, useState } from "react";
+import { MdCloudUpload } from "react-icons/md";
+import { Context } from "@/components/context/Provider";
 import Image from "next/image";
 import Button from "@mui/material/Button";
-import { Box, Paper, TextField } from "@mui/material";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
 import "./PostArticleEditForm.scss";
-import { MdCloudUpload } from "react-icons/md";
 
 export default function PostArticleEditForm({ post }: any) {
   const router = useRouter();
@@ -91,6 +94,7 @@ export default function PostArticleEditForm({ post }: any) {
           justifyContent: "space-between",
           alignItems: "center",
           gap: "1rem",
+          position: "relative",
         }}
       >
         <Image src={thumbnail} alt="" width={1000} height={1000} style={{ height: "300px" }} />
@@ -106,6 +110,8 @@ export default function PostArticleEditForm({ post }: any) {
           className="image-label"
           startIcon={<MdCloudUpload />}
           htmlFor="image"
+          sx={{ position: "absolute", bottom: "1rem", right: "1rem" }}
+          variant="contained"
         >
           썸네일 변경하기
         </Button>
@@ -125,13 +131,25 @@ export default function PostArticleEditForm({ post }: any) {
       <TextField name="content" defaultValue={post.content} label="본문내용" multiline />
 
       <div className="form-footer">
-        <Button className="update-button" variant="contained" type="submit">
-          저장
-        </Button>
+        <SubmitButton />
         <Button className="cancel-button" variant="contained" onClick={() => router.back()}>
           취소
         </Button>
       </div>
     </Paper>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  const { setIsLoading }: any = useContext(Context);
+
+  if (pending) return setIsLoading(true);
+
+  setIsLoading(false);
+  return (
+    <Button className="update-button" type="submit" disabled={pending} variant="contained">
+      {pending ? "수정중..." : "수정"}
+    </Button>
   );
 }

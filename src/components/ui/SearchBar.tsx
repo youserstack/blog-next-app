@@ -1,7 +1,7 @@
 "use client";
 
 import { IoIosSearch } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import "./SearchBar.scss";
 import { Autocomplete, Button, TextField } from "@mui/material";
@@ -20,7 +20,12 @@ const suggestions = [
 export default function SearchBar() {
   const [searchWords, setSearchWords] = useState("");
   const router = useRouter();
-  const search = () => router.push(`/search?searchWords=${searchWords}`);
+  const search = (searchWords: string) => router.push(`/search?searchWords=${searchWords}`);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // useEffect(() => {
+  //   console.log({ searchWords });
+  // }, [searchWords]);
 
   return (
     <div className="search-bar">
@@ -33,6 +38,16 @@ export default function SearchBar() {
           "& .MuiAutocomplete-popupIndicator": { padding: 0 }, // Autocomplete의 popupIndicator padding 조정
         }}
         clearIcon={false}
+        open={isOpen}
+        onOpen={() => setIsOpen(true)}
+        onClose={() => setIsOpen(false)}
+        onChange={(e, v: any) => {
+          if (v?.label) {
+            setSearchWords(v.label);
+            search(v.label);
+            setIsOpen(false);
+          }
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -43,38 +58,17 @@ export default function SearchBar() {
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
-                search();
+                search(searchWords);
+                setIsOpen(false);
               }
             }}
           />
         )}
       />
 
-      <Button onClick={search}>
+      <Button onClick={() => search(searchWords)}>
         <IoIosSearch />
       </Button>
     </div>
   );
-
-  // return (
-  //   <div className="search-bar">
-  //     <input
-  //       type="search"
-  //       value={searchWords}
-  //       onChange={(e) => setSearchWords(e.target.value)}
-  //       onKeyDown={(e) => {
-  //         if (e.key === "Enter") {
-  //           router.push(`/search?searchWords=${searchWords}`);
-  //         }
-  //       }}
-  //     />
-  //     <button
-  //       onClick={(e) => {
-  //         router.push(`/search?searchWords=${searchWords}`);
-  //       }}
-  //     >
-  //       <IoIosSearch />
-  //     </button>
-  //   </div>
-  // );
 }
