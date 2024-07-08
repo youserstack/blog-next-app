@@ -7,16 +7,16 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import ControlArea from "@/components/areas/ControlArea";
 import "./PostListArticle.scss";
 
-export default function PostListArticle({ categorySegments, posts, totalCount, page }: any) {
+export default function PostListArticle({ posts, totalCount }: any) {
   return (
     <article className="post-card-list-article">
       <div className="article-header">
-        <Breadcrumb categorySegments={categorySegments} />
-        <ControlArea categorySegments={categorySegments} />
+        <Breadcrumb />
+        <ControlArea />
       </div>
       <div className="content">
         <PostList posts={posts} />
-        <Pagination page={page} totalCount={totalCount} />
+        <Pagination totalCount={totalCount} />
       </div>
     </article>
   );

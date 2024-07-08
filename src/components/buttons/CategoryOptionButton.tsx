@@ -7,16 +7,15 @@ import Popper from "@mui/material/Popper";
 import { IoIosMore } from "react-icons/io";
 import { MouseEvent, useContext, useState } from "react";
 import { Context } from "@/components/context/Provider";
+import { useParams } from "next/navigation";
 
-export default function CategoryOptionButton({
-  categorySegments,
-}: {
-  categorySegments: string[] | null;
-}) {
+export default function CategoryOptionButton() {
+  const params = useParams();
+  const categorySegments = (params.category as string[]).map((v: any) => decodeURIComponent(v));
   const { setParentCategories, openModal }: any = useContext(Context);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
-
   const handleOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 

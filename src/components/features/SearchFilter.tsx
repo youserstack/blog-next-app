@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import "./SearchFilter.scss";
+import { MenuItem, Select } from "@mui/material";
 
 export default function SearchFilter({ categories }: any) {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -65,12 +66,13 @@ export default function SearchFilter({ categories }: any) {
 
   const handleSortChange = (e: any) => {
     const selectedSortOption = e.target.value;
-    const params = new URLSearchParams(searchParams.toString());
+    // const params = new URLSearchParams(searchParams.toString());
 
-    setSelectedSort(selectedSortOption);
-    params.set("sort", selectedSortOption);
+    // setSelectedSort(selectedSortOption);
+    // params.set("sort", selectedSortOption);
 
-    router.push(`?${params.toString()}`);
+    // router.push(`?${params.toString()}`);
+    router.push(`?sort=${selectedSortOption}`);
   };
 
   // useEffect(() => {
@@ -127,13 +129,13 @@ export default function SearchFilter({ categories }: any) {
       </div>
 
       <div className="filter-item filter-sort">
-        <select name="sort" onChange={handleSortChange}>
-          <option value="">정렬 옵션 선택</option>
-          <option value="asc">오름차순</option>
-          <option value="desc">내림차순</option>
-          <option value="popular">인기순</option>
-          <option value="newest">최신순</option>
-        </select>
+        <Select name="sort" onChange={handleSortChange} label="정렬">
+          <MenuItem value="">정렬 옵션 선택</MenuItem>
+          <MenuItem value="asc">오름차순</MenuItem>
+          <MenuItem value="desc">내림차순</MenuItem>
+          <MenuItem value="popular">인기순</MenuItem>
+          <MenuItem value="newest">최신순</MenuItem>
+        </Select>
       </div>
     </div>
   );

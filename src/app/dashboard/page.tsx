@@ -11,26 +11,33 @@ import { Typography } from "@mui/material";
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default function Dashboard() {
-  // 쿼리 스트링 생성
-  const params = new URLSearchParams();
-  params.append("sort", "popular");
-  const url = `/api/posts?${params.toString()}`;
-  const { data, isLoading, isValidating } = useSWR(url, fetcher);
   const { setIsLoading }: any = useContext(Context);
-  console.log({ data });
+
+  const popularUrl = `/api/posts?sort=popular`;
+  const {
+    data: popularData,
+    isLoading: isLoadingPopular,
+    isValidating: isValidatingPopular,
+  } = useSWR(popularUrl, fetcher);
+
+  const latestUrl = `/api/posts?sort=latest`;
+  const {
+    data: latestData,
+    isLoading: isLoadingLatest,
+    isValidating: isValidatingLatest,
+  } = useSWR(latestUrl, fetcher);
 
   useEffect(() => {
-    if (isValidating) setIsLoading(true);
+    if (isValidatingPopular || isValidatingLatest) setIsLoading(true);
     else setIsLoading(false);
-  }, [isValidating]);
+  }, [isValidatingPopular, isValidatingLatest]);
 
-  if (isLoading) return null;
+  if (isLoadingPopular || isLoadingLatest) return null;
 
   return (
     <main className="dashboard">
       <section style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
         {/* <div className="breadcrumb">{"> dashboard"}</div> */}
-        {/* <h1>작성중인 최신블로그 글</h1> */}
 
         <Paper
           className="popular"
@@ -44,8 +51,11 @@ export default function Dashboard() {
             fontSize: "12px",
           }}
         >
-          <Typography>인기글</Typography>
-          {data.posts?.map((post: any) => (
+          <Typography sx={{ display: "flex", justifyContent: "space-between" }}>
+            <p>인기글</p>
+            <Link href="/search?sort=popular">더보기</Link>
+          </Typography>
+          {popularData?.posts?.map((post: any) => (
             <Paper key={post._id} variant="outlined" sx={{ height: "100px", overflow: "hidden" }}>
               <Link href={`/posts/${post._id}`} style={{ height: "100%", display: "flex" }}>
                 <div className="thumbnail" style={{ width: "100px" }}>
@@ -70,12 +80,10 @@ export default function Dashboard() {
               </Link>
             </Paper>
           ))}
-
-          <Link href="/search?sort=popular">더보기</Link>
         </Paper>
 
         <Paper
-          className="popular"
+          className="latest"
           variant="outlined"
           sx={{
             flex: "1",
@@ -86,8 +94,11 @@ export default function Dashboard() {
             fontSize: "12px",
           }}
         >
-          <Typography>인기글</Typography>
-          {data.posts?.map((post: any) => (
+          <Typography sx={{ display: "flex", justifyContent: "space-between" }}>
+            <p>최신글</p>
+            <Link href="/search?sort=latest">더보기</Link>
+          </Typography>
+          {latestData?.posts?.map((post: any) => (
             <Paper key={post._id} variant="outlined" sx={{ height: "100px", overflow: "hidden" }}>
               <Link href={`/posts/${post._id}`} style={{ height: "100%", display: "flex" }}>
                 <div className="thumbnail" style={{ width: "100px" }}>
@@ -104,8 +115,6 @@ export default function Dashboard() {
               </Link>
             </Paper>
           ))}
-
-          <Link href="/search?sort=popular">더보기</Link>
         </Paper>
       </section>
     </main>

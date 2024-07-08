@@ -1,9 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
+import { useParams } from "next/navigation";
 import "./Breadcrumb.scss";
 
-export default function Breadcrumb({ categorySegments }: { categorySegments: string[] }) {
+export default function Breadcrumb() {
+  const params = useParams();
+  const categorySegments = (params.category as string[]).map((v: any) => decodeURIComponent(v));
+
   return (
     <div className="breadcrumb">
       {categorySegments?.map((v: string, i: number) => {

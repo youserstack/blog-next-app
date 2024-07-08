@@ -10,13 +10,17 @@ export default async function Search({ searchParams }: any) {
     page: searchParams.page || "1",
   };
 
-  const { posts } = await getPosts(postsSearchParams);
+  const { posts, totalCount } = await getPosts(postsSearchParams);
   const { categories } = await getCategories();
 
   return (
     <main className="search">
       <section>
-        <SearchArticle posts={posts} categories={categories} />
+        <SearchArticle
+          categories={categories}
+          totalCount={totalCount} // pagination
+          posts={posts}
+        />
       </section>
     </main>
   );
