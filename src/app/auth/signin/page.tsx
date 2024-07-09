@@ -22,15 +22,20 @@ export default function Signin() {
   return (
     <main className="signin-page">
       <section>
-        <Paper
+        {/* <Paper
           component={"form"}
           action={formAction}
           sx={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "5rem" }}
         >
-          <TextField label="email" variant="outlined" type="email" name="email" required />
+          <TextField  label="email" variant="outlined" type="email" name="email" required />
           <TextField label="password" variant="outlined" type="password" name="password" required />
           <Button type="submit">sign in</Button>
-        </Paper>
+        </Paper> */}
+        <form action={formAction}>
+          <input type="email" name="email" placeholder="email" required />
+          <input type="password" name="password" placeholder="password" required />
+          <button type="submit">sign in</button>
+        </form>
         {state?.error && (
           <>
             <p>{state.error}</p>
