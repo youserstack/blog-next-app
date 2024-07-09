@@ -5,10 +5,11 @@ import { IoIosMore } from "react-icons/io";
 import { mutate } from "swr";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { deleteComment } from "@/lib/utils/fetchers/deleters";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Popper from "@mui/material/Popper";
+import { Button, Menu, MenuItem, Popper } from "@mui/material";
+// import Button from "@mui/material/Button";
+// import Menu from "@mui/material/Menu";
+// import MenuItem from "@mui/material/MenuItem";
+// import Popper from "@mui/material/Popper";
 
 export default function CommentOptionButton({ commentId, postId }: any) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

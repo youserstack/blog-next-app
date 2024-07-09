@@ -57,7 +57,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     try {
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) return;
-      const response = await fetch("/api/auth/refresh");
+      const response = await fetch(`${process.env.ROOT_URL}/api/auth/refresh`);
       const data = await response.json();
 
       if (!response.ok) throw new Error(data.error || "accessToken 갱신을 실패했습니다.");

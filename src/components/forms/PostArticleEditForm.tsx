@@ -8,11 +8,12 @@ import { useContext, useEffect, useState } from "react";
 import { MdCloudUpload } from "react-icons/md";
 import { Context } from "@/components/context/Provider";
 import Image from "next/image";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
+// import Button from "@mui/material/Button";
+// import Box from "@mui/material/Box";
+// import Paper from "@mui/material/Paper";
+// import TextField from "@mui/material/TextField";
 import "./PostArticleEditForm.scss";
+import { Box, Button, Paper, TextField } from "@mui/material";
 
 export default function PostArticleEditForm({ post }: any) {
   const router = useRouter();

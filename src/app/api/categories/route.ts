@@ -83,7 +83,7 @@ export async function GET(request: Request) {
   await connectDB();
   const foundCategories = await Category.find({});
   // console.log({ foundCategories });
-  return Response.json({ categories: foundCategories });
+  return Response.json({ categories: foundCategories }, { status: 200 });
 }
 
 // 카테고리 삭제

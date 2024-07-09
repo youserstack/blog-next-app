@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 
 export default function Footer() {
   const theme = useTheme();

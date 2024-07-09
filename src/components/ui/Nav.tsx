@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { List, ListItem, Paper } from "@mui/material";
 import "./Nav.scss";
+import CategoriesScript from "@/components/script/CategoriesScript";
 
 // Client 에서만 로드 (Lazy Loading)
-const CategoriesScript = dynamic(() => import("@/components/script/CategoriesScript"), {
-  ssr: false,
-});
+// const CategoriesScript = dynamic(() => import("@/components/script/CategoriesScript"), {
+//   ssr: false,
+// });
 
 export default function Nav({ categories, user }: any) {
   return (

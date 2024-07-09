@@ -1,6 +1,5 @@
 import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
-import { uploadMiddleware } from "@/lib/middlewares/uploadMiddlewares";
 import { revalidatePath } from "next/cache";
 import { uploadToCloudinary } from "@/lib/utils/uploader";
 import "@/lib/config/cloudinaryConfig";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormState } from "react-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Context } from "@/components/context/Provider";
 import { useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";

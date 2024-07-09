@@ -4,23 +4,24 @@ import { useContext, useEffect } from "react";
 import { Context } from "@/components/context/Provider";
 import Link from "next/link";
 import useSWR from "swr";
-import Paper from "@mui/material/Paper";
 import Image from "next/image";
-import Typography from "@mui/material/Typography";
+import { Paper, Typography } from "@mui/material";
+// import Paper from "@mui/material/Paper";
+// import Typography from "@mui/material/Typography";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default function Dashboard() {
   const { setIsLoading }: any = useContext(Context);
 
-  const popularUrl = `/api/posts?sort=popular`;
+  const popularUrl = `${process.env.ROOT_URL}/api/posts?sort=popular`;
   const {
     data: popularData,
     isLoading: isLoadingPopular,
     isValidating: isValidatingPopular,
   } = useSWR(popularUrl, fetcher);
 
-  const latestUrl = `/api/posts?sort=latest`;
+  const latestUrl = `${process.env.ROOT_URL}/api/posts?sort=latest`;
   const {
     data: latestData,
     isLoading: isLoadingLatest,

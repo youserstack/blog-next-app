@@ -1,6 +1,7 @@
+import { Card } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import Card from "@mui/material/Card";
+// import Card from "@mui/material/Card";
 
 export default function Post({ post }: any) {
   return (

@@ -5,16 +5,18 @@ import Link from "next/link";
 import UserArea from "@/components/areas/UserArea";
 import { getCategories } from "@/lib/utils/fetchers/getters";
 import { headers } from "next/headers";
-import dynamic from "next/dynamic";
 import AppBar from "@mui/material/AppBar";
+import HeaderScript from "@/components/script/HeaderScript";
+import AuthScript from "@/components/script/AuthScript";
+// import dynamic from "next/dynamic";
 
-const HeaderScript = dynamic(() => import("@/components/script/HeaderScript"), {
-  ssr: false,
-});
+// const HeaderScript = dynamic(() => import("@/components/script/HeaderScript"), {
+//   ssr: false,
+// });
 
-const AuthScript = dynamic(() => import("@/components/script/AuthScript"), {
-  ssr: false,
-});
+// const AuthScript = dynamic(() => import("@/components/script/AuthScript"), {
+//   ssr: false,
+// });
 
 export default async function Header() {
   const { categories } = await getCategories();
