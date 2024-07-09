@@ -1,9 +1,21 @@
+"use client";
+
+import { Box, Button, Typography, useTheme } from "@mui/material";
+
 export default function Footer() {
+  const theme = useTheme();
+
   return (
-    <footer>
+    <Box
+      component={"footer"}
+      sx={{
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+      }}
+    >
       <section>
-        <h1>footer</h1>
+        <Typography>footer</Typography>
       </section>
-    </footer>
+    </Box>
   );
 }

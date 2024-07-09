@@ -6,7 +6,7 @@ import Link from "next/link";
 import useSWR from "swr";
 import Paper from "@mui/material/Paper";
 import Image from "next/image";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
@@ -32,7 +32,13 @@ export default function Dashboard() {
     else setIsLoading(false);
   }, [isValidatingPopular, isValidatingLatest]);
 
-  if (isLoadingPopular || isLoadingLatest) return null;
+  if (isLoadingPopular || isLoadingLatest) {
+    return (
+      <main>
+        <section></section>
+      </main>
+    );
+  }
 
   return (
     <main className="dashboard">
@@ -51,10 +57,11 @@ export default function Dashboard() {
             fontSize: "12px",
           }}
         >
-          <Typography sx={{ display: "flex", justifyContent: "space-between" }}>
-            <p>인기글</p>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Typography>인기글</Typography>
             <Link href="/search?sort=popular">더보기</Link>
-          </Typography>
+          </div>
+
           {popularData?.posts?.map((post: any) => (
             <Paper key={post._id} variant="outlined" sx={{ height: "100px", overflow: "hidden" }}>
               <Link href={`/posts/${post._id}`} style={{ height: "100%", display: "flex" }}>
@@ -72,10 +79,10 @@ export default function Dashboard() {
                   }}
                 >
                   <Typography variant="subtitle1">{post.title}</Typography>
-                  <Typography variant="caption" sx={{ display: "flex" }}>
-                    <p>조회수 {post.views}</p>
-                    <p>{post.category}</p>
-                  </Typography>
+                  <div style={{ display: "flex" }}>
+                    <Typography>조회수 {post.views}</Typography>
+                    <Typography>{post.category}</Typography>
+                  </div>
                 </div>
               </Link>
             </Paper>
@@ -94,23 +101,44 @@ export default function Dashboard() {
             fontSize: "12px",
           }}
         >
-          <Typography sx={{ display: "flex", justifyContent: "space-between" }}>
-            <p>최신글</p>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Typography>최신글</Typography>
             <Link href="/search?sort=latest">더보기</Link>
-          </Typography>
+          </div>
           {latestData?.posts?.map((post: any) => (
-            <Paper key={post._id} variant="outlined" sx={{ height: "100px", overflow: "hidden" }}>
+            <Paper
+              key={post._id}
+              variant="outlined"
+              sx={{
+                //
+                height: "100px",
+                overflow: "hidden",
+                "&:hover .title": {
+                  color: "blue",
+                },
+              }}
+            >
               <Link href={`/posts/${post._id}`} style={{ height: "100%", display: "flex" }}>
                 <div className="thumbnail" style={{ width: "100px" }}>
                   {post.image && <Image src={post.image} alt="alt" width={200} height={200} />}
                 </div>
                 <div
                   className="content"
-                  style={{ padding: "1rem", flex: "1", display: "flex", gap: "1rem" }}
+                  style={{
+                    flex: "1",
+                    padding: "1rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignContent: "space-between",
+                  }}
                 >
-                  <h3>{post.title}</h3>
-                  <p>조회수 {post.views}</p>
-                  <p>{post.category}</p>
+                  <Typography className="title" variant="h4" sx={{ flex: "1" }}>
+                    {post.title}
+                  </Typography>
+                  <div style={{ display: "flex", gap: "1rem" }}>
+                    <p>조회수 {post.views}</p>
+                    <p>카테고리 {post.category.replaceAll("/", " > ")}</p>
+                  </div>
                 </div>
               </Link>
             </Paper>
