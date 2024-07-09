@@ -17,7 +17,7 @@ export default function Signin() {
       router.refresh();
     }
     // if (state?.accessToken) router.back();
-  }, [state, router]);
+  }, [state]);
 
   return (
     <main className="signin-page">
@@ -31,11 +31,13 @@ export default function Signin() {
           <TextField label="password" variant="outlined" type="password" name="password" required />
           <Button type="submit">sign in</Button>
         </Paper> */}
-        <form action={formAction}>
-          <input type="email" name="email" placeholder="email" required />
-          <input type="password" name="password" placeholder="password" required />
-          <button type="submit">sign in</button>
-        </form>
+        <Paper>
+          <form action={formAction}>
+            <TextField type="email" name="email" placeholder="email" required />
+            <TextField type="password" name="password" placeholder="password" required />
+            <Button type="submit">sign in</Button>
+          </form>
+        </Paper>
         {state?.error && (
           <>
             <p>{state.error}</p>

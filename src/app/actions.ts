@@ -44,11 +44,14 @@ export async function updatePostAction(formData: FormData, postId: string, acces
 export async function signinAction(prevState: any, formData: FormData) {
   const url = `${process.env.ROOT_URL}/api/auth/signin`;
   const response = await fetch(url, { method: "POST", body: formData });
-  const { error, accessToken, refreshToken } = await response.json();
+  // const { error, accessToken, refreshToken } = await response.json();
 
   // client browser localStorage에 accessToken을 저장시키기 위해서 새로운 객체를 리턴한다.
-  if (!response.ok) return { error };
-  else {
+  if (!response.ok) {
+    const { error } = await response.json();
+    return error ? { error } : { error: "exception error" };
+  } else {
+    const { accessToken, refreshToken } = await response.json();
     cookies().set("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
