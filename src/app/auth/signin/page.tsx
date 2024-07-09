@@ -27,24 +27,8 @@ export default function Signin() {
           action={formAction}
           sx={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "5rem" }}
         >
-          <TextField
-            id="outlined-basic"
-            label="email"
-            variant="outlined"
-            // default
-            type="email"
-            name="email"
-            required
-          />
-          <TextField
-            id="outlined-basic"
-            label="password"
-            variant="outlined"
-            // default
-            type="password"
-            name="password"
-            required
-          />
+          <TextField label="email" variant="outlined" type="email" name="email" required />
+          <TextField label="password" variant="outlined" type="password" name="password" required />
           <Button type="submit">sign in</Button>
         </Paper>
         {state?.error && (
