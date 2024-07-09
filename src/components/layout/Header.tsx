@@ -1,13 +1,8 @@
-import SearchBar from "@/components/ui/SearchBar";
-import Etc from "@/components/ui/Etc";
-import Nav from "@/components/ui/Nav";
-import Link from "next/link";
-import UserArea from "@/components/areas/UserArea";
 import { getCategories } from "@/lib/utils/fetchers/getters";
 import { headers } from "next/headers";
-import AppBar from "@mui/material/AppBar";
 import HeaderScript from "@/components/script/HeaderScript";
 import AuthScript from "@/components/script/AuthScript";
+import NavBar from "@/components/ui/NavBar";
 // import dynamic from "next/dynamic";
 
 // const HeaderScript = dynamic(() => import("@/components/script/HeaderScript"), {
@@ -19,12 +14,13 @@ import AuthScript from "@/components/script/AuthScript";
 // });
 
 export default async function Header() {
-  const { categories } = await getCategories();
   const user = JSON.parse(headers().get("user") as string);
+  const { categories } = await getCategories();
 
   return (
     <header>
-      <AppBar component="nav">
+      <NavBar user={user} categories={categories} />
+      {/* <AppBar component="nav">
         <section className="header-upper">
           <h1>
             <Link href={"/"}>blog</Link>
@@ -36,7 +32,7 @@ export default async function Header() {
           <Nav categories={categories} user={user} />
           <Etc user={user} />
         </section>
-      </AppBar>
+      </AppBar> */}
 
       {/* scripts */}
       <HeaderScript />
