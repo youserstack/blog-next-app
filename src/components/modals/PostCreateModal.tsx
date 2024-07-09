@@ -8,13 +8,14 @@ import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
 import { MdCloudUpload } from "react-icons/md";
 import { mutate } from "swr";
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Paper from "@mui/material/Paper";
-import Select from "@mui/material/Select";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import { Button, FormControl, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
+// import Button from "@mui/material/Button";
+// import FormControl from "@mui/material/FormControl";
+// import MenuItem from "@mui/material/MenuItem";
+// import Paper from "@mui/material/Paper";
+// import Select from "@mui/material/Select";
+// import TextField from "@mui/material/TextField";
+// import Typography from "@mui/material/Typography";
 
 function SubmitButton() {
   const { pending } = useFormStatus();

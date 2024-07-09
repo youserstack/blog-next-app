@@ -6,11 +6,12 @@ import { Context } from "@/components/context/Provider";
 import { useFormState } from "react-dom";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createCategoryAction } from "@/app/actions";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+// import Paper from "@mui/material/Paper";
+// import Typography from "@mui/material/Typography";
+// import Button from "@mui/material/Button";
+// import TextField from "@mui/material/TextField";
 import "./CategoryCreateModal.scss";
+import { Button, Paper, TextField, Typography } from "@mui/material";
 
 export default function CategoryCreateModal() {
   const router = useRouter();

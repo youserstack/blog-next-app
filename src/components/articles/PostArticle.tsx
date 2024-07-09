@@ -1,3 +1,5 @@
+"use client";
+
 import ArticleOptionButton from "@/components/buttons/ArticleOptionButton";
 import CommentCreateForm from "@/components/forms/CommentCreateForm";
 import CommentList from "@/components/lists/CommentList";

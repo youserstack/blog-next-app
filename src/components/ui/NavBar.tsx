@@ -5,7 +5,8 @@ import Etc from "@/components/ui/Etc";
 import Nav from "@/components/ui/Nav";
 import Link from "next/link";
 import UserArea from "@/components/areas/UserArea";
-import AppBar from "@mui/material/AppBar";
+import { AppBar } from "@mui/material";
+// import AppBar from "@mui/material/AppBar";
 
 export default function NavBar({ user, categories }: any) {
   return (

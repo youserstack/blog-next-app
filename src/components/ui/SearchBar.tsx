@@ -1,7 +1,7 @@
 "use client";
 
 import { IoIosSearch } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import "./SearchBar.scss";
 import { Autocomplete, Button, TextField } from "@mui/material";
@@ -22,10 +22,6 @@ export default function SearchBar() {
   const router = useRouter();
   const search = (searchWords: string) => router.push(`/search?searchWords=${searchWords}`);
   const [isOpen, setIsOpen] = useState(false);
-
-  // useEffect(() => {
-  //   console.log({ searchWords });
-  // }, [searchWords]);
 
   return (
     <div className="search-bar">
