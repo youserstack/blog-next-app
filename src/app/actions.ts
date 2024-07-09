@@ -41,38 +41,14 @@ export async function updatePostAction(formData: FormData, postId: string, acces
   return response.json();
 }
 
-// export async function signinAction(prevState: any, formData: FormData) {
-//   const url = `${process.env.ROOT_URL}/api/auth/signin`;
-//   const response = await fetch(url, { method: "POST", body: formData });
-//   // const { error, accessToken, refreshToken } = await response.json();
-
-//   // client browser localStorage에 accessToken을 저장시키기 위해서 새로운 객체를 리턴한다.
-//   if (!response.ok) {
-//     const { error } = await response.json();
-//     return error ? { error } : { error: "exception error" };
-//   } else {
-//     const { accessToken, refreshToken } = await response.json();
-//     cookies().set("refreshToken", refreshToken, {
-//       httpOnly: true,
-//       secure: true,
-//       sameSite: "lax",
-//       expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
-//       path: "/",
-//     });
-//     return { accessToken };
-//   }
-// }
-export async function signinAction(formData: FormData) {
-  const email = formData.get("email");
-  const password = formData.get("password");
-  const response = await fetch(`${process.env.ROOT_URL}/api/auth/signin`, {
-    method: "POST",
-    body: JSON.stringify({ email, password }),
-  });
+export async function signinAction(prevState: any, formData: FormData) {
+  const url = `${process.env.ROOT_URL}/api/auth/signin`;
+  const response = await fetch(url, { method: "POST", body: formData });
   const { error, accessToken, refreshToken } = await response.json();
 
+  // client browser localStorage에 accessToken을 저장시키기 위해서 새로운 객체를 리턴한다.
   if (!response.ok) {
-    return { error: error || "25234234243" };
+    return error ? { error } : { error: "exception error" };
   } else {
     cookies().set("refreshToken", refreshToken, {
       httpOnly: true,
@@ -84,6 +60,25 @@ export async function signinAction(formData: FormData) {
     return { accessToken };
   }
 }
+// export async function signinAction(formData: FormData) {
+//   const response = await fetch(`${process.env.ROOT_URL}/api/auth/signin`, {
+//     method: "POST",
+//     body: formData,
+//   });
+//   const { error, accessToken, refreshToken } = await response.json();
+//   // const data = await response.json();
+
+//   if (!response.ok) return { error: error || "25234234243" };
+
+//   cookies().set("refreshToken", refreshToken, {
+//     httpOnly: true,
+//     secure: true,
+//     sameSite: "lax",
+//     expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
+//     path: "/",
+//   });
+//   return { accessToken };
+// }
 
 export async function signupAction(previousState: any, formData: FormData) {
   const response = await fetch(`${process.env.ROOT_URL}/api/auth/signup`, {
