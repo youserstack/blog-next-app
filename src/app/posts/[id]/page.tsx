@@ -1,15 +1,11 @@
 import PostArticle from "@/components/articles/PostArticle";
 import { getPost } from "@/lib/utils/fetchers/getters";
-import "./page.scss";
 
 // export const dynamicParams = false; // true | false,
 
 export async function generateStaticParams() {
-  const { posts } = await fetch(`${process.env.ROOT_URL}/api/static/all-posts`).then((res) =>
-    res.json()
-  );
-
-  // return posts;
+  const url = `${process.env.ROOT_URL}/api/static/all-posts`;
+  const { posts } = await fetch(url).then((res) => res.json());
   return posts.map((post: any) => ({ id: post._id }));
 }
 
@@ -18,7 +14,7 @@ export default async function PostId({ params: { id: postId } }: { params: { id:
 
   return (
     <main className="post-id">
-      <section>
+      <section style={{ display: "flex", position: "relative" }}>
         <PostArticle post={post} />
       </section>
     </main>
