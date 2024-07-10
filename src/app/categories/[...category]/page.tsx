@@ -19,8 +19,8 @@ export default function Category({ params: { category } }: CategoryProps) {
 
   // isLoading은 처음 로드시에만 값이 true에서 false로 변경된다.
   // 하지만, isValidating은 데이터를 패칭할때마다 true에서 false로 변경된다.
-  useEffect(() => setIsLoading(isValidating), [isValidating]);
-  useEffect(() => setDynamicUrl(url), [url]); // 포스트 게시글 생성후 데이터 패칭시 사용
+  useEffect(() => setIsLoading(isValidating), [isValidating, setIsLoading]);
+  useEffect(() => setDynamicUrl(url), [url, setDynamicUrl]); // 포스트 게시글 생성후 데이터 패칭시 사용
 
   if (isLoading) return null;
   const { posts, totalCount } = data;

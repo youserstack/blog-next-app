@@ -6,7 +6,9 @@ import CommentOptionButton from "@/components/buttons/CommentOptionButton";
 import { useContext, useEffect } from "react";
 import { Context } from "@/components/context/Provider";
 import "./CommentList.scss";
-import { Button, Paper } from "@mui/material";
+// import { Button, Paper } from "@mui/material";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
@@ -19,7 +21,7 @@ export default function CommentList({ postId }: any) {
     // isLoading은 처음 로드시에만 값이 true에서 false로 변경된다.
     // 하지만, isValidating은 데이터를 패칭할때마다 true에서 false로 변경된다.
     setIsLoading(isLoading);
-  }, [isLoading]);
+  }, [isLoading, setIsLoading]);
 
   if (isLoading) return null;
 

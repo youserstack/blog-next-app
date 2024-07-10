@@ -1,10 +1,7 @@
-import "./page.scss";
-
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  description: "youserstack blog",
-};
+// import type { Metadata } from "next";
+// export const metadata: Metadata = {
+//   description: "youserstack blog",
+// };
 
 export default function Home() {
   return (

@@ -27,7 +27,7 @@ export default function ThemeToggle() {
     // 이벤트 등록과 제거
     mediaQueryList.addEventListener("change", handleChange);
     return () => mediaQueryList.removeEventListener("change", handleChange);
-  }, []);
+  }, [setTheme]);
 
   // 포커싱에 의한 테마변경
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function ThemeToggle() {
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, []);
+  }, [setTheme]);
 
   // 토글에 의한 테마변경
   useEffect(() => {

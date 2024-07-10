@@ -31,7 +31,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (isValidatingPopular || isValidatingLatest) setIsLoading(true);
     else setIsLoading(false);
-  }, [isValidatingPopular, isValidatingLatest]);
+  }, [isValidatingPopular, isValidatingLatest, setIsLoading]);
 
   if (isLoadingPopular || isLoadingLatest) {
     return (

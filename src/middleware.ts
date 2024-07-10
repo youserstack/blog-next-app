@@ -1,4 +1,4 @@
-import { verifyAccessToken, verifyRefreshToken } from "@/lib/utils/auth";
+import { verifyAccessToken, verifyRefreshToken } from "@/lib/utils/authEdge";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -61,10 +61,10 @@ export default async function middleware(request: NextRequest) {
   }
 
   // 로그인페이지, 가입페이지 접근시, 인증된 사용자라면 dashboard페이지로 리다이렉트한다.
-  if ((pathname.startsWith("/auth/signin") || pathname.startsWith("/auth/signup")) && user) {
-    console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
+  // if ((pathname.startsWith("/auth/signin") || pathname.startsWith("/auth/signup")) && user) {
+  //   console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
+  //   return NextResponse.redirect(new URL("/dashboard", request.url));
+  // }
 
   // configurate the custom header
   // let response = NextResponse.next();
@@ -94,7 +94,20 @@ export default async function middleware(request: NextRequest) {
   return NextResponse.next({ request: { headers } });
 }
 
-export const config = { matcher: ["/:path*"] };
+export const config = {
+  matcher: [
+    "/:path*",
+    // "/api/:path*",
+    // "/auth/:path*",
+    // "/categories/:path*",
+    // "/dashboard/:path*",
+    // "/posts/:path*",
+    // "/search/:path*",
+    // "/",
+
+    //
+  ],
+};
 
 // 미들웨어를 거치지 않고 page, api를 서버에서 핸들링하게되면,
 // 커스텀 헤더를 설정하지 않는다.

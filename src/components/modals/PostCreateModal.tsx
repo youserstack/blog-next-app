@@ -66,7 +66,7 @@ export default function PostCreateModal() {
       // mutate("categorized-posts");
       mutate(dynamicUrl);
     }
-  }, [state, closeModal, router]);
+  }, [state, closeModal, router, dynamicUrl]);
 
   return (
     <Paper

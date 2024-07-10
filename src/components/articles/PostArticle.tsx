@@ -5,8 +5,8 @@ import CommentCreateForm from "@/components/forms/CommentCreateForm";
 import CommentList from "@/components/lists/CommentList";
 import Image from "next/image";
 import "./PostArticle.scss";
-import { Paper } from "@mui/material";
-// import Paper from "@mui/material/Paper";
+// import { Paper } from "@mui/material";
+import Paper from "@mui/material/Paper";
 
 export default function PostArticle({ post }: any) {
   if (!post) return null;

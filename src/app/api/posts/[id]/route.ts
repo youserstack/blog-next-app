@@ -7,7 +7,7 @@ import User from "@/lib/models/User";
 
 // 포스트 읽기 (read)
 export async function GET(request: Request, { params }: { params: { id: string } }) {
-  console.log("\n\x1b[32m[api/posts/[id]]\x1b[0m");
+  // console.log("\n\x1b[32m[api/posts/[id]]\x1b[0m");
   await connectDB();
 
   // query

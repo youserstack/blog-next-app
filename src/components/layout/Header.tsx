@@ -13,8 +13,8 @@ import NavBar from "@/components/ui/NavBar";
 // });
 
 export default async function Header() {
-  const user = JSON.parse(headers().get("user") as string);
   const { categories } = await getCategories();
+  const user = headers().get("user") ? JSON.parse(headers().get("user") as string) : null;
 
   return (
     <header>

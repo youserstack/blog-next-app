@@ -8,8 +8,10 @@ import { Context } from "@/components/context/Provider";
 import { createCommentAction } from "@/app/actions";
 import Image from "next/image";
 import Link from "next/link";
-// import Paper from "@mui/material/Paper";
-import { Button, Paper, TextField } from "@mui/material";
+// import { Button, Paper, TextField } from "@mui/material";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
 
 export default function CommentCreateForm({
   authorImage,

@@ -73,7 +73,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     refreshAccessToken();
     const intervalId = setInterval(refreshAccessToken, 1000 * 60 * 15); // 15분마다 토큰 갱신 (1초*60*15=15분)
     return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 클리어
-  }, []);
+  }, [refreshAccessToken]);
 
   return (
     <Context.Provider

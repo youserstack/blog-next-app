@@ -9,13 +9,11 @@ export async function POST(request: Request) {
   await connectDB();
 
   // extract
-  const formData = await request.formData();
-  const parentCategories = JSON.parse(formData.get("parentCategories") as string);
-  const isEmptyString = (formData.get("childCategory") as string).trim();
-  if (!isEmptyString) {
-    return Response.json({ error: "Empty String" }, { status: 400 });
-  }
-  const childCategory = (formData.get("childCategory") as string).replace(/\s+/g, "-");
+  // const formData = await request.formData();
+  const { parentCategories, childCategory: tempChildCategory } = await request.json();
+  const isEmptyString = parentCategories.trim();
+  if (!isEmptyString) return Response.json({ error: "Empty String" }, { status: 400 });
+  const childCategory = tempChildCategory.replace(/\s+/g, "-");
 
   // 부모 카테고리 0개 (최상위로서 네비게이션메뉴에서 카테고리를 생성한 경우)
   if (parentCategories.length === 0) {

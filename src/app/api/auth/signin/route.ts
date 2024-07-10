@@ -7,17 +7,16 @@ import {
   validatePassword,
 } from "@/lib/utils/auth";
 import bcrypt from "bcrypt";
-import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
   console.log("\n\x1b[34m[api/auth/signin]:::[POST]\x1b[0m");
   await connectDB();
 
   // extract
-  // const { email, password } = await request.json();
-  const formData = await request.formData();
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
+  const { email, password } = await request.json();
+  // const formData = await request.formData();
+  // const email = formData.get("email") as string;
+  // const password = formData.get("password") as string;
   console.log({ email, password });
   const isPayloadMissing = !email || !password;
   if (isPayloadMissing) return Response.json({ error: "missing payload" }, { status: 400 });
@@ -46,8 +45,6 @@ export async function POST(request: Request) {
   foundUser.refreshToken = refreshToken;
   const savedUser = await foundUser.save();
   // console.log({ savedUser });
-
-  // revalidatePath("/", "layout");
 
   // server action 에서 refreshToken 을 쿠키에 저장하고, accessToken 을 리턴한다.
   return Response.json({ accessToken, refreshToken }, { status: 200 });

@@ -8,7 +8,6 @@ export default function UserArea({ user }: any) {
     <div className="user-area">
       {user ? (
         <>
-          <Link href={"/protected"}>protected</Link>
           <Link href={"/dashboard"}>dashboard</Link>
           <SignOutButton />
         </>

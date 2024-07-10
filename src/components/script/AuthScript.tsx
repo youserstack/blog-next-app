@@ -10,7 +10,7 @@ export default function AuthScript({ user }: any) {
     console.log({ user });
     if (user) setUser(user);
     else setUser(null);
-  }, [user]);
+  }, [user, setUser]);
 
   return null;
 }

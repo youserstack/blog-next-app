@@ -8,7 +8,7 @@ export default function CategoriesScript({ categories }: { categories: [] }) {
 
   useEffect(() => {
     setCategories(categories);
-  }, [categories]);
+  }, [categories, setCategories]);
 
   useEffect(() => {
     // 배열을 생성할 때 사용할 변수
@@ -42,7 +42,7 @@ export default function CategoriesScript({ categories }: { categories: [] }) {
     }
 
     setCategoryPaths(categoryPaths);
-  }, [categories]);
+  }, [categories, setCategoryPaths]);
 
   return null;
 }

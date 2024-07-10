@@ -37,7 +37,7 @@ export default function PostArticleDeleteForm({ post }: any) {
 
   useEffect(() => {
     if (deleteState?.deletedPost) router.push("/");
-  }, [deleteState]);
+  }, [deleteState, router]);
 
   return (
     <form className="post-article-delete-form" action={deleteAction}>
