@@ -4,7 +4,8 @@ import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { signinAction } from "@/app/actions";
-import { Button, Paper, TextField } from "@mui/material";
+import { Button, Paper, TextField, Typography } from "@mui/material";
+import Link from "next/link";
 
 export default function SigninForm() {
   const router = useRouter();
@@ -24,9 +25,14 @@ export default function SigninForm() {
       sx={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "5rem" }}
       variant="outlined"
     >
+      <Typography variant="h5">계정 로그인</Typography>
       <TextField label="email" variant="outlined" type="email" name="email" required />
       <TextField label="password" variant="outlined" type="password" name="password" required />
       <Button type="submit">sign in</Button>
+      <Typography align="center">
+        계정이 없으신가요? <Link href="/auth/signup">회원가입</Link>
+      </Typography>
+
       {state?.error && (
         <>
           <p>{state.error}</p>
