@@ -2,7 +2,7 @@
 
 import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
-import "./CategoryCreateButton.scss";
+import { Button } from "@mui/material";
 
 export default function CategoryCreateButton({
   parentCategories,
@@ -14,14 +14,13 @@ export default function CategoryCreateButton({
   const { setParentCategories, openModal }: any = useContext(Context);
 
   return (
-    <button
-      className="category-create-button"
+    <Button
       onClick={() => {
         setParentCategories(parentCategories);
         openModal("category-create-modal");
       }}
     >
       {label}
-    </button>
+    </Button>
   );
 }

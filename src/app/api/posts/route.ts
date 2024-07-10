@@ -97,7 +97,6 @@ export async function POST(request: Request) {
     return Response.json({ error: "해당 사용자가 존재하지 않습니다." }, { status: 404 });
 
   // extract
-  // const { category, title, content, tags, image } = await request.json();
   const formData = await request.formData();
   const category = formData.get("category") as string;
   const title = formData.get("title") as string;

@@ -13,10 +13,10 @@ export async function POST(request: Request) {
   await connectDB();
 
   // extract
-  const { email, password } = await request.json();
-  // const formData = await request.formData();
-  // const email = formData.get("email") as string;
-  // const password = formData.get("password") as string;
+  // const { email, password } = await request.json();
+  const formData = await request.formData();
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
   console.log({ email, password });
   const isPayloadMissing = !email || !password;
   if (isPayloadMissing) return Response.json({ error: "missing payload" }, { status: 400 });
