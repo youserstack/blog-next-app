@@ -4,17 +4,10 @@ import HeaderScript from "@/components/script/HeaderScript";
 import AuthScript from "@/components/script/AuthScript";
 import NavBar from "@/components/ui/NavBar";
 
-// import dynamic from "next/dynamic";
-// const HeaderScript = dynamic(() => import("@/components/script/HeaderScript"), {
-//   ssr: false,
-// });
-// const AuthScript = dynamic(() => import("@/components/script/AuthScript"), {
-//   ssr: false,
-// });
-
 export default async function Header() {
   const { categories } = await getCategories();
-  const user = headers().get("user") ? JSON.parse(headers().get("user") as string) : null;
+  const user = JSON.parse(headers().get("user") as string);
+  // const user = headers().get("user") ? JSON.parse(headers().get("user") as string) : null;
 
   return (
     <header>

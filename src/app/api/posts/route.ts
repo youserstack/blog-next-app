@@ -97,12 +97,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "해당 사용자가 존재하지 않습니다." }, { status: 404 });
 
   // extract
-  const formData = await request.formData();
-  const category = formData.get("category") as string;
-  const title = formData.get("title") as string;
-  const content = formData.get("content") as string;
-  const tags = (formData.get("tags") as string).split(",").map((tag) => tag.trim());
-  const image = formData.get("image") as File;
+  const { category, title, content, tags, image } = await request.json();
   if (!category || !title || !content || !tags || !image)
     return Response.json(
       { error: "포스트 게시물의 필수 정보를 모두 입력하세요." },

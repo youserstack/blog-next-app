@@ -34,8 +34,7 @@ export async function POST(request: Request) {
   // extract
   const { searchParams } = new URL(request.url);
   const postId = searchParams.get("postId");
-  const formData = await request.formData();
-  const content = formData.get("content");
+  const { content } = await request.json();
   if (!content) return Response.json({ error: "댓글내용을 누락하였습니다." }, { status: 404 });
   if (!postId) return Response.json({ error: "포스트아이디를 누락하였습니다." }, { status: 404 });
 

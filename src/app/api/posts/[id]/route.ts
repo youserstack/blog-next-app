@@ -45,12 +45,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 
   // extract
   const postId = params.id;
-  const formData = await request.formData();
-  const category = formData.get("category") as string | null;
-  const title = formData.get("title") as string | null;
-  const content = formData.get("content") as string | null;
-  const tags = formData.get("tags") as string | null;
-  const image = formData.get("image") as File | null;
+  const { category, title, content, tags, image } = await request.json();
 
   // 업데이트할 객체를 준비한다.
   const payload: { [key: string]: any } = {};
@@ -61,8 +56,8 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     // 태그 문자열이 제공된 경우 배열로 변환합니다.
     payload.tags = tags
       .split(",")
-      .map((tag) => tag.trim())
-      .filter((tag) => tag !== ""); // 공백 태그 제거
+      .map((tag: string) => tag.trim())
+      .filter((tag: string) => tag !== ""); // 공백 태그 제거
   }
   if (image !== null && image !== undefined) {
     const isValidImage =
