@@ -44,8 +44,6 @@ export default function Dashboard() {
   return (
     <main className="dashboard">
       <section style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-        {/* <div className="breadcrumb">{"> dashboard"}</div> */}
-
         <Paper
           className="popular"
           variant="outlined"

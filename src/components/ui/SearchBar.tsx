@@ -3,8 +3,7 @@
 import { IoIosSearch } from "react-icons/io";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import "./SearchBar.scss";
-import { Autocomplete, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, TextField } from "@mui/material";
 
 // 제안할 검색어 목록
 const suggestions = [
@@ -24,7 +23,20 @@ export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="search-bar">
+    <Box
+      className="search-bar"
+      sx={{
+        width: "100%",
+        height: "70%",
+        maxWidth: "500px",
+        overflow: "hidden",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "relative",
+        borderRadius: "5px",
+      }}
+    >
       <Autocomplete
         options={suggestions}
         fullWidth
@@ -62,9 +74,17 @@ export default function SearchBar() {
         )}
       />
 
-      <Button onClick={() => search(searchWords)}>
+      <Button
+        onClick={() => search(searchWords)}
+        sx={{
+          position: "absolute",
+          top: "4px",
+          right: "4px",
+          bottom: "4px",
+        }}
+      >
         <IoIosSearch />
       </Button>
-    </div>
+    </Box>
   );
 }

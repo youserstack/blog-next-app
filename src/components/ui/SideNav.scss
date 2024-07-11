@@ -1,36 +1,4 @@
 .side-nav {
-  width: 250px;
-  position: sticky;
-  top: calc(60px + 1rem);
-  height: calc(100vh - 60px - 2rem);
-  overflow-y: scroll;
-  scrollbar-width: thin;
-  scrollbar-color: #eaeaea transparent;
-  scrollbar-gutter: stable;
-
-  ul {
-    display: flex;
-    flex-direction: column;
-  }
-
-  // rootCategories
-  ul.root-categories {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    ul {
-      flex: 1;
-      max-height: 0;
-      transition: opacity 0.15s ease 0s, max-height 0.3s ease-in-out 0s;
-      overflow: hidden;
-      padding-left: 1rem;
-      margin-left: 1rem;
-      border-left: 1px solid #ebebeb;
-      // transition: max-height 0.5s ease-out;
-    }
-  }
-
   // menu label
   a {
     height: 2rem;

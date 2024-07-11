@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { MouseEventHandler } from "react";
+import { CSSProperties, MouseEventHandler } from "react";
 import { useParams } from "next/navigation";
 import { SlArrowRight } from "react-icons/sl";
+import { Box } from "@mui/material";
 import "./SideNav.scss";
 
 export default function SideNav({ categories }: any) {
@@ -31,9 +32,31 @@ export default function SideNav({ categories }: any) {
     }
   };
 
+  const linkStyle = (isLeaf: any) => ({ color: isLeaf ? "#0072f5" : "initial" });
+  const subCategoriesStyle: CSSProperties = {
+    transition: "opacity 0.15s ease 0s, max-height 0.3s ease-in-out 0s",
+    overflow: "hidden",
+    marginLeft: "1rem",
+    paddingLeft: "1rem",
+    borderLeft: "1px solid #ebebeb",
+  };
+
   return (
-    <nav className="side-nav">
-      <ul className="root-categories">
+    <Box
+      component={"nav"}
+      className="side-nav"
+      sx={{
+        width: "250px",
+        position: "sticky",
+        top: "calc(60px + 1rem)",
+        height: "calc(100vh - 60px - 2rem)",
+        overflowY: "scroll",
+        scrollbarWidth: "thin",
+        scrollbarColor: "#eaeaea transparent",
+        scrollbarGutter: "stable",
+      }}
+    >
+      <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         {/* rootCategories */}
         {categories.map((category: any) => {
           const rootCategoryName = category.name;
@@ -49,11 +72,7 @@ export default function SideNav({ categories }: any) {
               key={rootCategoryPath}
               data-is-expanded={isMatched ? "true" : "false"}
             >
-              <Link
-                href={rootCategoryPath}
-                onClick={handleClick}
-                style={{ color: isLeaf ? "#0072f5" : "initial" }}
-              >
+              <Link href={rootCategoryPath} onClick={handleClick} style={linkStyle(isLeaf)}>
                 <span>{rootCategoryLabel}</span>
                 <button
                   style={{ transform: isMatched ? "rotate(90deg)" : "initial" }}
@@ -63,7 +82,10 @@ export default function SideNav({ categories }: any) {
                 </button>
               </Link>
 
-              <ul className="sub1-categories" style={{ maxHeight: isMatched ? "100vh" : "intial" }}>
+              <ul
+                className="sub1-categories"
+                style={{ maxHeight: isMatched ? "100vh" : "0", ...subCategoriesStyle }}
+              >
                 {/* sub1Categories */}
                 {category.sub1Categories?.map((sub1Category: any) => {
                   const sub1CategoryName = sub1Category.name;
@@ -79,11 +101,7 @@ export default function SideNav({ categories }: any) {
                       key={sub1CategoryPath}
                       data-is-expanded={isMatched ? "true" : "false"}
                     >
-                      <Link
-                        href={sub1CategoryPath}
-                        onClick={handleClick}
-                        style={{ color: isLeaf ? "#0072f5" : "initial" }}
-                      >
+                      <Link href={sub1CategoryPath} onClick={handleClick} style={linkStyle(isLeaf)}>
                         <span>{sub1CategoryLabel}</span>
                         <button
                           style={{ transform: isMatched ? "rotate(90deg)" : "initial" }}
@@ -95,7 +113,7 @@ export default function SideNav({ categories }: any) {
 
                       <ul
                         className="sub2-categories"
-                        style={{ maxHeight: isMatched ? "100vh" : "intial" }}
+                        style={{ maxHeight: isMatched ? "100vh" : "0", ...subCategoriesStyle }}
                       >
                         {/* sub2Categories */}
                         {sub1Category.sub2Categories?.map((sub2Category: any) => {
@@ -107,10 +125,7 @@ export default function SideNav({ categories }: any) {
                           // console.log({ sub2CategoryPath });
                           return (
                             <li className="sub2-category" key={sub2CategoryPath}>
-                              <Link
-                                href={sub2CategoryPath}
-                                style={{ color: isLeaf ? "#0072f5" : "initial" }}
-                              >
+                              <Link href={sub2CategoryPath} style={linkStyle(isLeaf)}>
                                 <span>{sub2CategoryLabel}</span>
                               </Link>
                             </li>
@@ -125,6 +140,6 @@ export default function SideNav({ categories }: any) {
           );
         })}
       </ul>
-    </nav>
+    </Box>
   );
 }
