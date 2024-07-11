@@ -42,7 +42,7 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="dashboard">
+    <main>
       <section style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
         <Paper
           className="popular"

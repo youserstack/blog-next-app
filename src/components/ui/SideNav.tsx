@@ -5,7 +5,6 @@ import { CSSProperties, MouseEventHandler } from "react";
 import { useParams } from "next/navigation";
 import { SlArrowRight } from "react-icons/sl";
 import { Box } from "@mui/material";
-import "./SideNav.scss";
 
 export default function SideNav({ categories }: any) {
   const params: any = useParams(); // 클라이언트에서 요청한 파라미터
@@ -32,19 +31,34 @@ export default function SideNav({ categories }: any) {
     }
   };
 
-  const linkStyle = (isLeaf: any) => ({ color: isLeaf ? "#0072f5" : "initial" });
-  const subCategoriesStyle: CSSProperties = {
+  const linkStyle = (isLeaf: any): CSSProperties => ({
+    color: isLeaf ? "#0072f5" : "initial",
+    height: "2rem",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  });
+  const arrowButtonStyle = (isMatched: any): CSSProperties => ({
+    transform: isMatched ? "rotate(90deg)" : "initial",
+    transition: "transform 0.3s",
+    backgroundColor: "transparent",
+    padding: "1rem",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  });
+  const subListStyle = (isMatched: any): CSSProperties => ({
+    maxHeight: isMatched ? "100vh" : "0",
     transition: "opacity 0.15s ease 0s, max-height 0.3s ease-in-out 0s",
     overflow: "hidden",
     marginLeft: "1rem",
     paddingLeft: "1rem",
     borderLeft: "1px solid #ebebeb",
-  };
+  });
 
   return (
     <Box
       component={"nav"}
-      className="side-nav"
       sx={{
         width: "250px",
         position: "sticky",
@@ -67,25 +81,15 @@ export default function SideNav({ categories }: any) {
           const isLeaf = rootCategoryName === categorySegments[categorySegments.length - 1];
           // console.log({ rootCategoryPath });
           return (
-            <li
-              className="category"
-              key={rootCategoryPath}
-              data-is-expanded={isMatched ? "true" : "false"}
-            >
+            <li key={rootCategoryPath} data-is-expanded={isMatched ? "true" : "false"}>
               <Link href={rootCategoryPath} onClick={handleClick} style={linkStyle(isLeaf)}>
                 <span>{rootCategoryLabel}</span>
-                <button
-                  style={{ transform: isMatched ? "rotate(90deg)" : "initial" }}
-                  onClick={(e) => e.preventDefault()}
-                >
+                <button onClick={(e) => e.preventDefault()} style={arrowButtonStyle(isMatched)}>
                   <SlArrowRight />
                 </button>
               </Link>
 
-              <ul
-                className="sub1-categories"
-                style={{ maxHeight: isMatched ? "100vh" : "0", ...subCategoriesStyle }}
-              >
+              <ul className="sub1-categories" style={subListStyle(isMatched)}>
                 {/* sub1Categories */}
                 {category.sub1Categories?.map((sub1Category: any) => {
                   const sub1CategoryName = sub1Category.name;
@@ -104,17 +108,14 @@ export default function SideNav({ categories }: any) {
                       <Link href={sub1CategoryPath} onClick={handleClick} style={linkStyle(isLeaf)}>
                         <span>{sub1CategoryLabel}</span>
                         <button
-                          style={{ transform: isMatched ? "rotate(90deg)" : "initial" }}
                           onClick={(e) => e.preventDefault()}
+                          style={arrowButtonStyle(isMatched)}
                         >
                           <SlArrowRight />
                         </button>
                       </Link>
 
-                      <ul
-                        className="sub2-categories"
-                        style={{ maxHeight: isMatched ? "100vh" : "0", ...subCategoriesStyle }}
-                      >
+                      <ul className="sub2-categories" style={subListStyle(isMatched)}>
                         {/* sub2Categories */}
                         {sub1Category.sub2Categories?.map((sub2Category: any) => {
                           const sub2CategoryName = sub2Category.name;
