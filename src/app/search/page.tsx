@@ -14,7 +14,7 @@ export default async function Search({ searchParams }: any) {
   const { categories } = await getCategories();
 
   return (
-    <main className="search">
+    <main>
       <section>
         <SearchArticle
           categories={categories}

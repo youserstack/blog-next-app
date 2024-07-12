@@ -14,7 +14,7 @@ export default async function PostId({ params: { id: postId } }: { params: { id:
 
   return (
     <main className="post-id">
-      <section style={{ display: "flex", position: "relative" }}>
+      <section>
         <PostArticle post={post} />
       </section>
     </main>

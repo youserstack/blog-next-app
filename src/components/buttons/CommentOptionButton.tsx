@@ -50,9 +50,9 @@ export default function CommentOptionButton({ commentId, postId }: any) {
   };
 
   return (
-    <div className="comment-option-button">
+    <div>
       <Button onClick={handleOpen}>
-        <IoIosMore className="more" />
+        <IoIosMore />
       </Button>
 
       <Popper open={isOpen}>

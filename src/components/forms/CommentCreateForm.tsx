@@ -8,10 +8,10 @@ import { Context } from "@/components/context/Provider";
 import { createCommentAction } from "@/app/actions";
 import Image from "next/image";
 import Link from "next/link";
-// import { Button, Paper, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
+// import { Button, Paper, TextField } from "@mui/material";
 
 export default function CommentCreateForm({
   authorImage,
@@ -52,7 +52,6 @@ export default function CommentCreateForm({
   return (
     <Paper
       component={"form"}
-      className="comment-create-form"
       action={formAction}
       variant="outlined"
       sx={{
@@ -60,21 +59,21 @@ export default function CommentCreateForm({
         display: "flex",
         alignItems: "center",
         gap: "1rem",
-        "& .author-thumbnail": {
+      }}
+    >
+      <div
+        style={{
           width: "30px",
           height: "30px",
           borderRadius: "50%",
           overflow: "hidden",
           border: "2px solid green",
           alignSelf: "flex-start",
-        },
-        "& .main": { flex: 1 },
-      }}
-    >
-      <div className="author-thumbnail">
+        }}
+      >
         <Image src={authorImage} alt="" width={30} height={30} />
       </div>
-      <div className="main">
+      <div className="main" style={{ flex: "1" }}>
         {user ? (
           <>
             <TextField multiline maxRows={30} name="content" fullWidth label="댓글" />
