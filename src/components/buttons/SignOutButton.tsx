@@ -10,7 +10,7 @@ export default function SignOutButton() {
 
   return (
     <Button onClick={signout} sx={{ color: "white", whiteSpace: "nowrap" }}>
-      sign out
+      로그아웃
     </Button>
   );
 }

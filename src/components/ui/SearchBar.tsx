@@ -3,7 +3,7 @@
 import { IoIosSearch } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Autocomplete, Box, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, TextField, useTheme } from "@mui/material";
 
 // 제안할 검색어 목록
 const suggestions = [
@@ -21,6 +21,7 @@ export default function SearchBar() {
   const router = useRouter();
   const search = (searchWords: string) => router.push(`/search?searchWords=${searchWords}`);
   const [isOpen, setIsOpen] = useState(false);
+  const theme = useTheme();
 
   return (
     <Box
@@ -81,6 +82,10 @@ export default function SearchBar() {
           top: "4px",
           right: "4px",
           bottom: "4px",
+          color:
+            theme.palette.mode === "light"
+              ? theme.palette.primary.main
+              : theme.palette.background.default,
         }}
       >
         <IoIosSearch />

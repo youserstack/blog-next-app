@@ -7,6 +7,7 @@ import Link from "next/link";
 import UserArea from "@/components/areas/UserArea";
 import { AppBar } from "@mui/material";
 import { CSSProperties } from "react";
+import { SlGlobe } from "react-icons/sl";
 // import AppBar from "@mui/material/AppBar";
 
 const sectionStyle: CSSProperties = {
@@ -23,9 +24,9 @@ export default function NavBar({ user, categories }: any) {
   return (
     <AppBar component="nav">
       <section className="header-upper" style={{ ...sectionStyle, height: "40px" }}>
-        <h1>
-          <Link href={"/"}>blog</Link>
-        </h1>
+        <Link href={"/"} style={{ display: "flex", alignItems: "center", padding: "10px" }}>
+          <SlGlobe size={20} />
+        </Link>
         <SearchBar />
         <UserArea user={user} />
       </section>

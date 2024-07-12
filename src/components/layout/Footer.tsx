@@ -1,30 +1,27 @@
 "use client";
 
-import { Box, Typography, useTheme } from "@mui/material";
+import { AppBar, Typography } from "@mui/material";
 
 export default function Footer() {
-  const theme = useTheme();
-
   return (
-    <Box
+    <AppBar
       component={"footer"}
       sx={{
-        height: "500px",
-        backgroundColor: theme.palette.primary.main,
-        color: theme.palette.primary.contrastText,
-        padding: "3rem",
+        minHeight: "50vh",
+        position: "initial",
       }}
     >
       <section
         style={{
+          width: "100%",
           maxWidth: "1200px",
           border: "1px dashed white",
           margin: "auto",
           padding: "1rem",
         }}
       >
-        <Typography>footer</Typography>
+        <Typography>© 2024 youserstack. All rights reserved.</Typography>
       </section>
-    </Box>
+    </AppBar>
   );
 }

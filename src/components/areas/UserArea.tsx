@@ -13,8 +13,8 @@ export default function UserArea({ user }: any) {
         </>
       ) : (
         <>
-          <Link href={"/auth/signin"}>sign in</Link>
-          <Link href={"/auth/signup"}>sign up</Link>
+          <Link href={"/auth/signin"}>로그인</Link>
+          <Link href={"/auth/signup"}>회원가입</Link>
         </>
       )}
       <ThemeToggle />
