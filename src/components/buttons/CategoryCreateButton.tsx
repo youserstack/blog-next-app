@@ -2,7 +2,7 @@
 
 import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
-import { Button } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 
 export default function CategoryCreateButton({
   parentCategories,
@@ -12,6 +12,7 @@ export default function CategoryCreateButton({
   label: string;
 }) {
   const { setParentCategories, openModal }: any = useContext(Context);
+  const theme = useTheme();
 
   return (
     <Button
@@ -19,6 +20,7 @@ export default function CategoryCreateButton({
         setParentCategories(parentCategories);
         openModal("category-create-modal");
       }}
+      sx={{ color: theme.palette.primary.contrastText }}
     >
       {label}
     </Button>

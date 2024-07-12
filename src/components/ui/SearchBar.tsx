@@ -1,8 +1,8 @@
 "use client";
 
 import { IoIosSearch } from "react-icons/io";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Autocomplete, Box, Button, TextField } from "@mui/material";
 
 // 제안할 검색어 목록

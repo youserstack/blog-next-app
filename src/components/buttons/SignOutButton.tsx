@@ -9,11 +9,7 @@ export default function SignOutButton() {
   const { signout }: any = useContext(Context);
 
   return (
-    <Button
-      className="sign-out-button"
-      onClick={signout}
-      sx={{ color: "white", whiteSpace: "nowrap" }}
-    >
+    <Button onClick={signout} sx={{ color: "white", whiteSpace: "nowrap" }}>
       sign out
     </Button>
   );

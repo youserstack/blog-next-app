@@ -149,7 +149,7 @@ function SubmitButton() {
 
   setIsLoading(false);
   return (
-    <Button className="update-button" type="submit" disabled={pending} variant="contained">
+    <Button type="submit" disabled={pending} variant="contained">
       {pending ? "수정중..." : "수정"}
     </Button>
   );
