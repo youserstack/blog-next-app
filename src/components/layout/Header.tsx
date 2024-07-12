@@ -1,7 +1,6 @@
 import { getCategories } from "@/lib/utils/fetchers/getters";
 import { headers } from "next/headers";
 import HeaderScript from "@/components/script/HeaderScript";
-import AuthScript from "@/components/script/AuthScript";
 import NavBar from "@/components/ui/NavBar";
 
 export default async function Header() {
@@ -20,7 +19,6 @@ export default async function Header() {
     >
       <NavBar user={user} categories={categories} />
       <HeaderScript />
-      <AuthScript user={user} />
     </header>
   );
 }

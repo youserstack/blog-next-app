@@ -1,20 +1,9 @@
 "use client";
 
 import { IoIosSearch } from "react-icons/io";
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { CSSProperties, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Autocomplete, Box, Button, TextField, useTheme } from "@mui/material";
-
-// 제안할 검색어 목록
-const suggestions = [
-  { label: "Apple" },
-  { label: "Banana" },
-  { label: "Cherry" },
-  { label: "Date" },
-  { label: "Elderberry" },
-  { label: "Fig" },
-  { label: "Grape" },
-];
 
 export default function SearchBar() {
   const [searchWords, setSearchWords] = useState("");
@@ -24,20 +13,7 @@ export default function SearchBar() {
   const theme = useTheme();
 
   return (
-    <Box
-      className="search-bar"
-      sx={{
-        width: "100%",
-        height: "70%",
-        maxWidth: "500px",
-        overflow: "hidden",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "relative",
-        borderRadius: "5px",
-      }}
-    >
+    <Box className="search-bar" sx={searchBarStyle}>
       <Autocomplete
         options={suggestions}
         fullWidth
@@ -93,3 +69,26 @@ export default function SearchBar() {
     </Box>
   );
 }
+
+const searchBarStyle: CSSProperties = {
+  width: "100%",
+  height: "70%",
+  maxWidth: "500px",
+  overflow: "hidden",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  position: "relative",
+  borderRadius: "5px",
+};
+
+// 제안할 검색어 목록
+const suggestions = [
+  { label: "Apple" },
+  { label: "Banana" },
+  { label: "Cherry" },
+  { label: "Date" },
+  { label: "Elderberry" },
+  { label: "Fig" },
+  { label: "Grape" },
+];

@@ -1,9 +1,8 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { Context } from "@/components/context/Provider";
 import { CSSProperties, useContext, useEffect } from "react";
 import Image from "next/image";
 import useSWR from "swr";
-import Link from "next/link";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 

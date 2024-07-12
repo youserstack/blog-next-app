@@ -1,6 +1,9 @@
+"use client";
+
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import SignOutButton from "@/components/buttons/SignOutButton";
 import Link from "next/link";
+import AuthScript from "@/components/script/AuthScript";
 import "./UserArea.scss";
 
 export default function UserArea({ user }: any) {
@@ -8,7 +11,7 @@ export default function UserArea({ user }: any) {
     <div className="user-area">
       {user ? (
         <>
-          <Link href={"/dashboard"}>dashboard</Link>
+          <Link href={"/dashboard"}>대시보드</Link>
           <SignOutButton />
         </>
       ) : (
@@ -18,6 +21,7 @@ export default function UserArea({ user }: any) {
         </>
       )}
       <ThemeToggle />
+      <AuthScript user={user} />
     </div>
   );
 }
