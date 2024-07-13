@@ -4,16 +4,15 @@ import { updatePostAction } from "@/app/actions";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { useRouter } from "next/navigation";
 import { useFormState, useFormStatus } from "react-dom";
-import { useContext, useEffect, useState } from "react";
 import { MdCloudUpload } from "react-icons/md";
-import { Context } from "@/components/context/Provider";
+import { Box, Button, Paper, TextField } from "@mui/material";
+import PostDeleteButton from "./PostDeleteButton";
 import Image from "next/image";
+import { CSSProperties, useEffect, useState } from "react";
 // import Button from "@mui/material/Button";
 // import Box from "@mui/material/Box";
 // import Paper from "@mui/material/Paper";
 // import TextField from "@mui/material/TextField";
-import "./PostArticleEditForm.scss";
-import { Box, Button, Paper, TextField } from "@mui/material";
 
 export default function PostArticleEditForm({ post }: any) {
   const router = useRouter();
@@ -47,12 +46,6 @@ export default function PostArticleEditForm({ post }: any) {
     null
   );
 
-  // useEffect(() => {
-  //   const content: HTMLTextAreaElement | null = document.querySelector(".content");
-  //   if (!content) return;
-  //   content.style.height = `${content.scrollHeight}px`;
-  // }, [post.content]);
-
   useEffect(() => {
     if (updateState?.updatedPost) router.back();
   }, [updateState, router]);
@@ -74,30 +67,14 @@ export default function PostArticleEditForm({ post }: any) {
       component={"form"}
       className="post-article-edit-form"
       action={updateAction}
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-        padding: "1rem",
-      }}
+      sx={editFormStyle}
     >
       <Box sx={{ display: "flex", gap: "1rem" }}>
         <p>작성자 : {post.author?.name}</p>
         <p>{post.createdAt?.slice(0, 10)}</p>
       </Box>
 
-      <Box
-        sx={{
-          minHeight: "300px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "1rem",
-          position: "relative",
-        }}
-      >
+      <Box sx={imageBoxStyle}>
         <Image src={thumbnail} alt="" width={1000} height={1000} style={{ height: "300px" }} />
         <input
           type="file"
@@ -131,26 +108,41 @@ export default function PostArticleEditForm({ post }: any) {
 
       <TextField name="content" defaultValue={post.content} label="본문내용" multiline />
 
-      <div className="form-footer">
+      <Box sx={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
         <SubmitButton />
         <Button className="cancel-button" variant="contained" onClick={() => router.back()}>
           취소
         </Button>
-      </div>
+        <PostDeleteButton post={post} />
+      </Box>
     </Paper>
   );
 }
 
 function SubmitButton() {
   const { pending } = useFormStatus();
-  const { setIsLoading }: any = useContext(Context);
 
-  if (pending) return setIsLoading(true);
-
-  setIsLoading(false);
   return (
     <Button type="submit" disabled={pending} variant="contained">
       {pending ? "수정중..." : "수정"}
     </Button>
   );
 }
+
+const editFormStyle: CSSProperties = {
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  padding: "1rem",
+};
+
+const imageBoxStyle: CSSProperties = {
+  minHeight: "300px",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: "1rem",
+  position: "relative",
+};

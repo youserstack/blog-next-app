@@ -104,18 +104,6 @@ export async function POST(request: Request) {
       { status: 400 }
     );
 
-  // create a image url
-  let imageUrl: string | null;
-  try {
-    imageUrl = await uploadToCloudinary(image);
-  } catch (error) {
-    console.error(error);
-    return Response.json(
-      { error: "이미지 파일을 클라우드에 저장하는데 실패했습니다." },
-      { status: 400 }
-    );
-  }
-
   // create
   const payload = {
     category,
@@ -123,7 +111,7 @@ export async function POST(request: Request) {
     content,
     author: foundUser._id,
     tags,
-    image: imageUrl,
+    image,
   };
   const newPost = await Post.create(payload);
   console.log({ newPost });

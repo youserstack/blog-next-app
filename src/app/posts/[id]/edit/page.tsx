@@ -1,4 +1,3 @@
-import PostArticleDeleteForm from "@/components/forms/PostArticleDeleteForm";
 import PostArticleEditForm from "@/components/forms/PostArticleEditForm";
 import { getPost } from "@/lib/utils/fetchers/getters";
 
@@ -9,7 +8,6 @@ export default async function PostIdEdit({ params: { id: postId } }: { params: {
     <main>
       <section>
         <PostArticleEditForm post={post} />
-        {/* <PostArticleDeleteForm post={post} /> */}
       </section>
     </main>
   );

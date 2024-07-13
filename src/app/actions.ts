@@ -1,5 +1,6 @@
 "use server";
 
+import { uploadToCloudinary } from "@/lib/utils/uploader";
 import { cookies } from "next/headers";
 
 export async function createCategoryAction(formData: FormData, accessToken: string) {
@@ -19,6 +20,19 @@ export async function createPostAction(formData: FormData, accessToken: string) 
   const content = formData.get("content") as string;
   const tags = (formData.get("tags") as string).split(",").map((tag) => tag.trim());
   const image = formData.get("image") as File;
+
+  // create a image url
+  let imageUrl: string | null;
+  try {
+    imageUrl = await uploadToCloudinary(image);
+  } catch (error) {
+    console.error(error);
+    return Response.json(
+      { error: "이미지 파일을 클라우드에 저장하는데 실패했습니다." },
+      { status: 400 }
+    );
+  }
+
   const response = await fetch(`${process.env.ROOT_URL}/api/posts`, {
     method: "POST",
     headers: { Authorization: `Bearer ${accessToken}` },
@@ -27,7 +41,7 @@ export async function createPostAction(formData: FormData, accessToken: string) 
       title,
       content,
       tags,
-      image,
+      image: imageUrl,
     }),
   });
   return response.json();
