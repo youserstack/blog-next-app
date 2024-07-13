@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Popper from "@mui/material/Popper";
+import { MdEdit } from "react-icons/md";
 
 export default function ArticleOptionButton({ post }: any) {
   const { user }: any = useContext(Context);
@@ -37,7 +38,13 @@ export default function ArticleOptionButton({ post }: any) {
       <Popper open={isOpen}>
         <Menu anchorEl={anchorEl} open={isOpen} onClose={handleClose}>
           <MenuItem>
-            <Link href={`/posts/${post._id}/edit`}>수정</Link>
+            <Link
+              href={`/posts/${post._id}/edit`}
+              style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+            >
+              <MdEdit />
+              수정
+            </Link>
           </MenuItem>
         </Menu>
       </Popper>

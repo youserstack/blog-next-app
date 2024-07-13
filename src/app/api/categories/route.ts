@@ -1,7 +1,6 @@
 import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
 import Post from "@/lib/models/Post";
-import { revalidatePath } from "next/cache";
 
 // 카테고리 생성
 export async function POST(request: Request) {
@@ -70,8 +69,6 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   }
-
-  revalidatePath("/api/categories");
 
   return Response.json({ error: "카테고리 생성 실패" }, { status: 400 });
 }
@@ -147,9 +144,6 @@ export async function DELETE(request: Request) {
     });
     console.log({ deletedCategory: categories[2], deletedPosts });
   }
-
-  revalidatePath("/api/categories");
-  // revalidatePath("/", "layout");
 
   return Response.json({ deletedCategory: categories[categories.length - 1] }, { status: 200 });
 }

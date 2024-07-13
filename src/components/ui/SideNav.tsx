@@ -4,9 +4,11 @@ import Link from "next/link";
 import { CSSProperties, MouseEventHandler } from "react";
 import { useParams } from "next/navigation";
 import { SlArrowRight } from "react-icons/sl";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 
 export default function SideNav({ categories }: any) {
+  const theme = useTheme();
+  const leafColor = theme.palette.primary.main;
   const params: any = useParams(); // 클라이언트에서 요청한 파라미터
   const categorySegments = params.category.map((v: any) => decodeURIComponent(v));
 
@@ -45,7 +47,11 @@ export default function SideNav({ categories }: any) {
           // console.log({ rootCategoryPath });
           return (
             <li key={rootCategoryPath} data-is-expanded={isMatched ? "true" : "false"}>
-              <Link href={rootCategoryPath} onClick={handleClick} style={linkStyle(isLeaf)}>
+              <Link
+                href={rootCategoryPath}
+                onClick={handleClick}
+                style={linkStyle(isLeaf, leafColor)}
+              >
                 <span>{rootCategoryLabel}</span>
                 <button onClick={(e) => e.preventDefault()} style={arrowButtonStyle(isMatched)}>
                   <SlArrowRight />
@@ -68,7 +74,11 @@ export default function SideNav({ categories }: any) {
                       key={sub1CategoryPath}
                       data-is-expanded={isMatched ? "true" : "false"}
                     >
-                      <Link href={sub1CategoryPath} onClick={handleClick} style={linkStyle(isLeaf)}>
+                      <Link
+                        href={sub1CategoryPath}
+                        onClick={handleClick}
+                        style={linkStyle(isLeaf, leafColor)}
+                      >
                         <span>{sub1CategoryLabel}</span>
                         <button
                           onClick={(e) => e.preventDefault()}
@@ -89,7 +99,7 @@ export default function SideNav({ categories }: any) {
                           // console.log({ sub2CategoryPath });
                           return (
                             <li className="sub2-category" key={sub2CategoryPath}>
-                              <Link href={sub2CategoryPath} style={linkStyle(isLeaf)}>
+                              <Link href={sub2CategoryPath} style={linkStyle(isLeaf, leafColor)}>
                                 <span>{sub2CategoryLabel}</span>
                               </Link>
                             </li>
@@ -119,8 +129,8 @@ const sideNavStyle: CSSProperties = {
   scrollbarGutter: "stable",
 };
 
-const linkStyle = (isLeaf: any): CSSProperties => ({
-  color: isLeaf ? "#0072f5" : "initial",
+const linkStyle = (isLeaf: any, leafColor: any): CSSProperties => ({
+  color: isLeaf ? leafColor : "initial",
   height: "2rem",
   display: "flex",
   justifyContent: "space-between",

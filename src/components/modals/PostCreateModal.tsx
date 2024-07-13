@@ -6,7 +6,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import { useParams, useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
-import { MdCloudUpload } from "react-icons/md";
+import { MdCloudUpload, MdCreate } from "react-icons/md";
 import { mutate } from "swr";
 import { Button, FormControl, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
 // import Button from "@mui/material/Button";
@@ -86,7 +86,10 @@ export default function PostCreateModal() {
         },
       }}
     >
-      <Typography variant="h5">포스트 게시물 등록</Typography>
+      <Typography variant="h5" sx={{ display: "flex", gap: "0.5rem" }}>
+        <MdCreate />
+        포스트 게시물 작성하기
+      </Typography>
       <FormControl>
         <Select value={categoryPath} name="category" id="category">
           <MenuItem value={categoryPath}>{categoryPath.replaceAll("/", " > ")}</MenuItem>

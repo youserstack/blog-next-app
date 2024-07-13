@@ -8,9 +8,11 @@ import { IoIosMore } from "react-icons/io";
 import { MouseEvent, useContext, useState } from "react";
 import { Context } from "@/components/context/Provider";
 import { useParams } from "next/navigation";
-import { Button, Menu, MenuItem, Popper } from "@mui/material";
+import { Button, Menu, MenuItem, Popper, useTheme } from "@mui/material";
+import { MdAdd, MdCreate, MdDelete } from "react-icons/md";
 
 export default function CategoryOptionButton() {
+  const theme = useTheme();
   const params = useParams();
   const categorySegments = (params.category as string[]).map((v: any) => decodeURIComponent(v));
   const { setParentCategories, openModal }: any = useContext(Context);
@@ -45,9 +47,36 @@ export default function CategoryOptionButton() {
 
       <Popper open={isOpen}>
         <Menu anchorEl={anchorEl} open={isOpen} onClose={handleClose}>
-          <MenuItem onClick={handleOpenCreateCategoryModal}>create a new category</MenuItem>
-          <MenuItem onClick={handleOpenCreatePostModal}>create a post</MenuItem>
-          <MenuItem onClick={handleOpenDeleteCategoryModal}>delete this category</MenuItem>
+          <MenuItem
+            onClick={handleOpenCreatePostModal}
+            sx={{
+              display: "flex",
+              gap: "0.5rem",
+            }}
+          >
+            <MdCreate />
+            포스트 작성하기
+          </MenuItem>
+          <MenuItem
+            onClick={handleOpenCreateCategoryModal}
+            sx={{
+              display: "flex",
+              gap: "0.5rem",
+            }}
+          >
+            <MdAdd />새 카테고리 생성
+          </MenuItem>
+          <MenuItem
+            onClick={handleOpenDeleteCategoryModal}
+            sx={{
+              color: "#d73a49",
+              display: "flex",
+              gap: "0.5rem",
+            }}
+          >
+            <MdDelete />
+            현재 카테고리 삭제
+          </MenuItem>
         </Menu>
       </Popper>
     </div>

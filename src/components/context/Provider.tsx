@@ -13,8 +13,6 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   // const [theme, setTheme] = useState(prefersDarkMode ? "dark" : "light");
   // useEffect(() => setTheme(prefersDarkMode ? "dark" : "light"), [prefersDarkMode]);
   const [theme, setTheme] = useState("light"); // setTheme은 운영체제모드변경이나 브라우저포커싱할때 사용
-  const lightTheme = createTheme({ palette: { mode: "light" } });
-  const darkTheme = createTheme({ palette: { mode: "dark" } });
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light"); // 토글버튼에 사용
 
   // Loading
@@ -112,3 +110,22 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     </Context.Provider>
   );
 }
+
+const lightTheme = createTheme({
+  palette: {
+    mode: "light",
+    primary: {
+      main: "#3f50b5",
+      light: "#757ce8",
+      dark: "#002884",
+    },
+  },
+});
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#757ce8",
+    },
+  },
+});

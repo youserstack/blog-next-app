@@ -128,7 +128,7 @@ export async function POST(request: Request) {
   const newPost = await Post.create(payload);
   console.log({ newPost });
 
-  revalidatePath("/api/posts");
+  // revalidatePath("/api/posts");
 
   return Response.json({ newPost }, { status: 200 });
 }

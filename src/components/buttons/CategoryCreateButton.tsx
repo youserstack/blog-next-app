@@ -3,6 +3,7 @@
 import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
 import { Button } from "@mui/material";
+import { MdAdd } from "react-icons/md";
 
 export default function CategoryCreateButton({
   parentCategories,
@@ -20,7 +21,7 @@ export default function CategoryCreateButton({
 
   return (
     <Button className="category-create-button" onClick={handleOpenCategoryCreateModal}>
-      +
+      <MdAdd />
     </Button>
   );
 }

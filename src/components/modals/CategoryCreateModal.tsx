@@ -12,6 +12,7 @@ import { createCategoryAction } from "@/app/actions";
 // import TextField from "@mui/material/TextField";
 import "./CategoryCreateModal.scss";
 import { Button, Paper, TextField, Typography } from "@mui/material";
+import { MdAdd } from "react-icons/md";
 
 export default function CategoryCreateModal() {
   const router = useRouter();
@@ -47,8 +48,17 @@ export default function CategoryCreateModal() {
   }, [state, closeModal, router]);
 
   return (
-    <Paper component={"form"} className="category-create-modal" elevation={5} action={formAction}>
-      <Typography variant="h5">카테고리 생성</Typography>
+    <Paper
+      component={"form"}
+      className="category-create-modal"
+      elevation={5}
+      action={formAction}
+      sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+    >
+      <Typography variant="h5" sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <MdAdd />
+        카테고리 생성
+      </Typography>
       <TextField type="text" name="childCategory" label="카테고리" required />
       <Button type="submit">생성</Button>
     </Paper>
