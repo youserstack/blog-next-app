@@ -69,6 +69,8 @@ export default function SearchFilter({ categories }: any) {
     router.push(`?${urlSearchParams.toString()}`);
   };
 
+  if (!categories) return null;
+
   return (
     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>

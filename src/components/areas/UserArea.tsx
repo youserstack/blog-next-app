@@ -4,11 +4,10 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 import SignOutButton from "@/components/buttons/SignOutButton";
 import Link from "next/link";
 import AuthScript from "@/components/script/AuthScript";
-import "./UserArea.scss";
 
 export default function UserArea({ user }: any) {
   return (
-    <div className="user-area">
+    <div className="user-area" style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
       {user ? (
         <>
           <Link href={"/dashboard"}>대시보드</Link>
