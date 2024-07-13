@@ -1,11 +1,12 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Context } from "@/components/context/Provider";
 import { deleteCategory } from "@/lib/utils/fetchers/deleters";
 import { refreshAccessToken } from "@/lib/utils/auth";
-import "./CategoryDeleteModal.scss";
+import { Button, Paper, Typography } from "@mui/material";
+import { RiErrorWarningFill } from "react-icons/ri";
 
 export default function CategoryDeleteModal() {
   const router = useRouter();
@@ -57,19 +58,40 @@ export default function CategoryDeleteModal() {
   const handleClickCancelButton = () => closeModal();
 
   return (
-    <div className="category-delete-modal" onClick={(e) => e.stopPropagation()}>
-      <h3>현재 카테고리를 삭제하시겠습니까?</h3>
-      <p>카테고리를 삭제하면 해당된 포스트 게시글이 삭제됩니다.</p>
-      <div className="buttons">
-        <button
+    <Paper
+      className="category-delete-modal"
+      onClick={(e) => e.stopPropagation()}
+      sx={{
+        padding: "1rem",
+        color: "#d73a49",
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+      }}
+    >
+      <div>
+        <Typography variant="h5" sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <RiErrorWarningFill />
+          현재 카테고리를 삭제하시겠습니까?
+        </Typography>
+        <Typography variant="subtitle2">
+          카테고리를 삭제하면 해당된 포스트 게시글도 함께 삭제됩니다.
+        </Typography>
+      </div>
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: "1rem" }}>
+        <Button
           onClick={handleClickDeleteButton}
           disabled={categories.some((category: string) => protectedCategories.includes(category))}
+          variant="contained"
+          sx={{ backgroundColor: "#d73a49" }}
         >
-          delete
-        </button>
-        <button onClick={handleClickCancelButton}>cancel</button>
+          삭제
+        </Button>
+        <Button onClick={handleClickCancelButton} variant="contained">
+          취소
+        </Button>
       </div>
-    </div>
+    </Paper>
   );
 }
 

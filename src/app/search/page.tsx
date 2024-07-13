@@ -1,6 +1,8 @@
 import SearchResult from "@/components/articles/SearchResult";
 import SearchFilter from "@/components/features/SearchFilter";
+import Loading from "@/components/ui/Loading";
 import { getCategories } from "@/lib/utils/fetchers/getters";
+import { Suspense } from "react";
 
 export default async function Search() {
   const { categories } = await getCategories();
@@ -9,7 +11,9 @@ export default async function Search() {
     <main>
       <section style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <SearchFilter categories={categories} />
-        <SearchResult />
+        <Suspense fallback={<Loading />}>
+          <SearchResult />
+        </Suspense>
       </section>
     </main>
   );

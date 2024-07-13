@@ -64,7 +64,8 @@ export default function CategoryOptionButton() {
               gap: "0.5rem",
             }}
           >
-            <MdAdd />새 카테고리 생성
+            <MdAdd />
+            하위 카테고리 생성
           </MenuItem>
           <MenuItem
             onClick={handleOpenDeleteCategoryModal}
