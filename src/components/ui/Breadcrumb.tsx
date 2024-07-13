@@ -29,7 +29,7 @@ export default function Breadcrumb() {
         );
       })}
       {categorySegments?.length <= 2 && (
-        <CategoryCreateButton parentCategories={categorySegments} label="+" />
+        <CategoryCreateButton parentCategories={categorySegments} />
       )}
     </Box>
   );

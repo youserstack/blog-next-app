@@ -31,45 +31,8 @@ export default function SideNav({ categories }: any) {
     }
   };
 
-  const linkStyle = (isLeaf: any): CSSProperties => ({
-    color: isLeaf ? "#0072f5" : "initial",
-    height: "2rem",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  });
-  const arrowButtonStyle = (isMatched: any): CSSProperties => ({
-    transform: isMatched ? "rotate(90deg)" : "initial",
-    transition: "transform 0.3s",
-    backgroundColor: "transparent",
-    padding: "1rem",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  });
-  const subListStyle = (isMatched: any): CSSProperties => ({
-    maxHeight: isMatched ? "100vh" : "0",
-    transition: "opacity 0.15s ease 0s, max-height 0.3s ease-in-out 0s",
-    overflow: "hidden",
-    marginLeft: "1rem",
-    paddingLeft: "1rem",
-    borderLeft: "1px solid #ebebeb",
-  });
-
   return (
-    <Box
-      component={"nav"}
-      sx={{
-        width: "250px",
-        position: "sticky",
-        top: "calc(60px + 1rem)",
-        height: "calc(100vh - 60px - 2rem)",
-        overflowY: "scroll",
-        scrollbarWidth: "thin",
-        scrollbarColor: "#eaeaea transparent",
-        scrollbarGutter: "stable",
-      }}
-    >
+    <Box component={"nav"} sx={sideNavStyle}>
       <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         {/* rootCategories */}
         {categories.map((category: any) => {
@@ -144,3 +107,39 @@ export default function SideNav({ categories }: any) {
     </Box>
   );
 }
+
+const sideNavStyle: CSSProperties = {
+  width: "250px",
+  position: "sticky",
+  top: "calc(60px + 1rem)",
+  height: "calc(100vh - 60px - 2rem)",
+  overflowY: "scroll",
+  scrollbarWidth: "thin",
+  scrollbarColor: "#eaeaea transparent",
+  scrollbarGutter: "stable",
+};
+
+const linkStyle = (isLeaf: any): CSSProperties => ({
+  color: isLeaf ? "#0072f5" : "initial",
+  height: "2rem",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+});
+const arrowButtonStyle = (isMatched: any): CSSProperties => ({
+  transform: isMatched ? "rotate(90deg)" : "initial",
+  transition: "transform 0.3s",
+  backgroundColor: "transparent",
+  padding: "1rem",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
+const subListStyle = (isMatched: any): CSSProperties => ({
+  maxHeight: isMatched ? "100vh" : "0",
+  transition: "opacity 0.15s ease 0s, max-height 0.3s ease-in-out 0s",
+  overflow: "hidden",
+  marginLeft: "1rem",
+  paddingLeft: "1rem",
+  borderLeft: "1px solid #ebebeb",
+});

@@ -22,7 +22,7 @@ export default function NavBar({ user, categories }: any) {
         <UserArea user={user} />
       </section>
       <section className="header-lower" style={{ ...sectionStyle, height: "30px" }}>
-        <Nav categories={categories} user={user} />
+        <Nav categories={categories} />
         <Link href={""}>방명록</Link>
       </section>
     </AppBar>

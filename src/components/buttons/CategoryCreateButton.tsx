@@ -2,27 +2,25 @@
 
 import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
-import { Button, useTheme } from "@mui/material";
+import { Button } from "@mui/material";
 
 export default function CategoryCreateButton({
   parentCategories,
-  label,
 }: {
   parentCategories: string[] | null;
-  label: string;
 }) {
-  const { setParentCategories, openModal }: any = useContext(Context);
-  const theme = useTheme();
+  const { setParentCategories, openModal, user }: any = useContext(Context);
+
+  const handleOpenCategoryCreateModal = () => {
+    setParentCategories(parentCategories);
+    openModal("category-create-modal");
+  };
+
+  if (!user) return null;
 
   return (
-    <Button
-      onClick={() => {
-        setParentCategories(parentCategories);
-        openModal("category-create-modal");
-      }}
-      sx={{ color: theme.palette.primary.contrastText }}
-    >
-      {label}
+    <Button className="category-create-button" onClick={handleOpenCategoryCreateModal}>
+      +
     </Button>
   );
 }

@@ -28,7 +28,11 @@ export default function RecentCommentList() {
 
             <div>
               <Typography>{comment.author.name}</Typography>
-              <Typography>{comment.content}</Typography>
+              <Typography>
+                {comment.content.length > 20
+                  ? comment.content.slice(0, 20) + "..."
+                  : comment.content}
+              </Typography>
             </div>
           </Paper>
         ))}
@@ -55,6 +59,7 @@ const commentStyle: CSSProperties = {
 const imageStyle: CSSProperties = {
   width: "30px",
   height: "30px",
+  minWidth: "30px",
   border: "2px solid green",
   borderRadius: "50%",
   overflow: "hidden",

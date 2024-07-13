@@ -2,19 +2,19 @@
 
 import Link from "next/link";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
-// import dynamic from "next/dynamic";
-import { List, ListItem, Paper } from "@mui/material";
-import "./Nav.scss";
+import { Box, List, ListItem, Paper, useTheme } from "@mui/material";
 import CategoriesScript from "@/components/script/CategoriesScript";
+import "./Nav.scss";
 
-// Client 에서만 로드 (Lazy Loading)
-// const CategoriesScript = dynamic(() => import("@/components/script/CategoriesScript"), {
-//   ssr: false,
-// });
+export default function Nav({ categories }: any) {
+  const theme = useTheme();
 
-export default function Nav({ categories, user }: any) {
   return (
-    <nav className="nav">
+    <Box
+      component={"nav"}
+      className="nav"
+      sx={{ "& .category-create-button": { color: theme.palette.primary.contrastText } }}
+    >
       <List className="categories">
         {categories.map((category: any) => {
           const rootCategoryName = category.name;
@@ -56,11 +56,12 @@ export default function Nav({ categories, user }: any) {
             </ListItem>
           );
         })}
-        {user && <CategoryCreateButton parentCategories={[]} label="+" />}
+
+        <CategoryCreateButton parentCategories={[]} />
       </List>
 
       <CategoriesScript categories={categories} />
-    </nav>
+    </Box>
   );
 
   // return (
