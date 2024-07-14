@@ -4,15 +4,11 @@ import { useContext, useEffect } from "react";
 import { IoIosMoon, IoIosSunny } from "react-icons/io";
 import { Context } from "@/components/context/Provider";
 import "./ThemeToggle.scss";
+import { Box } from "@mui/material";
 
 export default function ThemeToggle() {
   // 테마모드 초기화
   const { theme, setTheme, toggleTheme }: any = useContext(Context);
-
-  // useEffect(() => {
-  //   const osTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  //   setTheme(osTheme);
-  // }, []);
 
   // 운영체제에 의한 테마변경
   useEffect(() => {
@@ -24,14 +20,12 @@ export default function ThemeToggle() {
       e.matches ? setTheme("dark") : setTheme("light");
     };
 
-    // 이벤트 등록과 제거
     mediaQueryList.addEventListener("change", handleChange);
     return () => mediaQueryList.removeEventListener("change", handleChange);
   }, [setTheme]);
 
   // 포커싱에 의한 테마변경
   useEffect(() => {
-    // 비저블러티 체인지 핸들러
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
         const isDarkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -39,6 +33,7 @@ export default function ThemeToggle() {
         setTheme(osTheme);
       }
     };
+
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, [setTheme]);
@@ -51,10 +46,33 @@ export default function ThemeToggle() {
   }, [theme]);
 
   return (
-    <div className="theme-toggle" onClick={toggleTheme}>
-      <div className="moving-ball">
+    <Box
+      className="theme-toggle"
+      onClick={toggleTheme}
+      sx={{
+        width: "40px",
+        height: "22px",
+        borderRadius: "20px",
+        display: "flex",
+        alignItems: "center",
+        position: "relative",
+        cursor: "pointer",
+        overflowX: "hidden",
+        backgroundColor: theme === "light" ? "#fff" : "#000",
+      }}
+    >
+      <div
+        className="moving-ball"
+        style={{
+          position: "absolute",
+          left: "2px",
+          transition: "all 1s",
+          display: "flex",
+          transform: theme === "light" ? "translateX(0)" : "translateX(20px)",
+        }}
+      >
         {theme === "light" ? <IoIosSunny color="orange" /> : <IoIosMoon color="yellow" />}
       </div>
-    </div>
+    </Box>
   );
 }

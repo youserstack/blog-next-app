@@ -1,11 +1,11 @@
 "use client";
 
-import PostList from "@/components/lists/PostList";
-import Pagination from "@/components/ui/Pagination";
-import useSWR from "swr";
-import { useSearchParams } from "next/navigation";
 import { useContext, useEffect } from "react";
-import { Context } from "../context/Provider";
+import { useSearchParams } from "next/navigation";
+import { Context } from "@/components/context/Provider";
+import Pagination from "@/components/ui/Pagination";
+import PostList from "@/components/lists/PostList";
+import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 

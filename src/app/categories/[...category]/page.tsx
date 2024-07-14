@@ -1,9 +1,9 @@
 "use client";
 
-import { CategoryProps } from "@/types/api";
 import { useContext, useEffect } from "react";
-import { Context } from "@/components/context/Provider";
 import { useSearchParams } from "next/navigation";
+import { Context } from "@/components/context/Provider";
+import { CategoryProps } from "@/types/api";
 import PostListArticle from "@/components/articles/PostListArticle";
 import useSWR from "swr";
 
