@@ -3,7 +3,6 @@
 import { useContext, useEffect } from "react";
 import { IoIosMoon, IoIosSunny } from "react-icons/io";
 import { Context } from "@/components/context/Provider";
-import "./ThemeToggle.scss";
 import { Box } from "@mui/material";
 
 export default function ThemeToggle() {
