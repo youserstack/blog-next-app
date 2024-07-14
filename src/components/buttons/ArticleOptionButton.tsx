@@ -4,11 +4,7 @@ import { MouseEvent, useContext, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { Context } from "@/components/context/Provider";
 import Link from "next/link";
-// import { Button, Menu, MenuItem, Popper } from "@mui/material";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Popper from "@mui/material/Popper";
+import { Button, Menu, MenuItem, Popper } from "@mui/material";
 import { MdEdit } from "react-icons/md";
 
 export default function ArticleOptionButton({ post }: any) {

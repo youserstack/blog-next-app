@@ -7,7 +7,6 @@ import UserArea from "@/components/areas/UserArea";
 import { AppBar } from "@mui/material";
 import { CSSProperties } from "react";
 import { SlGlobe } from "react-icons/sl";
-// import AppBar from "@mui/material/AppBar";
 
 export default function NavBar({ user, categories }: any) {
   return (

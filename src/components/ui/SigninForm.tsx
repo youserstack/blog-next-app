@@ -29,8 +29,8 @@ export default function SigninForm() {
       <TextField label="email" variant="outlined" type="email" name="email" required />
       <TextField label="password" variant="outlined" type="password" name="password" required />
       <Button type="submit">sign in</Button>
-      <Typography align="center">
-        계정이 없으신가요? <Link href="/auth/signup">회원가입</Link>
+      <Typography sx={{ display: "flex", gap: "1rem" }}>
+        계정이 없으신가요?<Link href="/auth/signup">회원가입</Link>
       </Typography>
 
       {state?.error && (

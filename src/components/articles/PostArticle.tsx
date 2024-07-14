@@ -4,9 +4,7 @@ import ArticleOptionButton from "@/components/buttons/ArticleOptionButton";
 import CommentCreateForm from "@/components/forms/CommentCreateForm";
 import CommentList from "@/components/lists/CommentList";
 import Image from "next/image";
-import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
-// import { Paper } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 
 export default function PostArticle({ post }: any) {
   if (!post) return null;

@@ -3,8 +3,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Box, Button } from "@mui/material";
-// import Box from "@mui/material/Box";
-// import Button from "@mui/material/Button";
 
 const ITEMS_PER_PAGE = 5;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Paper, TextField } from "@mui/material";
+import { Button, Paper, TextField, Typography } from "@mui/material";
 import { signupAction } from "@/app/actions";
 import { useRouter } from "next/navigation";
 import { useFormState } from "react-dom";
@@ -22,10 +22,11 @@ export default function SignupForm() {
       sx={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "5rem" }}
       variant="outlined"
     >
+      <Typography variant="h5">회원가입</Typography>
       <TextField label="name" variant="outlined" name="name" required />
       <TextField label="email" variant="outlined" type="email" name="email" required />
       <TextField label="password" variant="outlined" type="password" name="password" required />
-      <Button type="submit">sign in</Button>
+      <Button type="submit">가입</Button>
       <p>{state?.error}</p>
     </Paper>
   );

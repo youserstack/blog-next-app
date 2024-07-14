@@ -9,10 +9,6 @@ import { Box, Button, Paper, TextField } from "@mui/material";
 import PostDeleteButton from "./PostDeleteButton";
 import Image from "next/image";
 import { CSSProperties, useEffect, useState } from "react";
-// import Button from "@mui/material/Button";
-// import Box from "@mui/material/Box";
-// import Paper from "@mui/material/Paper";
-// import TextField from "@mui/material/TextField";
 
 export default function PostArticleEditForm({ post }: any) {
   const router = useRouter();
