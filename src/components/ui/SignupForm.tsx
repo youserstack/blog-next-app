@@ -19,14 +19,25 @@ export default function SignupForm() {
     <Paper
       component={"form"}
       action={action}
-      sx={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "5rem" }}
-      variant="outlined"
+      sx={{
+        width: "300px",
+        height: "400px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: "1rem",
+        padding: "1rem",
+      }}
+      variant="elevation"
+      elevation={5}
     >
       <Typography variant="h5">회원가입</Typography>
       <TextField label="name" variant="outlined" name="name" required />
       <TextField label="email" variant="outlined" type="email" name="email" required />
       <TextField label="password" variant="outlined" type="password" name="password" required />
-      <Button type="submit">가입</Button>
+      <Button type="submit" variant="contained">
+        가입
+      </Button>
       <p>{state?.error}</p>
     </Paper>
   );
