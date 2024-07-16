@@ -1,11 +1,11 @@
 "use client";
 
+import { Button, Menu, MenuItem, Popper } from "@mui/material";
 import { MouseEvent, useContext, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { Context } from "@/components/context/Provider";
-import Link from "next/link";
-import { Button, Menu, MenuItem, Popper } from "@mui/material";
 import { MdEdit } from "react-icons/md";
+import Link from "next/link";
 
 export default function ArticleOptionButton({ post }: any) {
   const { user }: any = useContext(Context);

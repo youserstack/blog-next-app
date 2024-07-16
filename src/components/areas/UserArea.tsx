@@ -3,8 +3,14 @@
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import SignOutButton from "@/components/buttons/SignOutButton";
 import Link from "next/link";
+import { useContext, useEffect } from "react";
+import { Context } from "../context/Provider";
 
 export default function UserArea({ user }: any) {
+  const { setUser }: any = useContext(Context);
+
+  useEffect(() => setUser(user), [user]);
+
   return (
     <div className="user-area" style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
       {user ? (

@@ -1,16 +1,16 @@
 "use client";
 
-import { IoIosMore } from "react-icons/io";
-import { MouseEvent, useContext, useState } from "react";
-import { Context } from "@/components/context/Provider";
-import { useParams } from "next/navigation";
 import { Button, Menu, MenuItem, Popper, useTheme } from "@mui/material";
 import { MdAdd, MdCreate, MdDelete } from "react-icons/md";
+import { MouseEvent, useContext, useState } from "react";
+import { Context } from "@/components/context/Provider";
+import { IoIosMore } from "react-icons/io";
+import { useParams } from "next/navigation";
 
 export default function CategoryOptionButton() {
-  const theme = useTheme();
   const params = useParams();
   const categorySegments = (params.category as string[]).map((v: any) => decodeURIComponent(v));
+  const rootCategory = categorySegments[0];
   const { setParentCategories, openModal }: any = useContext(Context);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -70,6 +70,7 @@ export default function CategoryOptionButton() {
               display: "flex",
               gap: "0.5rem",
             }}
+            disabled={rootCategory === "development"}
           >
             <MdDelete />
             현재 카테고리 삭제
