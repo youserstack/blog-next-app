@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Box, Button } from "@mui/material";
+import { Box, Button, useTheme } from "@mui/material";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -11,6 +11,7 @@ export default function Pagination({ page, totalCount }: any) {
   const searchParams = useSearchParams();
   const totalPageCount = Math.ceil(totalCount / ITEMS_PER_PAGE);
   const currentPage = parseInt(searchParams.get("page") as string) || 1;
+  const theme = useTheme();
 
   // 현재 URL의 모든 쿼리 파라미터를 유지하면서 페이지를 변경
   const createPageLink = (pageNumber: number) => {
@@ -34,7 +35,7 @@ export default function Pagination({ page, totalCount }: any) {
             href={createPageLink(k + 1)}
             className={`page-number`}
             style={{
-              color: `${currentPage === k + 1 ? "var(--hoverColor-blue)" : "inherit"}`,
+              color: `${currentPage === k + 1 ? theme.palette.primary.light : "inherit"}`,
               padding: "0 5px",
             }}
           >

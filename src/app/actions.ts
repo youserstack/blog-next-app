@@ -1,6 +1,7 @@
 "use server";
 
 import { uploadToCloudinary } from "@/lib/utils/uploader";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function createCategoryAction(formData: FormData, accessToken: string) {
@@ -97,6 +98,7 @@ export async function signinAction(prevState: any, formData: FormData) {
       expires: Date.now() + 1000 * 60 * 60 * 24, // maxAge: 1000 * 60 * 60 * 24, // 1초 * 60초 * 60분 * 24시 = 1일
       path: "/",
     });
+    revalidatePath("/", "layout");
     return { accessToken };
   }
 }

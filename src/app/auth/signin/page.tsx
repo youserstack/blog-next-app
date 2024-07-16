@@ -1,6 +1,12 @@
 import SigninForm from "@/components/ui/SigninForm";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default function Signin() {
+  const user = JSON.parse(headers().get("user") as string);
+
+  if (user) redirect("/dashboard");
+
   return (
     <main className="signin-page">
       <section

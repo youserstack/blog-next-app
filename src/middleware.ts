@@ -60,26 +60,6 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
-  // 로그인페이지, 가입페이지 접근시, 인증된 사용자라면 dashboard페이지로 리다이렉트한다.
-  if ((pathname.startsWith("/auth/signin") || pathname.startsWith("/auth/signup")) && user) {
-    console.log("user 정보가 있습니다. 로그인을 필요로하지 않으므로 홈페이지로 이동합니다.");
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
-
-  // configurate the custom header
-  // let response = NextResponse.next();
-  // const payload = JSON.stringify(
-  //   user
-  //     ? {
-  //         ...user,
-  //         refreshToken: refreshToken?.slice(-5),
-  //         accessToken: accessToken?.slice(-5),
-  //       }
-  //     : null
-  // );
-  // response.headers.set("user", payload);
-  // return response;
-
   let headers = new Headers(request.headers);
   const payload = JSON.stringify(
     user
@@ -94,23 +74,18 @@ export default async function middleware(request: NextRequest) {
   return NextResponse.next({ request: { headers } });
 }
 
-export const config = {
-  matcher: [
-    "/:path*",
-    // "/api/:path*",
-    // "/auth/:path*",
-    // "/categories/:path*",
-    // "/dashboard/:path*",
-    // "/posts/:path*",
-    // "/search/:path*",
-    // "/",
+export const config = { matcher: ["/:path*"] };
 
-    //
-  ],
-};
-
-// 미들웨어를 거치지 않고 page, api를 서버에서 핸들링하게되면,
-// 커스텀 헤더를 설정하지 않는다.
-// 커스텀 헤더에는 토큰을 검증한 결과가 담기게 되는데, 서버에서 프리렌더링되는 서버컴포넌트에서는 커스텀 헤더의 인증정보를 가지고 올수가 없다.
-
-// matcher: ['/:path*'] 를 하게 되면, "/_next/static" 의 요청까지 미들웨어가 동작하게 된다.
+// configurate the custom header
+// let response = NextResponse.next();
+// const payload = JSON.stringify(
+//   user
+//     ? {
+//         ...user,
+//         refreshToken: refreshToken?.slice(-5),
+//         accessToken: accessToken?.slice(-5),
+//       }
+//     : null
+// );
+// response.headers.set("user", payload);
+// return response;

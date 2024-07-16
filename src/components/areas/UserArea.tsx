@@ -3,7 +3,6 @@
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import SignOutButton from "@/components/buttons/SignOutButton";
 import Link from "next/link";
-import AuthScript from "@/components/script/AuthScript";
 
 export default function UserArea({ user }: any) {
   return (
@@ -20,7 +19,6 @@ export default function UserArea({ user }: any) {
         </>
       )}
       <ThemeToggle />
-      <AuthScript user={user} />
     </div>
   );
 }

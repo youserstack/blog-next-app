@@ -35,7 +35,7 @@ export default function PostArticle({ post }: any) {
         <div className="thumbnail" style={{ height: "500px" }}>
           <Image src={post.image} alt="" width={1000} height={1000} />
         </div>
-        <pre>{post.content}</pre>
+        <pre style={{ whiteSpace: "break-spaces" }}>{post.content}</pre>
       </div>
 
       <div
