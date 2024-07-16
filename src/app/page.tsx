@@ -1,7 +1,7 @@
 import LatestPostList from "@/components/lists/LatestPostList";
 import PopularPostList from "@/components/lists/PopularPostList";
 import RecentCommentList from "@/components/lists/RecentCommentList";
-import HomeSkeleton from "@/components/skeletons/loading";
+import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
 import Image from "next/image";
 import { Suspense } from "react";
 

@@ -1,41 +1,12 @@
-"use client";
-
-import { Paper, Skeleton, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { CSSProperties } from "react";
-import useSWR from "swr";
 import Image from "next/image";
 import Link from "next/link";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
-export default function LatestPostList() {
-  const { data } = useSWR(`${process.env.ROOT_URL}/api/posts?sort=latest`, fetcher);
-
-  if (!data) {
-    return (
-      <Paper className="latest-post-list" variant="outlined" sx={latestPostList}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Skeleton variant="text" animation="wave" width={100} height={32} />
-          <Skeleton variant="text" animation="wave" width={40} height={32} />
-        </div>
-
-        {[1, 2, 3, 4, 5].map((v: any) => (
-          <Paper
-            key={v}
-            variant="outlined"
-            sx={{ height: "100px", display: "flex", overflow: "hidden" }}
-          >
-            <Skeleton variant="rectangular" animation="wave" width={100} height={100} />
-
-            <div className="content" style={contentStyle}>
-              <Skeleton variant="text" animation="wave" width={300} height={32} />
-              <Skeleton variant="text" animation="wave" width={250} height={16} />
-            </div>
-          </Paper>
-        ))}
-      </Paper>
-    );
-  }
+export default async function LatestPostList() {
+  const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=latest`);
 
   return (
     <Paper className="latest-post-list" variant="outlined" sx={latestPostList}>
@@ -44,7 +15,7 @@ export default function LatestPostList() {
         <Link href="/search?sort=latest">더보기</Link>
       </div>
 
-      {data.posts?.map((post: any) => (
+      {posts.map((post: any) => (
         <Paper key={post._id} variant="outlined" sx={{ height: "100px", overflow: "hidden" }}>
           <Link href={`/posts/${post._id}`} style={{ height: "100%", display: "flex" }}>
             <div className="thumbnail" style={{ width: "100px" }}>
