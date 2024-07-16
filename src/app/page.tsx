@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import LatestPostList from "@/components/lists/LatestPostList";
 import PopularPostList from "@/components/lists/PopularPostList";
