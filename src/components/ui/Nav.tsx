@@ -120,4 +120,5 @@ const sub2CategoryListStyle: SxProps = {
 
 const sub2CategoryStyle: SxProps = {
   padding: "0",
+  whiteSpace: "nowrap",
 };

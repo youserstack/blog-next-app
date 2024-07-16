@@ -1,21 +1,19 @@
-import { CSSProperties, useContext, useEffect } from "react";
-import { Context } from "@/components/context/Provider";
-import Link from "next/link";
+"use client";
+
+import { Paper, Skeleton, Typography } from "@mui/material";
+import { CSSProperties } from "react";
 import useSWR from "swr";
 import Image from "next/image";
-import { Paper, Typography } from "@mui/material";
+import Link from "next/link";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default function PopularPostList() {
-  const { setIsLoading }: any = useContext(Context);
+  const { data } = useSWR(`${process.env.ROOT_URL}/api/posts?sort=popular`, fetcher);
 
-  const popularUrl = `${process.env.ROOT_URL}/api/posts?sort=popular`;
-  const { data, isValidating } = useSWR(popularUrl, fetcher);
-
-  useEffect(() => setIsLoading(isValidating), [isValidating]);
-
-  if (!data) return null;
+  if (!data) {
+    return <Skeleton variant="rectangular" width={600} height={600} sx={{ flex: "1" }} />;
+  }
 
   return (
     <Paper className="popular-post-list" variant="outlined" sx={popularPostListStyle}>
@@ -63,3 +61,6 @@ const contentStyle: CSSProperties = {
   display: "flex",
   flexDirection: "column",
 };
+
+// const { setIsLoading }: any = useContext(Context);
+// useEffect(() => setIsLoading(isValidating), [isValidating]);

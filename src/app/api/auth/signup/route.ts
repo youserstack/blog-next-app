@@ -7,6 +7,7 @@ export async function POST(request: Request) {
 
   // Read data
   const { name, email, password } = await request.json();
+  console.log({ name, email, password });
   if (!name || !email || !password) {
     return Response.json({ error: "missing payload" }, { status: 400 });
   }

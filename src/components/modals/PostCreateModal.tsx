@@ -1,14 +1,14 @@
 "use client";
 
-import { Context } from "@/components/context/Provider";
-import { useContext, useEffect } from "react";
+import { Button, FormControl, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
 import { useFormState, useFormStatus } from "react-dom";
+import { MdCloudUpload, MdCreate } from "react-icons/md";
+import { useContext, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
-import { MdCloudUpload, MdCreate } from "react-icons/md";
+import { Context } from "@/components/context/Provider";
 import { mutate } from "swr";
-import { Button, FormControl, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -25,12 +25,10 @@ export default function PostCreateModal() {
   const { closeModal, dynamicUrl }: any = useContext(Context);
   const { category }: any = useParams();
   const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
-  const url = `${process.env.ROOT_URL}/api/posts?categoryPath=${encodeURIComponent(categoryPath)}`;
 
   const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
     const accessToken = localStorage.getItem("accessToken") as string;
-    const data = await createPostAction(formData, accessToken);
-    const { newPost, error } = data;
+    const { newPost, error } = await createPostAction(formData, accessToken);
 
     // 토큰만료시 > 토큰갱신 > 재요청
     if (error?.code === "ERR_JWT_EXPIRED") {
@@ -38,25 +36,19 @@ export default function PostCreateModal() {
       const data = await createPostAction(formData, newAccessToken); // 재요청
       const { newPost, error } = data;
 
-      if (error) {
-        console.error("재요청에 대한 에러가 발생했습니다.", error);
-        return data;
-      }
-      console.log("토큰갱신 > 재요청 > 포스트를 생성하였습니다.", { newPost });
+      console.log("재요청");
+      if (error) return { error };
       return { newPost };
     } else if (error) {
-      console.error("에러가 발생했습니다.", error);
       return { error };
     }
 
-    console.log("포스트를 생성하였습니다.", { newPost });
     return { newPost };
   }, null);
 
   useEffect(() => {
     if (state?.newPost) {
       closeModal();
-      // mutate("categorized-posts");
       mutate(dynamicUrl);
     }
   }, [state, closeModal, router, dynamicUrl]);
@@ -69,11 +61,13 @@ export default function PostCreateModal() {
       action={formAction}
       sx={{
         minWidth: "500px",
-        minHeight: "500px",
+        maxHeight: "calc(100% - 150px)",
         padding: "1rem",
         display: "flex",
         flexDirection: "column",
         gap: "10px",
+        overflowY: "scroll",
+        scrollbarWidth: "thin",
         "& input#image": {
           display: "none",
         },

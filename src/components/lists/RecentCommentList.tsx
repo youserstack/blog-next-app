@@ -1,19 +1,18 @@
-import { Paper, Typography } from "@mui/material";
-import { Context } from "@/components/context/Provider";
-import { CSSProperties, useContext, useEffect } from "react";
+"use client";
+
+import { Paper, Skeleton, Typography } from "@mui/material";
+import { CSSProperties } from "react";
 import Image from "next/image";
 import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default function RecentCommentList() {
-  const url = `${process.env.ROOT_URL}/api/comments/recent`;
-  const { data, isValidating } = useSWR(url, fetcher);
-  const { setIsLoading }: any = useContext(Context);
+  const { data } = useSWR(`${process.env.ROOT_URL}/api/comments/recent`, fetcher);
 
-  useEffect(() => setIsLoading(isValidating), [isValidating]);
-
-  if (!data) return null;
+  if (!data) {
+    return <Skeleton variant="rectangular" width={300} height={500} sx={{ flex: "1" }} />;
+  }
 
   return (
     <Paper className="recent-comment-list" variant="outlined" sx={commentListStyle}>
@@ -64,3 +63,7 @@ const imageStyle: CSSProperties = {
   borderRadius: "50%",
   overflow: "hidden",
 };
+
+// const { setIsLoading }: any = useContext(Context);
+// useEffect(() => setIsLoading(isValidating), [isValidating]);
+// if (!data) return null;

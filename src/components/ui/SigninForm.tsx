@@ -1,15 +1,17 @@
 "use client";
 
-import { useFormState } from "react-dom";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { signinAction } from "@/app/actions";
 import { Button, Paper, TextField, Typography } from "@mui/material";
+import { useContext, useEffect } from "react";
+import { useFormState } from "react-dom";
+import { signinAction } from "@/app/actions";
+import { useRouter } from "next/navigation";
+import { Context } from "@/components/context/Provider";
 import Link from "next/link";
 
 export default function SigninForm() {
   const router = useRouter();
   const [state, formAction] = useFormState(signinAction, null);
+  const { user }: any = useContext(Context);
 
   useEffect(() => {
     if (state?.accessToken) {
@@ -17,6 +19,10 @@ export default function SigninForm() {
       router.refresh();
     }
   }, [state, router]);
+
+  useEffect(() => {
+    if (user) router.push("/dashboard");
+  }, [user]);
 
   return (
     <Paper
