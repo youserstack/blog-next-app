@@ -32,7 +32,7 @@ export default function CategoryCreateModal() {
 
   useEffect(() => {
     if (state?.newCategoryPath) {
-      console.log({ newCategoryPath: state.newCategoryPath });
+      // console.log({ newCategoryPath: state.newCategoryPath });
       closeModal();
       router.refresh();
     }

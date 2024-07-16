@@ -16,7 +16,7 @@ export default function Post({ post }: any) {
       sx={{ overflow: "hidden", "&:hover": { borderColor: primary, color: primary } }}
     >
       <Link href={`/posts/${post._id}`} style={{ height: "100%", display: "flex" }}>
-        <div className="thumbnail" style={{ flex: "1" }}>
+        <div className="thumbnail" style={{ height: "160px", flex: "1" }}>
           {post.image ? (
             <Image src={post.image} alt="sdf" width={200} height={200} />
           ) : (
