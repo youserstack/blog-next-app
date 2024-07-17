@@ -1,8 +1,8 @@
 "use client";
 
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 export default function SearchFilter({ categories }: any) {
   const [rootCategory, setRootCategory] = useState("");
@@ -68,8 +68,6 @@ export default function SearchFilter({ categories }: any) {
     urlSearchParams.set("sort", sort);
     router.push(`?${urlSearchParams.toString()}`);
   };
-
-  if (!categories) return null;
 
   return (
     <Box sx={{ display: "flex", justifyContent: "space-between" }}>

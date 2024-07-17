@@ -1,11 +1,11 @@
 "use client";
 
-import useSWR from "swr";
-import Image from "next/image";
 import CommentOptionButton from "@/components/buttons/CommentOptionButton";
-import { useContext, useEffect } from "react";
 import { Context } from "@/components/context/Provider";
 import { Button, Paper } from "@mui/material";
+import { useContext, useEffect } from "react";
+import Image from "next/image";
+import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 

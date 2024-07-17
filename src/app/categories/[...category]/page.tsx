@@ -14,7 +14,7 @@ export default function Category({ params: { category } }: CategoryProps) {
   const categoryPath = "/" + category.join("/");
   const page = searchParams.get("page") || "1";
   const url = `${process.env.ROOT_URL}/api/posts?categoryPath=${categoryPath}&page=${page}`;
-  const { isLoading, isValidating, data } = useSWR(url, fetcher);
+  const { isValidating, data } = useSWR(url, fetcher);
   const { setIsLoading, setDynamicUrl }: any = useContext(Context);
 
   // isLoading은 처음 로드시에만 값이 true에서 false로 변경된다.
@@ -22,7 +22,7 @@ export default function Category({ params: { category } }: CategoryProps) {
   useEffect(() => setIsLoading(isValidating), [isValidating, setIsLoading]);
   useEffect(() => setDynamicUrl(url), [url, setDynamicUrl]); // 포스트 게시글 생성후 데이터 패칭시 사용
 
-  if (isLoading) return null;
+  if (!data) return null;
   const { posts, totalCount } = data;
   return (
     <div className="category" style={{ flex: "1" }}>

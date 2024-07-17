@@ -1,5 +1,7 @@
 import PostArticle from "@/components/articles/PostArticle";
+import ServerLoading from "@/components/ui/ServerLoading";
 import { getPost } from "@/lib/utils/fetchers/getters";
+import { Suspense } from "react";
 
 export async function generateStaticParams() {
   const url = `${process.env.ROOT_URL}/api/static/all-posts`;
@@ -15,7 +17,9 @@ export default async function PostId({ params: { id: postId } }: { params: { id:
   return (
     <main className="post-id">
       <section>
-        <PostArticle post={post} />
+        <Suspense fallback={<ServerLoading />}>
+          <PostArticle post={post} />
+        </Suspense>
       </section>
     </main>
   );

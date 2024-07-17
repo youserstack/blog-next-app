@@ -1,17 +1,8 @@
-"use client";
-
 import { CircularProgress } from "@mui/material";
-import { useContext } from "react";
-import { Context } from "@/components/context/Provider";
 
-export default function Loading() {
-  const { isLoading }: any = useContext(Context);
-
-  if (!isLoading) return null;
-
+export default function ServerLoading() {
   return (
     <div
-      className="loading"
       style={{
         position: "fixed",
         top: "0",
