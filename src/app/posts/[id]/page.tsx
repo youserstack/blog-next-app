@@ -13,7 +13,7 @@ export async function generateStaticParams() {
 
 export default async function PostId({ params: { id: postId } }: { params: { id: string } }) {
   const { post } = await getPost(postId);
-  console.log({ post });
+  // console.log({ post });
 
   return (
     <main className="post-id">

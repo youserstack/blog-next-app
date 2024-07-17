@@ -9,7 +9,7 @@ import { Context } from "../context/Provider";
 export default function UserArea({ user }: any) {
   const { setUser }: any = useContext(Context);
 
-  useEffect(() => setUser(user), [user]);
+  useEffect(() => setUser(user), [user, setUser]);
 
   return (
     <div className="user-area" style={{ display: "flex", alignItems: "center", gap: "1rem" }}>

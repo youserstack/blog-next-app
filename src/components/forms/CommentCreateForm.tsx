@@ -45,7 +45,7 @@ export default function CommentCreateForm({
     if (state?.error) {
       console.error({ error: state.error });
     }
-  }, [state]);
+  }, [state, postId]);
 
   return (
     <Paper
