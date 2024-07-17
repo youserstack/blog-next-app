@@ -7,8 +7,6 @@ import Image from "next/image";
 import { Paper, Typography } from "@mui/material";
 
 export default function PostArticle({ post }: any) {
-  if (!post) return null;
-
   return (
     <Paper
       component={"article"}

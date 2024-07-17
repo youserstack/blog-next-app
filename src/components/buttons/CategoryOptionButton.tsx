@@ -70,7 +70,7 @@ export default function CategoryOptionButton() {
               display: "flex",
               gap: "0.5rem",
             }}
-            disabled={rootCategory === "development"}
+            disabled={rootCategory === "development" || rootCategory === "computer-science"}
           >
             <MdDelete />
             현재 카테고리 삭제
