@@ -9,6 +9,7 @@ import "./globals.scss";
 export const metadata: Metadata = {
   title: "youserstack's blogs",
   description: "youserstack's blogs",
+  keywords: "youserstack",
 };
 
 export default async function RootLayout({
