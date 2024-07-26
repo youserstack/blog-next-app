@@ -12,7 +12,7 @@ export default function GlobalModal() {
 
   return (
     <Modal
-      open={modal}
+      open={Boolean(modal)}
       onClose={closeModal}
       disableScrollLock
       sx={{

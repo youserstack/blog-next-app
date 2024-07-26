@@ -3,7 +3,7 @@
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { deletePost } from "@/lib/utils/fetchers/deleters";
 import { Button } from "@mui/material";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { MouseEvent } from "react";
 
 export default function PostDeleteButton({ post }: any) {

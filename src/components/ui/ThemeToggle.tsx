@@ -24,18 +24,18 @@ export default function ThemeToggle() {
   }, [setTheme]);
 
   // 포커싱에 의한 테마변경
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        const isDarkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        const osTheme = isDarkTheme ? "dark" : "light";
-        setTheme(osTheme);
-      }
-    };
+  // useEffect(() => {
+  //   const handleVisibilityChange = () => {
+  //     if (document.visibilityState === "visible") {
+  //       const isDarkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  //       const osTheme = isDarkTheme ? "dark" : "light";
+  //       setTheme(osTheme);
+  //     }
+  //   };
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [setTheme]);
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+  //   return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  // }, [setTheme]);
 
   // 토글에 의한 테마변경
   useEffect(() => {

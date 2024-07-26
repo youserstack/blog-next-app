@@ -25,9 +25,10 @@ export async function getPosts({ categoryPath, searchWords, sort, page }: PostsS
 }
 
 // 포스트 읽기
-export async function getPost(postId: any) {
+export async function getPost(postId: string) {
   const url = `${process.env.ROOT_URL}/api/posts/${postId}`;
   // const response = await fetch(url, { cache: "default" });
   const response = await fetch(url, { cache: "no-cache" });
+  if (!response.ok) return undefined;
   return response.json();
 }
