@@ -5,7 +5,9 @@ import { redirect } from "next/navigation";
 export default function Signin() {
   const user = JSON.parse(headers().get("user") as string);
 
-  if (user) redirect("/");
+  if (user) {
+    redirect("/");
+  }
 
   return (
     <main className="signin-page">
