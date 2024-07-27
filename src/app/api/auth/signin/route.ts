@@ -7,6 +7,7 @@ import {
   validatePassword,
 } from "@/lib/utils/auth";
 import bcrypt from "bcrypt";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
   console.log("\n\x1b[34m[api/auth/signin]:::[POST]\x1b[0m");
@@ -42,6 +43,8 @@ export async function POST(request: Request) {
   foundUser.refreshToken = refreshToken;
   const savedUser = await foundUser.save();
   // console.log({ savedUser });
+
+  revalidatePath("/");
 
   // server action 에서 refreshToken 을 쿠키에 저장하고, accessToken 을 리턴한다.
   return Response.json({ accessToken, refreshToken }, { status: 200 });

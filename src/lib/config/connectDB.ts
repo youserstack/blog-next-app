@@ -18,7 +18,7 @@ import mongoose from "mongoose";
 
 const connectDB = async (): Promise<void> => {
   // 이미 연결되어 있다면 함수 종료
-  // if (mongoose.connection.readyState >= 1) return;
+  if (mongoose.connection.readyState >= 1) return;
 
   try {
     // MongoDB URI가 환경변수에 있는지 확인
