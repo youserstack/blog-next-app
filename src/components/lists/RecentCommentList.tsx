@@ -15,6 +15,8 @@ const fetcher = async (url: string) => {
 };
 
 export default async function RecentCommentList() {
+  const url = `${process.env.ROOT_URL}/api/comments/recent`;
+  console.log({ url });
   const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
 
   return (
