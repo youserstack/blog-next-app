@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
+import { UserDocument } from "./User";
 
-const commentSchema = new mongoose.Schema(
+export interface CommentDocument extends mongoose.Document {
+  content: string;
+  author: UserDocument["_id"];
+  post: mongoose.Schema.Types.ObjectId;
+}
+
+const commentSchema = new mongoose.Schema<CommentDocument>(
   {
     content: {
       type: String,
