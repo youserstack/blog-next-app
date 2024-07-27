@@ -15,8 +15,6 @@ const fetcher = async (url: string) => {
 };
 
 export default async function RecentCommentList() {
-  const url = `${process.env.ROOT_URL}/api/comments/recent`;
-  console.log({ url });
   const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
 
   return (
@@ -27,11 +25,11 @@ export default async function RecentCommentList() {
         {comments.map((comment: any) => (
           <Paper key={comment._id} variant="outlined" sx={commentStyle}>
             <div style={imageStyle}>
-              <Image src={comment.author.image} alt="" width={30} height={30} />
+              {/* <Image src={comment.author.image} alt="" width={30} height={30} /> */}
             </div>
 
             <div>
-              <Typography>{comment.author.name}</Typography>
+              {/* <Typography>{comment.author.name}</Typography> */}
               <Typography>
                 {comment.content.length > 20
                   ? comment.content.slice(0, 20) + "..."
