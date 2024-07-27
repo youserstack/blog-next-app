@@ -1,15 +1,15 @@
-import RecentCommentList from "@/components/lists/RecentCommentList";
-import PopularPostList from "@/components/lists/PopularPostList";
-import LatestPostList from "@/components/lists/LatestPostList";
-import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
-import { Suspense } from "react";
-import Image from "next/image";
+// import RecentCommentList from "@/components/lists/RecentCommentList";
+// import PopularPostList from "@/components/lists/PopularPostList";
+// import LatestPostList from "@/components/lists/LatestPostList";
+// import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
+// import { Suspense } from "react";
+// import Image from "next/image";
 
 export default function Home() {
   return (
     <main className="home">
       <section style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <Suspense fallback={<HomeSkeleton />}>
+        {/* <Suspense fallback={<HomeSkeleton />}>
           <div style={{ display: "flex", gap: "1rem" }}>
             <div style={{ flex: "3" }}>
               <Image
@@ -28,7 +28,7 @@ export default function Home() {
             <PopularPostList />
             <LatestPostList />
           </div>
-        </Suspense>
+        </Suspense> */}
       </section>
     </main>
   );
