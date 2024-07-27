@@ -13,6 +13,8 @@ const fetcher = (url: string) =>
     .catch((err) => console.log("zivi err", { err }));
 
 export default async function PopularPostList() {
+  const url = `${process.env.ROOT_URL}/api/posts?sort=popular`;
+  console.log("zivi url", { url });
   const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=popular`);
 
   return (

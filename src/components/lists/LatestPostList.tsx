@@ -13,6 +13,9 @@ const fetcher = (url: string) =>
     .catch((err) => console.log("zivi err", { err }));
 
 export default async function LatestPostList() {
+  const url = `${process.env.ROOT_URL}/api/posts?sort=latest`;
+  console.log("zivi url", { url });
+
   const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=latest`);
 
   return (

@@ -12,6 +12,9 @@ const fetcher = (url: string) =>
     .catch((err) => console.log("zivi err", { err }));
 
 export default async function RecentCommentList() {
+  const url = `${process.env.ROOT_URL}/api/comments/recent`;
+  console.log("zivi url", { url });
+
   const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
   console.log("zivi server component", { comments });
 
