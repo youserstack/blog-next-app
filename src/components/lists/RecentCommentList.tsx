@@ -2,20 +2,7 @@ import { Paper, Typography } from "@mui/material";
 import { CSSProperties } from "react";
 import Image from "next/image";
 
-const fetcher = async (url: string) => {
-  try {
-    const res = await fetch(url, { cache: "no-cache" });
-    if (!res.ok) {
-      const { error } = await res.json();
-      throw error;
-    }
-    if (res.ok) return await res.json();
-  } catch (error) {
-    console.error("zivi error:", error);
-    // return null;  // 또는 빈 객체를 반환: return { comments: [] };
-    return { comments: [] };
-  }
-};
+const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default async function RecentCommentList() {
   const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
@@ -28,11 +15,11 @@ export default async function RecentCommentList() {
         {comments.map((comment: any) => (
           <Paper key={comment._id} variant="outlined" sx={commentStyle}>
             <div style={imageStyle}>
-              {/* <Image src={comment.author.image} alt="" width={30} height={30} /> */}
+              <Image src={comment.author.image} alt="" width={30} height={30} />
             </div>
 
             <div>
-              {/* <Typography>{comment.author.name}</Typography> */}
+              <Typography>{comment.author.name}</Typography>
               <Typography>
                 {comment.content.length > 20
                   ? comment.content.slice(0, 20) + "..."
