@@ -4,7 +4,9 @@ import Image from "next/image";
 
 const fetcher = async (url: string) => {
   try {
-    const res = await fetch(url, { cache: "no-cache" });
+    const res = await fetch(url, {
+      // cache: "no-cache",
+    });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     return await res.json();
   } catch (error) {
