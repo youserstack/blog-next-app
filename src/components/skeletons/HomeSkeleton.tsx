@@ -4,7 +4,7 @@ import { CSSProperties } from "react";
 export default function HomeSkeleton() {
   return (
     <>
-      <div className="first" style={{ display: "flex", gap: "1rem" }}>
+      <div style={{ display: "flex", gap: "1rem" }}>
         <div style={{ flex: "3" }}>
           <Skeleton
             variant="rectangular"
