@@ -7,6 +7,8 @@ const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) =>
 export default async function RecentCommentList() {
   const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
 
+  if (!comments) return null;
+
   return (
     <Paper className="recent-comment-list" variant="outlined" sx={commentListStyle}>
       <Typography>최근댓글</Typography>
