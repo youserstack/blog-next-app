@@ -3,12 +3,14 @@ import { CSSProperties } from "react";
 import Image from "next/image";
 
 const fetcher = (url: string) =>
-  fetch(
-    url
-    //
-    // { cache: "no-cache" }
-  )
-    .then((res) => res.json())
+  fetch(url, { cache: "no-cache" })
+    // .then((res) => res.json())
+    .then((res) => {
+      console.log("zivi status", res.status);
+      console.log("zivi text()", res.text());
+      return res.json();
+    })
+
     .catch((err) => console.log("zivi err", { err }));
 
 export default async function RecentCommentList() {

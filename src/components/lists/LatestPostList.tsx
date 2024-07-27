@@ -4,12 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 const fetcher = (url: string) =>
-  fetch(
-    url
-    //
-    // { cache: "no-cache" }
-  )
-    .then((res) => res.json())
+  fetch(url, { cache: "no-cache" })
+    .then((res) => {
+      console.log("zivi status", res.status);
+      console.log("zivi text()", res.text());
+      return res.json();
+    })
     .catch((err) => console.log("zivi err", { err }));
 
 export default async function LatestPostList() {
