@@ -24,6 +24,6 @@ export async function GET(request: Request) {
     return Response.json({ comments }, { status: 200 });
   } catch (error) {
     console.error("Error fetching comments:", error);
-    return Response.json({ error: "데이터베이스 조회 에러" }, { status: 500 });
+    return Response.json({ error }, { status: 500 });
   }
 }

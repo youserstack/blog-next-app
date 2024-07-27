@@ -5,10 +5,10 @@ import Image from "next/image";
 const fetcher = async (url: string) => {
   try {
     const res = await fetch(url, { cache: "no-cache" });
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    return await res.json();
+    // if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    if (res.ok) return await res.json();
   } catch (error) {
-    console.error("Fetch error:", error);
+    console.error("zivi error:", error);
     // return null;  // 또는 빈 객체를 반환: return { comments: [] };
     return { comments: [] };
   }

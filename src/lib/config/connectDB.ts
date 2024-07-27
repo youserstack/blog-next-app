@@ -21,22 +21,14 @@ if (!cached) {
 }
 
 // 데이터베이스에 연결하는 비동기 함수입니다.
-async function connectDB() {
+export default async function connectDB() {
   // 이미 연결된 상태라면 연결된 conn을 반환합니다.
-  if (cached.conn) {
-    return cached.conn;
-  }
+  if (cached.conn) return cached.conn;
 
   // 현재 연결된 상태가 아니라면, 새로운 연결을 생성합니다.
   // promise가 없는 경우에만 새로운 연결을 시도합니다.
   if (!cached.promise) {
-    cached.promise = mongoose
-      .connect(MONGODB_URI, {
-        bufferCommands: false, // 명령 버퍼링 비활성화
-      })
-      .then((mongoose) => {
-        return mongoose; // mongoose 인스턴스를 반환
-      });
+    cached.promise = mongoose.connect(MONGODB_URI, { bufferCommands: false });
   }
 
   // promise가 해결될 때까지 대기하고, 그 결과로 conn을 설정합니다.
@@ -45,9 +37,6 @@ async function connectDB() {
   // 최종적으로 연결된 mongoose 인스턴스를 반환합니다.
   return cached.conn;
 }
-
-// connectDB 함수를 외부에서 사용할 수 있도록 내보냅니다.
-export default connectDB;
 
 // import mongoose from "mongoose";
 
