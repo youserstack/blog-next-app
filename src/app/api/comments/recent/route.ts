@@ -6,7 +6,6 @@ export async function GET(request: Request) {
   await connectDB();
 
   const comments = await Comment.find().sort({ createdAt: -1 }).limit(5).populate("author");
-  console.log("zivi api", { comments });
 
   return Response.json({ comments }, { status: 200 });
 }

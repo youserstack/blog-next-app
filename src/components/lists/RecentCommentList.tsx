@@ -4,28 +4,21 @@ import Image from "next/image";
 
 const fetcher = (url: string) =>
   fetch(url, { cache: "no-cache" })
-    // .then((res) => res.json())
-    .then((res) => {
-      console.log("zivi status", res.status);
-      console.log("zivi text()", res.text());
-      return res.json();
-    })
-
+    .then((res) => res.json())
     .catch((err) => console.log("zivi err", { err }));
 
 export default async function RecentCommentList() {
   const url = `${process.env.ROOT_URL}/api/comments/recent`;
-  console.log("zivi url", { url });
 
-  const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
-  console.log("zivi server component", { comments });
+  const data = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
+  console.log("zivi server component", { data });
 
   return (
     <Paper className="recent-comment-list" variant="outlined" sx={commentListStyle}>
       <Typography>최근댓글</Typography>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        {comments.map((comment: any) => (
+        {data?.comments.map((comment: any) => (
           <Paper key={comment._id} variant="outlined" sx={commentStyle}>
             <div style={imageStyle}>
               <Image src={comment.author.image} alt="" width={30} height={30} />

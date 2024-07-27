@@ -3,21 +3,10 @@ import { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const fetcher = (url: string) =>
-  fetch(url, { cache: "no-cache" })
-    // .then((res) => res.json())
-    .then((res) => {
-      console.log("zivi status", res.status);
-      console.log("zivi text()", res.text());
-      return res.json();
-    })
-
-    .catch((err) => console.log("zivi err", { err }));
+const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default async function PopularPostList() {
-  const url = `${process.env.ROOT_URL}/api/posts?sort=popular`;
-  console.log("zivi url", { url });
-  const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=popular`);
+  const data = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=popular`);
 
   return (
     <Paper className="popular-post-list" variant="outlined" sx={popularPostListStyle}>
@@ -26,7 +15,7 @@ export default async function PopularPostList() {
         <Link href="/search?sort=popular">더보기</Link>
       </div>
 
-      {posts.map((post: any) => (
+      {data?.posts.map((post: any) => (
         <Paper key={post._id} variant="outlined" sx={{ height: "100px", overflow: "hidden" }}>
           <Link href={`/posts/${post._id}`} style={{ height: "100%", display: "flex" }}>
             <div className="thumbnail" style={{ width: "100px" }}>
