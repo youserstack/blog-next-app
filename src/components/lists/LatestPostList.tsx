@@ -3,7 +3,14 @@ import { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
+const fetcher = (url: string) =>
+  fetch(
+    url
+    //
+    // { cache: "no-cache" }
+  )
+    .then((res) => res.json())
+    .catch((err) => console.log("zivi err", { err }));
 
 export default async function LatestPostList() {
   const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=latest`);
