@@ -2,17 +2,29 @@ import { Paper, Typography } from "@mui/material";
 import { CSSProperties } from "react";
 import Image from "next/image";
 
-const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
+// const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
+
+const fetcher = async (url: string) => {
+  try {
+    const res = await fetch(url, { cache: "no-cache" });
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error("Fetch error:", error);
+    // return null;  // 또는 빈 객체를 반환: return { comments: [] };
+    return { comments: [] };
+  }
+};
 
 export default async function RecentCommentList() {
-  const data = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
+  const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
 
   return (
     <Paper className="recent-comment-list" variant="outlined" sx={commentListStyle}>
       <Typography>최근댓글</Typography>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        {data?.comments.map((comment: any) => (
+        {comments.map((comment: any) => (
           <Paper key={comment._id} variant="outlined" sx={commentStyle}>
             <div style={imageStyle}>
               <Image src={comment.author.image} alt="" width={30} height={30} />
