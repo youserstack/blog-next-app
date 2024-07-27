@@ -5,7 +5,7 @@ import { CSSProperties } from "react";
 
 export default function HomeSkeleton() {
   return (
-    <div>
+    <>
       <div className="first" style={{ display: "flex", gap: "1rem" }}>
         <div style={{ flex: "3" }}>
           <Skeleton
@@ -80,7 +80,7 @@ export default function HomeSkeleton() {
           ))}
         </Paper>
       </div>
-    </div>
+    </>
   );
 }
 

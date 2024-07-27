@@ -8,8 +8,6 @@ const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) =>
 export default async function PopularPostList() {
   const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=popular`);
 
-  if (!posts) return null;
-
   return (
     <Paper className="popular-post-list" variant="outlined" sx={popularPostListStyle}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>

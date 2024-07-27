@@ -8,8 +8,6 @@ const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) =>
 export default async function LatestPostList() {
   const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=latest`);
 
-  if (!posts) return null;
-
   return (
     <Paper className="latest-post-list" variant="outlined" sx={latestPostList}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
