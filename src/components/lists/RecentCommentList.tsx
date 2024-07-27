@@ -6,6 +6,7 @@ const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) =>
 
 export default async function RecentCommentList() {
   const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
+  console.log("zivi server component", { comments });
 
   return (
     <Paper className="recent-comment-list" variant="outlined" sx={commentListStyle}>
