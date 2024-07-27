@@ -6,9 +6,7 @@ import Link from "next/link";
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default async function PopularPostList() {
-  const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=popular`);
-
-  if (!posts) return null;
+  const data = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=popular`);
 
   return (
     <Paper className="popular-post-list" variant="outlined" sx={popularPostListStyle}>
@@ -17,7 +15,7 @@ export default async function PopularPostList() {
         <Link href="/search?sort=popular">더보기</Link>
       </div>
 
-      {posts.map((post: any) => (
+      {data?.posts.map((post: any) => (
         <Paper key={post._id} variant="outlined" sx={{ height: "100px", overflow: "hidden" }}>
           <Link href={`/posts/${post._id}`} style={{ height: "100%", display: "flex" }}>
             <div className="thumbnail" style={{ width: "100px" }}>
