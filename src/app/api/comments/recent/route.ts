@@ -3,9 +3,23 @@ import Comment from "@/lib/models/Comment";
 
 export async function GET(request: Request) {
   // console.log(`\n\x1b[32m[api/comments/recent]:::[GET]\x1b[0m`);
-  await connectDB();
+  // await connectDB();
 
-  const comments = await Comment.find().sort({ createdAt: -1 }).limit(5).populate("author");
+  // const comments = await Comment.find({}).sort({ createdAt: -1 }).limit(5).populate("author");
+  // console.log({ comments });
 
-  return Response.json({ comments }, { status: 200 });
+  // return Response.json({ comments }, { status: 200 });
+
+  try {
+    console.log(`\n\x1b[32m[api/comments/recent]:::[GET]\x1b[0m`);
+    await connectDB(); // DB 연결
+
+    const comments = await Comment.find({}).sort({ createdAt: -1 }).limit(5).populate("author");
+    console.log({ comments });
+
+    return Response.json({ comments }, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    return Response.json({ error: "Failed to fetch comments" }, { status: 500 });
+  }
 }

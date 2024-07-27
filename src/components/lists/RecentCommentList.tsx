@@ -2,8 +2,6 @@ import { Paper, Typography } from "@mui/material";
 import { CSSProperties } from "react";
 import Image from "next/image";
 
-// const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
-
 const fetcher = async (url: string) => {
   try {
     const res = await fetch(url, { cache: "no-cache" });
