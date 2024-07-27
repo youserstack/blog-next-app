@@ -9,6 +9,8 @@ const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) =>
 export default async function PostArticle({ postId }: any) {
   const { post } = await fetcher(`${process.env.ROOT_URL}/api/posts/${postId}`);
 
+  if (!post) return null;
+
   return (
     <Paper
       component={"article"}

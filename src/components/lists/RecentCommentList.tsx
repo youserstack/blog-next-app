@@ -2,16 +2,10 @@ import { Paper, Typography } from "@mui/material";
 import { CSSProperties } from "react";
 import Image from "next/image";
 
-const fetcher = (url: string) =>
-  fetch(url, { cache: "no-cache" })
-    .then((res) => res.json())
-    .catch((err) => console.log("zivi err", { err }));
+const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default async function RecentCommentList() {
-  const url = `${process.env.ROOT_URL}/api/comments/recent`;
-
   const data = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
-  console.log("zivi server component", { data });
 
   return (
     <Paper className="recent-comment-list" variant="outlined" sx={commentListStyle}>
