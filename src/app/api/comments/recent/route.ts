@@ -20,6 +20,10 @@ export async function GET(request: Request) {
     //   select: "name image", // User에서 가져올 필드(이름) 선택
     // });
 
+    if (!comments || comments.length === 0) {
+      throw new Error("댓글이 없네?");
+    }
+
     console.log({ comments });
 
     return Response.json({ comments }, { status: 200 });
