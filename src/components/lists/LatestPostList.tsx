@@ -1,22 +1,15 @@
+"use client";
+
 import { Paper, Typography } from "@mui/material";
 import { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-// const fetcher = async (url: string) => {
-//   try {
-//     const res = await fetch(url, { cache: "no-cache" });
-//     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-//     return await res.json();
-//   } catch (error) {
-//     console.error("Fetch error:", error);
-//     // return null;  // 또는 빈 객체를 반환: return { comments: [] };
-//     return { posts: [] };
-//   }
-// };
+const fetcher = (url: string) =>
+  fetch(url, { cache: "no-cache", next: { revalidate: 60 } }).then((res) => res.json());
 
-export default function LatestPostList({ posts }: any) {
-  // const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=latest`);
+export default async function LatestPostList() {
+  const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=latest`);
 
   return (
     <Paper className="latest-post-list" variant="outlined" sx={latestPostList}>
