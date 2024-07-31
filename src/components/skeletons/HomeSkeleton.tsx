@@ -9,14 +9,8 @@ export default function HomeSkeleton() {
         component={"section"}
         sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
       >
-        <Box sx={{ width: "100%", marginBottom: 2 }}>
-          <Skeleton
-            variant="rectangular"
-            width={"100%"}
-            height={"100%"}
-            animation="wave"
-            sx={{ minWidth: "500px", minHeight: "500px", flex: "3" }}
-          />
+        <Box sx={{ width: "100%", height: { xs: "auto", md: "300px" } }}>
+          <Skeleton variant="rectangular" width={"100%"} height={"100%"} animation="wave" />
         </Box>
 
         <Grid container spacing={2}>

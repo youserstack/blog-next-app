@@ -6,7 +6,16 @@ import { Suspense } from "react";
 import Image from "next/image";
 import { Box, Container, Grid } from "@mui/material";
 
-export default function Home() {
+const fetcher = (url: string) => fetch(url, { next: { revalidate: 60 } }).then((res) => res.json());
+
+export default async function Home() {
+  const [data1, data2, data3] = await Promise.all([
+    fetcher(`${process.env.ROOT_URL}/api/posts?sort=popular`),
+    fetcher(`${process.env.ROOT_URL}/api/posts?sort=latest`),
+    fetcher(`${process.env.ROOT_URL}/api/comments/recent`),
+  ]);
+  console.log({ data1, data2, data3 });
+
   return (
     <Suspense fallback={<HomeSkeleton />}>
       <main className="home">
@@ -28,15 +37,15 @@ export default function Home() {
 
           <Grid container spacing={2}>
             <Grid item xs={12} md={6} sx={{ width: "100%" }}>
-              <PopularPostList />
+              <PopularPostList posts={data1.posts} />
             </Grid>
 
             <Grid item xs={12} md={6} sx={{ width: "100%" }}>
-              <LatestPostList />
+              <LatestPostList posts={data2.posts} />
             </Grid>
           </Grid>
 
-          <RecentCommentList />
+          <RecentCommentList comments={data3.comments} />
         </Container>
       </main>
     </Suspense>

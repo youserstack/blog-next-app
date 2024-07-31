@@ -2,10 +2,10 @@ import { Paper, Typography } from "@mui/material";
 import { CSSProperties } from "react";
 import Image from "next/image";
 
-const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
+// const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
-export default async function RecentCommentList() {
-  const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
+export default async function RecentCommentList({ comments }: any) {
+  // const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
 
   return (
     <Paper className="recent-comment-list" variant="outlined" sx={commentListStyle}>

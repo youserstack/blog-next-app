@@ -3,20 +3,20 @@ import { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const fetcher = async (url: string) => {
-  try {
-    const res = await fetch(url, { cache: "no-cache" });
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    return await res.json();
-  } catch (error) {
-    console.error("Fetch error:", error);
-    // return null;  // 또는 빈 객체를 반환: return { comments: [] };
-    return { posts: [] };
-  }
-};
+// const fetcher = async (url: string) => {
+//   try {
+//     const res = await fetch(url, { cache: "no-cache" });
+//     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+//     return await res.json();
+//   } catch (error) {
+//     console.error("Fetch error:", error);
+//     // return null;  // 또는 빈 객체를 반환: return { comments: [] };
+//     return { posts: [] };
+//   }
+// };
 
-export default async function PopularPostList() {
-  const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=popular`);
+export default function PopularPostList({ posts }: any) {
+  // const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=popular`);
 
   return (
     <Paper className="popular-post-list" variant="outlined" sx={popularPostListStyle}>
