@@ -2,8 +2,7 @@ import { Paper, Typography } from "@mui/material";
 import { CSSProperties } from "react";
 import Image from "next/image";
 
-const fetcher = (url: string) =>
-  fetch(url, { cache: "no-cache", next: { revalidate: 60 } }).then((res) => res.json());
+const fetcher = (url: string) => fetch(url, { next: { revalidate: 60 } }).then((res) => res.json());
 
 export default async function RecentCommentList() {
   const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);

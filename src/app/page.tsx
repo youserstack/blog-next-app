@@ -15,7 +15,7 @@ export default function Home() {
           component={"section"}
           sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
         >
-          <Box sx={{ width: "100%", height: { xs: "auto", md: "300px" } }}>
+          <Box sx={{ width: "100%", height: "300px" }}>
             <Image
               src={
                 "https://res.cloudinary.com/dzktdrw7o/image/upload/v1721977672/blog-next-app/ant-rozetsky-HXOllTSwrpM-unsplash_kqwe46.jpg"

@@ -15,9 +15,11 @@ export default function ThemeToggle() {
     const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
 
     // 미디어쿼리 이벤트 파라미터로부터 현재 os 테마를 가져올 수 있다. (동기화 작업을 할 수 있다.)
-    const handleChange = (e: MediaQueryListEvent) => {
+    const handleChange = (e: MediaQueryList | MediaQueryListEvent) => {
       e.matches ? setTheme("dark") : setTheme("light");
     };
+
+    handleChange(mediaQueryList);
 
     mediaQueryList.addEventListener("change", handleChange);
     return () => mediaQueryList.removeEventListener("change", handleChange);
