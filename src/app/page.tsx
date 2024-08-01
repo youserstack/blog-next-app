@@ -1,44 +1,45 @@
+import ImageSkeleton from "@/components/skeletons/ImageSkeleton";
+import PopularPostListSkeleton from "@/components/skeletons/PopularPostListSkeleton";
+import LatestPostListSkeleton from "@/components/skeletons/LatestPostListSkeleton";
+import RecentCommentListSkeleton from "@/components/skeletons/RecentCommentListSkeleton";
 import RecentCommentList from "@/components/lists/RecentCommentList";
 import PopularPostList from "@/components/lists/PopularPostList";
 import LatestPostList from "@/components/lists/LatestPostList";
-import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
+import { Box, Grid } from "@mui/material";
 import { Suspense } from "react";
 import Image from "next/image";
-import { Box, Container, Grid } from "@mui/material";
+
+const imageUrl =
+  "https://res.cloudinary.com/dzktdrw7o/image/upload/v1721977672/blog-next-app/ant-rozetsky-HXOllTSwrpM-unsplash_kqwe46.jpg";
 
 export default function Home() {
   return (
-    <Suspense fallback={<HomeSkeleton />}>
-      <main className="home">
-        <Container
-          id="hero"
-          component={"section"}
-          sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-        >
-          <Box sx={{ width: "100%", height: "300px" }}>
-            <Image
-              src={
-                "https://res.cloudinary.com/dzktdrw7o/image/upload/v1721977672/blog-next-app/ant-rozetsky-HXOllTSwrpM-unsplash_kqwe46.jpg"
-              }
-              width={1000}
-              height={1000}
-              alt=""
-            />
-          </Box>
+    <main className="home">
+      <section style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <Box sx={{ width: "100%", height: "300px" }}>
+          <Suspense fallback={<ImageSkeleton />}>
+            <Image src={imageUrl} width={1000} height={1000} alt="" />
+          </Suspense>
+        </Box>
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6} sx={{ width: "100%" }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6} sx={{ width: "100%" }}>
+            <Suspense fallback={<PopularPostListSkeleton />}>
               <PopularPostList />
-            </Grid>
-
-            <Grid item xs={12} md={6} sx={{ width: "100%" }}>
-              <LatestPostList />
-            </Grid>
+            </Suspense>
           </Grid>
 
+          <Grid item xs={12} md={6} sx={{ width: "100%" }}>
+            <Suspense fallback={<LatestPostListSkeleton />}>
+              <LatestPostList />
+            </Suspense>
+          </Grid>
+        </Grid>
+
+        <Suspense fallback={<RecentCommentListSkeleton />}>
           <RecentCommentList />
-        </Container>
-      </main>
-    </Suspense>
+        </Suspense>
+      </section>
+    </main>
   );
 }

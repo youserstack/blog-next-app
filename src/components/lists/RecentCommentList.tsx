@@ -10,7 +10,7 @@ export default async function RecentCommentList() {
     <Paper className="recent-comment-list" variant="outlined" sx={{ padding: "1rem" }}>
       <Typography sx={{ marginBottom: "1rem" }}>최근댓글</Typography>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         {comments.map((comment: any) => (
           <Paper
             key={comment._id}
@@ -45,7 +45,7 @@ export default async function RecentCommentList() {
             </div>
           </Paper>
         ))}
-      </div>
+      </ul>
     </Paper>
   );
 }

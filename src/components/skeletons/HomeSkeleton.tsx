@@ -1,14 +1,9 @@
-import { Box, Container, Grid, Paper, Skeleton } from "@mui/material";
-import { CSSProperties } from "react";
+import { Box, Grid, Paper, Skeleton } from "@mui/material";
 
 export default function HomeSkeleton() {
   return (
     <main className="home-skeleton">
-      <Container
-        id="hero"
-        component={"section"}
-        sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-      >
+      <section id="hero" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <Box sx={{ width: "100%", height: "300px" }}>
           <Skeleton variant="rectangular" width={"100%"} height={"100%"} animation="wave" />
         </Box>
@@ -16,7 +11,14 @@ export default function HomeSkeleton() {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} sx={{ width: "100%" }}>
             <Paper className="latest-post-list" variant="outlined" sx={{ padding: "1rem" }}>
-              <div style={contentStyle}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "1rem",
+                }}
+              >
                 <Skeleton variant="text" animation="wave" width={100} />
                 <Skeleton variant="text" animation="wave" width={40} />
               </div>
@@ -25,12 +27,21 @@ export default function HomeSkeleton() {
                 {[1, 2, 3, 4, 5].map((v: any) => (
                   <Paper
                     key={v}
+                    component={"li"}
                     variant="outlined"
                     sx={{ height: "100px", display: "flex", overflow: "hidden" }}
                   >
                     <Skeleton variant="rectangular" animation="wave" width={100} height={100} />
 
-                    <div className="content" style={contentStyle}>
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        padding: "1rem",
+                      }}
+                    >
                       <Skeleton
                         variant="text"
                         animation="wave"
@@ -66,12 +77,21 @@ export default function HomeSkeleton() {
                 {[1, 2, 3, 4, 5].map((v: any) => (
                   <Paper
                     key={v}
+                    component={"li"}
                     variant="outlined"
                     sx={{ height: "100px", display: "flex", overflow: "hidden" }}
                   >
                     <Skeleton variant="rectangular" animation="wave" width={100} height={100} />
 
-                    <div className="content" style={contentStyle}>
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        padding: "1rem",
+                      }}
+                    >
                       <Skeleton
                         variant="text"
                         animation="wave"
@@ -90,12 +110,22 @@ export default function HomeSkeleton() {
           </Grid>
         </Grid>
 
-        <Paper className="recent-comment-list" variant="outlined" sx={commentListStyle}>
-          <Skeleton variant="text" animation="wave" width={100} height={32} />
+        <Paper className="recent-comment-list" variant="outlined" sx={{ padding: "1rem" }}>
+          <Skeleton variant="text" animation="wave" width={100} sx={{ marginBottom: "1rem" }} />
 
           <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             {[1, 2, 3, 4, 5].map((v: any) => (
-              <Paper component={"li"} key={v} variant="outlined" sx={commentStyle}>
+              <Paper
+                component={"li"}
+                key={v}
+                variant="outlined"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "1rem",
+                  padding: "1rem",
+                }}
+              >
                 <Skeleton variant="circular" animation="wave" width={30} height={30} />
 
                 <div>
@@ -106,30 +136,7 @@ export default function HomeSkeleton() {
             ))}
           </ul>
         </Paper>
-      </Container>
+      </section>
     </main>
   );
 }
-
-const commentListStyle: CSSProperties = {
-  flex: "1",
-  padding: "1rem",
-  display: "flex",
-  flexDirection: "column",
-  gap: "1rem",
-};
-
-const commentStyle: CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-  gap: "1rem",
-  padding: "1rem",
-};
-
-const contentStyle: CSSProperties = {
-  flex: "1",
-  padding: "1rem",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-};
