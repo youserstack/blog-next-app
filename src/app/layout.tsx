@@ -8,8 +8,8 @@ import "./globals.scss";
 import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
-  title: "youserstack's blogs",
-  description: "youserstack's blogs",
+  title: "youserstack blog",
+  description: "youserstack blog",
   keywords: "youserstack",
 };
 

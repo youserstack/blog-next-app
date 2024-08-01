@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CSSProperties, MouseEventHandler } from "react";
 import { useParams } from "next/navigation";
 import { SlArrowRight } from "react-icons/sl";
-import { Box, useTheme } from "@mui/material";
+import { Box, SxProps, useTheme } from "@mui/material";
 
 export default function SideNav({ categories }: any) {
   const theme = useTheme();
@@ -118,7 +118,7 @@ export default function SideNav({ categories }: any) {
   );
 }
 
-const sideNavStyle: CSSProperties = {
+const sideNavStyle: SxProps = {
   width: "250px",
   position: "sticky",
   top: "calc(60px + 1rem)",
@@ -127,6 +127,7 @@ const sideNavStyle: CSSProperties = {
   scrollbarWidth: "thin",
   scrollbarColor: "#eaeaea transparent",
   scrollbarGutter: "stable",
+  display: { xs: "none", md: "block" },
 };
 
 const linkStyle = (isLeaf: any, leafColor: any): CSSProperties => ({
