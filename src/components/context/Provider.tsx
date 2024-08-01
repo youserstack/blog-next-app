@@ -7,13 +7,16 @@ import { CssBaseline } from "@mui/material";
 
 export const Context = createContext({});
 
-export default function Provider({ children }: { children: React.ReactNode }) {
+export default function Provider({
+  children,
+  mode: storedMode,
+}: {
+  children: React.ReactNode;
+  mode: string;
+}) {
   // Theme
-  // const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  // const [theme, setTheme] = useState(prefersDarkMode ? "dark" : "light");
-  // useEffect(() => setTheme(prefersDarkMode ? "dark" : "light"), [prefersDarkMode]);
-  const [theme, setTheme] = useState("light"); // setTheme은 운영체제모드변경이나 브라우저포커싱할때 사용
-  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light"); // 토글버튼에 사용
+  const [mode, setMode] = useState(storedMode ? storedMode : "light");
+  const toggleTheme = () => setMode((mode) => (mode === "light" ? "dark" : "light"));
 
   // Loading
   const [isLoading, setIsLoading] = useState(false);
@@ -77,8 +80,8 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     <Context.Provider
       value={{
         // 테마
-        theme,
-        setTheme,
+        mode,
+        setMode,
         toggleTheme,
         // 로딩
         isLoading,
@@ -103,7 +106,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         setDynamicUrl,
       }}
     >
-      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <ThemeProvider theme={mode === "light" ? lightTheme : darkTheme}>
         <CssBaseline enableColorScheme />
         {children}
       </ThemeProvider>

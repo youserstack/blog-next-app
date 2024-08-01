@@ -7,7 +7,12 @@ import { Box } from "@mui/material";
 
 export default function ThemeToggle() {
   // 테마모드 초기화
-  const { theme, setTheme, toggleTheme }: any = useContext(Context);
+  const { mode, setMode, toggleTheme }: any = useContext(Context);
+
+  // 토글에 의한 테마변경
+  useEffect(() => {
+    document.cookie = `mode=${mode}; expires=31536000; path=/`;
+  }, [mode]);
 
   // 운영체제에 의한 테마변경
   useEffect(() => {
@@ -16,14 +21,14 @@ export default function ThemeToggle() {
 
     // 미디어쿼리 이벤트 파라미터로부터 현재 os 테마를 가져올 수 있다. (동기화 작업을 할 수 있다.)
     const handleChange = (e: MediaQueryList | MediaQueryListEvent) => {
-      e.matches ? setTheme("dark") : setTheme("light");
+      e.matches ? setMode("dark") : setMode("light");
     };
 
-    handleChange(mediaQueryList);
+    // handleChange(mediaQueryList);
 
     mediaQueryList.addEventListener("change", handleChange);
     return () => mediaQueryList.removeEventListener("change", handleChange);
-  }, [setTheme]);
+  }, [setMode]);
 
   // 포커싱에 의한 테마변경
   // useEffect(() => {
@@ -31,20 +36,13 @@ export default function ThemeToggle() {
   //     if (document.visibilityState === "visible") {
   //       const isDarkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
   //       const osTheme = isDarkTheme ? "dark" : "light";
-  //       setTheme(osTheme);
+  //       setMode(osTheme);
   //     }
   //   };
 
   //   document.addEventListener("visibilitychange", handleVisibilityChange);
   //   return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  // }, [setTheme]);
-
-  // 토글에 의한 테마변경
-  useEffect(() => {
-    document.body.classList.remove("light", "dark");
-    document.body.classList.add(theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+  // }, [setMode]);
 
   return (
     <Box
@@ -59,7 +57,7 @@ export default function ThemeToggle() {
         position: "relative",
         cursor: "pointer",
         overflowX: "hidden",
-        backgroundColor: theme === "light" ? "#fff" : "#000",
+        backgroundColor: mode === "light" ? "#fff" : "#000",
       }}
     >
       <div
@@ -69,10 +67,10 @@ export default function ThemeToggle() {
           left: "2px",
           transition: "all 1s",
           display: "flex",
-          transform: theme === "light" ? "translateX(0)" : "translateX(20px)",
+          transform: mode === "light" ? "translateX(0)" : "translateX(20px)",
         }}
       >
-        {theme === "light" ? <IoIosSunny color="orange" /> : <IoIosMoon color="yellow" />}
+        {mode === "light" ? <IoIosSunny color="orange" /> : <IoIosMoon color="yellow" />}
       </div>
     </Box>
   );

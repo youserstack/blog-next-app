@@ -5,6 +5,7 @@ import Provider from "@/components/context/Provider";
 import Loading from "@/components/ui/Loading";
 import GlobalModal from "@/components/modals/GlobalModal";
 import "./globals.scss";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "youserstack's blogs",
@@ -17,10 +18,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const mode = cookies().get("mode")?.value as string;
+
   return (
     <html lang="en">
       <body>
-        <Provider>
+        <Provider mode={mode}>
           <Header />
           {children}
           <Footer />

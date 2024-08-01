@@ -1,5 +1,5 @@
 import { getCategories } from "@/lib/utils/fetchers/getters";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import HeaderScript from "@/components/script/HeaderScript";
 import NavBar from "@/components/ui/NavBar";
 
