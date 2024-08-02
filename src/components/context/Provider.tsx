@@ -36,11 +36,16 @@ export default function Provider({
   // Theme
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const systemMode = prefersDarkMode ? "dark" : "light";
+  console.log({ systemMode });
   // 쿠키에 저장된 모드(storedMode)가 가장 우선이고, 그 다음으로 시스템 모드(systemMode)를 우선으로 한다.
   const [mode, setMode] = useState(storedMode || systemMode);
   // 단일상태에 의존하여 테마가 변경되도록 한다.
   const theme = useMemo(() => (mode === "light" ? lightTheme : darkTheme), [mode]);
   const toggleTheme = () => setMode((mode) => (mode === "light" ? "dark" : "light"));
+
+  useEffect(() => {
+    if (!storedMode) setMode(systemMode);
+  }, [systemMode, storedMode]);
 
   // Loading
   const [isLoading, setIsLoading] = useState(false);
