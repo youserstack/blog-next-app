@@ -1,16 +1,20 @@
 "use client";
 
-import { Context } from "@/components/context/Provider";
 import { useContext } from "react";
 import { Button } from "@mui/material";
 import { MdAdd } from "react-icons/md";
+import { CategoryContext } from "../context/CategoryContext";
+import { ModalContext } from "../context/ModalContext";
+import { AuthContext } from "../context/AuthContext";
 
 export default function CategoryCreateButton({
   parentCategories,
 }: {
   parentCategories: string[] | null;
 }) {
-  const { setParentCategories, openModal, user }: any = useContext(Context);
+  const { user } = useContext(AuthContext);
+  const { openModal } = useContext(ModalContext);
+  const { setParentCategories } = useContext(CategoryContext);
 
   const handleOpenCategoryCreateModal = () => {
     setParentCategories(parentCategories);

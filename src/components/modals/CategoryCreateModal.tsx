@@ -2,16 +2,18 @@
 
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Context } from "@/components/context/Provider";
 import { useFormState } from "react-dom";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createCategoryAction } from "@/app/actions";
 import { Button, Paper, TextField, Typography } from "@mui/material";
 import { MdAdd } from "react-icons/md";
+import { CategoryContext } from "../context/CategoryContext";
+import { ModalContext } from "../context/ModalContext";
 
 export default function CategoryCreateModal() {
   const router = useRouter();
-  const { parentCategories, closeModal }: any = useContext(Context);
+  const { parentCategories } = useContext(CategoryContext);
+  const { closeModal } = useContext(ModalContext);
 
   const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
     formData.set("parentCategories", JSON.stringify(parentCategories));

@@ -1,10 +1,10 @@
 "use client";
 
-import { Context } from "@/components/context/Provider";
 import { useContext, useEffect } from "react";
+import { CategoryContext } from "../context/CategoryContext";
 
 export default function CategoriesScript({ categories }: { categories: [] }) {
-  const { setCategories, setCategoryPaths }: any = useContext(Context);
+  const { setCategories, setCategoryPaths } = useContext(CategoryContext);
 
   useEffect(() => {
     setCategories(categories);

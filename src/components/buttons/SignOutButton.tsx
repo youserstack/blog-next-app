@@ -1,11 +1,11 @@
 "use client";
 
 import { useContext } from "react";
-import { Context } from "@/components/context/Provider";
 import { Button } from "@mui/material";
+import { AuthContext } from "../context/AuthContext";
 
 export default function SignOutButton() {
-  const { signout }: any = useContext(Context);
+  const { signout } = useContext(AuthContext);
 
   return (
     <Button onClick={signout} sx={{ color: "white", whiteSpace: "nowrap" }}>

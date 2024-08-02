@@ -2,7 +2,7 @@
 
 import { useContext, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Context } from "@/components/context/Provider";
+import { Context } from "@/components/context/Context";
 import Pagination from "@/components/ui/Pagination";
 import PostList from "@/components/lists/PostList";
 import useSWR from "swr";

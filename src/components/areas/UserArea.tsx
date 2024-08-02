@@ -4,10 +4,10 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 import SignOutButton from "@/components/buttons/SignOutButton";
 import Link from "next/link";
 import { useContext, useEffect } from "react";
-import { Context } from "../context/Provider";
+import { AuthContext } from "../context/AuthContext";
 
 export default function UserArea({ user }: any) {
-  const { setUser }: any = useContext(Context);
+  const { setUser }: any = useContext(AuthContext);
 
   useEffect(() => setUser(user), [user, setUser]);
 

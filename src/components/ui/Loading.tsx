@@ -2,10 +2,10 @@
 
 import { CircularProgress } from "@mui/material";
 import { useContext } from "react";
-import { Context } from "@/components/context/Provider";
+import { LoadingContext } from "../context/LoadingContext";
 
 export default function Loading() {
-  const { isLoading }: any = useContext(Context);
+  const { isLoading }: any = useContext(LoadingContext);
 
   if (!isLoading) return null;
 

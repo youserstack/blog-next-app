@@ -3,7 +3,7 @@
 import { Button, Menu, MenuItem, Popper, useTheme } from "@mui/material";
 import { MdAdd, MdCreate, MdDelete } from "react-icons/md";
 import { MouseEvent, useContext, useState } from "react";
-import { Context } from "@/components/context/Provider";
+import { Context } from "@/components/context/Context";
 import { IoIosMore } from "react-icons/io";
 import { useParams } from "next/navigation";
 

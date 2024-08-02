@@ -4,7 +4,7 @@ import { refreshAccessToken } from "@/lib/utils/auth";
 import { useFormState } from "react-dom";
 import { mutate } from "swr";
 import { useContext, useEffect } from "react";
-import { Context } from "@/components/context/Provider";
+import { Context } from "@/components/context/Context";
 import { createCommentAction } from "@/app/actions";
 import Image from "next/image";
 import Link from "next/link";

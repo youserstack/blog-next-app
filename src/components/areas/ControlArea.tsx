@@ -1,7 +1,7 @@
 "use client";
 
 import CategoryOptionButton from "@/components/buttons/CategoryOptionButton";
-import { Context } from "@/components/context/Provider";
+import { Context } from "@/components/context/Context";
 import { useContext } from "react";
 import { Box, Button } from "@mui/material";
 import { MdCreate } from "react-icons/md";

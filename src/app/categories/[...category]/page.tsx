@@ -2,7 +2,7 @@
 
 import { useContext, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Context } from "@/components/context/Provider";
+import { Context } from "@/components/context/Context";
 import { CategoryProps } from "@/types/api";
 import useSWR from "swr";
 import Breadcrumb from "@/components/ui/Breadcrumb";

@@ -2,18 +2,20 @@
 
 import { useContext } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Context } from "@/components/context/Provider";
 import { deleteCategory } from "@/lib/utils/fetchers/deleters";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { Button, Paper, Typography } from "@mui/material";
 import { RiErrorWarningFill } from "react-icons/ri";
+import { ModalContext } from "../context/ModalContext";
+import { CategoryContext } from "../context/CategoryContext";
 
 export default function CategoryDeleteModal() {
   const router = useRouter();
   const params = useParams();
   const categories = (params.category as string[]).map((v: string) => decodeURI(v));
   const parentCategories = categories.slice(0, -1);
-  const { closeModal, categoryPaths }: any = useContext(Context);
+  const { closeModal } = useContext(ModalContext);
+  const { categoryPaths } = useContext(CategoryContext);
   // console.log({ categories, categoryPaths });
 
   const handleClickDeleteButton = async () => {

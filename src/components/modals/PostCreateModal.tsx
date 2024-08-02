@@ -7,7 +7,7 @@ import { useContext, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
-import { Context } from "@/components/context/Provider";
+import { Context } from "@/components/context/Context";
 import { mutate } from "swr";
 
 function SubmitButton() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Context } from "@/components/context/Provider";
+import { Context } from "@/components/context/Context";
 import { useContext } from "react";
 import { Modal } from "@mui/material";
 import PostCreateModal from "@/components/modals/PostCreateModal";

@@ -1,7 +1,7 @@
 "use client";
 
 import CommentOptionButton from "@/components/buttons/CommentOptionButton";
-import { Context } from "@/components/context/Provider";
+import { Context } from "@/components/context/Context";
 import { Button, Paper } from "@mui/material";
 import { useContext, useEffect } from "react";
 import Image from "next/image";
