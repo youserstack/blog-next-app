@@ -2,7 +2,6 @@
 
 import { useContext, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Context } from "@/components/context/Context";
 import { CategoryProps } from "@/types/api";
 import useSWR from "swr";
 import Breadcrumb from "@/components/ui/Breadcrumb";
@@ -10,6 +9,8 @@ import ControlArea from "@/components/areas/ControlArea";
 import PostList from "@/components/lists/PostList";
 import Pagination from "@/components/ui/Pagination";
 import { Box } from "@mui/material";
+import { LoadingContext } from "@/components/context/LoadingContext";
+import { SwrContext } from "@/components/context/SwrContext";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
@@ -19,7 +20,8 @@ export default function Category({ params: { category } }: CategoryProps) {
   const page = searchParams.get("page") || "1";
   const url = `${process.env.ROOT_URL}/api/posts?categoryPath=${categoryPath}&page=${page}`;
   const { isValidating, data } = useSWR(url, fetcher);
-  const { setIsLoading, setDynamicUrl }: any = useContext(Context);
+  const { setIsLoading } = useContext(LoadingContext);
+  const { setDynamicUrl } = useContext(SwrContext);
 
   // isLoading은 처음 로드시에만 값이 true에서 false로 변경된다.
   // 하지만, isValidating은 데이터를 패칭할때마다 true에서 false로 변경된다.

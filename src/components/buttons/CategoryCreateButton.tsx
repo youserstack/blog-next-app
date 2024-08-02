@@ -7,11 +7,7 @@ import { CategoryContext } from "../context/CategoryContext";
 import { ModalContext } from "../context/ModalContext";
 import { AuthContext } from "../context/AuthContext";
 
-export default function CategoryCreateButton({
-  parentCategories,
-}: {
-  parentCategories: string[] | null;
-}) {
+export default function CategoryCreateButton({ parentCategories }: { parentCategories: string[] }) {
   const { user } = useContext(AuthContext);
   const { openModal } = useContext(ModalContext);
   const { setParentCategories } = useContext(CategoryContext);

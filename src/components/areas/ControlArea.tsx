@@ -1,13 +1,13 @@
 "use client";
 
 import CategoryOptionButton from "@/components/buttons/CategoryOptionButton";
-import { Context } from "@/components/context/Context";
 import { useContext } from "react";
 import { Box, Button } from "@mui/material";
 import { MdCreate } from "react-icons/md";
+import { ModalContext } from "../context/ModalContext";
 
 export default function ControlArea() {
-  const { openModal }: any = useContext(Context);
+  const { openModal } = useContext(ModalContext);
 
   return (
     <Box className="control-area" sx={{ display: "flex", gap: "1rem" }}>

@@ -3,15 +3,17 @@
 import { Button, Menu, MenuItem, Popper, useTheme } from "@mui/material";
 import { MdAdd, MdCreate, MdDelete } from "react-icons/md";
 import { MouseEvent, useContext, useState } from "react";
-import { Context } from "@/components/context/Context";
 import { IoIosMore } from "react-icons/io";
 import { useParams } from "next/navigation";
+import { CategoryContext } from "../context/CategoryContext";
+import { ModalContext } from "../context/ModalContext";
 
 export default function CategoryOptionButton() {
   const params = useParams();
   const categorySegments = (params.category as string[]).map((v: any) => decodeURIComponent(v));
   const rootCategory = categorySegments[0];
-  const { setParentCategories, openModal }: any = useContext(Context);
+  const { setParentCategories } = useContext(CategoryContext);
+  const { openModal } = useContext(ModalContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);

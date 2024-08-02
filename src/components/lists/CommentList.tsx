@@ -6,13 +6,14 @@ import { Button, Paper } from "@mui/material";
 import { useContext, useEffect } from "react";
 import Image from "next/image";
 import useSWR from "swr";
+import { LoadingContext } from "../context/LoadingContext";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default function CommentList({ postId }: any) {
   const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`;
   const { isValidating, data } = useSWR(url, fetcher);
-  const { setIsLoading }: any = useContext(Context);
+  const { setIsLoading } = useContext(LoadingContext);
 
   useEffect(() => setIsLoading(isValidating), [setIsLoading, isValidating]);
 

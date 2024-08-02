@@ -3,12 +3,12 @@
 import { Button, Menu, MenuItem, Popper } from "@mui/material";
 import { MouseEvent, useContext, useState } from "react";
 import { IoIosMore } from "react-icons/io";
-import { Context } from "@/components/context/Context";
 import { MdEdit } from "react-icons/md";
 import Link from "next/link";
+import { AuthContext } from "../context/AuthContext";
 
 export default function ArticleOptionButton({ post }: any) {
-  const { user }: any = useContext(Context);
+  const { user } = useContext(AuthContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);

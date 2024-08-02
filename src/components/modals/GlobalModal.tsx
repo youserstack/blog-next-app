@@ -1,14 +1,14 @@
 "use client";
 
-import { Context } from "@/components/context/Context";
 import { useContext } from "react";
 import { Modal } from "@mui/material";
 import PostCreateModal from "@/components/modals/PostCreateModal";
 import CategoryCreateModal from "@/components/modals/CategoryCreateModal";
 import CategoryDeleteModal from "@/components/modals/CategoryDeleteModal";
+import { ModalContext } from "../context/ModalContext";
 
 export default function GlobalModal() {
-  const { modal, closeModal }: any = useContext(Context);
+  const { modal, closeModal } = useContext(ModalContext);
 
   return (
     <Modal

@@ -7,8 +7,9 @@ import { useContext, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
-import { Context } from "@/components/context/Context";
 import { mutate } from "swr";
+import { ModalContext } from "../context/ModalContext";
+import { SwrContext } from "../context/SwrContext";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -22,7 +23,8 @@ function SubmitButton() {
 
 export default function PostCreateModal() {
   const router = useRouter();
-  const { closeModal, dynamicUrl }: any = useContext(Context);
+  const { closeModal } = useContext(ModalContext);
+  const { dynamicUrl } = useContext(SwrContext);
   const { category }: any = useParams();
   const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
 

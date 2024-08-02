@@ -4,11 +4,11 @@ import { refreshAccessToken } from "@/lib/utils/auth";
 import { useFormState } from "react-dom";
 import { mutate } from "swr";
 import { useContext, useEffect } from "react";
-import { Context } from "@/components/context/Context";
 import { createCommentAction } from "@/app/actions";
 import Image from "next/image";
 import Link from "next/link";
 import { Button, Paper, TextField } from "@mui/material";
+import { AuthContext } from "../context/AuthContext";
 
 export default function CommentCreateForm({
   authorImage,
@@ -17,7 +17,7 @@ export default function CommentCreateForm({
   authorImage: any;
   postId: string;
 }) {
-  const { user }: any = useContext(Context);
+  const { user } = useContext(AuthContext);
 
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
     const accessToken = localStorage.getItem("accessToken") as string;
