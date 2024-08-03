@@ -6,22 +6,21 @@ import { AuthProvider } from "./AuthContext";
 import { LoadingProvider } from "./LoadingContext";
 import { ModalProvider } from "./ModalContext";
 import { CategoryProvider } from "./CategoryContext";
-import combineProviders from "./utils/combineProviders";
 import { SwrProvider } from "./SwrContext";
-
-const Providers = combineProviders([
-  AuthProvider,
-  LoadingProvider,
-  ModalProvider,
-  CategoryProvider,
-  SwrProvider,
-]);
 
 export const Context = createContext({});
 export const Provider = ({ children, mode }: { children: React.ReactNode; mode: string }) => {
   return (
     <ThemeProvider mode={mode}>
-      <Providers>{children}</Providers>
+      <AuthProvider>
+        <LoadingProvider>
+          <ModalProvider>
+            <CategoryProvider>
+              <SwrProvider>{children}</SwrProvider>
+            </CategoryProvider>
+          </ModalProvider>
+        </LoadingProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 };

@@ -56,7 +56,7 @@ export const ThemeProvider = ({
 
     mediaQueryList.addEventListener("change", handleChange);
     return () => mediaQueryList.removeEventListener("change", handleChange);
-  }, [setMode]);
+  }, [setMode, cacheMode]);
 
   //   모드변경에 의한 캐시
   useEffect(() => {
