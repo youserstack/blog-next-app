@@ -1,7 +1,4 @@
 import ImageSkeleton from "@/components/skeletons/ImageSkeleton";
-import PopularPostListSkeleton from "@/components/skeletons/PopularPostListSkeleton";
-import LatestPostListSkeleton from "@/components/skeletons/LatestPostListSkeleton";
-import RecentCommentListSkeleton from "@/components/skeletons/RecentCommentListSkeleton";
 import RecentCommentList from "@/components/lists/RecentCommentList";
 import PopularPostList from "@/components/lists/PopularPostList";
 import LatestPostList from "@/components/lists/LatestPostList";
@@ -24,21 +21,15 @@ export default function Home() {
 
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} sx={{ width: "100%" }}>
-            <Suspense fallback={<PopularPostListSkeleton />}>
-              <PopularPostList />
-            </Suspense>
+            <PopularPostList />
           </Grid>
 
           <Grid item xs={12} md={6} sx={{ width: "100%" }}>
-            <Suspense fallback={<LatestPostListSkeleton />}>
-              <LatestPostList />
-            </Suspense>
+            <LatestPostList />
           </Grid>
         </Grid>
 
-        <Suspense fallback={<RecentCommentListSkeleton />}>
-          <RecentCommentList />
-        </Suspense>
+        <RecentCommentList />
       </section>
     </main>
   );
