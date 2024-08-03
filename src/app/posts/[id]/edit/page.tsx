@@ -1,13 +1,16 @@
-import PostArticleEditForm from "@/components/forms/PostArticleEditForm";
-import { getPost } from "@/lib/utils/fetchers/getters";
+"use client";
 
-export default async function PostIdEdit({ params: { id: postId } }: { params: { id: string } }) {
-  const { post } = await getPost(postId);
+import dynamic from "next/dynamic";
 
+const PostArticleEditForm = dynamic(() => import("@/components/forms/PostArticleEditForm"), {
+  ssr: false,
+});
+
+export default function PostIdEdit({ params: { id: postId } }: { params: { id: string } }) {
   return (
     <main>
       <section>
-        <PostArticleEditForm post={post} />
+        <PostArticleEditForm postId={postId} />
       </section>
     </main>
   );

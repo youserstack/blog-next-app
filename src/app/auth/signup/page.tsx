@@ -1,6 +1,9 @@
-import SignupForm from "@/components/ui/SignupForm";
+// import SignupForm from "@/components/ui/SignupForm";
+import dynamic from "next/dynamic";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
+const SignupForm = dynamic(() => import("@/components/ui/SignupForm"));
 
 export default function Signup() {
   const user = JSON.parse(headers().get("user") as string);

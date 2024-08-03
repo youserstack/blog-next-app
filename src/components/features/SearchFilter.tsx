@@ -4,7 +4,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-export default function SearchFilter({ categories }: any) {
+export default function SearchFilter({ categories }: { categories: any }) {
   const [rootCategory, setRootCategory] = useState("");
   const [sub1Category, setSub1Category] = useState("");
   const [sub2Category, setSub2Category] = useState("");

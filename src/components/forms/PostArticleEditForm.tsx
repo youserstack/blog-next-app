@@ -9,12 +9,26 @@ import { Box, Button, Paper, TextField } from "@mui/material";
 import PostDeleteButton from "./PostDeleteButton";
 import Image from "next/image";
 import { CSSProperties, useEffect, useState } from "react";
+import useSWR from "swr";
 
-export default function PostArticleEditForm({ post }: any) {
+const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
+
+export default function PostArticleEditForm({ postId }: { postId: string }) {
   const router = useRouter();
-  const [thumbnail, setThumbnail] = useState(post.image);
+
+  // 포스트 게시글 가져오기
+  const url = `${process.env.ROOT_URL}/api/posts/${postId}`;
+  const { isValidating, data } = useSWR(url, fetcher);
+  useEffect(() => {
+    if (data) setThumbnail(post.image);
+  }, [data]);
+
+  // 포스트 게시글 편집을 위한 상태와 폼상태
+  const [thumbnail, setThumbnail] = useState("");
   const [updateState, updateAction] = useFormState(
     async (currentState: any, formData: FormData) => {
+      if (!data) return;
+
       const accessToken = localStorage.getItem("accessToken") as string;
       const { error, updatedPost } = await updatePostAction(formData, post._id, accessToken);
 
@@ -41,11 +55,9 @@ export default function PostArticleEditForm({ post }: any) {
     },
     null
   );
-
   useEffect(() => {
     if (updateState?.updatedPost) router.back();
   }, [updateState, router]);
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -58,6 +70,9 @@ export default function PostArticleEditForm({ post }: any) {
     }
   };
 
+  // 렌더링
+  if (!data) return null;
+  const { post } = data;
   return (
     <Paper
       component={"form"}

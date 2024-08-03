@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Provider } from "@/components/context/Context";
-import Loading from "@/components/ui/Loading";
-import GlobalModal from "@/components/modals/GlobalModal";
+// import Loading from "@/components/ui/Loading";
+// import GlobalModal from "@/components/modals/GlobalModal";
 import "./globals.scss";
 import { cookies } from "next/headers";
+import dynamic from "next/dynamic";
+
+const Loading = dynamic(() => import("@/components/ui/Loading"));
+const GlobalModal = dynamic(() => import("@/components/modals/GlobalModal"));
 
 export const metadata: Metadata = {
   title: "youserstack blog",

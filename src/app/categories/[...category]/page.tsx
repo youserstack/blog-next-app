@@ -4,13 +4,19 @@ import { useContext, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { CategoryProps } from "@/types/api";
 import useSWR from "swr";
-import Breadcrumb from "@/components/ui/Breadcrumb";
-import ControlArea from "@/components/areas/ControlArea";
-import PostList from "@/components/lists/PostList";
-import Pagination from "@/components/ui/Pagination";
+// import Breadcrumb from "@/components/ui/Breadcrumb";
+// import ControlArea from "@/components/areas/ControlArea";
+// import PostList from "@/components/lists/PostList";
+// import Pagination from "@/components/ui/Pagination";
 import { Box } from "@mui/material";
 import { LoadingContext } from "@/components/context/LoadingContext";
 import { SwrContext } from "@/components/context/SwrContext";
+import dynamic from "next/dynamic";
+
+const Breadcrumb = dynamic(() => import("@/components/ui/Breadcrumb"));
+const ControlArea = dynamic(() => import("@/components/areas/ControlArea"));
+const PostList = dynamic(() => import("@/components/lists/PostList"));
+const Pagination = dynamic(() => import("@/components/ui/Pagination"));
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
