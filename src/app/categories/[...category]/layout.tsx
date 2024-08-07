@@ -1,16 +1,13 @@
 // import SideNav from "@/components/ui/SideNav";
-import { getCategories } from "@/lib/utils/fetchers/getters";
 import dynamic from "next/dynamic";
 
 const SideNav = dynamic(() => import("@/components/ui/SideNav"));
 
-export default async function CategoryLayout({ children }: { children: React.ReactNode }) {
-  const { categories } = await getCategories();
-
+export default function CategoryLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className="category-layout">
       <section style={{ display: "flex" }}>
-        <SideNav categories={categories} />
+        <SideNav />
         {children}
       </section>
       <section></section>

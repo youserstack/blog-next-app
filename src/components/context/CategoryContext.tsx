@@ -1,12 +1,12 @@
-import React, { createContext, useState, ReactNode } from "react";
+"use client";
+
+import { createContext, useState } from "react";
 
 interface CategoryContextType {
   categories: any[];
   setCategories: React.Dispatch<React.SetStateAction<any[]>>;
   parentCategories: string[];
   setParentCategories: React.Dispatch<React.SetStateAction<string[]>>;
-  categoryPaths: string[];
-  setCategoryPaths: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const defaultCategoryContext: CategoryContextType = {
@@ -14,15 +14,18 @@ const defaultCategoryContext: CategoryContextType = {
   setCategories: () => {},
   parentCategories: [],
   setParentCategories: () => {},
-  categoryPaths: [],
-  setCategoryPaths: () => {},
 };
 
 export const CategoryContext = createContext<CategoryContextType>(defaultCategoryContext);
-export const CategoryProvider = ({ children }: { children: ReactNode }) => {
-  const [categories, setCategories] = useState<any[]>([]);
+export const CategoryProvider = ({
+  children,
+  categories: storedCategories,
+}: {
+  children: React.ReactNode;
+  categories: any[];
+}) => {
+  const [categories, setCategories] = useState<any[]>(storedCategories || []);
   const [parentCategories, setParentCategories] = useState<string[]>([]);
-  const [categoryPaths, setCategoryPaths] = useState<string[]>([]);
 
   return (
     <CategoryContext.Provider
@@ -31,8 +34,6 @@ export const CategoryProvider = ({ children }: { children: ReactNode }) => {
         setCategories,
         parentCategories,
         setParentCategories,
-        categoryPaths,
-        setCategoryPaths,
       }}
     >
       {children}

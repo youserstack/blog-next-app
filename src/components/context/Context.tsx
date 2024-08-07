@@ -9,13 +9,23 @@ import { CategoryProvider } from "./CategoryContext";
 import { SwrProvider } from "./SwrContext";
 
 export const Context = createContext({});
-export const Provider = ({ children, mode }: { children: React.ReactNode; mode: string }) => {
+export const Provider = ({
+  children,
+  mode,
+  user,
+  categories,
+}: {
+  children: React.ReactNode;
+  mode: string;
+  user: string;
+  categories: any[];
+}) => {
   return (
     <ThemeProvider mode={mode}>
-      <AuthProvider>
+      <AuthProvider user={user}>
         <LoadingProvider>
           <ModalProvider>
-            <CategoryProvider>
+            <CategoryProvider categories={categories}>
               <SwrProvider>{children}</SwrProvider>
             </CategoryProvider>
           </ModalProvider>

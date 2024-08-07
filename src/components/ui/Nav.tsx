@@ -1,32 +1,42 @@
 "use client";
 
-import Link from "next/link";
+import { Box, Button, List, ListItem, Paper } from "@mui/material";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
-import { Box, List, ListItem, Paper, SxProps, useTheme } from "@mui/material";
-import CategoriesScript from "@/components/script/CategoriesScript";
+import Link from "next/link";
 
 export default function Nav({ categories }: any) {
-  const theme = useTheme();
-
   return (
     <Box
-      component={"nav"}
+      component="nav"
       className="nav"
-      sx={{
-        height: "100%",
-        "& .category-create-button": { color: theme.palette.primary.contrastText },
-      }}
+      sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
     >
-      <List className="categories" sx={rootCategoryListStyle}>
+      {/* 루트-카테고리-리스트 */}
+      <List className="categories 루트-카테고리-리스트" sx={{ display: "flex" }}>
         {categories.map((category: any) => {
           const rootCategoryName = category.name;
           const rootCategoryLabel = rootCategoryName.replaceAll("-", " ");
           const rootCategoryPath = `/categories/${rootCategoryName}`;
           return (
-            <ListItem className="category" key={rootCategoryPath} sx={rootCategoryStyle}>
-              <Link href={rootCategoryPath}>{rootCategoryLabel}</Link>
+            <ListItem
+              className="category 루트-카테고리-아이템"
+              key={rootCategoryPath}
+              sx={{
+                position: "relative",
+                padding: "0",
+                "&:hover .sub1-categories": { display: "block" },
+                "& li": { padding: "0" },
+              }}
+            >
+              <Link href={rootCategoryPath}>
+                <Button color="inherit">{rootCategoryLabel}</Button>
+              </Link>
 
-              <List className="sub1-categories" sx={sub1CategoryListStyle}>
+              {/* 서브1-카테고리-리스트 */}
+              <List
+                className="sub1-categories 서브1-카테고리-리스트"
+                sx={{ display: "none", position: "absolute", top: "100%" }}
+              >
                 <Paper elevation={3}>
                   {category.sub1Categories?.map((sub1Category: any) => {
                     const sub1CategoryName = sub1Category.name;
@@ -34,13 +44,27 @@ export default function Nav({ categories }: any) {
                     const sub1CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}`;
                     return (
                       <ListItem
-                        className="sub1-category"
+                        className="sub1-category 서브1-카테고리-아이템"
                         key={sub1CategoryPath}
-                        sx={sub1CategoryStyle}
+                        sx={{
+                          position: "relative",
+                          "&:hover .sub2-categories": { display: "block" },
+                          "& a, & button": { padding: "0.5rem 1rem" },
+                        }}
                       >
                         <Link href={sub1CategoryPath}>{sub1CategoryLabel}</Link>
 
-                        <List className="sub2-categories" sx={sub2CategoryListStyle}>
+                        {/* 서브2-카테고리-리스트 */}
+                        <List
+                          className="sub2-categories 서브2-카테고리-리스트"
+                          sx={{
+                            display: "none",
+                            position: "absolute",
+                            left: "100%",
+                            top: "0",
+                            padding: "0 8px",
+                          }}
+                        >
                           <Paper elevation={3}>
                             {sub1Category.sub2Categories?.map((sub2Category: any) => {
                               const sub2CategoryName = sub2Category.name;
@@ -48,9 +72,8 @@ export default function Nav({ categories }: any) {
                               const sub2CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}/${sub2CategoryName}`;
                               return (
                                 <ListItem
-                                  className="sub2-category"
+                                  className="sub2-category 서브2-카테고리-아이템"
                                   key={sub2CategoryPath}
-                                  sx={sub2CategoryStyle}
                                 >
                                   <Link href={sub2CategoryPath}>{sub2CategoryLabel}</Link>
                                 </ListItem>
@@ -69,56 +92,6 @@ export default function Nav({ categories }: any) {
 
         <CategoryCreateButton parentCategories={[]} />
       </List>
-
-      <CategoriesScript categories={categories} />
     </Box>
   );
 }
-
-// root
-const rootCategoryListStyle: SxProps = {
-  height: "100%",
-  display: "flex",
-  padding: "0",
-  // "& li": { padding: "0" },
-};
-
-const rootCategoryStyle: SxProps = {
-  height: "100%",
-  position: "relative",
-  padding: "0",
-  // 호버시 하위카테고리를 활성화한다.
-  "&:hover .sub1-categories": { display: "block" },
-  // 루트카테고리 리스트아이템 내부의 앵커와 버튼을 설정한다.
-  "& > a, & > button": { height: "100%", padding: "0 1rem", display: "flex", alignItems: "center" },
-};
-
-// sub1
-const sub1CategoryListStyle: SxProps = {
-  display: "none",
-  position: "absolute",
-  top: "100%",
-};
-
-const sub1CategoryStyle: SxProps = {
-  position: "relative",
-  padding: "0",
-  // 호버시 하위카테고리를 활성화한다.
-  "&:hover .sub2-categories": { display: "block" },
-  // 루트카테고리 이외의 리스트아이템 내부의 앵커와 버튼을 설정한다.
-  "& a, & button": { height: "100%", padding: "1rem", display: "flex", alignItems: "center" },
-};
-
-// sub2
-const sub2CategoryListStyle: SxProps = {
-  display: "none",
-  position: "absolute",
-  left: "100%",
-  top: "0",
-  padding: "0 8px",
-};
-
-const sub2CategoryStyle: SxProps = {
-  padding: "0",
-  whiteSpace: "nowrap",
-};

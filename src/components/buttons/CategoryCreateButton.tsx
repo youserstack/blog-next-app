@@ -20,7 +20,11 @@ export default function CategoryCreateButton({ parentCategories }: { parentCateg
   if (!user) return null;
 
   return (
-    <Button className="category-create-button" onClick={handleOpenCategoryCreateModal}>
+    <Button
+      className="category-create-button"
+      onClick={handleOpenCategoryCreateModal}
+      color="inherit"
+    >
       <MdAdd />
     </Button>
   );

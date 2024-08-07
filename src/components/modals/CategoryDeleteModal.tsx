@@ -7,7 +7,6 @@ import { refreshAccessToken } from "@/lib/utils/auth";
 import { Button, Paper, Typography } from "@mui/material";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { ModalContext } from "../context/ModalContext";
-import { CategoryContext } from "../context/CategoryContext";
 
 export default function CategoryDeleteModal() {
   const router = useRouter();
@@ -15,8 +14,6 @@ export default function CategoryDeleteModal() {
   const categories = (params.category as string[]).map((v: string) => decodeURI(v));
   const parentCategories = categories.slice(0, -1);
   const { closeModal } = useContext(ModalContext);
-  const { categoryPaths } = useContext(CategoryContext);
-  // console.log({ categories, categoryPaths });
 
   const handleClickDeleteButton = async () => {
     const accessToken = localStorage.getItem("accessToken") as string;
@@ -34,7 +31,7 @@ export default function CategoryDeleteModal() {
       console.log("재요청", { deletedCategory });
       closeModal();
       !parentCategories.length
-        ? router.push("/categories" + categoryPaths[0])
+        ? router.push("/categories/development")
         : router.push(`/categories/${parentCategories.join("/")}`);
       router.refresh();
     } else if (error) {
@@ -46,7 +43,7 @@ export default function CategoryDeleteModal() {
     console.log({ deletedCategory });
     closeModal();
     !parentCategories.length
-      ? router.push("/categories" + categoryPaths[0]) // 최상위 카테고리인 경우는 카테고리 홈경로(categoryPaths[0])로 이동한다.
+      ? router.push("/categories/development")
       : router.push(`/categories/${parentCategories.join("/")}`); // 이외는 부모 카테고리로 이동한다.
     router.refresh();
   };

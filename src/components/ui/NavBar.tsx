@@ -5,10 +5,15 @@ import Nav from "@/components/ui/Nav";
 import Link from "next/link";
 import UserArea from "@/components/areas/UserArea";
 import { AppBar } from "@mui/material";
-import { CSSProperties } from "react";
+import { CSSProperties, useContext } from "react";
 import { SlGlobe } from "react-icons/sl";
+import { AuthContext } from "../context/AuthContext";
+import { CategoryContext } from "../context/CategoryContext";
 
-export default function NavBar({ user, categories }: any) {
+export default function NavBar() {
+  const { user } = useContext(AuthContext);
+  const { categories } = useContext(CategoryContext);
+
   return (
     <AppBar component="nav">
       <section className="header-upper" style={{ ...sectionStyle, height: "40px" }}>

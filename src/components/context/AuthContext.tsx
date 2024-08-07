@@ -16,8 +16,14 @@ const defaultAuthContext: AuthContextType = {
 };
 
 export const AuthContext = createContext<AuthContextType>(defaultAuthContext);
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState(null);
+export const AuthProvider = ({
+  children,
+  user: session,
+}: {
+  children: React.ReactNode;
+  user: any;
+}) => {
+  const [user, setUser] = useState(session || null);
   const router = useRouter();
 
   const signout = useCallback(async () => {
@@ -56,6 +62,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const intervalId = setInterval(refreshAccessToken, 1000 * 60 * 15); // 15분마다 토큰 갱신 (1초*60*15=15분)
     return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 클리어
   }, [refreshAccessToken]);
+
+  useEffect(() => setUser(session), [session]);
 
   return (
     <AuthContext.Provider value={{ user, setUser, signout, refreshAccessToken }}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Menu, MenuItem, Popper, useTheme } from "@mui/material";
+import { Button, Menu, MenuItem, Popper } from "@mui/material";
 import { MdAdd, MdCreate, MdDelete } from "react-icons/md";
 import { MouseEvent, useContext, useState } from "react";
 import { IoIosMore } from "react-icons/io";
@@ -44,7 +44,12 @@ export default function CategoryOptionButton() {
       </Button>
 
       <Popper open={isOpen}>
-        <Menu anchorEl={anchorEl} open={isOpen} onClose={handleClose}>
+        <Menu
+          anchorEl={anchorEl}
+          open={isOpen}
+          onClose={handleClose}
+          disableScrollLock // 스크롤 잠금 비활성화
+        >
           <MenuItem
             onClick={handleOpenCreatePostModal}
             sx={{

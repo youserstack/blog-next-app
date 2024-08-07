@@ -1,16 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { CSSProperties, MouseEventHandler } from "react";
+import { CSSProperties, MouseEventHandler, useContext } from "react";
 import { useParams } from "next/navigation";
 import { SlArrowRight } from "react-icons/sl";
 import { Box, SxProps, useTheme } from "@mui/material";
+import { CategoryContext } from "../context/CategoryContext";
 
-export default function SideNav({ categories }: any) {
+export default function SideNav() {
   const theme = useTheme();
   const leafColor = theme.palette.primary.main;
   const params: any = useParams(); // 클라이언트에서 요청한 파라미터
   const categorySegments = params.category.map((v: any) => decodeURIComponent(v));
+  const { categories } = useContext(CategoryContext);
 
   const handleClick: MouseEventHandler = (e) => {
     // 클릭이벤트가 발생한 리스트아이템 엘리먼트

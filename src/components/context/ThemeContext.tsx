@@ -22,13 +22,15 @@ const darkTheme = createTheme({
   },
 });
 
-interface ThemeContextType {
+export const ThemeContext = createContext<{
   mode: string;
   setMode: (mode: string) => void;
   toggleMode: () => void;
-}
-
-export const ThemeContext = createContext<ThemeContextType | null>(null);
+}>({
+  mode: "",
+  setMode: () => {},
+  toggleMode: () => {},
+});
 export const ThemeProvider = ({
   children,
   mode: cacheMode,
