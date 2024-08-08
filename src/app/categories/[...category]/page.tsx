@@ -1,17 +1,13 @@
 "use client";
 
-import { useContext, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import { CategoryProps } from "@/types/api";
-import useSWR from "swr";
-// import Breadcrumb from "@/components/ui/Breadcrumb";
-// import ControlArea from "@/components/areas/ControlArea";
-// import PostList from "@/components/lists/PostList";
-// import Pagination from "@/components/ui/Pagination";
-import { Box } from "@mui/material";
 import { LoadingContext } from "@/components/context/LoadingContext";
 import { SwrContext } from "@/components/context/SwrContext";
+import { useSearchParams } from "next/navigation";
+import { useContext, useEffect } from "react";
+import { CategoryProps } from "@/types/api";
+import { Box } from "@mui/material";
 import dynamic from "next/dynamic";
+import useSWR from "swr";
 
 const Breadcrumb = dynamic(() => import("@/components/ui/Breadcrumb"));
 const ControlArea = dynamic(() => import("@/components/areas/ControlArea"));

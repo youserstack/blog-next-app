@@ -1,7 +1,7 @@
 "use client";
 
 // modules
-import { MouseEvent, useContext, useEffect, useState } from "react";
+import { MouseEvent, useContext, useState } from "react";
 import Link from "next/link";
 // my modules
 import { ThemeContext } from "@/components/context/ThemeContext";
@@ -20,6 +20,13 @@ import {
   InputBase,
   Grid,
   Autocomplete,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  Divider,
+  ListItemText,
 } from "@mui/material";
 import {
   Stars as StarsIcon,
@@ -27,6 +34,7 @@ import {
   Search as SearchIcon,
   Settings as SettingsIcon,
   Menu as MenuIcon,
+  Logout,
 } from "@mui/icons-material";
 import { styled, alpha } from "@mui/material/styles";
 import { CategoryContext } from "../context/CategoryContext";
@@ -34,14 +42,15 @@ import { AuthContext } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 
 export default function MuiAppBar() {
+  const router = useRouter();
+
   // 컨텍스트
   const { user, signout } = useContext(AuthContext);
   const { categories } = useContext(CategoryContext);
-  const { mode, setMode, toggleMode } = useContext(ThemeContext);
+  const { mode, toggleMode } = useContext(ThemeContext);
 
   // 검색
   const [isAutocompleteOpened, setIsAutocompleteOpened] = useState(false);
-  const router = useRouter();
   const search = (searchWords: string) => router.push(`/search?searchWords=${searchWords}`);
   const handleOpenAutocomplete = () => setIsAutocompleteOpened(true);
   const handleCloseAutocomplete = () => setIsAutocompleteOpened(false);
@@ -49,13 +58,13 @@ export default function MuiAppBar() {
   // 메뉴
   const [profileMenu, setProfileMenu] = useState<null | HTMLElement>(null);
   const [settingsMenu, setSettingsMenu] = useState<null | HTMLElement>(null);
-  const [mobileMenu, setMobileMenu] = useState<null | HTMLElement>(null);
+  const [isDrawerOpened, setIsDrawerOpened] = useState(false);
   const handleOpenProfileMenu = (e: MouseEvent<HTMLElement>) => setProfileMenu(e.currentTarget);
   const handleOpenSettingsMenu = (e: MouseEvent<HTMLElement>) => setSettingsMenu(e.currentTarget);
-  const handleOpenMobileMenu = (e: MouseEvent<HTMLElement>) => setMobileMenu(e.currentTarget);
+  const handleOpenDrawer = () => setIsDrawerOpened(true);
   const handleCloseProfileMenu = () => setProfileMenu(null);
   const handleCloseSettingsMenu = () => setSettingsMenu(null);
-  const handleCloseMobileMenu = () => setMobileMenu(null);
+  const handleCloseDrawer = () => setIsDrawerOpened(false);
   const renderProfileMenu = (
     <Menu
       // 기본설정
@@ -98,32 +107,66 @@ export default function MuiAppBar() {
       </MenuItem>
     </Menu>
   );
-  const renderMobileMenu = (
-    <Menu
-      open={Boolean(mobileMenu)}
-      onClose={handleCloseMobileMenu}
-      anchorEl={mobileMenu}
-      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      id="profile-menu-mobile"
-      keepMounted
-      disableScrollLock // 스크롤 잠금 비활성화
-    >
-      <Link href={""}>
-        <MenuItem>
-          <AccountCircleIcon />
-          <p style={{ marginLeft: "0.5rem" }}>Profile</p>
-        </MenuItem>
-      </Link>
+  const renderDrawer = (
+    <Drawer open={isDrawerOpened} onClose={handleCloseDrawer} anchor="right">
+      <Box role="presentation" onClick={handleCloseDrawer} sx={{ width: "50vw" }}>
+        <List>
+          {user && (
+            <ListItem className="계정" disablePadding>
+              <Link href={"/auth/account"} style={{ width: "100%" }}>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <AccountCircleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={"계정"} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          )}
 
-      <MenuItem onClick={toggleMode}>
-        <ToggleModeLabel mode={mode} />
-      </MenuItem>
-    </Menu>
+          {!user && (
+            <ListItem className="로그인" disablePadding>
+              <Link href={"/auth/signin"} style={{ width: "100%" }}>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <AccountCircleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={"로그인"} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          )}
+        </List>
+        <Divider />
+        <List>
+          {user && (
+            <ListItem className="로그아웃" disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Logout />
+                </ListItemIcon>
+                <ListItemText primary={"로그아웃"} />
+              </ListItemButton>
+            </ListItem>
+          )}
+
+          <ListItem className="토글모드" disablePadding>
+            <ListItemButton
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleMode();
+              }}
+            >
+              <ToggleModeLabel mode={mode} />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Box>
+    </Drawer>
   );
 
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" sx={{ transition: "all 0.5s" }}>
       <Container maxWidth="lg">
         <Toolbar sx={{ padding: "0", whiteSpace: "nowrap" }}>
           <Grid container sx={{ margin: "auto", alignItems: "center" }}>
@@ -176,23 +219,12 @@ export default function MuiAppBar() {
                       {...params.InputProps}
                       placeholder="Search…"
                       inputProps={{ ...params.inputProps, "aria-label": "search" }}
-                      // onKeyDown={(e) => {
-                      //   if (e.key === "Enter") {
-                      //     e.preventDefault();
-                      //     search(e.currentTarget.value);
-                      //     // setIsOpen(false);
-                      //   }
-                      // }}
                     />
                   )}
                   freeSolo // 입력 엘리먼트에 의해서 자유롭게 입력가능하도록 설정
                   clearOnEscape // esc 로 입력한 단어 삭제
                 />
               </Search>
-
-              {/* <IconButton color="inherit" size="large" sx={{ display: { xs: "flex", md: "none" } }}>
-                <SearchIcon />
-              </IconButton> */}
 
               {/* 기능버튼 */}
               <Box sx={{ display: { xs: "none", md: "flex" }, whiteSpace: "nowrap" }}>
@@ -220,22 +252,22 @@ export default function MuiAppBar() {
                 </IconButton>
               </Box>
 
-              {/* 모바일 메뉴 */}
+              {/* 드로워 오픈너 햄버거버튼 (only 모바일) */}
               <IconButton
                 size="large"
                 color="inherit"
-                onClick={handleOpenMobileMenu}
+                onClick={handleOpenDrawer}
                 sx={{ display: { xs: "flex", md: "none" } }}
               >
                 <MenuIcon />
               </IconButton>
+              {renderDrawer}
             </Grid>
           </Grid>
         </Toolbar>
       </Container>
       {renderProfileMenu}
       {renderSettingsMenu}
-      {renderMobileMenu}
     </AppBar>
   );
 }

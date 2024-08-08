@@ -2,7 +2,7 @@ import { verifyAccessToken, verifyRefreshToken } from "@/lib/utils/authEdge";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-const PROTECTED_PAGES = ["/protected", "/dashboard"];
+const PROTECTED_PAGES = ["/protected"];
 const PROTECTED_APIS = ["/api/categories", "/api/comments", "/api/posts"];
 const PROTECTED_METHODS = ["POST", "DELETE", "PATCH"];
 

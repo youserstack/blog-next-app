@@ -1,22 +1,37 @@
-import HeaderScript from "@/components/script/HeaderScript";
-import NavBar from "@/components/ui/NavBar";
+"use client";
+
 import MuiAppBar from "./MuiAppBar";
+import { useEffect, useState } from "react";
 
-export default async function Header() {
-  return (
-    // <header
-    //   style={{
-    //     position: "fixed",
-    //     top: "0",
-    //     left: "0",
-    //     right: "0",
-    //     transition: "all 1s",
-    //   }}
-    // >
-    //   <NavBar />
-    //   <HeaderScript />
-    // </header>
+export default function Header() {
+  const [previousScrollY, setPreviousScrollY] = useState(0);
 
-    <MuiAppBar />
-  );
+  const handleScroll = (e: any) => {
+    const header: HTMLElement | null = document.querySelector("header");
+    if (!header) return;
+
+    const currentScrollY = window.scrollY;
+
+    if (window.scrollY <= 200) {
+      // console.log('scroll top area')
+      header.style.transform = "translateY(0)";
+    } else {
+      if (currentScrollY > previousScrollY) {
+        // console.log("scroll down");
+        header.style.transform = "translateY(-70px)";
+      } else {
+        // console.log("scroll up");
+        header.style.transform = "translateY(0)";
+      }
+    }
+
+    setPreviousScrollY(currentScrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
+
+  return <MuiAppBar />;
 }

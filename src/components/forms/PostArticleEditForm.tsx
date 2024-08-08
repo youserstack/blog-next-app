@@ -1,27 +1,29 @@
 "use client";
 
-import { updatePostAction } from "@/app/actions";
-import { refreshAccessToken } from "@/lib/utils/auth";
-import { useRouter } from "next/navigation";
-import { useFormState, useFormStatus } from "react-dom";
-import { MdCloudUpload } from "react-icons/md";
 import { Box, Button, Paper, TextField } from "@mui/material";
-import PostDeleteButton from "./PostDeleteButton";
-import Image from "next/image";
 import { CSSProperties, useEffect, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { refreshAccessToken } from "@/lib/utils/auth";
+import PostDeleteButton from "./PostDeleteButton";
+import { updatePostAction } from "@/app/actions";
+import { MdCloudUpload } from "react-icons/md";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
+const SubmitButton = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" disabled={pending} variant="contained">
+      {pending ? "수정중..." : "수정"}
+    </Button>
+  );
+};
 
 export default function PostArticleEditForm({ postId }: { postId: string }) {
   const router = useRouter();
-
-  // 포스트 게시글 가져오기
-  const url = `${process.env.ROOT_URL}/api/posts/${postId}`;
-  const { isValidating, data } = useSWR(url, fetcher);
-  useEffect(() => {
-    if (data) setThumbnail(post.image);
-  }, [data]);
 
   // 포스트 게시글 편집을 위한 상태와 폼상태
   const [thumbnail, setThumbnail] = useState("");
@@ -65,28 +67,49 @@ export default function PostArticleEditForm({ postId }: { postId: string }) {
       const objectUrl = URL.createObjectURL(file);
       setThumbnail(objectUrl);
 
-      // Clean up the URL object after using it
       return () => URL.revokeObjectURL(objectUrl);
     }
   };
 
-  // 렌더링
-  if (!data) return null;
+  // 포스트 게시글 가져오기
+  const { isLoading, data } = useSWR(`${process.env.ROOT_URL}/api/posts/${postId}`, fetcher);
+  useEffect(() => {
+    if (data) setThumbnail(post.image);
+  }, [data]);
+
+  if (isLoading || !data) return null;
   const { post } = data;
   return (
     <Paper
-      component={"form"}
+      component="form"
       className="post-article-edit-form"
       action={updateAction}
-      sx={editFormStyle}
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+        padding: "1rem",
+      }}
     >
       <Box sx={{ display: "flex", gap: "1rem" }}>
         <p>작성자 : {post.author?.name}</p>
         <p>{post.createdAt?.slice(0, 10)}</p>
       </Box>
 
-      <Box sx={imageBoxStyle}>
+      <Box
+        sx={{
+          minHeight: "300px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "1rem",
+          position: "relative",
+        }}
+      >
         <Image src={thumbnail} alt="" width={1000} height={1000} style={{ height: "300px" }} />
+
         <input
           type="file"
           id="image"
@@ -96,11 +119,10 @@ export default function PostArticleEditForm({ postId }: { postId: string }) {
         />
         <Button
           component="label"
-          className="image-label"
-          startIcon={<MdCloudUpload />}
           htmlFor="image"
-          sx={{ position: "absolute", bottom: "1rem", right: "1rem" }}
           variant="contained"
+          startIcon={<MdCloudUpload />}
+          sx={{ position: "absolute", bottom: "1rem", right: "1rem" }}
         >
           썸네일 변경하기
         </Button>
@@ -129,31 +151,3 @@ export default function PostArticleEditForm({ postId }: { postId: string }) {
     </Paper>
   );
 }
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button type="submit" disabled={pending} variant="contained">
-      {pending ? "수정중..." : "수정"}
-    </Button>
-  );
-}
-
-const editFormStyle: CSSProperties = {
-  minHeight: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  gap: "1rem",
-  padding: "1rem",
-};
-
-const imageBoxStyle: CSSProperties = {
-  minHeight: "300px",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-  alignItems: "center",
-  gap: "1rem",
-  position: "relative",
-};

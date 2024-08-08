@@ -1,14 +1,14 @@
 "use client";
 
+import { Button, Paper, TextField } from "@mui/material";
 import { refreshAccessToken } from "@/lib/utils/auth";
-import { useFormState } from "react-dom";
-import { mutate } from "swr";
-import { useContext, useEffect } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { createCommentAction } from "@/app/actions";
+import { useContext, useEffect } from "react";
+import { useFormState } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
-import { Button, Paper, TextField } from "@mui/material";
-import { AuthContext } from "../context/AuthContext";
+import { mutate } from "swr";
 
 export default function CommentCreateForm({
   authorImage,
@@ -37,10 +37,9 @@ export default function CommentCreateForm({
   }, null);
 
   useEffect(() => {
-    const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`;
     if (state?.newComment) {
       console.log({ newComment: state.newComment });
-      mutate(url); // 클라이언트 리패칭
+      mutate(`${process.env.ROOT_URL}/api/comments?postId=${postId}`); // 클라이언트 리패칭
     }
     if (state?.error) {
       console.error({ error: state.error });
@@ -71,6 +70,7 @@ export default function CommentCreateForm({
       >
         <Image src={authorImage} alt="" width={30} height={30} />
       </div>
+
       <div className="main" style={{ flex: "1" }}>
         {user ? (
           <>

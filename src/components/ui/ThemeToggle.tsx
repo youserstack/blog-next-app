@@ -2,13 +2,11 @@
 
 import { useContext, useEffect } from "react";
 import { IoIosMoon, IoIosSunny } from "react-icons/io";
-import { Context } from "@/components/context/Context";
 import { Box } from "@mui/material";
 import { ThemeContext } from "../context/ThemeContext";
 
 export default function ThemeToggle() {
-  // 테마모드 초기화
-  const { mode, setMode, toggleMode }: any = useContext(ThemeContext);
+  const { mode, setMode, toggleMode } = useContext(ThemeContext);
 
   // 토글에 의한 테마변경
   useEffect(() => {

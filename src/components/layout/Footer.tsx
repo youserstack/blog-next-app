@@ -6,20 +6,12 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <AppBar
-      component={"footer"}
-      sx={{
-        height: "300px",
-        minHeight: "300px",
-        position: "initial",
-      }}
-    >
+    <AppBar component={"footer"} sx={{ height: "300px", minHeight: "300px", position: "static" }}>
       <section
         style={{
           width: "100%",
           height: "90%",
           maxWidth: "1200px",
-          // border: "1px dashed white",
           margin: "auto",
           padding: "1rem",
           display: "flex",
@@ -27,6 +19,7 @@ export default function Footer() {
         }}
       >
         <Typography>youserstack © 2024 all right reserved.</Typography>
+
         <ul style={{ display: "flex", gap: "1rem" }}>
           <li>
             <Link href={"https://github.com/youserstack"} target="_blank">

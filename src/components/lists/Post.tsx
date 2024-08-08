@@ -10,7 +10,7 @@ export default function Post({ post }: any) {
 
   return (
     <Card
-      component={"li"}
+      component="li"
       className="post"
       variant="outlined"
       sx={{ overflow: "hidden", "&:hover": { borderColor: primary, color: primary } }}

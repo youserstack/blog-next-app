@@ -4,7 +4,8 @@ import { Paper, Skeleton, Typography } from "@mui/material";
 import Image from "next/image";
 import useSWR from "swr";
 
-const fetcher = (url: string) => fetch(url, { next: { revalidate: 60 } }).then((res) => res.json());
+const fetcher = (url: string) =>
+  fetch(url, { next: { revalidate: 600 } }).then((res) => res.json());
 
 export default function RecentCommentList() {
   const url = `${process.env.ROOT_URL}/api/comments/recent`;

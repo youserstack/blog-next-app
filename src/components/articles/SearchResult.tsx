@@ -17,7 +17,7 @@ export default function SearchResult() {
 
   useEffect(() => setIsLoading(isValidating), [isValidating, setIsLoading]);
 
-  if (isLoading) return null;
+  if (isLoading || !data) return null;
   const { posts, totalCount } = data;
   return (
     <article

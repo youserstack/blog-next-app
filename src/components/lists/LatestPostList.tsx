@@ -5,11 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import useSWR from "swr";
 
-const fetcher = (url: string) => fetch(url, { next: { revalidate: 60 } }).then((res) => res.json());
+const fetcher = (url: string) =>
+  fetch(url, { next: { revalidate: 600 } }).then((res) => res.json());
 
 export default function LatestPostList() {
-  const url = `${process.env.ROOT_URL}/api/posts?sort=latest`;
-  const { isLoading, data } = useSWR(url, fetcher);
+  const { isLoading, data } = useSWR(`${process.env.ROOT_URL}/api/posts?sort=latest`, fetcher);
 
   if (isLoading || !data) {
     return (
