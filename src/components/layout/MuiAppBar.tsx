@@ -140,7 +140,7 @@ export default function MuiAppBar() {
         <Divider />
         <List>
           {categories.map((category: any) => (
-            <ListItem disablePadding>
+            <ListItem key={`/categories/${category.name}`} disablePadding>
               <Link href={`/categories/${category.name}`} style={{ width: "100%" }}>
                 <ListItemButton>
                   <ListItemText>{category.name}</ListItemText>
