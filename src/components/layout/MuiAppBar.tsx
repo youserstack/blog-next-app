@@ -108,7 +108,7 @@ export default function MuiAppBar() {
     </Menu>
   );
   const renderDrawer = (
-    <Drawer open={isDrawerOpened} onClose={handleCloseDrawer} anchor="right">
+    <Drawer open={isDrawerOpened} onClose={handleCloseDrawer} anchor="right" disableScrollLock>
       <Box role="presentation" onClick={handleCloseDrawer} sx={{ width: "50vw" }}>
         <List>
           {user && (
@@ -137,6 +137,19 @@ export default function MuiAppBar() {
             </ListItem>
           )}
         </List>
+        <Divider />
+        <List>
+          {categories.map((category: any) => (
+            <ListItem disablePadding>
+              <Link href={`/categories/${category.name}`} style={{ width: "100%" }}>
+                <ListItemButton>
+                  <ListItemText>{category.name}</ListItemText>
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          ))}
+        </List>
+
         <Divider />
         <List>
           {user && (

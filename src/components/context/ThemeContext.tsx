@@ -44,6 +44,14 @@ export const ThemeProvider = ({
   const theme = useMemo(() => (mode === "light" ? lightTheme : darkTheme), [mode]);
   const toggleMode = () => setMode((mode) => (mode === "light" ? "dark" : "light"));
 
+  // 초기로드시, 시스템에 의한 모드변경
+  useEffect(() => {
+    const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
+    const isSystemDarkmode = mediaQueryList.matches;
+    if (isSystemDarkmode) setMode("dark");
+    else setMode("light");
+  }, []);
+
   // 시스템에 의한 모드변경
   useEffect(() => {
     // CSS미디어쿼리 (os 테마를 가져오는데 css 에 설정되지 않더라도 사용할 수 있다.)
@@ -54,13 +62,11 @@ export const ThemeProvider = ({
       e.matches ? setMode("dark") : setMode("light");
     };
 
-    if (!cacheMode) handleChange(mediaQueryList);
-
     mediaQueryList.addEventListener("change", handleChange);
     return () => mediaQueryList.removeEventListener("change", handleChange);
   }, [setMode, cacheMode]);
 
-  //   모드변경에 의한 캐시
+  // 모드변경에 의한 캐시
   useEffect(() => {
     document.cookie = `mode=${mode}; expires=31536000; path=/`;
   }, [mode]);
