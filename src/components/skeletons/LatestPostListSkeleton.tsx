@@ -19,7 +19,7 @@ export default function LatestPostListSkeleton() {
         {[1, 2, 3, 4, 5].map((v: any) => (
           <Paper
             key={v}
-            component={"li"}
+            component="li"
             variant="outlined"
             sx={{ height: "100px", display: "flex", overflow: "hidden" }}
           >

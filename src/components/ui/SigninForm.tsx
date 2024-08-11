@@ -20,7 +20,7 @@ export default function SigninForm() {
 
   return (
     <Paper
-      component={"form"}
+      component="form"
       action={formAction}
       sx={{
         width: "300px",

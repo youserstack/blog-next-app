@@ -10,8 +10,8 @@ import { CategoryContext } from "../context/CategoryContext";
 export default function SideNav() {
   const theme = useTheme();
   const leafColor = theme.palette.primary.main;
-  const params: any = useParams(); // 클라이언트에서 요청한 파라미터
-  const categorySegments = params.category.map((v: any) => decodeURIComponent(v));
+  const params = useParams();
+  const categorySegments = (params.category as string[]).map((v: any) => decodeURIComponent(v));
   const { categories } = useContext(CategoryContext);
 
   const handleClick: MouseEventHandler = (e) => {
@@ -36,7 +36,7 @@ export default function SideNav() {
   };
 
   return (
-    <Box component={"nav"} sx={sideNavStyle}>
+    <Box component="nav" sx={sideNavStyle}>
       <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         {/* rootCategories */}
         {categories.map((category: any) => {

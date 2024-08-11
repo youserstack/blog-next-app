@@ -13,7 +13,7 @@ export default async function PostArticle({ postId }: any) {
 
   return (
     <Paper
-      component={"article"}
+      component="article"
       variant="outlined"
       sx={{
         minHeight: "100vh",

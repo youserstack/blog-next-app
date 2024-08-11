@@ -48,7 +48,7 @@ export default function CommentCreateForm({
 
   return (
     <Paper
-      component={"form"}
+      component="form"
       action={formAction}
       variant="outlined"
       sx={{

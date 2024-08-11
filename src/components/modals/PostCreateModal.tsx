@@ -4,12 +4,11 @@ import { Button, FormControl, MenuItem, Paper, Select, TextField, Typography } f
 import { useFormState, useFormStatus } from "react-dom";
 import { MdCloudUpload, MdCreate } from "react-icons/md";
 import { useContext, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
 import { mutate } from "swr";
 import { ModalContext } from "../context/ModalContext";
-import { SwrContext } from "../context/SwrContext";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -24,9 +23,10 @@ function SubmitButton() {
 export default function PostCreateModal() {
   const router = useRouter();
   const { closeModal } = useContext(ModalContext);
-  const { dynamicUrl } = useContext(SwrContext);
   const { category }: any = useParams();
   const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
+  const searchParams = useSearchParams();
+  const page = searchParams?.get("page") || "1";
 
   const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
     const accessToken = localStorage.getItem("accessToken") as string;
@@ -51,13 +51,14 @@ export default function PostCreateModal() {
   useEffect(() => {
     if (state?.newPost) {
       closeModal();
-      mutate(dynamicUrl);
+      const url = `${process.env.ROOT_URL}/api/posts?categoryPath=${categoryPath}&page=${page}`;
+      mutate(url);
     }
-  }, [state, closeModal, router, dynamicUrl]);
+  }, [state, closeModal, router]);
 
   return (
     <Paper
-      component={"form"}
+      component="form"
       className="post-create-modal"
       elevation={5}
       action={formAction}

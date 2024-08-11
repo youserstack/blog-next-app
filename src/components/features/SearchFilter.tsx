@@ -80,6 +80,7 @@ export default function SearchFilter({ categories }: { categories: any }) {
             onChange={handleRootCategoryChange}
             label="카테고리"
             autoWidth
+            MenuProps={{ disableScrollLock: true }}
           >
             <MenuItem value="all">전체</MenuItem>
             {categories.map((rootCategory: any) => (
@@ -100,6 +101,7 @@ export default function SearchFilter({ categories }: { categories: any }) {
               onChange={handleSub1CategoryChange}
               label="하위 카테고리"
               autoWidth
+              MenuProps={{ disableScrollLock: true }}
             >
               {categories
                 .find((v: any) => v.name === rootCategory)
@@ -122,6 +124,7 @@ export default function SearchFilter({ categories }: { categories: any }) {
               onChange={handleSub2CategoryChange}
               label="하위 카테고리"
               autoWidth
+              MenuProps={{ disableScrollLock: true }}
             >
               {categories
                 .find((v: any) => v.name === rootCategory)
@@ -138,7 +141,14 @@ export default function SearchFilter({ categories }: { categories: any }) {
 
       <FormControl sx={{ minWidth: "120px" }} size="small">
         <InputLabel id="sort">정렬</InputLabel>
-        <Select labelId="sort" name="sort" value={sort} onChange={handleSortChange} label="정렬">
+        <Select
+          labelId="sort"
+          name="sort"
+          value={sort}
+          onChange={handleSortChange}
+          label="정렬"
+          MenuProps={{ disableScrollLock: true }}
+        >
           <MenuItem value="asc">오름차순</MenuItem>
           <MenuItem value="desc">내림차순</MenuItem>
           <MenuItem value="popular">인기순</MenuItem>

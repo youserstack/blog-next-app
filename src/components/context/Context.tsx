@@ -6,7 +6,6 @@ import { AuthProvider } from "./AuthContext";
 import { LoadingProvider } from "./LoadingContext";
 import { ModalProvider } from "./ModalContext";
 import { CategoryProvider } from "./CategoryContext";
-import { SwrProvider } from "./SwrContext";
 
 export const Context = createContext({});
 export const Provider = ({
@@ -26,7 +25,8 @@ export const Provider = ({
         <LoadingProvider>
           <ModalProvider>
             <CategoryProvider categories={categories}>
-              <SwrProvider>{children}</SwrProvider>
+              {/*  */}
+              {children}
             </CategoryProvider>
           </ModalProvider>
         </LoadingProvider>

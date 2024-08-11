@@ -6,8 +6,8 @@ export default async function SearchLayout({ children }: { children: React.React
 
   return (
     <main>
-      <section style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <div className="search">
+      <section>
+        <div className="search" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <SearchFilter categories={categories} />
           {children}
         </div>

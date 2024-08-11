@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button, Paper, TextField } from "@mui/material";
-import { CSSProperties, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import PostDeleteButton from "./PostDeleteButton";
@@ -72,10 +72,8 @@ export default function PostArticleEditForm({ postId }: { postId: string }) {
   };
 
   // 포스트 게시글 가져오기
-  const { isLoading, data } = useSWR(`${process.env.ROOT_URL}/api/posts/${postId}`, fetcher);
-  useEffect(() => {
-    if (data) setThumbnail(post.image);
-  }, [data]);
+  const { isLoading, data } = useSWR(`/api/posts/${postId}`, fetcher);
+  useEffect(() => data && setThumbnail(post.image), [data]);
 
   if (isLoading || !data) return null;
   const { post } = data;

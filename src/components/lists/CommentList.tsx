@@ -10,8 +10,7 @@ import useSWR from "swr";
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default function CommentList({ postId }: any) {
-  const url = `${process.env.ROOT_URL}/api/comments?postId=${postId}`;
-  const { isLoading, data } = useSWR(url, fetcher);
+  const { isLoading, data } = useSWR(`/api/comments?postId=${postId}`, fetcher);
   const { setIsLoading } = useContext(LoadingContext);
 
   useEffect(() => setIsLoading(isLoading), [setIsLoading, isLoading]);

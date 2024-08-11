@@ -1,19 +1,20 @@
 "use client";
 
-import { useContext, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import Pagination from "@/components/ui/Pagination";
-import PostList from "@/components/lists/PostList";
-import useSWR from "swr";
 import { LoadingContext } from "../context/LoadingContext";
+import { useSearchParams } from "next/navigation";
+import { useContext, useEffect } from "react";
+import PostList from "@/components/lists/PostList";
+import MuiPagination from "../ui/MuiPagination";
+import useSWR from "swr";
 
+const ITEMS_PER_PAGE = 5;
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default function SearchResult() {
   const searchParams = useSearchParams();
-  const url = `${process.env.ROOT_URL}/api/posts?${searchParams.toString()}`;
+  const url = `/api/posts?${searchParams.toString()}`;
   const { isLoading, isValidating, data } = useSWR(url, fetcher);
-  const { setIsLoading }: any = useContext(LoadingContext);
+  const { setIsLoading } = useContext(LoadingContext);
 
   useEffect(() => setIsLoading(isValidating), [isValidating, setIsLoading]);
 
@@ -28,7 +29,7 @@ export default function SearchResult() {
       }}
     >
       <PostList posts={posts} />
-      <Pagination totalCount={totalCount} />
+      <MuiPagination count={Number(Math.ceil(totalCount / ITEMS_PER_PAGE))} />
     </article>
   );
 }

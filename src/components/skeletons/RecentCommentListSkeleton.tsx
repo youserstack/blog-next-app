@@ -8,7 +8,7 @@ export default function RecentCommentListSkeleton() {
       <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         {[1, 2, 3, 4, 5].map((v: any) => (
           <Paper
-            component={"li"}
+            component="li"
             key={v}
             variant="outlined"
             sx={{

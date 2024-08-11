@@ -17,7 +17,7 @@ export default function SignupForm() {
 
   return (
     <Paper
-      component={"form"}
+      component="form"
       action={action}
       sx={{
         width: "300px",

@@ -46,7 +46,7 @@ export default function CategoryCreateModal() {
 
   return (
     <Paper
-      component={"form"}
+      component="form"
       className="category-create-modal"
       elevation={5}
       action={formAction}

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <AppBar component={"footer"} sx={{ height: "300px", minHeight: "300px", position: "static" }}>
+    <AppBar component="footer" sx={{ height: "300px", minHeight: "300px", position: "static" }}>
       <section
         style={{
           width: "100%",
