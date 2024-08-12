@@ -7,6 +7,7 @@ import { IoIosMore } from "react-icons/io";
 import { useParams } from "next/navigation";
 import { CategoryContext } from "../context/CategoryContext";
 import { ModalContext } from "../context/ModalContext";
+import { AuthContext } from "../context/AuthContext";
 
 export default function CategoryOptionButton() {
   const params = useParams();
@@ -14,6 +15,7 @@ export default function CategoryOptionButton() {
   const rootCategory = categorySegments[0];
   const { setParentCategories } = useContext(CategoryContext);
   const { openModal } = useContext(ModalContext);
+  const { user } = useContext(AuthContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
@@ -39,7 +41,7 @@ export default function CategoryOptionButton() {
       className="category-option-button"
       style={{ position: "relative", display: "flex", alignItems: "center" }}
     >
-      <Button onClick={handleOpen}>
+      <Button onClick={handleOpen} disabled={!user}>
         <IoIosMore size={20} className="more" />
       </Button>
 
@@ -50,33 +52,17 @@ export default function CategoryOptionButton() {
           onClose={handleClose}
           disableScrollLock // 스크롤 잠금 비활성화
         >
-          <MenuItem
-            onClick={handleOpenCreatePostModal}
-            sx={{
-              display: "flex",
-              gap: "0.5rem",
-            }}
-          >
+          <MenuItem onClick={handleOpenCreatePostModal} sx={{ display: "flex", gap: "0.5rem" }}>
             <MdCreate />
             포스트 작성하기
           </MenuItem>
-          <MenuItem
-            onClick={handleOpenCreateCategoryModal}
-            sx={{
-              display: "flex",
-              gap: "0.5rem",
-            }}
-          >
+          <MenuItem onClick={handleOpenCreateCategoryModal} sx={{ display: "flex", gap: "0.5rem" }}>
             <MdAdd />
             하위 카테고리 생성
           </MenuItem>
           <MenuItem
             onClick={handleOpenDeleteCategoryModal}
-            sx={{
-              color: "#d73a49",
-              display: "flex",
-              gap: "0.5rem",
-            }}
+            sx={{ color: "#d73a49", display: "flex", gap: "0.5rem" }}
             disabled={rootCategory === "development" || rootCategory === "computer-science"}
           >
             <MdDelete />

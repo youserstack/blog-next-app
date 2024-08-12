@@ -17,7 +17,7 @@ export default function CategoryCreateButton({ parentCategories }: { parentCateg
     openModal("category-create-modal");
   };
 
-  if (!user) return null;
+  if (!user || parentCategories.length >= 3) return null;
 
   return (
     <Button

@@ -153,7 +153,14 @@ export default function MuiAppBar() {
         <Divider />
         <List>
           {user && (
-            <ListItem className="로그아웃" disablePadding>
+            <ListItem
+              className="로그아웃"
+              disablePadding
+              onClick={() => {
+                signout();
+                handleCloseProfileMenu();
+              }}
+            >
               <ListItemButton>
                 <ListItemIcon>
                   <Logout />
