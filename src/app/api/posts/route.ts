@@ -1,7 +1,6 @@
 import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
-// import { uploadToCloudinary } from "@/lib/utils/uploader";
 
 // 포스트 전체 읽기
 export async function GET(request: Request) {
@@ -10,8 +9,8 @@ export async function GET(request: Request) {
 
   // extract
   const { searchParams } = new URL(request.url);
-  const searchWords = searchParams.get("searchWords") || null;
-  const categoryPath = searchParams.get("categoryPath") || null;
+  const searchWords = searchParams.get("searchWords");
+  const categoryPath = searchParams.get("categoryPath");
   const sort = searchParams.get("sort") || "newest";
   const page = searchParams.get("page") || "1";
   const POST_PER_PAGE = 5;

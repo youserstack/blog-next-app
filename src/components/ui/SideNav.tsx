@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CSSProperties, MouseEventHandler, useContext } from "react";
 import { useParams } from "next/navigation";
 import { SlArrowRight } from "react-icons/sl";
-import { Box, SxProps, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { CategoryContext } from "../context/CategoryContext";
 
 export default function SideNav() {
@@ -36,7 +36,20 @@ export default function SideNav() {
   };
 
   return (
-    <Box component="nav" sx={sideNavStyle}>
+    <Box
+      component="nav"
+      sx={{
+        width: "250px",
+        position: "sticky",
+        top: "calc(60px + 1rem)",
+        height: "calc(100vh - 60px - 2rem)",
+        overflowY: "scroll",
+        scrollbarWidth: "thin",
+        scrollbarColor: "#eaeaea transparent",
+        scrollbarGutter: "stable",
+        display: { xs: "none", md: "block" },
+      }}
+    >
       <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         {/* rootCategories */}
         {categories.map((category: any) => {
@@ -46,7 +59,6 @@ export default function SideNav() {
           const isMatched =
             categorySegments.length >= 1 && rootCategoryName === categorySegments[0];
           const isLeaf = rootCategoryName === categorySegments[categorySegments.length - 1];
-          // console.log({ rootCategoryPath });
           return (
             <li key={rootCategoryPath} data-is-expanded={isMatched ? "true" : "false"}>
               <Link
@@ -69,7 +81,6 @@ export default function SideNav() {
                   const isMatched =
                     categorySegments.length >= 2 && sub1CategoryName === categorySegments[1];
                   const isLeaf = sub1CategoryName === categorySegments[categorySegments.length - 1];
-                  // console.log({ sub1CategoryPath });
                   return (
                     <li
                       className="sub1-category"
@@ -98,7 +109,6 @@ export default function SideNav() {
                           const sub2CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}/${sub2CategoryName}`;
                           const isLeaf =
                             sub2CategoryName === categorySegments[categorySegments.length - 1];
-                          // console.log({ sub2CategoryPath });
                           return (
                             <li className="sub2-category" key={sub2CategoryPath}>
                               <Link href={sub2CategoryPath} style={linkStyle(isLeaf, leafColor)}>
@@ -119,18 +129,6 @@ export default function SideNav() {
     </Box>
   );
 }
-
-const sideNavStyle: SxProps = {
-  width: "250px",
-  position: "sticky",
-  top: "calc(60px + 1rem)",
-  height: "calc(100vh - 60px - 2rem)",
-  overflowY: "scroll",
-  scrollbarWidth: "thin",
-  scrollbarColor: "#eaeaea transparent",
-  scrollbarGutter: "stable",
-  display: { xs: "none", md: "block" },
-};
 
 const linkStyle = (isLeaf: any, leafColor: any): CSSProperties => ({
   color: isLeaf ? leafColor : "initial",

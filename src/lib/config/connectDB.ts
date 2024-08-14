@@ -1,26 +1,13 @@
-// mongoose 라이브러리를 가져옵니다. MongoDB와 연결하기 위한 ODM(Object Data Modeling) 라이브러리입니다.
 import mongoose from "mongoose";
 
-// 환경변수에서 MONGODB_URI 값을 가져옵니다.
-// 타입스크립트에 이 값이 항상 문자열임을 보장하기 위해 'as string'을 사용합니다.
 const MONGODB_URI = process.env.MONGODB_URI as string;
+if (!MONGODB_URI) throw new Error("환경변수 MONGODB_URI가 설정되지 않았습니다.");
 
-// MONGODB_URI가 설정되어 있지 않으면 오류를 발생시킵니다.
-// 이는 데이터베이스에 연결하기 위해 반드시 필요한 값입니다.
-if (!MONGODB_URI) {
-  throw new Error("환경변수 MONGODB_URI가 설정되지 않았습니다.");
-}
-
-// 전역 객체에 mongoose 캐시를 저장하기 위한 변수입니다.
-// global 객체에 mongoose가 이미 존재하는지 확인합니다.
 let cached: any = (global as any).mongoose;
-
-// mongoose가 캐시되어 있지 않다면 초기화합니다.
 if (!cached) {
   cached = (global as any).mongoose = { conn: null, promise: null };
 }
 
-// 데이터베이스에 연결하는 비동기 함수입니다.
 export default async function connectDB() {
   // 이미 연결된 상태라면 연결된 conn을 반환합니다.
   if (cached.conn) return cached.conn;

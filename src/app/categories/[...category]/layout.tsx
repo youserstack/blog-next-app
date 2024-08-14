@@ -1,4 +1,3 @@
-// import SideNav from "@/components/ui/SideNav";
 import dynamic from "next/dynamic";
 
 const SideNav = dynamic(() => import("@/components/ui/SideNav"));

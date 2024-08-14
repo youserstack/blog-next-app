@@ -6,7 +6,7 @@ const fetcher = (url: string) =>
   fetch(url, { next: { revalidate: 600 } }).then((res) => res.json());
 
 export default async function LatestPostList() {
-  const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=latest`);
+  const { posts } = await fetcher(`${process.env.ROOT_URL}/api/home/latest-posts`);
 
   return (
     <Paper className="latest-post-list" variant="outlined" sx={{ padding: "1rem" }}>

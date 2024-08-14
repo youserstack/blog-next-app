@@ -6,7 +6,7 @@ const fetcher = (url: string) =>
   fetch(url, { next: { revalidate: 600 } }).then((res) => res.json());
 
 export default async function PopularPostList() {
-  const { posts } = await fetcher(`${process.env.ROOT_URL}/api/posts?sort=popular`);
+  const { posts } = await fetcher(`${process.env.ROOT_URL}/api/home/popular-posts`);
 
   return (
     <Paper className="popular-post-list" variant="outlined" sx={{ padding: "1rem" }}>

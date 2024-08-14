@@ -5,7 +5,7 @@ const fetcher = (url: string) =>
   fetch(url, { next: { revalidate: 600 } }).then((res) => res.json());
 
 export default async function RecentCommentList() {
-  const { comments } = await fetcher(`${process.env.ROOT_URL}/api/comments/recent`);
+  const { comments } = await fetcher(`${process.env.ROOT_URL}/api/home/recent-comments`);
 
   return (
     <Paper className="recent-comment-list" variant="outlined" sx={{ padding: "1rem" }}>
