@@ -1,8 +1,9 @@
-import { getCategories } from "@/lib/utils/fetchers/getters";
 import SearchFilter from "@/components/features/SearchFilter";
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 export default async function SearchLayout({ children }: { children: React.ReactNode }) {
-  const { categories } = await getCategories();
+  const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
 
   return (
     <main>

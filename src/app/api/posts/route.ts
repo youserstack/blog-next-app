@@ -4,7 +4,7 @@ import User from "@/lib/models/User";
 
 // 포스트 전체 읽기
 export async function GET(request: Request) {
-  console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
+  // console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
   await connectDB();
 
   // extract
@@ -15,7 +15,7 @@ export async function GET(request: Request) {
   const page = searchParams.get("page") || "1";
   const POST_PER_PAGE = 5;
   const skip = ((parseInt(page) || 1) - 1) * POST_PER_PAGE;
-  console.log({ searchWords, categoryPath, sort, page });
+  // console.log({ searchWords, categoryPath, sort, page });
 
   // 쿼리 조건 생성
   let query = {};

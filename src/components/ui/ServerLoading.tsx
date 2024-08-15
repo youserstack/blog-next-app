@@ -12,6 +12,7 @@ export default function ServerLoading() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "green",
       }}
     >
       <CircularProgress />

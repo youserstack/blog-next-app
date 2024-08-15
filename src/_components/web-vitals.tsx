@@ -4,7 +4,9 @@ import { useReportWebVitals } from "next/web-vitals";
 
 export function WebVitals() {
   useReportWebVitals((metric) => {
-    console.log({ metric });
+    // console.log({ metric });
+    const { name, value, rating, navigationType } = metric;
+    console.log(name, value, rating, navigationType);
 
     {
       // 결과를 외부 시스템으로 전송하기

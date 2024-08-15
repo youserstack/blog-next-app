@@ -4,7 +4,7 @@ import CommentList from "@/components/lists/CommentList";
 import Image from "next/image";
 import { Paper, Typography } from "@mui/material";
 
-const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default async function PostArticle({ postId }: any) {
   const { post } = await fetcher(`${process.env.ROOT_URL}/api/posts/${postId}`);

@@ -14,7 +14,7 @@ const PostList = dynamic(() => import("@/components/lists/PostList"));
 const MuiPagination = dynamic(() => import("@/components/ui/MuiPagination"));
 
 const ITEMS_PER_PAGE = 5;
-const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 // single page application routes
 export default function Category() {
