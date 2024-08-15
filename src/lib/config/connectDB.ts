@@ -1,35 +1,75 @@
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI as string;
-if (!MONGODB_URI) throw new Error("환경변수 MONGODB_URI가 설정되지 않았습니다.");
+if (!MONGODB_URI) {
+  throw new Error("환경변수 MONGODB_URI가 설정되지 않았습니다.");
+}
 
-let cached: any = (global as any).mongoose;
+let cached = (global as any).mongoose;
+
 if (!cached) {
   cached = (global as any).mongoose = { conn: null, promise: null };
 }
 
-export default async function connectDB() {
-  // 이미 연결된 상태라면 연결된 conn을 반환합니다.
-  if (cached.conn) return cached.conn;
+// 함수 외부에서 데이터베이스 연결을 설정
+if (!cached.promise) {
+  cached.promise = mongoose
+    .connect(MONGODB_URI, {
+      bufferCommands: false,
+    })
+    .then((mongoose) => {
+      return mongoose;
+    });
+}
 
-  // 현재 연결된 상태가 아니라면, 새로운 연결을 생성합니다.
-  // promise가 없는 경우에만 새로운 연결을 시도합니다.
-  if (!cached.promise) {
-    cached.promise = mongoose
-      .connect(MONGODB_URI, {
-        bufferCommands: false,
-      })
-      .then((mongoose) => {
-        return mongoose;
-      });
+export default async function connectDB() {
+  if (cached.conn) {
+    return cached.conn;
   }
 
-  // promise가 해결될 때까지 대기하고, 그 결과로 conn을 설정합니다.
   cached.conn = await cached.promise;
-
-  // 최종적으로 연결된 mongoose 인스턴스를 반환합니다.
   return cached.conn;
 }
+
+// import mongoose from "mongoose";
+
+// const MONGODB_URI = process.env.MONGODB_URI as string;
+// if (!MONGODB_URI) throw new Error("환경변수 MONGODB_URI가 설정되지 않았습니다.");
+
+// let cached: any = (global as any).mongoose;
+// if (!cached) {
+//   cached = (global as any).mongoose = { conn: null, promise: null };
+// }
+
+// export default async function connectDB() {
+//   // 이미 연결된 상태라면 연결된 conn을 반환합니다.
+//   if (cached.conn) return cached.conn;
+
+//   // 현재 연결된 상태가 아니라면, 새로운 연결을 생성합니다.
+//   // promise가 없는 경우에만 새로운 연결을 시도합니다.
+//   if (!cached.promise) {
+//     cached.promise = mongoose
+//       .connect(MONGODB_URI, {
+//         bufferCommands: false,
+//       })
+//       .then((mongoose) => {
+//         return mongoose;
+//       });
+//   }
+
+//   // promise가 해결될 때까지 대기하고, 그 결과로 conn을 설정합니다.
+//   cached.conn = await cached.promise;
+
+//   // 최종적으로 연결된 mongoose 인스턴스를 반환합니다.
+//   return cached.conn;
+// }
+
+//
+//
+//
+//
+//
+//
 
 // import mongoose from "mongoose";
 
