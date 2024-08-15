@@ -1,8 +1,7 @@
 import { Paper, Typography } from "@mui/material";
 import Image from "next/image";
 
-const fetcher = (url: string) =>
-  fetch(url, { cache: "force-cache", next: { revalidate: 600 } }).then((res) => res.json());
+const fetcher = (url: string) => fetch(url, { cache: "force-cache" }).then((res) => res.json());
 
 export default async function RecentCommentList() {
   const { comments } = await fetcher(`${process.env.ROOT_URL}/api/home/recent-comments`);
@@ -58,7 +57,7 @@ export default async function RecentCommentList() {
 // import useSWR from "swr";
 
 // const fetcher = (url: string) =>
-//   fetch(url, { next: { revalidate: 600 } }).then((res) => res.json());
+//   fetch(url, {  }).then((res) => res.json());
 
 // export default function RecentCommentList() {
 //   const url = `${process.env.ROOT_URL}/api/comments/recent`;

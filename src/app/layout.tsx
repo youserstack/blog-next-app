@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import dynamic from "next/dynamic";
 import "./globals.scss";
+import { WebVitals } from "@/_components/web-vitals";
 
 const Loading = dynamic(() => import("@/components/ui/Loading"));
 const GlobalModal = dynamic(() => import("@/components/modals/GlobalModal"));
@@ -29,6 +30,8 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <Provider mode={mode} user={user} categories={categories}>
+          <WebVitals />
+
           <Header />
           {children}
           <Footer />

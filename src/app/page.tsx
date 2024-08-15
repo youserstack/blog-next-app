@@ -43,16 +43,3 @@ export default function Home() {
     </main>
   );
 }
-
-// client side (swr)
-// domload 1.14s, load 4.70s
-// domload 554ms, load 3.93s
-// domload 753ms, load 4.19s
-// domload 552ms, load 4.25s
-
-// server side
-// domload 772ms, load 4.21s
-// domload 672ms, load 4.07s
-// domload 288ms, load 4.26s
-// domload 281ms, load 3.75s
-// domload 363ms, load 3.73s
