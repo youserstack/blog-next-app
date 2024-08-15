@@ -12,8 +12,6 @@ import RecentCommentListSkeleton from "@/components/skeletons/RecentCommentListS
 const imageUrl =
   "https://res.cloudinary.com/dzktdrw7o/image/upload/v1721977672/blog-next-app/ant-rozetsky-HXOllTSwrpM-unsplash_kqwe46.jpg";
 
-export const dynamic = "force-static";
-
 export default function Home() {
   return (
     <main className="home">
