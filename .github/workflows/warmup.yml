@@ -1,0 +1,13 @@
+name: Warm Up Vercel Functions
+
+on:
+  schedule:
+    - cron: "*/1 * * * *" # 1분마다 실행
+
+jobs:
+  warmup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Warm Up Function
+        run: |
+          curl https://blog-next-app-three.vercel.app
