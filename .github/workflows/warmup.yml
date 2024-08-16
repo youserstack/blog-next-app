@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Warm Up Function
-        run: curl -X GET https://blog-next-app-three.vercel.app
+        run: curl -X GET https://blog-next-app-three.vercel.app/api/cron
