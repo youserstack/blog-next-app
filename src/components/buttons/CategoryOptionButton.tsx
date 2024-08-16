@@ -2,7 +2,7 @@
 
 import { Button, Menu, MenuItem, Popper } from "@mui/material";
 import { MdAdd, MdCreate, MdDelete } from "react-icons/md";
-import { MouseEvent, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { useParams } from "next/navigation";
 import { CategoryContext } from "../context/CategoryContext";
@@ -19,7 +19,7 @@ export default function CategoryOptionButton() {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
-  const handleOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
+  const handleOpen = (e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
   const handleOpenCreateCategoryModal = () => {

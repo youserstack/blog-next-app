@@ -21,13 +21,7 @@ export default function SearchResult() {
   if (isLoading || !data) return null;
   const { posts, totalCount } = data;
   return (
-    <article
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-      }}
-    >
+    <article style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       <PostList posts={posts} />
       <MuiPagination count={Number(Math.ceil(totalCount / ITEMS_PER_PAGE))} />
     </article>

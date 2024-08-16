@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { Provider } from "@/components/context/Context";
 import { cookies, headers } from "next/headers";
 import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import dynamic from "next/dynamic";
 import "./globals.scss";
 import { WebVitals } from "@/_components/web-vitals";
 
+const Footer = dynamic(() => import("@/components/layout/Footer"));
 const Loading = dynamic(() => import("@/components/ui/Loading"));
 const GlobalModal = dynamic(() => import("@/components/modals/GlobalModal"));
 const fetcher = (url: string) => fetch(url).then((res) => res.json());

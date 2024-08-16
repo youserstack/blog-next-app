@@ -71,9 +71,7 @@ export default function PostCreateModal() {
         gap: "10px",
         overflowY: "scroll",
         scrollbarWidth: "thin",
-        "& input#image": {
-          display: "none",
-        },
+        "& input#image": { display: "none" },
       }}
     >
       <Typography variant="h5" sx={{ display: "flex", gap: "0.5rem" }}>

@@ -6,17 +6,6 @@ const PostArticle = dynamic(() => import("@/components/articles/PostArticle"));
 
 export async function generateStaticParams() {
   const url = `${process.env.ROOT_URL}/api/static/all-posts`;
-
-  // const { posts } = await fetch(url).then(async (res) => {
-  //   // setTimeout을 사용하여 5초 지연 후 JSON 데이터를 반환
-  //   return new Promise((resolve) => {
-  //     setTimeout(async () => {
-  //       const data = await res.json();
-  //       resolve(data);
-  //     }, 5000);
-  //   });
-  // });
-
   const { posts } = await fetch(url).then((res) => res.json());
   return posts.map((post: any) => ({ id: post._id }));
 }

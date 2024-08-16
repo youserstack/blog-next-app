@@ -1,11 +1,11 @@
 "use client";
 
 import { Button, Menu, MenuItem, Popper } from "@mui/material";
-import { MouseEvent, useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useContext, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import Link from "next/link";
-import { AuthContext } from "../context/AuthContext";
 
 export default function ArticleOptionButton({ post }: any) {
   const { user } = useContext(AuthContext);
@@ -13,7 +13,7 @@ export default function ArticleOptionButton({ post }: any) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
 
-  const handleOpen = (e: MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
+  const handleOpen = (e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
   if (!user) return null;
@@ -21,11 +21,7 @@ export default function ArticleOptionButton({ post }: any) {
   return (
     <div
       className="article-option-button"
-      style={{
-        position: "absolute",
-        top: "10px",
-        right: "10px",
-      }}
+      style={{ position: "absolute", top: "10px", right: "10px" }}
     >
       <Button onClick={handleOpen}>
         <IoIosMore size={30} className="more-button" />

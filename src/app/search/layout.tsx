@@ -1,5 +1,6 @@
-import SearchFilter from "@/components/features/SearchFilter";
+import dynamic from "next/dynamic";
 
+const SearchFilter = dynamic(() => import("@/components/features/SearchFilter"));
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default async function SearchLayout({ children }: { children: React.ReactNode }) {

@@ -15,12 +15,8 @@ export default function GlobalModal() {
       open={Boolean(modal)}
       onClose={closeModal}
       disableScrollLock
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
       slotProps={{ backdrop: { sx: { backgroundColor: "rgba(0,0,0,0.2)" } } }}
+      sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
       <>
         {modal === "post-create-modal" && <PostCreateModal />}

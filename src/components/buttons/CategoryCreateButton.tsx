@@ -12,18 +12,16 @@ export default function CategoryCreateButton({ parentCategories }: { parentCateg
   const { openModal } = useContext(ModalContext);
   const { setParentCategories } = useContext(CategoryContext);
 
-  const handleOpenCategoryCreateModal = () => {
-    setParentCategories(parentCategories);
-    openModal("category-create-modal");
-  };
-
   if (!user || parentCategories.length >= 3) return null;
 
   return (
     <Button
       className="category-create-button"
-      onClick={handleOpenCategoryCreateModal}
       color="inherit"
+      onClick={() => {
+        setParentCategories(parentCategories);
+        openModal("category-create-modal");
+      }}
     >
       <MdAdd />
     </Button>
