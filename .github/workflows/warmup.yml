@@ -2,7 +2,7 @@ name: Warm Up Vercel Functions
 
 on:
   schedule:
-    - cron: "*/1 * * * *" # 1분마다 실행
+    - cron: "*/5 * * * *" # 5분마다 실행
 
 jobs:
   warmup:
@@ -10,4 +10,4 @@ jobs:
     steps:
       - name: Warm Up Function
         run: |
-          curl https://blog-next-app-three.vercel.app
+          curl https://blog-next-app-three.vercel.app/api/cron
