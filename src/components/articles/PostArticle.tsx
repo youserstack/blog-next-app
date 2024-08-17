@@ -1,8 +1,8 @@
-import { Paper, Typography } from "@mui/material";
-import Image from "next/image";
 import ArticleOptionButton from "../buttons/ArticleOptionButton";
 import CommentCreateForm from "../forms/CommentCreateForm";
 import CommentList from "../lists/CommentList";
+import { Paper, Typography } from "@mui/material";
+import Image from "next/image";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

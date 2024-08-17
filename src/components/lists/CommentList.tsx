@@ -1,21 +1,17 @@
 "use client";
 
 import CommentOptionButton from "@/components/buttons/CommentOptionButton";
-import { LoadingContext } from "../context/LoadingContext";
 import { Button, Paper } from "@mui/material";
-import { useContext, useEffect } from "react";
 import Image from "next/image";
 import useSWR from "swr";
+import Loading from "../ui/Loading";
 
 const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
 
 export default function CommentList({ postId }: any) {
   const { isLoading, data } = useSWR(`/api/comments?postId=${postId}`, fetcher);
-  const { setIsLoading } = useContext(LoadingContext);
 
-  useEffect(() => setIsLoading(isLoading), [setIsLoading, isLoading]);
-
-  if (isLoading || !data) return null;
+  if (isLoading || !data) return <Loading />;
   return (
     <Paper
       component="ul"

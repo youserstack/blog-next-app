@@ -7,7 +7,6 @@ import { WebVitals } from "@/_components/web-vitals";
 import "./globals.scss";
 
 const Footer = dynamic(() => import("@/components/layout/Footer"));
-const Loading = dynamic(() => import("@/components/ui/Loading"));
 const GlobalModal = dynamic(() => import("@/components/modals/GlobalModal"));
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -37,7 +36,6 @@ export default async function RootLayout({
           <Footer />
 
           {/* 지연로딩 */}
-          <Loading />
           <GlobalModal />
         </Provider>
       </body>

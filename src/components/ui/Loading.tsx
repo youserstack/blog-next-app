@@ -1,17 +1,8 @@
-"use client";
-
 import { CircularProgress } from "@mui/material";
-import { useContext } from "react";
-import { LoadingContext } from "../context/LoadingContext";
 
 export default function Loading() {
-  const { isLoading } = useContext(LoadingContext);
-
-  if (!isLoading) return null;
-
   return (
     <div
-      className="loading"
       style={{
         position: "fixed",
         top: "0",
@@ -23,7 +14,7 @@ export default function Loading() {
         alignItems: "center",
       }}
     >
-      <CircularProgress />
+      <CircularProgress sx={{ color: "skyblue" }} />
     </div>
   );
 }
