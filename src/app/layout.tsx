@@ -4,7 +4,7 @@ import { cookies, headers } from "next/headers";
 import Header from "@/components/layout/Header";
 import dynamic from "next/dynamic";
 import { WebVitals } from "@/_components/web-vitals";
-import "./globals.css";
+import "./globals.scss";
 
 const Footer = dynamic(() => import("@/components/layout/Footer"));
 const Loading = dynamic(() => import("@/components/ui/Loading"));

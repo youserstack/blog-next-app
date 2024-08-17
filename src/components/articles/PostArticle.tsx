@@ -1,10 +1,9 @@
 import { Paper, Typography } from "@mui/material";
-import dynamic from "next/dynamic";
 import Image from "next/image";
+import ArticleOptionButton from "../buttons/ArticleOptionButton";
+import CommentCreateForm from "../forms/CommentCreateForm";
+import CommentList from "../lists/CommentList";
 
-const ArticleOptionButton = dynamic(() => import("@/components/buttons/ArticleOptionButton"));
-const CommentCreateForm = dynamic(() => import("@/components/forms/CommentCreateForm"));
-const CommentList = dynamic(() => import("@/components/lists/CommentList"));
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default async function PostArticle({ postId }: any) {

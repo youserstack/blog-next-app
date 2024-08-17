@@ -14,7 +14,9 @@ export default function ServerLoading() {
         alignItems: "center",
       }}
     >
-      <CircularProgress />
+      <CircularProgress
+      // sx={{ color: "red" }}
+      />
     </div>
   );
 }
