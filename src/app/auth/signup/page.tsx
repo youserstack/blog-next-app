@@ -1,4 +1,3 @@
-// import SignupForm from "@/components/ui/SignupForm";
 import dynamic from "next/dynamic";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";

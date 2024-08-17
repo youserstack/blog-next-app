@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Menu, MenuItem, Popper } from "@mui/material";
-import { deleteComment } from "@/lib/utils/fetchers/deleters";
+import { deleteComment } from "@/lib/utils/deleters";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { IoIosMore } from "react-icons/io";
 import { useState } from "react";

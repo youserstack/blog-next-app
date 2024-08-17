@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { LoadingContext } from "../context/LoadingContext";
 
 export default function Loading() {
-  const { isLoading }: any = useContext(LoadingContext);
+  const { isLoading } = useContext(LoadingContext);
 
   if (!isLoading) return null;
 

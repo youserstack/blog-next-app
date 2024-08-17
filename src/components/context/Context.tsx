@@ -7,27 +7,21 @@ import { LoadingProvider } from "./LoadingContext";
 import { ModalProvider } from "./ModalContext";
 import { CategoryProvider } from "./CategoryContext";
 
-export const Context = createContext({});
-export const Provider = ({
-  children,
-  mode,
-  user,
-  categories,
-}: {
+interface ProviderParameters {
   children: React.ReactNode;
   mode: string;
   user: string;
   categories: any[];
-}) => {
+}
+
+export const Context = createContext({});
+export const Provider = ({ children, mode, user, categories }: ProviderParameters) => {
   return (
     <ThemeProvider mode={mode}>
       <AuthProvider user={user}>
         <LoadingProvider>
           <ModalProvider>
-            <CategoryProvider categories={categories}>
-              {/*  */}
-              {children}
-            </CategoryProvider>
+            <CategoryProvider categories={categories}>{children}</CategoryProvider>
           </ModalProvider>
         </LoadingProvider>
       </AuthProvider>

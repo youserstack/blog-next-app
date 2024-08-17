@@ -10,7 +10,7 @@ import { createPostAction } from "@/app/actions";
 import { mutate } from "swr";
 import { ModalContext } from "../context/ModalContext";
 
-function SubmitButton() {
+const SubmitButton = () => {
   const { pending } = useFormStatus();
 
   return (
@@ -18,7 +18,7 @@ function SubmitButton() {
       {pending ? "게시중..." : "게시하기"}
     </Button>
   );
-}
+};
 
 export default function PostCreateModal() {
   const router = useRouter();

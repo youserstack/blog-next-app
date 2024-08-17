@@ -2,9 +2,10 @@
 
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CategoryContext } from "../context/CategoryContext";
 
-export default function SearchFilter({ categories }: { categories: any }) {
+export default function SearchFilter() {
   const [rootCategory, setRootCategory] = useState("");
   const [sub1Category, setSub1Category] = useState("");
   const [sub2Category, setSub2Category] = useState("");
@@ -13,6 +14,7 @@ export default function SearchFilter({ categories }: { categories: any }) {
   const [sort, setSort] = useState("");
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { categories } = useContext(CategoryContext);
 
   const updateURLParams = (key: any, value: any) => {
     const urlSearchParams = new URLSearchParams(searchParams.toString());

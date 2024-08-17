@@ -1,7 +1,7 @@
 "use client";
 
 import { refreshAccessToken } from "@/lib/utils/auth";
-import { deletePost } from "@/lib/utils/fetchers/deleters";
+import { deletePost } from "@/lib/utils/deleters";
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { MouseEvent } from "react";

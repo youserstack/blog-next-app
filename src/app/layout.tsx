@@ -3,8 +3,8 @@ import { Provider } from "@/components/context/Context";
 import { cookies, headers } from "next/headers";
 import Header from "@/components/layout/Header";
 import dynamic from "next/dynamic";
-import "./globals.scss";
 import { WebVitals } from "@/_components/web-vitals";
+import "./globals.css";
 
 const Footer = dynamic(() => import("@/components/layout/Footer"));
 const Loading = dynamic(() => import("@/components/ui/Loading"));

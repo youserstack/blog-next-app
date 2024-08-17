@@ -2,7 +2,7 @@
 
 import { useContext } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { deleteCategory } from "@/lib/utils/fetchers/deleters";
+import { deleteCategory } from "@/lib/utils/deleters";
 import { refreshAccessToken } from "@/lib/utils/auth";
 import { Button, Paper, Typography } from "@mui/material";
 import { RiErrorWarningFill } from "react-icons/ri";
