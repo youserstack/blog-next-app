@@ -1,37 +1,9 @@
-"use client";
-
 import MuiAppBar from "./MuiAppBar";
-import { useEffect, useState } from "react";
 
-export default function Header() {
-  const [previousScrollY, setPreviousScrollY] = useState(0);
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-  const handleScroll = (e: any) => {
-    const header: HTMLElement | null = document.querySelector("header");
-    if (!header) return;
+export default async function Header() {
+  const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
 
-    const currentScrollY = window.scrollY;
-
-    if (window.scrollY <= 200) {
-      // console.log('scroll top area')
-      header.style.transform = "translateY(0)";
-    } else {
-      if (currentScrollY > previousScrollY) {
-        // console.log("scroll down");
-        header.style.transform = "translateY(-70px)";
-      } else {
-        // console.log("scroll up");
-        header.style.transform = "translateY(0)";
-      }
-    }
-
-    setPreviousScrollY(currentScrollY);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  });
-
-  return <MuiAppBar />;
+  return <MuiAppBar categories={categories} />;
 }

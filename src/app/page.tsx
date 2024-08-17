@@ -1,19 +1,12 @@
 import { Box, Grid } from "@mui/material";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import PopularPostListSkeleton from "@/components/skeletons/PopularPostListSkeleton";
 import LatestPostListSkeleton from "@/components/skeletons/LatestPostListSkeleton";
 import RecentCommentListSkeleton from "@/components/skeletons/RecentCommentListSkeleton";
-
-const PopularPostList = dynamic(() => import("@/components/lists/PopularPostList"), {
-  loading: () => <PopularPostListSkeleton />,
-});
-const LatestPostList = dynamic(() => import("@/components/lists/LatestPostList"), {
-  loading: () => <LatestPostListSkeleton />,
-});
-const RecentCommentList = dynamic(() => import("@/components/lists/RecentCommentList"), {
-  loading: () => <RecentCommentListSkeleton />,
-});
+import PopularPostList from "@/components/lists/PopularPostList";
+import LatestPostList from "@/components/lists/LatestPostList";
+import RecentCommentList from "@/components/lists/RecentCommentList";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -30,15 +23,21 @@ export default function Home() {
 
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} sx={{ width: "100%" }}>
-            <PopularPostList />
+            <Suspense fallback={<PopularPostListSkeleton />}>
+              <PopularPostList />
+            </Suspense>
           </Grid>
 
           <Grid item xs={12} md={6} sx={{ width: "100%" }}>
-            <LatestPostList />
+            <Suspense fallback={<LatestPostListSkeleton />}>
+              <LatestPostList />
+            </Suspense>
           </Grid>
         </Grid>
 
-        <RecentCommentList />
+        <Suspense fallback={<RecentCommentListSkeleton />}>
+          <RecentCommentList />
+        </Suspense>
       </section>
     </main>
   );

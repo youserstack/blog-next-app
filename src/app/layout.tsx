@@ -6,9 +6,9 @@ import dynamic from "next/dynamic";
 import { WebVitals } from "@/_components/web-vitals";
 import "./globals.scss";
 
-const Footer = dynamic(() => import("@/components/layout/Footer"));
+// client components
 const GlobalModal = dynamic(() => import("@/components/modals/GlobalModal"));
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const Footer = dynamic(() => import("@/components/layout/Footer"));
 
 export const metadata: Metadata = {
   title: "youserstack blog",
@@ -16,27 +16,24 @@ export const metadata: Metadata = {
   keywords: "youserstack",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const mode = cookies().get("mode")?.value as string;
   const user = JSON.parse(headers().get("user") as string);
-  const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
 
   return (
     <html lang="en">
       <body>
-        <Provider mode={mode} user={user} categories={categories}>
+        <Provider mode={mode} user={user}>
           <WebVitals />
+          <GlobalModal />
 
           <Header />
           {children}
           <Footer />
-
-          {/* 지연로딩 */}
-          <GlobalModal />
         </Provider>
       </body>
     </html>

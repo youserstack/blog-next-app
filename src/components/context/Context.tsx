@@ -10,16 +10,15 @@ interface ProviderParameters {
   children: React.ReactNode;
   mode: string;
   user: string;
-  categories: any[];
 }
 
 export const Context = createContext({});
-export const Provider = ({ children, mode, user, categories }: ProviderParameters) => {
+export const Provider = ({ children, mode, user }: ProviderParameters) => {
   return (
     <ThemeProvider mode={mode}>
       <AuthProvider user={user}>
         <ModalProvider>
-          <CategoryProvider categories={categories}>{children}</CategoryProvider>
+          <CategoryProvider>{children}</CategoryProvider>
         </ModalProvider>
       </AuthProvider>
     </ThemeProvider>

@@ -14,7 +14,7 @@ export default function Loading() {
         alignItems: "center",
       }}
     >
-      <CircularProgress sx={{ color: "skyblue" }} />
+      <CircularProgress />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 // modules
-import { MouseEvent, useContext, useState } from "react";
+import { MouseEvent, useContext, useEffect, useState } from "react";
 import Link from "next/link";
 // my modules
 import { ThemeContext } from "@/components/context/ThemeContext";
@@ -41,12 +41,12 @@ import { CategoryContext } from "../context/CategoryContext";
 import { AuthContext } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 
-export default function MuiAppBar() {
+export default function MuiAppBar({ categories }: any) {
   const router = useRouter();
 
   // 컨텍스트
   const { user, signout } = useContext(AuthContext);
-  const { categories } = useContext(CategoryContext);
+  const { setCategories } = useContext(CategoryContext);
   const { mode, toggleMode } = useContext(ThemeContext);
 
   // 검색
@@ -184,6 +184,39 @@ export default function MuiAppBar() {
       </Box>
     </Drawer>
   );
+
+  const [previousScrollY, setPreviousScrollY] = useState(0);
+
+  const handleScroll = (e: any) => {
+    const header: HTMLElement | null = document.querySelector("header");
+    if (!header) return;
+
+    const currentScrollY = window.scrollY;
+
+    if (window.scrollY <= 200) {
+      // console.log('scroll top area')
+      header.style.transform = "translateY(0)";
+    } else {
+      if (currentScrollY > previousScrollY) {
+        // console.log("scroll down");
+        header.style.transform = "translateY(-70px)";
+      } else {
+        // console.log("scroll up");
+        header.style.transform = "translateY(0)";
+      }
+    }
+
+    setPreviousScrollY(currentScrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
+
+  useEffect(() => {
+    setCategories(categories);
+  }, [categories]);
 
   return (
     <AppBar position="fixed" sx={{ transition: "all 0.5s" }}>
