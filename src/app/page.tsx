@@ -1,8 +1,19 @@
-import RecentCommentList from "@/components/lists/RecentCommentList";
-import PopularPostList from "@/components/lists/PopularPostList";
-import LatestPostList from "@/components/lists/LatestPostList";
 import { Box, Grid } from "@mui/material";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import PopularPostListSkeleton from "@/components/skeletons/PopularPostListSkeleton";
+import LatestPostListSkeleton from "@/components/skeletons/LatestPostListSkeleton";
+import RecentCommentListSkeleton from "@/components/skeletons/RecentCommentListSkeleton";
+
+const PopularPostList = dynamic(() => import("@/components/lists/PopularPostList"), {
+  loading: () => <PopularPostListSkeleton />,
+});
+const LatestPostList = dynamic(() => import("@/components/lists/LatestPostList"), {
+  loading: () => <LatestPostListSkeleton />,
+});
+const RecentCommentList = dynamic(() => import("@/components/lists/RecentCommentList"), {
+  loading: () => <RecentCommentListSkeleton />,
+});
 
 export default function Home() {
   return (
