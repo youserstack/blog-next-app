@@ -6,10 +6,18 @@ import { useState } from "react";
 import { Box, Paper, useTheme } from "@mui/material";
 import SigninForm from "./SigninForm";
 import Oauth from "./Oauth";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function SigninTabForm() {
   const [value, setValue] = useState(0);
   const theme = useTheme();
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  if (session) {
+    router.push("/");
+  }
 
   return (
     <Paper

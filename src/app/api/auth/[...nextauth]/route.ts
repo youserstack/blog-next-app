@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import NaverProvider from "next-auth/providers/naver";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     NaverProvider({
       clientId: process.env.NAVER_ID as string,
