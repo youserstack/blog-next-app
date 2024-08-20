@@ -2,25 +2,14 @@
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box, Paper, useTheme } from "@mui/material";
 import SigninForm from "./SigninForm";
 import Oauth from "./Oauth";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 export default function SigninTabForm() {
   const [value, setValue] = useState(0);
   const theme = useTheme();
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      console.log({ session });
-      router.push("/");
-    }
-  }, [status]);
 
   return (
     <Paper
