@@ -9,12 +9,12 @@ const PROTECTED_METHODS = ["POST", "DELETE", "PATCH"];
 
 export default async function middleware(request: NextRequest) {
   // Oauth
-  if (request.nextUrl.pathname === "/auth/signin") {
-    const token = await getToken({ req: request });
-    if (token) {
-      NextResponse.redirect(new URL("/", request.url));
-    }
-  }
+  // if (request.nextUrl.pathname === "/auth/signin") {
+  //   const token = await getToken({ req: request });
+  //   if (token) {
+  //     NextResponse.redirect(new URL("/", request.url));
+  //   }
+  // }
 
   // extract
   const { pathname } = request.nextUrl;
