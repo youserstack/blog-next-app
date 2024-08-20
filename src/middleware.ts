@@ -1,4 +1,5 @@
 import { verifyAccessToken, verifyRefreshToken } from "@/lib/utils/authEdge";
+import { getToken } from "next-auth/jwt";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,6 +8,14 @@ const PROTECTED_APIS = ["/api/categories", "/api/comments", "/api/posts"];
 const PROTECTED_METHODS = ["POST", "DELETE", "PATCH"];
 
 export default async function middleware(request: NextRequest) {
+  // Oauth
+  if (request.nextUrl.pathname === "/auth/signin") {
+    const token = await getToken({ req: request });
+    if (token) {
+      NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
   // extract
   const { pathname } = request.nextUrl;
   const accessToken = request.headers.get("Authorization")?.split(" ")[1] as string;
