@@ -28,7 +28,7 @@ export const AuthProvider = ({
 
   const signout = useCallback(async () => {
     try {
-      const response = await fetch(`${process.env.ROOT_URL}/api/auth/signout`);
+      const response = await fetch(`${process.env.ROOT_URL}/api/v2/auth/signout`);
       const data = await response.json();
 
       if (!response.ok) throw new Error("로그아웃을 실패했습니다.");
@@ -45,7 +45,7 @@ export const AuthProvider = ({
     try {
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) return;
-      const response = await fetch(`${process.env.ROOT_URL}/api/auth/refresh`);
+      const response = await fetch(`${process.env.ROOT_URL}/api/v2/auth/refresh`);
       const data = await response.json();
 
       if (!response.ok) throw new Error(data.error || "accessToken 갱신을 실패했습니다.");

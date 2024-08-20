@@ -1,13 +1,17 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 import dynamic from "next/dynamic";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-const SigninForm = dynamic(() => import("@/components/ui/SigninForm"), { ssr: false });
+const SigninTabForm = dynamic(() => import("@/components/ui/SigninTabForm"), { ssr: false });
 
-export default function Signin() {
+export default async function Signin() {
   const user = JSON.parse(headers().get("user") as string);
+  const session = await getServerSession(authOptions);
+  console.log({ session });
 
-  if (user) {
+  if (user || session) {
     redirect("/");
   }
 
@@ -21,7 +25,7 @@ export default function Signin() {
           alignItems: "center",
         }}
       >
-        <SigninForm />
+        <SigninTabForm />
       </section>
     </main>
   );

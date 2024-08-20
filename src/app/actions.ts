@@ -81,7 +81,7 @@ export async function updatePostAction(formData: FormData, postId: string, acces
 export async function signinAction(prevState: any, formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const response = await fetch(`${process.env.ROOT_URL}/api/auth/signin`, {
+  const response = await fetch(`${process.env.ROOT_URL}/api/v2/auth/signin`, {
     method: "POST",
     body: JSON.stringify({ email, password }),
   });
@@ -107,7 +107,7 @@ export async function signupAction(previousState: any, formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const response = await fetch(`${process.env.ROOT_URL}/api/auth/signup`, {
+  const response = await fetch(`${process.env.ROOT_URL}/api/v2/auth/signup`, {
     method: "POST",
     body: JSON.stringify({ name, email, password }),
   });

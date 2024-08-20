@@ -27,7 +27,7 @@ export function generateRefreshToken(payload: { email: string }) {
 // 클라이언트에서 액세스 토큰 만료로 실패시, 갱신을 위한 함수
 export async function refreshAccessToken() {
   try {
-    const response = await fetch(`${process.env.ROOT_URL}/api/auth/refresh`);
+    const response = await fetch(`${process.env.ROOT_URL}/api/v2/auth/refresh`);
     const data = await response.json();
 
     if (!response.ok) {
