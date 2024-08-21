@@ -8,20 +8,13 @@ const PROTECTED_APIS = ["/api/categories", "/api/comments", "/api/posts"];
 const PROTECTED_METHODS = ["POST", "DELETE", "PATCH"];
 
 export default async function middleware(request: NextRequest) {
-  // Oauth
-  if (request.nextUrl.pathname === "/auth/signin") {
-    const token = await getToken({ req: request });
-    if (token) {
-      NextResponse.redirect(new URL("/", request.url));
-    }
-  }
-
   // extract
-  const { pathname } = request.nextUrl;
+  // 인증방식 1) nextauth 를 통해서 토큰을 추출한다.
+  const token = await getToken({ req: request });
+  // 인증박식 2) 일반적인 jwt 방식을 이용해서 토큰을 추출한다.
   const accessToken = request.headers.get("Authorization")?.split(" ")[1] as string;
   const refreshToken: any = cookies().get("refreshToken")?.value;
-
-  // authenticate
+  const { pathname } = request.nextUrl;
   let user = null;
   try {
     user = await verifyRefreshToken(refreshToken);
@@ -29,7 +22,6 @@ export default async function middleware(request: NextRequest) {
     user = null;
   }
 
-  // make conditions (for branches)
   const isProtectedPage = PROTECTED_PAGES.some((page: string) => pathname.startsWith(page));
   const isProtectedApi =
     PROTECTED_APIS.some((api: string) => pathname.startsWith(api)) &&
@@ -69,32 +61,11 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
+  // 헤더에 nextauth token, general jwt token 중에서 어느 하나를 추가해준다.
   let headers = new Headers(request.headers);
-  const payload = JSON.stringify(
-    user
-      ? {
-          ...user,
-          refreshToken: refreshToken?.slice(-5),
-          accessToken: accessToken?.slice(-5),
-        }
-      : null
-  );
+  const payload = JSON.stringify(token || user);
   headers.set("user", payload);
   return NextResponse.next({ request: { headers } });
 }
 
 export const config = { matcher: ["/:path*"] };
-
-// configurate the custom header
-// let response = NextResponse.next();
-// const payload = JSON.stringify(
-//   user
-//     ? {
-//         ...user,
-//         refreshToken: refreshToken?.slice(-5),
-//         accessToken: accessToken?.slice(-5),
-//       }
-//     : null
-// );
-// response.headers.set("user", payload);
-// return response;

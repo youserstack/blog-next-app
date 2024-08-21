@@ -3,7 +3,7 @@ import Comment from "@/lib/models/Comment";
 import User from "@/lib/models/User";
 
 export async function GET(req: Request) {
-  console.log("\n\x1b[32m[api/home/recent-comment]:::[GET]\x1b[0m");
+  // console.log("\n\x1b[32m[api/home/recent-comment]:::[GET]\x1b[0m");
 
   await connectDB();
 
@@ -12,7 +12,7 @@ export async function GET(req: Request) {
     path: "author",
     model: User,
   });
-  console.log({ recentComments: comments.map((v: any) => v.content) });
+  // console.log({ recentComments: comments.map((v: any) => v.content) });
 
   return Response.json({ comments }, { status: 200 });
 }

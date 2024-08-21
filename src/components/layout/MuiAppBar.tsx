@@ -40,6 +40,7 @@ import { styled, alpha } from "@mui/material/styles";
 import { CategoryContext } from "../context/CategoryContext";
 import { AuthContext } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 export default function MuiAppBar({ categories }: any) {
   const router = useRouter();
@@ -82,8 +83,9 @@ export default function MuiAppBar({ categories }: any) {
       <MenuItem>Profile</MenuItem>
       <MenuItem>My account</MenuItem>
       <MenuItem
-        onClick={() => {
+        onClick={async () => {
           signout();
+          await signOut();
           handleCloseProfileMenu();
         }}
       >
@@ -156,8 +158,9 @@ export default function MuiAppBar({ categories }: any) {
             <ListItem
               className="로그아웃"
               disablePadding
-              onClick={() => {
+              onClick={async () => {
                 signout();
+                await signOut();
                 handleCloseProfileMenu();
               }}
             >

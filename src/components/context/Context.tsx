@@ -5,6 +5,7 @@ import { ThemeProvider } from "./ThemeContext"; // 서버 프로퍼티를 받는
 import { AuthProvider } from "./AuthContext";
 import { ModalProvider } from "./ModalContext";
 import { CategoryProvider } from "./CategoryContext";
+import { SessionProvider } from "next-auth/react";
 
 interface ProviderParameters {
   children: React.ReactNode;
@@ -15,12 +16,14 @@ interface ProviderParameters {
 export const Context = createContext({});
 export const Provider = ({ children, mode, user }: ProviderParameters) => {
   return (
-    <ThemeProvider mode={mode}>
-      <AuthProvider user={user}>
-        <ModalProvider>
-          <CategoryProvider>{children}</CategoryProvider>
-        </ModalProvider>
-      </AuthProvider>
-    </ThemeProvider>
+    <SessionProvider>
+      <ThemeProvider mode={mode}>
+        <AuthProvider user={user}>
+          <ModalProvider>
+            <CategoryProvider>{children}</CategoryProvider>
+          </ModalProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </SessionProvider>
   );
 };

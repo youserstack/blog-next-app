@@ -44,8 +44,6 @@ export async function POST(request: Request) {
   const savedUser = await foundUser.save();
   // console.log({ savedUser });
 
-  revalidatePath("/");
-
   // server action 에서 refreshToken 을 쿠키에 저장하고, accessToken 을 리턴한다.
   return Response.json({ accessToken, refreshToken }, { status: 200 });
 }

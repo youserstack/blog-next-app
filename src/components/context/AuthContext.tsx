@@ -23,7 +23,7 @@ export const AuthProvider = ({
   children: React.ReactNode;
   user: any;
 }) => {
-  const [user, setUser] = useState(session || null);
+  const [user, setUser] = useState(session); // 서버세션으로 초기화
   const router = useRouter();
 
   const signout = useCallback(async () => {
@@ -63,6 +63,7 @@ export const AuthProvider = ({
     return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 클리어
   }, [refreshAccessToken]);
 
+  // useEffect(() => console.log({ user }), [user]);
   useEffect(() => setUser(session), [session]);
 
   return (
