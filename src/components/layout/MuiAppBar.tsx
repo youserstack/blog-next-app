@@ -191,8 +191,8 @@ export default function MuiAppBar({ categories }: any) {
   const [previousScrollY, setPreviousScrollY] = useState(0);
 
   const handleScroll = (e: any) => {
-    const header: HTMLElement | null = document.querySelector("header");
-    if (!header) return;
+    const header = document.querySelector("header") as HTMLHeadElement;
+    if (!header) return console.log("헤더가 없어서 스크롤이벤트가 동작하지 않고 있습니다.");
 
     const currentScrollY = window.scrollY;
 

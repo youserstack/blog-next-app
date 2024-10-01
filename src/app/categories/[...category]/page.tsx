@@ -7,6 +7,7 @@ import useSWR from "swr";
 import Link from "next/link";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
 import Loading from "@/components/ui/Loading";
+import Pagination from "@/components/ui/Pagination";
 
 const ControlArea = dynamic(() => import("@/components/areas/ControlArea"));
 const PostList = dynamic(() => import("@/components/lists/PostList"));

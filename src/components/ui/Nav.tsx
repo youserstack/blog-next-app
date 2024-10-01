@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Button, List, ListItem, Paper } from "@mui/material";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
 import Link from "next/link";

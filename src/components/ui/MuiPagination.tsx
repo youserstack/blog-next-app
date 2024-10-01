@@ -17,6 +17,10 @@ export default function MuiPagination({ count }: { count: number }) {
     router.push(`?${currentParams.toString()}`);
   };
 
+  // console.log({ count });
+  // count : page count
+  if (!count) return null;
+
   return (
     <Pagination
       count={count}
