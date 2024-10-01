@@ -5,26 +5,29 @@ import { cookies, headers } from "next/headers";
 import dynamic from "next/dynamic";
 import { WebVitals } from "@/_components/web-vitals";
 import "./globals.scss";
+import MuiAppBar from "@/components/layout/MuiAppBar";
 
 // server component
-const Header = dynamic(() => import("@/components/layout/Header"), {
-  // loading: () => (
-  //   <div
-  //     style={{
-  //       position: "fixed",
-  //       top: "0",
-  //       left: "0",
-  //       right: "0",
-  //       height: "300px",
-  //       backgroundColor: "green",
-  //     }}
-  //   ></div>
-  // ),
-});
+// const Header = dynamic(() => import("@/components/layout/Header"), {
+//   loading: () => (
+//     <div
+//       style={{
+//         position: "fixed",
+//         top: "0",
+//         left: "0",
+//         right: "0",
+//         height: "100px",
+//         backgroundColor: "green",
+//       }}
+//     ></div>
+//   ),
+// });
 
 // client components
 const GlobalModal = dynamic(() => import("@/components/modals/GlobalModal"));
 const Footer = dynamic(() => import("@/components/layout/Footer"));
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export const metadata: Metadata = {
   title: "youserstack blog",
@@ -32,13 +35,14 @@ export const metadata: Metadata = {
   keywords: "youserstack",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const mode = cookies().get("mode")?.value as string;
   const user = JSON.parse(headers().get("user") as string);
+  const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
 
   return (
     <html lang="en">
@@ -47,7 +51,8 @@ export default function RootLayout({
           <WebVitals />
           <GlobalModal />
 
-          <Header />
+          {/* <Header /> */}
+          <MuiAppBar categories={categories} />
           {children}
           <Footer />
         </Provider>

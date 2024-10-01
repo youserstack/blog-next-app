@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Button, List, ListItem, Paper } from "@mui/material";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
 import Link from "next/link";
@@ -9,7 +7,7 @@ export default function Nav({ categories }: any) {
     <Box
       component="nav"
       className="nav"
-      sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
+      sx={{ display: { xs: "none", md: "flex", border: "1px solid green" }, alignItems: "center" }}
     >
       {/* 루트-카테고리-리스트 */}
       <List className="categories 루트-카테고리-리스트" sx={{ display: "flex" }}>
