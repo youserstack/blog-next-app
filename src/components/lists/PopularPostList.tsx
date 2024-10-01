@@ -1,6 +1,7 @@
-import { Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import HorizontalScrollButton from "../ui/HorizontalScrollButton";
 
 const fetcher = (url: string) => fetch(url, { next: { revalidate: 60 } }).then((res) => res.json());
 
@@ -21,152 +22,64 @@ export default async function PopularPostList() {
         <Link href="/search?sort=popular">더보기</Link>
       </div>
 
-      <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        {posts.map((post: any) => (
-          <Paper key={post._id} variant="outlined" sx={{ height: "100px", overflow: "hidden" }}>
-            <Link href={`/posts/${post._id}`} style={{ height: "100%", display: "flex" }}>
-              <div className="thumbnail" style={{ width: "100px" }}>
-                {post.image && <Image src={post.image} alt="alt" width={200} height={200} />}
-              </div>
+      <div style={{ display: "flex" }}>
+        <HorizontalScrollButton targetElement=".popular-post-list ul" isLeftButton />
 
-              <div
-                className="content"
-                style={{
-                  flex: "1",
-                  padding: "1rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                }}
+        <ul
+          style={{
+            height: "250px",
+            display: "flex",
+            gap: "1rem",
+            position: "relative",
+            overflowX: "auto", // 좌우 스크롤 가능하도록 설정
+            scrollBehavior: "smooth", // 스크롤을 부드럽게
+            scrollbarWidth: "none", // Firefox에서 스크롤바 숨기기
+          }}
+        >
+          {posts.map((post: any) => (
+            <Paper
+              key={post._id}
+              variant="outlined"
+              sx={{
+                minWidth: { xs: "200px", md: "300px" }, // 최소 너비 설정하여 각 아이템이 일정 크기를 가짐
+                overflow: "hidden",
+                "&:hover .content": { backgroundColor: "rgba(0,0,0,0.7)" },
+              }}
+            >
+              <Link
+                href={`/posts/${post._id}`}
+                style={{ height: "100%", display: "flex", position: "relative" }}
               >
-                <Typography variant="h5">{post.title}</Typography>
-                <Typography>
-                  {post.content.length > 40 ? post.content.slice(0, 40) + "..." : post.content}
-                </Typography>
+                <div className="thumbnail" style={{ position: "absolute", inset: "0" }}>
+                  {post.image && <Image src={post.image} alt="alt" width={200} height={200} />}
+                </div>
 
-                {/* <div style={{ display: "flex", gap: "1rem" }}>
-                  <p>조회수 {post.views}</p>
-                  <p>카테고리 {post.category.replaceAll("/", " > ")}</p>
-                </div> */}
-              </div>
-            </Link>
-          </Paper>
-        ))}
-      </ul>
+                <Box
+                  className="content"
+                  sx={{
+                    flex: "1",
+                    padding: "1rem",
+                    position: "absolute",
+                    inset: "0",
+                    color: "white",
+                    backgroundColor: "rgba(0,0,0,0.3)",
+                    transition: "all 0.3s",
+                  }}
+                >
+                  <Typography variant="h5" sx={{ marginBottom: "10px" }}>
+                    {post.title}
+                  </Typography>
+                  <Typography>
+                    {post.content.length > 40 ? post.content.slice(0, 40) + "..." : post.content}
+                  </Typography>
+                </Box>
+              </Link>
+            </Paper>
+          ))}
+        </ul>
+
+        <HorizontalScrollButton targetElement=".popular-post-list ul" isRightButton />
+      </div>
     </Paper>
   );
 }
-
-// "use client";
-
-// import { Paper, Skeleton, Typography } from "@mui/material";
-// import Image from "next/image";
-// import Link from "next/link";
-// import useSWR from "swr";
-
-// const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-// export default function PopularPostList() {
-//   const { isLoading, data } = useSWR(`${process.env.ROOT_URL}/api/posts?sort=popular`, fetcher);
-
-//   if (isLoading || !data) {
-//     return (
-//       <Paper className="latest-post-list" variant="outlined" sx={{ padding: "1rem" }}>
-//         <div
-//           style={{
-//             display: "flex",
-//             justifyContent: "space-between",
-//             alignItems: "center",
-//             marginBottom: "1rem",
-//           }}
-//         >
-//           <Skeleton variant="text" animation="wave" width={100} />
-//           <Skeleton variant="text" animation="wave" width={40} />
-//         </div>
-
-//         <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-//           {[1, 2, 3, 4, 5].map((v: any) => (
-//             <Paper
-//               key={v}
-//               component={"li"}
-//               variant="outlined"
-//               sx={{ height: "100px", display: "flex", overflow: "hidden" }}
-//             >
-//               <Skeleton variant="rectangular" animation="wave" width={100} height={100} />
-
-//               <div
-//                 style={{
-//                   width: "100%",
-//                   display: "flex",
-//                   flexDirection: "column",
-//                   justifyContent: "space-between",
-//                   padding: "1rem",
-//                 }}
-//               >
-//                 <Skeleton
-//                   variant="text"
-//                   animation="wave"
-//                   sx={{ width: { xs: "30%", lg: "40%" } }}
-//                 />
-//                 <Skeleton
-//                   variant="text"
-//                   animation="wave"
-//                   sx={{ width: { xs: "70%", lg: "80%" } }}
-//                 />
-//               </div>
-//             </Paper>
-//           ))}
-//         </ul>
-//       </Paper>
-//     );
-//   }
-
-//   return (
-//     <Paper className="popular-post-list" variant="outlined" sx={{ padding: "1rem" }}>
-//       <div
-//         style={{
-//           display: "flex",
-//           justifyContent: "space-between",
-//           alignItems: "center",
-//           marginBottom: "1rem",
-//         }}
-//       >
-//         <Typography>인기글</Typography>
-//         <Link href="/search?sort=popular">더보기</Link>
-//       </div>
-
-//       <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-//         {data.posts.map((post: any) => (
-//           <Paper key={post._id} variant="outlined" sx={{ height: "100px", overflow: "hidden" }}>
-//             <Link href={`/posts/${post._id}`} style={{ height: "100%", display: "flex" }}>
-//               <div className="thumbnail" style={{ width: "100px" }}>
-//                 {post.image && <Image src={post.image} alt="alt" width={200} height={200} />}
-//               </div>
-
-//               <div
-//                 className="content"
-//                 style={{
-//                   flex: "1",
-//                   padding: "1rem",
-//                   display: "flex",
-//                   flexDirection: "column",
-//                   justifyContent: "space-between",
-//                 }}
-//               >
-//                 <Typography variant="h5">{post.title}</Typography>
-//                 <Typography>
-//                   {post.content.length > 40 ? post.content.slice(0, 40) + "..." : post.content}
-//                 </Typography>
-
-//                 {/* <div style={{ display: "flex", gap: "1rem" }}>
-//                   <p>조회수 {post.views}</p>
-//                   <p>카테고리 {post.category.replaceAll("/", " > ")}</p>
-//                 </div> */}
-//               </div>
-//             </Link>
-//           </Paper>
-//         ))}
-//       </ul>
-//     </Paper>
-//   );
-// }

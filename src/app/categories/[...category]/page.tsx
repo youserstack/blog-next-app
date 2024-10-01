@@ -62,7 +62,6 @@ export default function Category() {
       <div style={{ marginTop: "1rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
         <PostList posts={posts} />
         <MuiPagination count={Number(Math.ceil(totalCount / ITEMS_PER_PAGE))} />
-        <Pagination totalCount={30} />
       </div>
     </Box>
   );

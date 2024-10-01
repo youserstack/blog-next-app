@@ -25,15 +25,7 @@ export default function Pagination({ totalCount }: any) {
   const next = () => router.push(createPageLink(currentPage + 1));
 
   return (
-    <Box
-      className="pagination"
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-
-        border: "1px solid red",
-      }}
-    >
+    <Box className="pagination" sx={{ display: "flex", justifyContent: "space-between" }}>
       <Button onClick={prev} disabled={currentPage === 1}>
         prev
       </Button>

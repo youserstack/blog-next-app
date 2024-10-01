@@ -3,25 +3,21 @@ import { Provider } from "@/components/context/Context";
 import { cookies, headers } from "next/headers";
 // import Header from "@/components/layout/Header";
 import dynamic from "next/dynamic";
-import { WebVitals } from "@/_components/web-vitals";
 import "./globals.scss";
-import MuiAppBar from "@/components/layout/MuiAppBar";
+import { Skeleton } from "@mui/material";
 
 // server component
-// const Header = dynamic(() => import("@/components/layout/Header"), {
-//   loading: () => (
-//     <div
-//       style={{
-//         position: "fixed",
-//         top: "0",
-//         left: "0",
-//         right: "0",
-//         height: "100px",
-//         backgroundColor: "green",
-//       }}
-//     ></div>
-//   ),
-// });
+const Header = dynamic(() => import("@/components/layout/MuiAppBar"), {
+  loading: () => (
+    <Skeleton
+      variant="rectangular"
+      animation="wave"
+      width={"100%"}
+      height={64}
+      sx={{ position: "fixed", top: "0" }}
+    />
+  ),
+});
 
 // client components
 const GlobalModal = dynamic(() => import("@/components/modals/GlobalModal"));
@@ -48,11 +44,9 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <Provider mode={mode} user={user}>
-          <WebVitals />
           <GlobalModal />
+          <Header categories={categories} />
 
-          {/* <Header /> */}
-          <MuiAppBar categories={categories} />
           {children}
           <Footer />
         </Provider>
