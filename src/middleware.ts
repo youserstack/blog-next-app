@@ -11,6 +11,7 @@ export default async function middleware(request: NextRequest) {
   // extract
   // 인증방식 1) nextauth 를 통해서 토큰을 추출한다.
   const token = await getToken({ req: request });
+  console.log({ token });
   // 인증박식 2) 일반적인 jwt 방식을 이용해서 토큰을 추출한다.
   const accessToken = request.headers.get("Authorization")?.split(" ")[1] as string;
   const refreshToken: any = cookies().get("refreshToken")?.value;

@@ -10,6 +10,7 @@ import { Skeleton } from "@mui/material";
 const Header = dynamic(() => import("@/components/layout/MuiAppBar"), {
   loading: () => (
     <Skeleton
+      component={"header"}
       variant="rectangular"
       animation="wave"
       width={"100%"}
@@ -39,6 +40,7 @@ export default async function RootLayout({
   const mode = cookies().get("mode")?.value as string;
   const user = JSON.parse(headers().get("user") as string);
   const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
+  // console.log({ user });
 
   return (
     <html lang="en">
