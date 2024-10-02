@@ -69,12 +69,12 @@ const authOptions: NextAuthOptions = {
       }
       return token; // 토큰 반환
     },
-
     // session 콜백: 세션이 생성되거나 갱신될 때 호출됩니다. 추가적으로 세션 정보를 클라이언트에 제공할 때 호출.
     // 세션 정보를 클라이언트에 제공할 때 호출됩니다.
     // 즉, 클라이언트가 getSession()이나 useSession()을 통해 세션 정보를 요청할 때 호출됩니다.
     async session({ session, token }: { session: Session; token: JWT }) {
       console.log("session callback");
+      // console.log({ session });
       // 세션에 사용자 정보가 있으면 JWT에서 가져온 이름과 이메일을 세션에 추가
       // session.user는 항상 존재하지 않을 수 있음: session 객체는 세션과 관련된 정보를 포함하지만,
       // 사용자가 로그인되지 않았거나 일부 경우에는 session.user가 정의되지 않을 수 있습니다.

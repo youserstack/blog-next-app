@@ -12,6 +12,7 @@ export default function Loading() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        zIndex: "9999",
       }}
     >
       <CircularProgress />
