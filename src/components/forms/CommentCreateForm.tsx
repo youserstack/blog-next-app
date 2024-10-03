@@ -23,7 +23,6 @@ export default function CommentCreateForm({
     const accessToken = localStorage.getItem("accessToken") as string;
     const { error, newComment } = await createCommentAction(formData, postId, accessToken);
 
-    // 토큰만료시 > 토큰갱신 > 재요청
     if (error?.code === "ERR_JWT_EXPIRED") {
       const newAccessToken = await refreshAccessToken();
       const { error, newComment } = await createCommentAction(formData, postId, newAccessToken);
