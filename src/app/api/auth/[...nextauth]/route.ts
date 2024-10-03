@@ -15,7 +15,7 @@ interface NaverProfile extends Profile {
   };
 }
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     NaverProvider({
       clientId: process.env.NAVER_ID as string,
