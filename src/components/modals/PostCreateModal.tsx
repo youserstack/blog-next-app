@@ -31,7 +31,7 @@ export default function PostCreateModal() {
           body: formData,
         });
         const data = await response.json();
-        console.log("created post article", { data });
+        console.log("생성된 포스트글", { data });
 
         setPending(false);
         closeModal();

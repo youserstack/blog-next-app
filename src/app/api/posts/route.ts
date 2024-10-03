@@ -87,7 +87,7 @@ export async function GET(request: Request) {
   return Response.json({ totalCount, posts: processedPosts }, { status: 200 });
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   console.log("\n\x1b[34m[api/posts]:::[POST]\x1b[0m");
 
   // 이메일로 사용자 찾기
@@ -121,8 +121,11 @@ export async function POST(request: NextRequest) {
   try {
     imageUrl = await uploadToCloudinary(image);
   } catch (error) {
-    console.error(error);
-    return new Error("이미지 파일을 클라우드에 저장하는데 실패했습니다.");
+    console.log(error);
+    return Response.json(
+      { error: "이미지 파일을 클라우드에 저장하는데 실패했습니다." },
+      { status: 500 }
+    );
   }
   console.log({ imageUrl });
 

@@ -6,7 +6,7 @@ const protectedApiRoutes = [{ path: "/api/categories", methods: ["POST", "PATCH"
 
 export default async function middleware(request: NextRequest) {
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-  console.log("middleware...", request.nextUrl.pathname, token);
+  console.log("미들웨어", request.nextUrl.pathname, token);
 
   const isProtectedRoute = protectedRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route)
