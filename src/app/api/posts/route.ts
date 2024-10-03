@@ -5,7 +5,6 @@ import { uploadToCloudinary } from "@/lib/utils/uploader";
 import { getToken } from "next-auth/jwt";
 import { NextRequest } from "next/server";
 
-// 포스트 전체 읽기
 export async function GET(request: Request) {
   // console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
   await connectDB();
