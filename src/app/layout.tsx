@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 import dynamic from "next/dynamic";
 import "./globals.scss";
 import { Skeleton } from "@mui/material";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 // server component
 const Header = dynamic(() => import("@/components/layout/MuiHeader"), {
@@ -38,6 +40,7 @@ export default async function RootLayout({
 }>) {
   const mode = cookies().get("mode")?.value as string;
   const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
+  // const session = await getServerSession(authOptions);
   // const user = JSON.parse(headers().get("user") as string);
 
   return (
@@ -46,6 +49,7 @@ export default async function RootLayout({
         <Provider
           mode={mode}
           // user={user}
+          // session={session}
         >
           <GlobalModal />
           <Header categories={categories} />

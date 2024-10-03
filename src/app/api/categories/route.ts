@@ -2,16 +2,16 @@ import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
 import Post from "@/lib/models/Post";
 
-// 카테고리 생성
 export async function POST(request: Request) {
   console.log("\n\x1b[34m[api/categories]:::[POST]\x1b[0m");
   await connectDB();
 
   // extract
-  const { parentCategories, childCategory: temp } = await request.json();
-  console.log({ parentCategories, temp });
+  const { parentCategories: tempParentCategories, childCategory: temp } = await request.json();
+  // console.log({ parentCategories, temp });
   if (!temp.trim()) return Response.json({ error: "카테고리 누락" }, { status: 400 });
   const childCategory = temp.replace(/\s+/g, "-"); // 공백을 대시로 표기
+  const parentCategories = JSON.parse(tempParentCategories);
 
   // 부모 카테고리 0개 (최상위로서 네비게이션메뉴에서 카테고리를 생성한 경우)
   if (parentCategories.length === 0) {
@@ -73,7 +73,6 @@ export async function POST(request: Request) {
   return Response.json({ error: "카테고리 생성 실패" }, { status: 400 });
 }
 
-// 전체 카테고리 읽기
 export async function GET(request: Request) {
   // console.log("\n\x1b[32m[api/categories]:::[GET]\x1b[0m");
   await connectDB();
@@ -82,7 +81,6 @@ export async function GET(request: Request) {
   return Response.json({ categories: foundCategories }, { status: 200 });
 }
 
-// 카테고리 삭제
 export async function DELETE(request: Request) {
   console.log("\n\x1b[31m[api/categories]:::[DELETE]\x1b[0m");
   await connectDB();

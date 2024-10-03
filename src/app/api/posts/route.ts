@@ -1,6 +1,9 @@
 import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
+import { uploadToCloudinary } from "@/lib/utils/uploader";
+import { getToken } from "next-auth/jwt";
+import { NextRequest } from "next/server";
 
 // 포스트 전체 읽기
 export async function GET(request: Request) {
@@ -84,32 +87,53 @@ export async function GET(request: Request) {
   return Response.json({ totalCount, posts: processedPosts }, { status: 200 });
 }
 
-// 포스트 생성
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   console.log("\n\x1b[34m[api/posts]:::[POST]\x1b[0m");
 
-  // authenticate
-  const user = JSON.parse(request.headers.get("user") as string);
-  const foundUser = await User.findOne({ email: user.email });
-  if (!foundUser)
-    return Response.json({ error: "해당 사용자가 존재하지 않습니다." }, { status: 404 });
+  // 이메일로 사용자 찾기
+  // const token = await getToken({ req: request });
+  // console.log({ token });
+  // const user = await User.findOne({ email: token?.email });
+  // if (!user) {
+  //   return Response.json(
+  //     { error: "사용자를 찾을 수 없습니다. 포스트 생성을 진행할 수 없습니다." },
+  //     { status: 400 }
+  //   );
+  // }
 
-  // extract
-  const { category, title, content, tags, image } = await request.json();
+  // FormData에서 데이터 추출
+  const formData = await request.formData();
+  const userId = formData.get("userId");
+  const category = formData.get("category");
+  const title = formData.get("title");
+  const content = formData.get("content");
+  const tags = formData.get("tags");
+  const image = formData.get("image") as File; // 이미지 파일
+  console.log({ userId, category, title, content, tags, image });
   if (!category || !title || !content || !tags || !image)
     return Response.json(
       { error: "포스트 게시물의 필수 정보를 모두 입력하세요." },
       { status: 400 }
     );
 
+  // create a image url
+  let imageUrl: string | null;
+  try {
+    imageUrl = await uploadToCloudinary(image);
+  } catch (error) {
+    console.error(error);
+    return new Error("이미지 파일을 클라우드에 저장하는데 실패했습니다.");
+  }
+  console.log({ imageUrl });
+
   // create
   const payload = {
     category,
     title,
     content,
-    author: foundUser._id,
+    author: userId,
     tags,
-    image,
+    image: imageUrl,
   };
   const newPost = await Post.create(payload);
   console.log({ newPost });

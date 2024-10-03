@@ -4,17 +4,6 @@ import { uploadToCloudinary } from "@/lib/utils/uploader";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-export async function createCategoryAction(formData: FormData, accessToken: string) {
-  const parentCategories = JSON.parse(formData.get("parentCategories") as string);
-  const childCategory = formData.get("childCategory");
-  const response = await fetch(`${process.env.ROOT_URL}/api/categories`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${accessToken}` },
-    body: JSON.stringify({ parentCategories, childCategory }),
-  });
-  return response.json();
-}
-
 export async function createPostAction(formData: FormData, accessToken: string) {
   const category = formData.get("category") as string;
   const title = formData.get("title") as string;

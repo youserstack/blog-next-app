@@ -1,29 +1,46 @@
 import { getToken } from "next-auth/jwt";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const protectedRoutes = ["/dashboard", "/profile", "/admin"]; // 예시 경로
+const protectedApiRoutes = [{ path: "/api/categories", methods: ["POST", "PATCH", "DELETE"] }];
 
 export default async function middleware(request: NextRequest) {
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+  console.log("middleware...", request.nextUrl.pathname, token);
+
   const isProtectedRoute = protectedRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route)
   );
-
   // 인증된 사용자만 보호된 경로에 접근할 수 있도록 합니다.
   if (isProtectedRoute && !token) {
     // 인증되지 않은 사용자는 로그인 페이지로 리디렉션합니다.
     return NextResponse.redirect(new URL("/auth/signin", request.url));
   }
 
-  // let headers = new Headers(request.headers);
-  // headers.set("user", JSON.stringify(token));
-  // return NextResponse.next({ request: { headers } });
+  // 요청 경로와 메서드가 보호된 API 경로인지 확인
+  const isProtectedApiRoute = protectedApiRoutes.some(
+    (route) =>
+      request.nextUrl.pathname.startsWith(route.path) && route.methods.includes(request.method)
+  );
+  if (isProtectedApiRoute) {
+    // 인증되지 않은 사용자는 401 Unauthorized 응답 반환
+    if (!token) {
+      console.log("\n\n\n인증되지 않은 사용자입니다.\n\n\n");
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // 추가 권한 검사를 추가할 수 있음 (예: 관리자 권한 확인)
+    // const userRole = token?.role; // 예시: 토큰에서 사용자 역할 확인
+    // if (userRole !== "admin") {
+    //   return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 });
+    // }
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/profile/:path*", "/admin/:path*"], // matcher를 통해 특정 경로에 대해 middleware 적용
+  matcher: ["/dashboard/:path*", "/profile/:path*", "/admin/:path*", "/api/categories/:path*"], // matcher를 통해 특정 경로에 대해 middleware 적용
 };
 
 // const PROTECTED_PAGES = ["/protected"];

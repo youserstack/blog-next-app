@@ -9,6 +9,8 @@ import { refreshAccessToken } from "@/lib/utils/auth";
 import { createPostAction } from "@/app/actions";
 import { mutate } from "swr";
 import { ModalContext } from "../context/ModalContext";
+import { uploadToCloudinary } from "@/lib/utils/uploader";
+import { useSession } from "next-auth/react";
 
 const SubmitButton = () => {
   const { pending } = useFormStatus();
@@ -21,47 +23,31 @@ const SubmitButton = () => {
 };
 
 export default function PostCreateModal() {
-  const router = useRouter();
+  const { data: session } = useSession();
   const { closeModal } = useContext(ModalContext);
   const { category }: any = useParams();
   const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
-  const searchParams = useSearchParams();
-  const page = searchParams?.get("page") || "1";
-
-  const [state, formAction] = useFormState(async (currentState: any, formData: FormData) => {
-    const accessToken = localStorage.getItem("accessToken") as string;
-    const { newPost, error } = await createPostAction(formData, accessToken);
-
-    // 토큰만료시 > 토큰갱신 > 재요청
-    if (error?.code === "ERR_JWT_EXPIRED") {
-      const newAccessToken = await refreshAccessToken(); // 재발급
-      const data = await createPostAction(formData, newAccessToken); // 재요청
-      const { newPost, error } = data;
-
-      console.log("재요청");
-      if (error) return { error };
-      return { newPost };
-    } else if (error) {
-      return { error };
-    }
-
-    return { newPost };
-  }, null);
-
-  useEffect(() => {
-    if (state?.newPost) {
-      closeModal();
-      const url = `${process.env.ROOT_URL}/api/posts?categoryPath=${categoryPath}&page=${page}`;
-      mutate(url);
-    }
-  }, [state, closeModal, router]);
 
   return (
     <Paper
       component="form"
       className="post-create-modal"
       elevation={5}
-      action={formAction}
+      onSubmit={async (e) => {
+        e.preventDefault();
+
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
+        const response = await fetch(`${process.env.ROOT_URL}/api/posts`, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await response.json();
+        console.log("생성된 포스트글", { data });
+
+        closeModal();
+        mutate("categorized-posts");
+      }}
       sx={{
         minWidth: "500px",
         maxHeight: "calc(100% - 150px)",
@@ -83,6 +69,13 @@ export default function PostCreateModal() {
           <MenuItem value={categoryPath}>{categoryPath.replaceAll("/", " > ")}</MenuItem>
         </Select>
       </FormControl>
+      <TextField
+        type="text"
+        name="userId"
+        value={session?.user.id}
+        required
+        style={{ display: "none" }}
+      />
       <TextField type="text" name="title" label="제목" required />
       <TextField type="text" name="content" label="내용" minRows={10} multiline required />
       <TextField

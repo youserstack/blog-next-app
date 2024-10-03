@@ -23,7 +23,7 @@ import ToggleModeLabel from "./ToggleModeLabel";
 import { ThemeContext } from "../context/ThemeContext";
 
 export default function MuiHamburgerButton({ categories }: any) {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const { mode, toggleMode } = useContext(ThemeContext);
   const [open, setOpen] = useState(false);
 
@@ -42,7 +42,7 @@ export default function MuiHamburgerButton({ categories }: any) {
       <Drawer open={open} onClose={() => setOpen(false)} anchor="right" disableScrollLock>
         <Box role="presentation" onClick={() => setOpen(false)} sx={{ width: "50vw" }}>
           <List>
-            {status === "authenticated" ? (
+            {session ? (
               <ListItem className="계정" disablePadding>
                 <Link href={"/auth/account"} style={{ width: "100%" }}>
                   <ListItemButton>
@@ -81,7 +81,7 @@ export default function MuiHamburgerButton({ categories }: any) {
 
           <Divider />
           <List>
-            {session?.user && (
+            {session && (
               <ListItem
                 className="로그아웃"
                 disablePadding

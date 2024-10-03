@@ -13,18 +13,15 @@ const ControlArea = dynamic(() => import("@/components/areas/ControlArea"));
 const PostList = dynamic(() => import("@/components/lists/PostList"));
 const MuiPagination = dynamic(() => import("@/components/ui/MuiPagination"));
 const ITEMS_PER_PAGE = 5;
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-// single page application routes
 export default function Category() {
   const params = useParams();
   const searchParams = useSearchParams();
-
-  // data fetching
   const categoryPath = "/" + (params.category as string[]).join("/");
   const page = searchParams?.get("page") || "1";
-  const url = `/api/posts?categoryPath=${categoryPath}&page=${page}`;
-  const { isLoading, data } = useSWR(url, fetcher);
+  const { isLoading, data } = useSWR("categorized-posts", () =>
+    fetch(`/api/posts?categoryPath=${categoryPath}&page=${page}`).then((res) => res.json())
+  );
 
   // breadcrumbs
   const categorySegments = (params.category as string[]).map((v: any) => decodeURIComponent(v));
