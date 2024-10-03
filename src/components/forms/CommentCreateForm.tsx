@@ -2,13 +2,13 @@
 
 import { Button, Paper, TextField } from "@mui/material";
 import { refreshAccessToken } from "@/lib/utils/auth";
-import { AuthContext } from "../context/AuthContext";
 import { createCommentAction } from "@/app/actions";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useFormState } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { mutate } from "swr";
+import { useSession } from "next-auth/react";
 
 export default function CommentCreateForm({
   authorImage,
@@ -17,7 +17,7 @@ export default function CommentCreateForm({
   authorImage: any;
   postId: string;
 }) {
-  const { user } = useContext(AuthContext);
+  const { data: session } = useSession();
 
   const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
     const accessToken = localStorage.getItem("accessToken") as string;
@@ -72,7 +72,7 @@ export default function CommentCreateForm({
       </div>
 
       <div className="main" style={{ flex: "1" }}>
-        {user ? (
+        {session ? (
           <>
             <TextField multiline maxRows={30} name="content" fullWidth label="댓글" />
             <Button type="submit">등록하기</Button>
