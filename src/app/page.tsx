@@ -8,7 +8,7 @@ export default function Home() {
       <section style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <PopularPostList />
         <LatestPostList />
-        <RecentCommentList />
+        {/* <RecentCommentList /> */}
       </section>
     </main>
   );

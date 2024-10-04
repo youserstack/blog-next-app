@@ -3,11 +3,12 @@
 import { useParams, useSearchParams } from "next/navigation";
 import { Box, Breadcrumbs } from "@mui/material";
 import dynamic from "next/dynamic";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import Link from "next/link";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
 import Loading from "@/components/ui/Loading";
 import Pagination from "@/components/ui/Pagination";
+import { useEffect } from "react";
 
 const ControlArea = dynamic(() => import("@/components/areas/ControlArea"));
 const PostList = dynamic(() => import("@/components/lists/PostList"));
@@ -31,6 +32,10 @@ export default function Category() {
     categoryPaths.push(a);
     return a;
   }, "/categories");
+
+  useEffect(() => {
+    mutate("categorized-posts");
+  }, [params]);
 
   if (isLoading || !data) return <Loading />;
   const { posts, totalCount }: any = data;
