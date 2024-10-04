@@ -27,7 +27,7 @@ export default function CommentCreateForm({ authorImage, postId }: Props) {
           body: formData,
         });
         const data = await response.json();
-        console.log("생성된 댓글", { data });
+        console.log("생성된 댓글", data);
 
         mutate("post-comments");
       }}

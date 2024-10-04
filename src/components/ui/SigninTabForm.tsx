@@ -18,18 +18,16 @@ export default function SigninTabForm() {
       className="로그인-탭-컴포넌트"
       elevation={7}
     >
-      {/* tab menu */}
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box className="탭메뉴" sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={(e, index: number) => setValue(index)} className="탭스">
           <Tab label="소셜 로그인" sx={{ flex: "1", maxWidth: "none" }} className="탭" />
           <Tab label="일반 로그인" sx={{ flex: "1", maxWidth: "none" }} />
         </Tabs>
       </Box>
 
-      {/* tab content (pc) */}
       <Box
-        sx={{ display: { xs: "none", md: "flex" }, position: "relative" }}
         className="데스크탑-탭-컨텐트"
+        sx={{ display: { xs: "none", md: "flex" }, position: "relative" }}
       >
         <div
           style={{
