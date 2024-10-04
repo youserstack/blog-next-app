@@ -42,28 +42,28 @@ const nextConfig = {
   //     },
   //   ];
   // },
-  async headers() {
-    return [
-      {
-        // CORS 설정을 적용할 경로
-        source: "/api/:path*",
-        headers: [
-          {
-            key: "Access-Control-Allow-Origin",
-            value: "https://blog-next-app-git-new-branch-youserstacks-projects.vercel.app", // 허용할 출처
-          },
-          {
-            key: "Access-Control-Allow-Methods",
-            value: "GET, POST, PUT, DELETE, OPTIONS", // 허용할 HTTP 메서드
-          },
-          {
-            key: "Access-Control-Allow-Headers",
-            value: "Content-Type", // 허용할 요청 헤더
-          },
-        ],
-      },
-    ];
-  },
+  // async headers() {
+  //   return [
+  //     {
+  //       // CORS 설정을 적용할 경로
+  //       source: "/api/:path*",
+  //       headers: [
+  //         {
+  //           key: "Access-Control-Allow-Origin",
+  //           value: "https://blog-next-app-git-new-branch-youserstacks-projects.vercel.app", // 허용할 출처
+  //         },
+  //         {
+  //           key: "Access-Control-Allow-Methods",
+  //           value: "GET, POST, PUT, DELETE, OPTIONS", // 허용할 HTTP 메서드
+  //         },
+  //         {
+  //           key: "Access-Control-Allow-Headers",
+  //           value: "Content-Type", // 허용할 요청 헤더
+  //         },
+  //       ],
+  //     },
+  //   ];
+  // },
 };
 
 export default nextConfig;
