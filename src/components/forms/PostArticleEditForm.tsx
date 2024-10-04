@@ -79,9 +79,21 @@ export default function PostArticleEditForm({ postId }: { postId: string }) {
   const { post } = data;
   return (
     <Paper
-      component="form"
       className="post-article-edit-form"
-      action={updateAction}
+      component="form"
+      onSubmit={async (e) => {
+        e.preventDefault();
+
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
+        const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
+          method: "PATCH",
+          body: formData,
+        });
+        const data = await response.json();
+
+        console.log("수정된 포스트글", data);
+      }}
       sx={{
         minHeight: "100vh",
         display: "flex",

@@ -62,11 +62,9 @@ export default function SigninTabForm() {
         />
       </Box>
 
-      {/* tab content (mobile) */}
       <Box
-        sx={{ minHeight: "300px", display: { xs: "flex", md: "none" } }}
-        component="div"
         className="모바일-탭-컨텐트"
+        sx={{ minHeight: "300px", display: { xs: "flex", md: "none" } }}
       >
         {value === 0 && (
           <div

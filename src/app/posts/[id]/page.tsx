@@ -6,8 +6,8 @@ const PostArticle = dynamic(() => import("@/components/articles/PostArticle"), {
 });
 
 export async function generateStaticParams() {
-  const url = `${process.env.ROOT_URL}/api/static/all-posts`;
-  const { posts } = await fetch(url).then((res) => res.json());
+  const response = await fetch(`${process.env.LOCAL_API_URL}/api/static/all-posts`);
+  const { posts } = await response.json();
   return posts.map((post: any) => ({ id: post._id }));
 }
 
