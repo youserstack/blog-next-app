@@ -24,22 +24,17 @@ export async function POST(request: Request) {
   console.log(`\n\x1b[34m[api/comments]:::[POST]\x1b[0m`);
   await connectDB();
 
-  // authenticate
-  const user = JSON.parse(request.headers.get("user") as string);
-  const { email } = user;
-  const foundUser = await User.findOne({ email });
-  if (!foundUser)
-    return Response.json({ error: "해당 사용자가 존재하지 않습니다." }, { status: 404 });
-
   // extract
   const { searchParams } = new URL(request.url);
   const postId = searchParams.get("postId");
-  const { content } = await request.json();
+  const formData = await request.formData();
+  const userId = formData.get("userId");
+  const content = formData.get("content");
   if (!content) return Response.json({ error: "댓글내용을 누락하였습니다." }, { status: 404 });
   if (!postId) return Response.json({ error: "포스트아이디를 누락하였습니다." }, { status: 404 });
 
   // create
-  const newComment = await Comment.create({ post: postId, author: foundUser._id, content });
+  const newComment = await Comment.create({ post: postId, author: userId, content });
   console.log({ newComment });
 
   // update

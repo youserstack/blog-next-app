@@ -6,10 +6,10 @@ import Image from "next/image";
 import useSWR from "swr";
 import Loading from "../ui/Loading";
 
-const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
-
 export default function CommentList({ postId }: any) {
-  const { isLoading, data } = useSWR(`/api/comments?postId=${postId}`, fetcher);
+  const { isLoading, data } = useSWR("post-comments", () =>
+    fetch(`/api/comments?postId=${postId}`, { cache: "no-cache" }).then((res) => res.json())
+  );
 
   if (isLoading || !data) return <Loading />;
   return (

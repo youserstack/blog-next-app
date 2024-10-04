@@ -89,17 +89,6 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   console.log("\n\x1b[34m[api/posts]:::[POST]\x1b[0m");
 
-  // 이메일로 사용자 찾기
-  // const token = await getToken({ req: request });
-  // console.log({ token });
-  // const user = await User.findOne({ email: token?.email });
-  // if (!user) {
-  //   return Response.json(
-  //     { error: "사용자를 찾을 수 없습니다. 포스트 생성을 진행할 수 없습니다." },
-  //     { status: 400 }
-  //   );
-  // }
-
   // FormData에서 데이터 추출
   const formData = await request.formData();
   const userId = formData.get("userId");

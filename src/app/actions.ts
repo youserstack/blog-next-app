@@ -3,16 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-export async function createCommentAction(formData: FormData, postId: string, accessToken: string) {
-  const content = formData.get("content");
-  const response = await fetch(`${process.env.ROOT_URL}/api/comments?postId=${postId}`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${accessToken}` },
-    body: JSON.stringify({ content }),
-  });
-  return response.json();
-}
-
 export async function updatePostAction(formData: FormData, postId: string, accessToken: string) {
   const category = formData.get("category") as string | null;
   const title = formData.get("title") as string | null;
