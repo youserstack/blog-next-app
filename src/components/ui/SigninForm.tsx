@@ -1,36 +1,46 @@
 "use client";
 
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import { useFormState } from "react-dom";
-import { signinAction } from "@/app/actions";
-import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { validateEmail, validatePassword } from "@/lib/utils/auth";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function SigninForm() {
-  const router = useRouter();
-  const [state, formAction] = useFormState(signinAction, null);
-
-  useEffect(() => {
-    if (state?.accessToken) {
-      localStorage.setItem("accessToken", state.accessToken);
-      router.refresh();
-    }
-  }, [state]);
-
   const emailRef = useRef<HTMLInputElement | null>(null);
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [emailHelperText, setEmailHelperText] = useState<string>("");
-
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [emailHelperText, setEmailHelperText] = useState<string>("");
   const [passwordHelperText, setPasswordHelperText] = useState<string>("");
+
+  const [error, setError] = useState("");
+
+  const router = useRouter();
 
   return (
     <Box
       component="form"
-      action={formAction}
+      onSubmit={async (e) => {
+        e.preventDefault();
+
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
+        const email = formData.get("email");
+        const password = formData.get("password");
+        // console.log({ email, password });
+
+        const res = await signIn("credentials", { redirect: false, email, password });
+        console.log({ res });
+
+        if (!res?.error) {
+          // window.location.href = "/"; // 로그인 성공 시 원하는 페이지로 리디렉션
+          console.log("로그인성공");
+        } else {
+          setError("Invalid email or password");
+        }
+      }}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -47,7 +57,7 @@ export default function SigninForm() {
         ref={emailRef}
         error={emailError}
         helperText={emailHelperText}
-        onBlur={(e) => {
+        onChange={(e) => {
           const isValid = validateEmail(e.target.value);
           if (!isValid) {
             setEmailError(true);
@@ -83,7 +93,7 @@ export default function SigninForm() {
         //   </h1>
         // }
 
-        onBlur={(e) => {
+        onChange={(e) => {
           const isValid = validatePassword(e.target.value);
           if (!isValid) {
             setPasswordError(true);
@@ -100,13 +110,7 @@ export default function SigninForm() {
       <Button type="submit" variant="contained">
         로그인
       </Button>
-
-      {state?.error && (
-        <>
-          <p>{state.error}</p>
-          <p>유효한 이메일과 비밀번호를 입력해주세요.</p>
-        </>
-      )}
+      {error && <p>{error}</p>}
 
       <Typography sx={{ display: "flex", justifyContent: "space-between" }}>
         계정이 없으신가요?<Link href="/auth/signup">회원가입</Link>

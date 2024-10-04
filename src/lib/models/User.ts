@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
 
     password: {
       type: String,
-      select: false, // 보안을 위해서...
+      select: false, // 보안을 위해서... // 쿼리조회시 .select('+password') 을 통해서 가져올수있다
       // required: true, // oauth에서는 필요하지 않아서...
     },
     role: {

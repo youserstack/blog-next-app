@@ -8,6 +8,10 @@ export default async function middleware(request: NextRequest) {
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   console.log("미들웨어", request.nextUrl.pathname, token);
 
+  if (request.nextUrl.pathname === "/auth/signin" && token) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
   const isProtectedRoute = protectedRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route)
   );
@@ -40,7 +44,13 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/profile/:path*", "/admin/:path*", "/api/categories/:path*"], // matcher를 통해 특정 경로에 대해 middleware 적용
+  matcher: [
+    "/dashboard/:path*",
+    "/profile/:path*",
+    "/admin/:path*",
+    "/api/categories/:path*",
+    "/auth/signin",
+  ], // matcher를 통해 특정 경로에 대해 middleware 적용
 };
 
 // const PROTECTED_PAGES = ["/protected"];

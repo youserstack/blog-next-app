@@ -4,8 +4,8 @@ import { revalidatePath } from "next/cache";
 import { uploadToCloudinary } from "@/lib/utils/uploader";
 import "@/lib/config/cloudinaryConfig";
 import User from "@/lib/models/User";
+import { NextRequest } from "next/server";
 
-// 포스트 읽기 (read)
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   // console.log("\n\x1b[32m[api/posts/[id]]\x1b[0m");
   await connectDB();
@@ -30,22 +30,17 @@ export async function GET(request: Request, { params }: { params: { id: string }
   return Response.json({ post: foundPost });
 }
 
-// 포스트 수정 (update)
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
   console.log("\n\x1b[38;2;255;100;0m[api/posts/[id]]:::[PATCH]\x1b[0m");
-
-  // authenticate
-  const user = JSON.parse(request.headers.get("user") as string);
-  const { email } = user;
-  const foundUser = await User.findOne({ email });
-  if (!foundUser) {
-    const error = "유저 이메일(토큰에 저장된)을 조회하였지만 해당 사용자가 존재하지 않습니다.";
-    return Response.json({ error }, { status: 404 });
-  }
 
   // extract
   const postId = params.id;
-  const { category, title, content, tags, image } = await request.json();
+  const formData = await request.formData();
+  const category = formData.get("category") as string;
+  const title = formData.get("title") as string;
+  const content = formData.get("content") as string;
+  const tags = formData.get("tags") as string;
+  const image = formData.get("image") as File;
 
   // 업데이트할 객체를 준비한다.
   const payload: { [key: string]: any } = {};
@@ -89,13 +84,12 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   console.log({ updatedPost });
 
   // 서버 캐시 재검증
-  revalidatePath("/posts/[...id]", "page");
+  revalidatePath(`/posts/${postId}`, "page");
 
   // 응답
   return Response.json({ updatedPost }, { status: 200 });
 }
 
-// 포스트 삭제 (delete)
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[31m[api/posts/[id]]:::[DELETE]\x1b[0m");
 

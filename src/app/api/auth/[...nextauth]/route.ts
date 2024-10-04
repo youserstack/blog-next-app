@@ -3,8 +3,10 @@ import NaverProvider from "next-auth/providers/naver";
 import { JWT } from "next-auth/jwt";
 import connectDB from "@/lib/config/connectDB";
 import UserModel from "@/lib/models/User";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { validateEmail, validatePassword } from "@/lib/utils/auth";
+import bcrypt from "bcrypt";
 
-// Naver의 프로필 타입 정의
 interface NaverProfile extends Profile {
   resultcode: string;
   message: string;
@@ -21,6 +23,46 @@ const authOptions: NextAuthOptions = {
       clientId: process.env.NAVER_ID as string,
       clientSecret: process.env.NAVER_SECRET as string,
     }),
+    CredentialsProvider({
+      // 로그인 폼에 표시할 이름 (예: "Sign in with...")
+      name: "Credentials",
+
+      // `credentials`는 로그인 페이지에 폼을 생성하는 데 사용됩니다.
+      // `credentials` 객체에 키를 추가하여 어떤 필드를 제출할지를 지정할 수 있습니다.
+      // 예를 들어, 도메인, 사용자 이름, 비밀번호, 2FA 토큰 등을 입력할 수 있습니다.
+      // 이 객체를 통해 <input> 태그에 전달할 HTML 속성을 지정할 수 있습니다.
+      credentials: {
+        email: { type: "email" }, // 사용자 이름 필드: 라벨, 타입, 플레이스홀더를 지정
+        password: { type: "password" }, // 비밀번호 필드: 라벨과 타입을 지정
+      },
+
+      async authorize(credentials, req) {
+        console.log("authorize...", { credentials });
+
+        // 사용자 이름과 비밀번호가 있는지 확인
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("사용자 이름과 비밀번호를 입력해주세요.");
+        }
+
+        // 데이터베이스에서 사용자 검색
+        const { email, password } = credentials;
+        const user = await UserModel.findOne({ email: credentials.email }).select("+password");
+        if (!user) return null;
+        console.log({ user });
+
+        // 유효성 체크
+        const isValidated = validateEmail(email) && validatePassword(password);
+        if (!isValidated) return null;
+        console.log({ isValidated });
+
+        // 비밀번호가 일치하는지 확인
+        const isCorrectPassword = await bcrypt.compare(password, user.password);
+        if (!isCorrectPassword) return null;
+        console.log({ isCorrectPassword });
+
+        return { id: user._id.toString(), name: user.name, email: user.email };
+      },
+    }),
   ],
   callbacks: {
     async signIn({
@@ -33,6 +75,19 @@ const authOptions: NextAuthOptions = {
       profile?: Profile | NaverProfile;
     }) {
       await connectDB(); // MongoDB에 연결
+
+      if (account?.provider === "credentials") {
+        console.log("credentials 로그인 처리 중...");
+        // console.log({ user, account, profile });
+        if (user && user.id && user.name && user.email) {
+          // 사용자 정보가 존재하면 성공 처리
+          console.log("credentials 로그인 성공:", { user });
+          return true;
+        } else {
+          console.log("credentials 로그인 실패");
+          return false;
+        }
+      }
 
       if (account?.provider === "naver" && profile && "response" in profile) {
         const name = profile.response.nickname;
@@ -110,6 +165,9 @@ const authOptions: NextAuthOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  // 로그인 페이지 경로
+  pages: { signIn: "/auth/signin" },
+
   // adapter: MongoDBAdapter(clientPromise),
 };
 
