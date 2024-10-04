@@ -7,18 +7,14 @@ import { ModalProvider } from "./ModalContext";
 import { CategoryProvider } from "./CategoryContext";
 import { SessionProvider } from "next-auth/react";
 
-interface ProviderParameters {
+interface Props {
   children: React.ReactNode;
   mode: string;
   // user: string;
 }
 
 export const Context = createContext({});
-export const Provider = ({
-  children,
-  mode,
-}: // user,
-ProviderParameters) => {
+export const Provider = ({ children, mode }: Props) => {
   const [previousScrollY, setPreviousScrollY] = useState(0);
 
   const handleScroll = (e: any) => {

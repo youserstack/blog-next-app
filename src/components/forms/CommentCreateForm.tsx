@@ -6,13 +6,12 @@ import Link from "next/link";
 import { mutate } from "swr";
 import { useSession } from "next-auth/react";
 
-export default function CommentCreateForm({
-  authorImage,
-  postId,
-}: {
+interface Props {
   authorImage: any;
   postId: string;
-}) {
+}
+
+export default function CommentCreateForm({ authorImage, postId }: Props) {
   const { data: session } = useSession();
 
   return (
