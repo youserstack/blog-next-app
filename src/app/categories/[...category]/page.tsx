@@ -3,28 +3,26 @@
 import { useParams, useSearchParams } from "next/navigation";
 import { Box, Breadcrumbs } from "@mui/material";
 import dynamic from "next/dynamic";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import Link from "next/link";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
 import Loading from "@/components/ui/Loading";
 import Pagination from "@/components/ui/Pagination";
+import { useEffect } from "react";
 
 const ControlArea = dynamic(() => import("@/components/areas/ControlArea"));
 const PostList = dynamic(() => import("@/components/lists/PostList"));
 const MuiPagination = dynamic(() => import("@/components/ui/MuiPagination"));
 const ITEMS_PER_PAGE = 5;
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-// single page application routes
 export default function Category() {
   const params = useParams();
   const searchParams = useSearchParams();
-
-  // data fetching
   const categoryPath = "/" + (params.category as string[]).join("/");
   const page = searchParams?.get("page") || "1";
-  const url = `/api/posts?categoryPath=${categoryPath}&page=${page}`;
-  const { isLoading, data } = useSWR(url, fetcher);
+  const { isLoading, data } = useSWR("categorized-posts", () =>
+    fetch(`/api/posts?categoryPath=${categoryPath}&page=${page}`).then((res) => res.json())
+  );
 
   // breadcrumbs
   const categorySegments = (params.category as string[]).map((v: any) => decodeURIComponent(v));
@@ -34,6 +32,11 @@ export default function Category() {
     categoryPaths.push(a);
     return a;
   }, "/categories");
+
+  useEffect(() => {
+    console.log("categorized-posts", { params });
+    mutate("categorized-posts");
+  }, [params]);
 
   if (isLoading || !data) return <Loading />;
   const { posts, totalCount }: any = data;

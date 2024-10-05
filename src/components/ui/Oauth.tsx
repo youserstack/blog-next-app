@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { SiNaver } from "react-icons/si";

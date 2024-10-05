@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { Provider } from "@/components/context/Context";
-import { cookies, headers } from "next/headers";
-// import Header from "@/components/layout/Header";
+import { cookies } from "next/headers";
 import dynamic from "next/dynamic";
 import "./globals.scss";
 import { Skeleton } from "@mui/material";
 
 // server component
-const Header = dynamic(() => import("@/components/layout/MuiAppBar"), {
+const Header = dynamic(() => import("@/components/layout/MuiHeader"), {
   loading: () => (
     <Skeleton
+      component={"header"}
       variant="rectangular"
       animation="wave"
       width={"100%"}
@@ -37,13 +37,17 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const mode = cookies().get("mode")?.value as string;
-  const user = JSON.parse(headers().get("user") as string);
   const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
+  // const user = JSON.parse(headers().get("user") as string);
 
   return (
     <html lang="en">
       <body>
-        <Provider mode={mode} user={user}>
+        <Provider
+          mode={mode}
+          // user={user}
+          // session={session}
+        >
           <GlobalModal />
           <Header categories={categories} />
 

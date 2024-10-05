@@ -1,14 +1,14 @@
 "use client";
 
 import { Button, Menu, MenuItem, Popper } from "@mui/material";
-import { AuthContext } from "../context/AuthContext";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function ArticleOptionButton({ post }: any) {
-  const { user } = useContext(AuthContext);
+  const { data: session } = useSession();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
@@ -16,7 +16,7 @@ export default function ArticleOptionButton({ post }: any) {
   const handleOpen = (e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  if (!user) return null;
+  if (!session) return null;
 
   return (
     <div

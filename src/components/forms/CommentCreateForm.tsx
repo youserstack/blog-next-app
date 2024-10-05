@@ -1,55 +1,36 @@
 "use client";
 
 import { Button, Paper, TextField } from "@mui/material";
-import { refreshAccessToken } from "@/lib/utils/auth";
-import { AuthContext } from "../context/AuthContext";
-import { createCommentAction } from "@/app/actions";
-import { useContext, useEffect } from "react";
-import { useFormState } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { mutate } from "swr";
+import { useSession } from "next-auth/react";
 
-export default function CommentCreateForm({
-  authorImage,
-  postId,
-}: {
+interface Props {
   authorImage: any;
   postId: string;
-}) {
-  const { user } = useContext(AuthContext);
+}
 
-  const [state, formAction] = useFormState(async (prevState: any, formData: FormData) => {
-    const accessToken = localStorage.getItem("accessToken") as string;
-    const { error, newComment } = await createCommentAction(formData, postId, accessToken);
-
-    // 토큰만료시 > 토큰갱신 > 재요청
-    if (error?.code === "ERR_JWT_EXPIRED") {
-      const newAccessToken = await refreshAccessToken();
-      const { error, newComment } = await createCommentAction(formData, postId, newAccessToken);
-      console.log("재요청");
-      return { error, newComment };
-    } else if (error || newComment) {
-      return { error, newComment };
-    } else {
-      return { error: "exception" };
-    }
-  }, null);
-
-  useEffect(() => {
-    if (state?.newComment) {
-      console.log({ newComment: state.newComment });
-      mutate(`${process.env.ROOT_URL}/api/comments?postId=${postId}`); // 클라이언트 리패칭
-    }
-    if (state?.error) {
-      console.error({ error: state.error });
-    }
-  }, [state, postId]);
+export default function CommentCreateForm({ authorImage, postId }: Props) {
+  const { data: session } = useSession();
 
   return (
     <Paper
       component="form"
-      action={formAction}
+      onSubmit={async (e) => {
+        e.preventDefault();
+
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
+        const response = await fetch(`${process.env.ROOT_URL}/api/comments?postId=${postId}`, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await response.json();
+        console.log("생성된 댓글", data);
+
+        mutate("post-comments");
+      }}
       variant="outlined"
       sx={{
         padding: "1rem",
@@ -72,8 +53,15 @@ export default function CommentCreateForm({
       </div>
 
       <div className="main" style={{ flex: "1" }}>
-        {user ? (
+        {session ? (
           <>
+            <TextField
+              multiline
+              maxRows={30}
+              name="userId"
+              value={session.user.id}
+              style={{ display: "none" }}
+            />
             <TextField multiline maxRows={30} name="content" fullWidth label="댓글" />
             <Button type="submit">등록하기</Button>
           </>

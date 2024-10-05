@@ -1,87 +1,46 @@
 "use client";
 
 import { Box, Button, Paper, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
-import { refreshAccessToken } from "@/lib/utils/auth";
-import PostDeleteButton from "./PostDeleteButton";
-import { updatePostAction } from "@/app/actions";
+import { useState } from "react";
 import { MdCloudUpload } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import useSWR from "swr";
-
-const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
-const SubmitButton = () => {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button type="submit" disabled={pending} variant="contained">
-      {pending ? "수정중..." : "수정"}
-    </Button>
-  );
-};
+import PostDeleteButton from "./PostDeleteButton";
 
 export default function PostArticleEditForm({ postId }: { postId: string }) {
   const router = useRouter();
-
-  // 포스트 게시글 편집을 위한 상태와 폼상태
-  const [thumbnail, setThumbnail] = useState("");
-  const [updateState, updateAction] = useFormState(
-    async (currentState: any, formData: FormData) => {
-      if (!data) return;
-
-      const accessToken = localStorage.getItem("accessToken") as string;
-      const { error, updatedPost } = await updatePostAction(formData, post._id, accessToken);
-
-      if (error?.code === "ERR_JWT_EXPIRED") {
-        const newAccessToken = await refreshAccessToken();
-        const { error, updatedPost } = await updatePostAction(formData, post._id, newAccessToken);
-
-        if (error) {
-          console.error("재요청에 대한 에러가 발생했습니다.", error);
-          return { error };
-        }
-
-        console.log("토큰갱신 > 재요청 > 포스트 수정", { updatedPost });
-        router.refresh();
-        return { updatedPost };
-      } else if (error) {
-        console.error("에러가 발생했습니다.", error);
-        return { error };
-      }
-
-      console.log("포스트 수정", { updatedPost });
-      router.refresh();
-      return { updatedPost };
-    },
-    null
+  const [pending, setPending] = useState(false);
+  const { isLoading, data } = useSWR("post", () =>
+    fetch(`/api/posts/${postId}`, { cache: "no-cache" }).then((res) => res.json())
   );
-  useEffect(() => {
-    if (updateState?.updatedPost) router.back();
-  }, [updateState, router]);
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // URL 객체를 이용한 blob object의 url 생성
-      const objectUrl = URL.createObjectURL(file);
-      setThumbnail(objectUrl);
-
-      return () => URL.revokeObjectURL(objectUrl);
-    }
-  };
-
-  // 포스트 게시글 가져오기
-  const { isLoading, data } = useSWR(`/api/posts/${postId}`, fetcher);
-  useEffect(() => data && setThumbnail(post.image), [data]);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   if (isLoading || !data) return null;
   const { post } = data;
   return (
     <Paper
-      component="form"
       className="post-article-edit-form"
-      action={updateAction}
+      component="form"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        setPending(true);
+
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
+        const response = await fetch(`${process.env.ROOT_URL}/api/posts/${postId}`, {
+          method: "PATCH",
+          body: formData,
+        });
+        const data = await response.json();
+
+        console.log("수정된 포스트글", data);
+        setTimeout(() => {
+          router.refresh();
+          setPending(false);
+        }, 1);
+        router.push(`/posts/${postId}`);
+      }}
       sx={{
         minHeight: "100vh",
         display: "flex",
@@ -106,13 +65,28 @@ export default function PostArticleEditForm({ postId }: { postId: string }) {
           position: "relative",
         }}
       >
-        <Image src={thumbnail} alt="" width={1000} height={1000} style={{ height: "300px" }} />
+        <Image
+          src={previewUrl || post.image}
+          alt=""
+          width={1000}
+          height={1000}
+          style={{ height: "300px" }}
+        />
 
         <input
           type="file"
           id="image"
           name="image"
-          onChange={handleFileChange}
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              // URL 객체를 이용한 blob object의 url 생성
+              const objectUrl = URL.createObjectURL(file);
+              console.log({ objectUrl });
+              setPreviewUrl(objectUrl);
+              return () => URL.revokeObjectURL(objectUrl);
+            }
+          }}
           style={{ display: "none" }}
         />
         <Button
@@ -140,10 +114,14 @@ export default function PostArticleEditForm({ postId }: { postId: string }) {
       <TextField name="content" defaultValue={post.content} label="본문내용" multiline />
 
       <Box sx={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
-        <SubmitButton />
+        <Button type="submit" disabled={pending} variant="contained">
+          {pending ? "수정중..." : "수정"}
+        </Button>
+
         <Button className="cancel-button" variant="contained" onClick={() => router.back()}>
           취소
         </Button>
+
         <PostDeleteButton post={post} />
       </Box>
     </Paper>

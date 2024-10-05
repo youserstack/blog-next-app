@@ -1,13 +1,12 @@
 import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
+import { uploadToCloudinary } from "@/lib/utils/uploader";
 
-// 포스트 전체 읽기
 export async function GET(request: Request) {
   // console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
   await connectDB();
 
-  // extract
   const { searchParams } = new URL(request.url);
   const searchWords = searchParams.get("searchWords");
   const categoryPath = searchParams.get("categoryPath");
@@ -34,7 +33,6 @@ export async function GET(request: Request) {
       ],
     };
   }
-
   if (categoryPath) {
     query = { ...query, category: { $regex: categoryPath, $options: "i" } };
   }
@@ -58,7 +56,7 @@ export async function GET(request: Request) {
       break;
   }
 
-  // query
+  // 쿼리 조회
   const totalCount = await Post.countDocuments(query);
   const posts: any = await Post.find(query)
     .populate("author")
@@ -84,32 +82,45 @@ export async function GET(request: Request) {
   return Response.json({ totalCount, posts: processedPosts }, { status: 200 });
 }
 
-// 포스트 생성
 export async function POST(request: Request) {
   console.log("\n\x1b[34m[api/posts]:::[POST]\x1b[0m");
 
-  // authenticate
-  const user = JSON.parse(request.headers.get("user") as string);
-  const foundUser = await User.findOne({ email: user.email });
-  if (!foundUser)
-    return Response.json({ error: "해당 사용자가 존재하지 않습니다." }, { status: 404 });
-
-  // extract
-  const { category, title, content, tags, image } = await request.json();
+  // FormData에서 데이터 추출
+  const formData = await request.formData();
+  const userId = formData.get("userId");
+  const category = formData.get("category");
+  const title = formData.get("title");
+  const content = formData.get("content");
+  const tags = formData.get("tags");
+  const image = formData.get("image") as File; // 이미지 파일
+  console.log({ userId, category, title, content, tags, image });
   if (!category || !title || !content || !tags || !image)
     return Response.json(
       { error: "포스트 게시물의 필수 정보를 모두 입력하세요." },
       { status: 400 }
     );
 
+  // create a image url
+  let imageUrl: string | null;
+  try {
+    imageUrl = await uploadToCloudinary(image);
+  } catch (error) {
+    console.log(error);
+    return Response.json(
+      { error: "이미지 파일을 클라우드에 저장하는데 실패했습니다." },
+      { status: 500 }
+    );
+  }
+  console.log({ imageUrl });
+
   // create
   const payload = {
     category,
     title,
     content,
-    author: foundUser._id,
+    author: userId,
     tags,
-    image,
+    image: imageUrl,
   };
   const newPost = await Post.create(payload);
   console.log({ newPost });

@@ -32,11 +32,11 @@ export default async function RecentCommentList() {
                 overflow: "hidden",
               }}
             >
-              <Image src={comment.author.image} alt="" width={30} height={30} />
+              <Image src={comment.author?.image} alt="" width={30} height={30} />
             </div>
 
             <div>
-              <Typography>{comment.author.name}</Typography>
+              <Typography>{comment.author?.name}</Typography>
               <Typography>
                 {comment.content.length > 20
                   ? comment.content.slice(0, 20) + "..."
