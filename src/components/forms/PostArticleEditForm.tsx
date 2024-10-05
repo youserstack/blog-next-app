@@ -6,6 +6,7 @@ import { MdCloudUpload } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import useSWR from "swr";
+import PostDeleteButton from "./PostDeleteButton";
 
 export default function PostArticleEditForm({ postId }: { postId: string }) {
   const router = useRouter();
@@ -120,7 +121,8 @@ export default function PostArticleEditForm({ postId }: { postId: string }) {
         <Button className="cancel-button" variant="contained" onClick={() => router.back()}>
           취소
         </Button>
-        {/* <PostDeleteButton post={post} /> */}
+
+        <PostDeleteButton post={post} />
       </Box>
     </Paper>
   );

@@ -2,14 +2,11 @@ import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 import { uploadToCloudinary } from "@/lib/utils/uploader";
-import { getToken } from "next-auth/jwt";
-import { NextRequest } from "next/server";
 
 export async function GET(request: Request) {
   // console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
   await connectDB();
 
-  // extract
   const { searchParams } = new URL(request.url);
   const searchWords = searchParams.get("searchWords");
   const categoryPath = searchParams.get("categoryPath");
@@ -36,7 +33,6 @@ export async function GET(request: Request) {
       ],
     };
   }
-
   if (categoryPath) {
     query = { ...query, category: { $regex: categoryPath, $options: "i" } };
   }
@@ -60,7 +56,7 @@ export async function GET(request: Request) {
       break;
   }
 
-  // query
+  // 쿼리 조회
   const totalCount = await Post.countDocuments(query);
   const posts: any = await Post.find(query)
     .populate("author")

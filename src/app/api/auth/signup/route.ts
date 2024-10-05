@@ -16,7 +16,8 @@ export async function POST(request: Request) {
   }
 
   // 유효성 체크
-  if (!validateEmail(email) || !validatePassword(password)) {
+  const isValidated = validateEmail(email) && validatePassword(password);
+  if (!isValidated) {
     return Response.json({ error: "invalid email or password" }, { status: 400 });
   }
 

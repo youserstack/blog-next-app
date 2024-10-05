@@ -32,11 +32,10 @@ export default function SigninForm() {
         // console.log({ email, password });
 
         const res = await signIn("credentials", { redirect: false, email, password });
-        console.log({ res });
 
-        if (!res?.error) {
-          // window.location.href = "/"; // 로그인 성공 시 원하는 페이지로 리디렉션
-          console.log("로그인성공");
+        if (res?.ok && res.status === 200) {
+          console.log("로그인성공", { res });
+          router.push("/");
         } else {
           setError("Invalid email or password");
         }

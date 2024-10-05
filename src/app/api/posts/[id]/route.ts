@@ -3,14 +3,12 @@ import Post from "@/lib/models/Post";
 import { revalidatePath } from "next/cache";
 import { uploadToCloudinary } from "@/lib/utils/uploader";
 import "@/lib/config/cloudinaryConfig";
-import User from "@/lib/models/User";
 import { NextRequest } from "next/server";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   // console.log("\n\x1b[32m[api/posts/[id]]\x1b[0m");
   await connectDB();
 
-  // query
   const postId = params.id;
   const foundPost = await Post.findByIdAndUpdate(
     postId,
@@ -93,21 +91,12 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   console.log("\n\x1b[31m[api/posts/[id]]:::[DELETE]\x1b[0m");
 
-  // authenticate
-  const user = JSON.parse(request.headers.get("user") as string);
-  const { email } = user;
-  const foundUser = await User.findOne({ email });
-  if (!foundUser) {
-    const error = "유저 이메일(토큰에 저장된)을 조회하였지만 해당 사용자가 존재하지 않습니다.";
-    return Response.json({ error }, { status: 404 });
-  }
-
-  // extract
   const postId = params.id;
-
-  // delete
   const deletedPost = await Post.findByIdAndDelete(postId);
   console.log({ deletedPost });
+
   revalidatePath("/categories/[...category]", "page");
+  revalidatePath(`/posts/${postId}`, "page");
+
   return Response.json({ deletedPost });
 }

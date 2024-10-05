@@ -17,7 +17,7 @@ export default function SignupForm() {
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
 
-        const response = await fetch(`${process.env.ROOT_URL}/api/v2/auth/signup`, {
+        const response = await fetch(`${process.env.ROOT_URL}/api/auth/signup`, {
           method: "post",
           body: formData,
         });

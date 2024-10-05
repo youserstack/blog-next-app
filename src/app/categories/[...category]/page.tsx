@@ -34,6 +34,7 @@ export default function Category() {
   }, "/categories");
 
   useEffect(() => {
+    console.log("categorized-posts", { params });
     mutate("categorized-posts");
   }, [params]);
 
