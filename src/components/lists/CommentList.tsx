@@ -35,7 +35,15 @@ export default function CommentList({ postId }: any) {
               border: "1px solid",
             }}
           >
-            <Image src={comment.author.image} alt="" width={30} height={30} />
+            <Image
+              src={
+                comment.author.image ||
+                "https://res.cloudinary.com/dzktdrw7o/image/upload/v1713961579/blog-next-app/user2_zrx6nk.png"
+              }
+              alt=""
+              width={30}
+              height={30}
+            />
           </div>
 
           <div style={{ flex: "1" }}>
