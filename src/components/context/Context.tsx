@@ -16,23 +16,24 @@ interface Props {
 export const Context = createContext({});
 export const Provider = ({ children, mode }: Props) => {
   const [previousScrollY, setPreviousScrollY] = useState(0);
+  const [headerHidden, setHeaderHidden] = useState(false); // 헤더 숨김 상태 관리
 
-  const handleScroll = (e: any) => {
-    const header = document.querySelector("header") as HTMLHeadElement;
-    if (!header) return console.log("헤더가 없어서 스크롤이벤트가 동작하지 않고 있습니다.");
+  const handleScroll = () => {
+    const header = document.querySelector("header") as HTMLElement;
+    if (!header) return console.log("헤더가 없어서 스크롤 이벤트가 동작하지 않습니다.");
 
     const currentScrollY = window.scrollY;
 
-    if (window.scrollY <= 200) {
-      // console.log('scroll top area')
+    if (currentScrollY <= 200) {
       header.style.transform = "translateY(0)";
+      setHeaderHidden(false);
     } else {
       if (currentScrollY > previousScrollY) {
-        // console.log("scroll down");
         header.style.transform = "translateY(-70px)";
+        setHeaderHidden(true); // 스크롤 내리면 헤더 숨김
       } else {
-        // console.log("scroll up");
         header.style.transform = "translateY(0)";
+        setHeaderHidden(false); // 스크롤 올리면 헤더 표시
       }
     }
 
@@ -42,19 +43,21 @@ export const Provider = ({ children, mode }: Props) => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  });
+  }, [previousScrollY]);
 
   return (
-    <SessionProvider>
-      <ThemeProvider mode={mode}>
-        <AuthProvider
-        // user={user}
-        >
-          <ModalProvider>
-            <CategoryProvider>{children}</CategoryProvider>
-          </ModalProvider>
-        </AuthProvider>
-      </ThemeProvider>
-    </SessionProvider>
+    <Context.Provider value={{ headerHidden }}>
+      <SessionProvider>
+        <ThemeProvider mode={mode}>
+          <AuthProvider
+          // user={user}
+          >
+            <ModalProvider>
+              <CategoryProvider>{children}</CategoryProvider>
+            </ModalProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </SessionProvider>
+    </Context.Provider>
   );
 };
