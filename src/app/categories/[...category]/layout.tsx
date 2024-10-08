@@ -10,7 +10,13 @@ export default async function CategoryLayout({ children }: { children: React.Rea
   return (
     <main className="category-layout">
       <section style={{ display: "flex" }}>
-        <Box sx={{ "& > ul": { width: "300px" }, display: { xs: "none", md: "block" } }}>
+        <Box
+          sx={{
+            //
+            "& > ul": { width: "300px" },
+            display: { xs: "none", md: "block" },
+          }}
+        >
           <ExpandableNav categories={categories} />
         </Box>
 

@@ -2,6 +2,7 @@
 
 import { Box, useTheme } from "@mui/material";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { CSSProperties, MouseEvent } from "react";
 import { SlArrowRight } from "react-icons/sl";
 
@@ -11,6 +12,10 @@ import { SlArrowRight } from "react-icons/sl";
 export default function ExpandableNav({ categories }: any) {
   // console.log({ categories });
   const theme = useTheme();
+  const leafColor = theme.palette.primary.main;
+
+  const params = useParams();
+  const categorySegments = (params.category as string[])?.map((v: any) => decodeURIComponent(v));
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     const link = e.currentTarget as HTMLAnchorElement;
@@ -52,77 +57,114 @@ export default function ExpandableNav({ categories }: any) {
         padding: "1rem",
         whiteSpace: "nowrap",
         "& a": {
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "4px 8px",
           "&:hover": { color: theme.palette.primary.main },
           "& > *": { padding: "8px", cursor: "pointer" },
-          "& button": {
-            transition: "transform 0.3s",
-            backgroundColor: "transparent",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          },
         },
       }}
     >
-      {categories?.map((category: any) => (
-        <li key={category._id}>
-          <Link
-            href={`/categories/${category.name}`}
-            data-is-expanded="false"
-            onClick={handleClick}
-          >
-            <span>{category.name.replaceAll("-", " ")}</span>
+      {categories?.map((category: any) => {
+        const isMatched =
+          categorySegments && categorySegments.length >= 1 && category.name === categorySegments[0];
+        const isLeaf =
+          categorySegments && category.name === categorySegments[categorySegments.length - 1];
+        return (
+          <li key={category._id}>
+            <Link
+              href={`/categories/${category.name}`}
+              data-is-expanded={isMatched ? "true" : "false"}
+              style={linkStyle(isLeaf, leafColor)}
+              onClick={handleClick}
+            >
+              <span>{category.name.replaceAll("-", " ")}</span>
 
-            <button onClick={(e) => e.preventDefault()}>
-              <SlArrowRight />
-            </button>
-          </Link>
+              <button onClick={(e) => e.preventDefault()} style={buttonStyle(isMatched)}>
+                <SlArrowRight />
+              </button>
+            </Link>
 
-          <ul style={ulStyle} className="middle">
-            {category.sub1Categories?.map((sub1Category: any) => (
-              <li key={sub1Category._id}>
-                <Link
-                  href={`/categories/${category.name}/${sub1Category.name}`}
-                  onClick={handleClick}
-                  data-is-expanded="false"
-                >
-                  <span>{sub1Category.name.replaceAll("-", " ")}</span>
+            <ul style={ulStyle(isMatched)} className="middle">
+              {category.sub1Categories?.map((sub1Category: any) => {
+                const isMatched =
+                  categorySegments &&
+                  categorySegments.length >= 2 &&
+                  sub1Category.name === categorySegments[1];
+                const isLeaf =
+                  categorySegments &&
+                  sub1Category.name === categorySegments[categorySegments.length - 1];
+                return (
+                  <li key={sub1Category._id}>
+                    <Link
+                      href={`/categories/${category.name}/${sub1Category.name}`}
+                      data-is-expanded={isMatched ? "true" : "false"}
+                      style={linkStyle(isLeaf, leafColor)}
+                      onClick={handleClick}
+                    >
+                      <span>{sub1Category.name.replaceAll("-", " ")}</span>
 
-                  <button onClick={(e) => e.preventDefault()}>
-                    <SlArrowRight />
-                  </button>
-                </Link>
+                      <button onClick={(e) => e.preventDefault()} style={buttonStyle(isMatched)}>
+                        <SlArrowRight />
+                      </button>
+                    </Link>
 
-                <ul style={ulStyle}>
-                  {sub1Category.sub2Categories?.map((sub2Category: any) => (
-                    <li key={sub2Category._id}>
-                      <Link
-                        href={`/categories/${category.name}/${sub1Category.name}/${sub2Category.name}`}
-                      >
-                        <span>{sub2Category.name.replaceAll("-", " ")}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        </li>
-      ))}
+                    <ul style={ulStyle(isMatched)}>
+                      {sub1Category.sub2Categories?.map((sub2Category: any) => {
+                        const isLeaf =
+                          categorySegments &&
+                          sub2Category.name === categorySegments[categorySegments.length - 1];
+
+                        return (
+                          <li key={sub2Category._id}>
+                            <Link
+                              href={`/categories/${category.name}/${sub1Category.name}/${sub2Category.name}`}
+                              style={linkStyle(isLeaf, leafColor)}
+                            >
+                              <span>{sub2Category.name.replaceAll("-", " ")}</span>
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </li>
+                );
+              })}
+            </ul>
+          </li>
+        );
+      })}
     </Box>
   );
 }
 
+const linkStyle = (isLeaf: any, leafColor: any): CSSProperties => ({
+  color: isLeaf ? leafColor : "initial",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "4px 8px",
+});
+
+const buttonStyle = (isMatched: any): CSSProperties => ({
+  transform: isMatched ? "rotate(90deg)" : "initial",
+  transition: "transform 0.3s",
+  backgroundColor: "transparent",
+  padding: "1rem",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
+
 // 자바스크립트로 스타일을 동적으로 변경하는 부분은 sx로는 적용되지 않을수있다. 따라서 기본속성으로 적용해야한다.
-const ulStyle: CSSProperties = {
-  height: "0", // 기본 높이 0
+const ulStyle = (isMatched: any): CSSProperties => ({
+  height: isMatched ? "inital" : "0",
+  transition: "all 0.3s ease-in-out", // height에 애니메이션 적용
   overflow: "hidden",
   marginLeft: "1rem",
   paddingLeft: "1rem",
   borderLeft: "1px solid #ebebeb",
-  transition: "all 0.3s ease-in-out", // height에 애니메이션 적용
-};
+
+  // height: "0",
+  // overflow: "hidden",
+  // marginLeft: "1rem",
+  // paddingLeft: "1rem",
+  // borderLeft: "1px solid #ebebeb",
+});
