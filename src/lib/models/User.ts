@@ -12,14 +12,11 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
       unique: true,
     },
-
     password: {
       type: String,
       select: false, // 보안을 위해서... // 쿼리조회시 .select('+password') 을 통해서 가져올수있다
-      // required: true, // oauth에서는 필요하지 않아서...
     },
     role: {
       type: String,
@@ -28,8 +25,23 @@ const userSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      default:
-        "https://res.cloudinary.com/dzktdrw7o/image/upload/v1713961579/blog-next-app/user2_zrx6nk.png",
+    },
+
+    // oauth account ids
+    kakaoId: {
+      type: String,
+      unique: true, // 카카오 고유 ID (이메일 없는 경우에도 고유 식별)
+      sparse: true, // kakaoId가 없는 경우도 있기 때문에 sparse 설정
+    },
+    naverId: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
     },
   },
   { timestamps: true }

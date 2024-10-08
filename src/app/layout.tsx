@@ -38,7 +38,6 @@ export default async function RootLayout({
 }>) {
   const mode = cookies().get("mode")?.value as string;
   const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
-  // const user = JSON.parse(headers().get("user") as string);
 
   return (
     <html lang="en">

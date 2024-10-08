@@ -7,12 +7,16 @@ import { SlArrowRight } from "react-icons/sl";
 import { Box, useTheme } from "@mui/material";
 import { CategoryContext } from "../context/CategoryContext";
 
-export default function SideNav() {
+export default function NestedNav() {
   const theme = useTheme();
   const leafColor = theme.palette.primary.main;
+
+  const { categories } = useContext(CategoryContext);
+
   const params = useParams();
   const categorySegments = (params.category as string[]).map((v: any) => decodeURIComponent(v));
-  const { categories } = useContext(CategoryContext);
+
+  // console.log(params);
 
   const handleClick: MouseEventHandler = (e) => {
     // 클릭이벤트가 발생한 리스트아이템 엘리먼트

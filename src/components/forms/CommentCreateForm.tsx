@@ -49,7 +49,15 @@ export default function CommentCreateForm({ authorImage, postId }: Props) {
           alignSelf: "flex-start",
         }}
       >
-        <Image src={authorImage} alt="" width={30} height={30} />
+        <Image
+          src={
+            authorImage ||
+            "https://res.cloudinary.com/dzktdrw7o/image/upload/v1713961579/blog-next-app/user2_zrx6nk.png"
+          }
+          alt=""
+          width={30}
+          height={30}
+        />
       </div>
 
       <div className="main" style={{ flex: "1" }}>

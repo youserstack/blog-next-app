@@ -23,9 +23,9 @@ export default function MuiHeader({ categories }: any) {
   }, [categories]);
 
   return (
-    <AppBar position="fixed" sx={{ transition: "all 0.5s" }}>
+    <AppBar position="fixed" sx={{ transition: "all 0.5s", zIndex: "100" }}>
       <Container maxWidth="lg">
-        <Toolbar sx={{ padding: "0", whiteSpace: "nowrap" }}>
+        <Toolbar sx={{ padding: "0", whiteSpace: "nowrap", position: "static" }}>
           <Grid container sx={{ margin: "auto", alignItems: "center" }}>
             <Grid
               className="헤더좌측"
@@ -38,6 +38,7 @@ export default function MuiHeader({ categories }: any) {
                   <StarsIcon />
                 </IconButton>
               </Link>
+
               <Nav categories={categories} />
             </Grid>
 

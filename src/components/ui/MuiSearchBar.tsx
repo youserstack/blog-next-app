@@ -2,9 +2,10 @@
 
 import { Search as SearchIcon } from "@mui/icons-material";
 import { Autocomplete, Box, InputBase } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import { useRouter } from "next/navigation";
+import { Context } from "../context/Context";
 
 const Search = styled(Box)(({ theme }) => ({
   position: "relative",
@@ -46,6 +47,7 @@ export default function MuiSearchBar() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const search = (searchWords: string) => router.push(`/search?searchWords=${searchWords}`);
+  const { setHeaderHidden }: any = useContext(Context); // 헤더 숨김 상태 가져오기
 
   return (
     <Search className="검색" sx={{ width: { xs: "70%", md: "100%" } }}>
@@ -61,7 +63,12 @@ export default function MuiSearchBar() {
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         // 자동완성 리스트 아이템 선택시 상태변경
-        onChange={(e, v) => v && search(v)}
+        onChange={(e, v) => {
+          if (v) {
+            search(v);
+            setHeaderHidden(true);
+          }
+        }}
         // 입력 엘리먼트
         renderInput={(params) => (
           <StyledInputBase

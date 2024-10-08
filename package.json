@@ -16,6 +16,7 @@
     "@mui/material": "^5.16.0",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.2.0",
+    "hamburger-react": "^2.5.1",
     "jose": "^5.2.4",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.2",

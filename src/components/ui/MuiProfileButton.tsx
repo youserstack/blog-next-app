@@ -28,8 +28,7 @@ export default function MuiProfileButton() {
         keepMounted // 성능 최적화 (엘리먼트를 돔에 유지시킨다)
         disableScrollLock // 스크롤 잠금 비활성화
       >
-        <MenuItem>Profile</MenuItem>
-        <MenuItem>My account</MenuItem>
+        <MenuItem>계정</MenuItem>
         <MenuItem onClick={async () => await signOut({ callbackUrl: "/" })}>로그아웃</MenuItem>
       </Menu>
     </>

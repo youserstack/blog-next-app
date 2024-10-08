@@ -3,17 +3,16 @@
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useState } from "react";
-import { Box, Paper, useTheme } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import SigninForm from "./SigninForm";
 import Oauth from "./Oauth";
 
 export default function SigninTabForm() {
   const [value, setValue] = useState(0);
-  const theme = useTheme();
 
   return (
     <Paper
-      sx={{ width: { xs: "100%", md: "60%" } }}
+      sx={{ width: { xs: "100%", sm: "70%", md: "60%", lg: "50%" } }}
       variant="elevation"
       className="로그인-탭-컴포넌트"
       elevation={7}
@@ -47,7 +46,7 @@ export default function SigninTabForm() {
           <SigninForm />
         </div>
 
-        <div
+        {/* <div
           style={{
             position: "absolute",
             top: "0",
@@ -59,7 +58,7 @@ export default function SigninTabForm() {
             pointerEvents: "none",
             zIndex: "0",
           }}
-        />
+        /> */}
       </Box>
 
       <Box

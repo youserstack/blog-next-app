@@ -1,5 +1,7 @@
 import NextAuth, { NextAuthOptions, User, Account, Profile, Session } from "next-auth";
 import NaverProvider from "next-auth/providers/naver";
+import KakaoProvider from "next-auth/providers/kakao";
+
 import { JWT } from "next-auth/jwt";
 import connectDB from "@/lib/config/connectDB";
 import UserModel from "@/lib/models/User";
@@ -17,12 +19,23 @@ interface NaverProfile extends Profile {
   };
 }
 
+interface KakaoProfile extends Profile {
+  id: string;
+  properties: {
+    nickname: string;
+    profile_image: string;
+  };
+  kakao_account: any;
+}
+
+interface SignInCallbackParams {
+  user: User;
+  account: Account | null;
+  profile?: Profile | NaverProfile | KakaoProfile;
+}
+
 const authOptions: NextAuthOptions = {
   providers: [
-    NaverProvider({
-      clientId: process.env.NAVER_ID as string,
-      clientSecret: process.env.NAVER_SECRET as string,
-    }),
     CredentialsProvider({
       // 로그인 폼에 표시할 이름 (예: "Sign in with...")
       name: "Credentials",
@@ -63,21 +76,25 @@ const authOptions: NextAuthOptions = {
         return { id: user._id.toString(), name: user.name, email: user.email };
       },
     }),
+    NaverProvider({
+      clientId: process.env.NAVER_ID as string,
+      clientSecret: process.env.NAVER_SECRET as string,
+    }),
+    KakaoProvider({
+      clientId: process.env.KAKAO_ID as string,
+      clientSecret: process.env.KAKAO_SECRET as string,
+    }),
   ],
   callbacks: {
     async signIn({
       user, // 로그인한 사용자 정보
       account, // 사용자가 로그인한 계정 정보 (소셜 제공자 포함)
       profile, // 소셜 제공자로부터 가져온 추가 사용자 정보 (Naver 프로필 포함)
-    }: {
-      user: User;
-      account: Account | null;
-      profile?: Profile | NaverProfile;
-    }) {
+    }: SignInCallbackParams) {
       await connectDB(); // MongoDB에 연결
 
       if (account?.provider === "credentials") {
-        console.log("credentials 로그인 처리 중...");
+        console.log("credentials 로그인 처리중", { user });
         // console.log({ user, account, profile });
         if (user && user.id && user.name && user.email) {
           // 사용자 정보가 존재하면 성공 처리
@@ -90,37 +107,51 @@ const authOptions: NextAuthOptions = {
       }
 
       if (account?.provider === "naver" && profile && "response" in profile) {
+        console.log("네이버 로그인 진행중", { profile });
+
+        const provider = "naver";
         const name = profile.response.nickname;
         const email = profile.response.email;
+        const naverId = profile.response.id;
         if (!email || !name) return false;
 
         // 사용자가 존재하는지 확인
-        let existingUser = await UserModel.findOne({ email });
-        if (!existingUser) {
-          existingUser = await UserModel.create({ name, email, provider: "naver" });
+        let dbUser = await UserModel.findOne({ naverId });
+        if (!dbUser) {
+          dbUser = await UserModel.create({ provider, name, email, naverId });
           console.log("가입처리완료");
         }
 
-        // NextAuth의 `user` 객체에 사용자의 MongoDB _id를 추가
-        user.id = existingUser._id.toString() as string;
-        user.name = existingUser.name as string;
-        user.email = existingUser.email as string;
+        user.id = dbUser._id.toString() as string;
+        user.name = dbUser.name as string;
+        user.email = dbUser.email as string;
 
-        console.log("로그인처리완료", { existingUser });
+        console.log("로그인처리완료", { dbUser });
 
         return true;
+      }
 
-        // if (user.name && user.email) {
-        //   return true;
-        // } else {
-        //   if (profile && "response" in profile) {
-        //     user.name = profile.response.nickname;
-        //     user.email = profile.response.email;
-        //     return true;
-        //   } else {
-        //     return false;
-        //   }
-        // }
+      if (account?.provider === "kakao" && profile && "properties" in profile) {
+        console.log("카카오 로그인 진행중", { profile });
+
+        const provider = "kakao";
+        const name = profile.properties.nickname || profile.kakao_account.profile.nickname;
+        const image = profile.properties.profile_image || profile.kakao_account.profile_image_url;
+        const kakaoId = profile.id;
+        if (!name) return false;
+
+        let dbUser = await UserModel.findOne({ kakaoId });
+        if (!dbUser) {
+          dbUser = await UserModel.create({ provider, name, image, kakaoId });
+          console.log("가입처리완료");
+        }
+
+        user.id = dbUser._id.toString() as string;
+        user.name = dbUser.name as string;
+        user.image = dbUser.image as string;
+
+        console.log("로그인처리완료", { dbUser });
+        return true;
       }
 
       return false;
@@ -167,8 +198,6 @@ const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   // 로그인 페이지 경로
   pages: { signIn: "/auth/signin" },
-
-  // adapter: MongoDBAdapter(clientPromise),
 };
 
 const handler = NextAuth(authOptions);
@@ -192,8 +221,8 @@ export { handler as GET, handler as POST };
 //   if (account?.provider === "naver") {
 //     if (user.name && user.email) {
 //       // 사용자가 이미 존재하는지 확인
-//       const existingUser = await UserModel.findOne({ email: user.email });
-//       if (existingUser) return true;
+//       const dbUser = await UserModel.findOne({ email: user.email });
+//       if (dbUser) return true;
 
 //       // 사용자 없으면 새 사용자 생성
 //       const newUser = await UserModel.create({

@@ -1,46 +1,88 @@
 "use client";
 
-import {
-  AccountCircle as AccountCircleIcon,
-  Logout as LogoutIcon,
-  Menu as MenuIcon,
-} from "@mui/icons-material";
+import { AccountCircle as AccountCircleIcon, Logout as LogoutIcon } from "@mui/icons-material";
 import {
   Box,
   Divider,
-  Drawer,
   IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  MenuList,
+  useTheme,
 } from "@mui/material";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ToggleModeLabel from "./ToggleModeLabel";
 import { ThemeContext } from "../context/ThemeContext";
+import { Squeeze as Hamburger } from "hamburger-react";
+import ExpandableNav from "./ExpandableNav";
+import { usePathname } from "next/navigation";
 
 export default function MuiHamburgerButton({ categories }: any) {
   const { data: session } = useSession();
   const { mode, toggleMode } = useContext(ThemeContext);
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
-    <>
+    <Box sx={{ display: { md: "none" } }}>
       <IconButton
-        className="햄버거버튼(모바일)"
+        className="햄버거버튼"
         size="large"
         color="inherit"
-        onClick={() => setOpen(true)}
-        sx={{ display: { xs: "flex", md: "none" } }}
+        onClick={() => setOpen(!open)}
       >
-        <MenuIcon />
+        <Hamburger toggled={open} size={20} rounded />
       </IconButton>
 
-      <Drawer open={open} onClose={() => setOpen(false)} anchor="right" disableScrollLock>
-        <Box role="presentation" onClick={() => setOpen(false)} sx={{ width: "50vw" }}>
+      <Box
+        className="백드랍"
+        onClick={() => setOpen(false)}
+        sx={{
+          position: "absolute",
+          top: "100%",
+          left: "0",
+          right: "0",
+          height: "100vh",
+          backgroundColor: "rgba(0,0,0,0.7)",
+          transition: "all 0.7s",
+          display: open ? "block" : "none",
+          // opacity: open ? "100%" : "0",
+        }}
+      ></Box>
+
+      <Box
+        className="레이어"
+        sx={{
+          position: "absolute",
+          top: "100%",
+          left: "0",
+          right: "0",
+          overflow: "hidden",
+          pointerEvents: "none",
+        }}
+      >
+        <MenuList
+          sx={{
+            transform: open ? "translateY(0)" : "translateY(-100%)",
+            transition: "all 0.5s",
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.text.primary,
+            maxHeight: "80vh",
+            overflowY: "auto", // 스크롤 가능 설정
+            pointerEvents: "initial",
+            "&::-webkit-scrollbar": { display: "none" },
+          }}
+        >
           <List>
             {session ? (
               <ListItem className="계정" disablePadding>
@@ -67,18 +109,7 @@ export default function MuiHamburgerButton({ categories }: any) {
             )}
           </List>
           <Divider />
-          <List>
-            {categories.map((category: any) => (
-              <ListItem key={`/categories/${category.name}`} disablePadding>
-                <Link href={`/categories/${category.name}`} style={{ width: "100%" }}>
-                  <ListItemButton>
-                    <ListItemText>{category.name}</ListItemText>
-                  </ListItemButton>
-                </Link>
-              </ListItem>
-            ))}
-          </List>
-
+          <ExpandableNav categories={categories} />
           <Divider />
           <List>
             {session && (
@@ -107,8 +138,8 @@ export default function MuiHamburgerButton({ categories }: any) {
               </ListItemButton>
             </ListItem>
           </List>
-        </Box>
-      </Drawer>
-    </>
+        </MenuList>
+      </Box>
+    </Box>
   );
 }
