@@ -12,7 +12,6 @@ export default async function CategoryLayout({ children }: { children: React.Rea
       <section style={{ display: "flex" }}>
         <Box
           sx={{
-            //
             "& > ul": { width: "300px" },
             display: { xs: "none", md: "block" },
           }}
