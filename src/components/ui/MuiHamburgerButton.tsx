@@ -4,44 +4,30 @@ import { AccountCircle as AccountCircleIcon, Logout as LogoutIcon } from "@mui/i
 import {
   Box,
   Divider,
-  Drawer,
   IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Menu,
   MenuList,
-  Slide,
   useTheme,
 } from "@mui/material";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ToggleModeLabel from "./ToggleModeLabel";
 import { ThemeContext } from "../context/ThemeContext";
 import { Squeeze as Hamburger } from "hamburger-react";
-import { Context } from "../context/Context";
-import NestedNav from "./NestedNav";
 import ExpandableNav from "./ExpandableNav";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function MuiHamburgerButton({ categories }: any) {
   const { data: session } = useSession();
   const { mode, toggleMode } = useContext(ThemeContext);
-  const { headerHidden }: any = useContext(Context); // 헤더 숨김 상태 가져오기
   const [open, setOpen] = useState(false);
   const theme = useTheme();
-  const router = useRouter();
   const pathname = usePathname();
-
-  // 헤더가 숨겨지면 메뉴도 자동으로 닫기
-  // useEffect(() => {
-  //   if (headerHidden) {
-  //     setOpen(false);
-  //   }
-  // }, [headerHidden]);
 
   useEffect(() => {
     setOpen(false);
@@ -68,9 +54,9 @@ export default function MuiHamburgerButton({ categories }: any) {
           right: "0",
           height: "100vh",
           backgroundColor: "rgba(0,0,0,0.7)",
-          opacity: open ? "100%" : "0",
           transition: "all 0.7s",
-          // display: open ? "block" : "none",
+          display: open ? "block" : "none",
+          // opacity: open ? "100%" : "0",
         }}
       ></Box>
 
@@ -82,6 +68,7 @@ export default function MuiHamburgerButton({ categories }: any) {
           left: "0",
           right: "0",
           overflow: "hidden",
+          pointerEvents: "none",
         }}
       >
         <MenuList
@@ -92,6 +79,7 @@ export default function MuiHamburgerButton({ categories }: any) {
             color: theme.palette.text.primary,
             maxHeight: "80vh",
             overflowY: "auto", // 스크롤 가능 설정
+            pointerEvents: "initial",
             "&::-webkit-scrollbar": { display: "none" },
           }}
         >
