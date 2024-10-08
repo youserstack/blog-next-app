@@ -38,6 +38,7 @@ export default function MuiHeader({ categories }: any) {
                   <StarsIcon />
                 </IconButton>
               </Link>
+
               <Nav categories={categories} />
             </Grid>
 

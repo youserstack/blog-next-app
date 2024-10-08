@@ -1,12 +1,12 @@
 import dynamic from "next/dynamic";
 
-const SideNav = dynamic(() => import("@/components/ui/SideNav"));
+const NestedNav = dynamic(() => import("@/components/ui/NestedNav"));
 
 export default function CategoryLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className="category-layout">
       <section style={{ display: "flex" }}>
-        <SideNav />
+        <NestedNav />
         {children}
       </section>
       <section></section>

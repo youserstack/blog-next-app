@@ -23,13 +23,14 @@ import ToggleModeLabel from "./ToggleModeLabel";
 import { ThemeContext } from "../context/ThemeContext";
 import { Squeeze as Hamburger } from "hamburger-react";
 import { Context } from "../context/Context";
+import NestedNav from "./NestedNav";
 
 export default function MuiHamburgerButton({ categories }: any) {
   const { data: session } = useSession();
   const { mode, toggleMode } = useContext(ThemeContext);
+  const { headerHidden }: any = useContext(Context); // 헤더 숨김 상태 가져오기
   const [open, setOpen] = useState(false);
   const theme = useTheme();
-  const { headerHidden }: any = useContext(Context); // 헤더 숨김 상태 가져오기
 
   // 헤더가 숨겨지면 메뉴도 자동으로 닫기
   useEffect(() => {
@@ -50,25 +51,26 @@ export default function MuiHamburgerButton({ categories }: any) {
       </IconButton>
 
       <Box
-        component={"div"}
+        className="백드랍"
         onClick={() => setOpen(false)}
         sx={{
           position: "absolute",
-          // inset: "0",
-          // top: "100%",
+          top: "100%",
           left: "0",
           right: "0",
           height: "100vh",
           backgroundColor: "rgba(0,0,0,0.7)",
-          // backgroundColor: "green",
-          // opacity: open ? "100%" : "0",
-          display: open ? "block" : "none",
+          opacity: open ? "100%" : "0",
+          transition: "all 0.7s",
+          // display: open ? "block" : "none",
         }}
       ></Box>
 
       <Box
+        className="레이어"
         sx={{
           position: "absolute",
+          top: "100%",
           left: "0",
           right: "0",
           overflow: "hidden",
@@ -109,7 +111,7 @@ export default function MuiHamburgerButton({ categories }: any) {
           </List>
           <Divider />
           <List>
-            {categories.map((category: any) => (
+            {/* {categories.map((category: any) => (
               <ListItem key={`/categories/${category.name}`} disablePadding>
                 <Link href={`/categories/${category.name}`} style={{ width: "100%" }}>
                   <ListItemButton>
@@ -117,7 +119,8 @@ export default function MuiHamburgerButton({ categories }: any) {
                   </ListItemButton>
                 </Link>
               </ListItem>
-            ))}
+            ))} */}
+            {/* <NestedNav /> */}
           </List>
 
           <Divider />

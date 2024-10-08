@@ -34,7 +34,7 @@ export default function Category() {
   }, "/categories");
 
   useEffect(() => {
-    console.log("categorized-posts", { params });
+    // console.log("카테고리 파라미터 배열", { params });
     mutate("categorized-posts");
   }, [params]);
 

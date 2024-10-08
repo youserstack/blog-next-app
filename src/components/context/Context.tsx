@@ -46,7 +46,7 @@ export const Provider = ({ children, mode }: Props) => {
   }, [previousScrollY]);
 
   return (
-    <Context.Provider value={{ headerHidden }}>
+    <Context.Provider value={{ headerHidden, setHeaderHidden }}>
       <SessionProvider>
         <ThemeProvider mode={mode}>
           <AuthProvider
