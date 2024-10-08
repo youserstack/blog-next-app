@@ -24,6 +24,8 @@ import { ThemeContext } from "../context/ThemeContext";
 import { Squeeze as Hamburger } from "hamburger-react";
 import { Context } from "../context/Context";
 import NestedNav from "./NestedNav";
+import ExpandableNav from "./ExpandableNav";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function MuiHamburgerButton({ categories }: any) {
   const { data: session } = useSession();
@@ -31,16 +33,22 @@ export default function MuiHamburgerButton({ categories }: any) {
   const { headerHidden }: any = useContext(Context); // 헤더 숨김 상태 가져오기
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+  const router = useRouter();
+  const pathname = usePathname();
 
   // 헤더가 숨겨지면 메뉴도 자동으로 닫기
+  // useEffect(() => {
+  //   if (headerHidden) {
+  //     setOpen(false);
+  //   }
+  // }, [headerHidden]);
+
   useEffect(() => {
-    if (headerHidden) {
-      setOpen(false);
-    }
-  }, [headerHidden]);
+    setOpen(false);
+  }, [pathname]);
 
   return (
-    <Box sx={{ display: { sx: "block", md: "none" } }}>
+    <Box sx={{ display: { md: "none" } }}>
       <IconButton
         className="햄버거버튼"
         size="large"
@@ -82,6 +90,9 @@ export default function MuiHamburgerButton({ categories }: any) {
             transition: "all 0.5s",
             backgroundColor: theme.palette.background.default,
             color: theme.palette.text.primary,
+            maxHeight: "80vh",
+            overflowY: "auto", // 스크롤 가능 설정
+            "&::-webkit-scrollbar": { display: "none" },
           }}
         >
           <List>
@@ -110,19 +121,7 @@ export default function MuiHamburgerButton({ categories }: any) {
             )}
           </List>
           <Divider />
-          <List>
-            {/* {categories.map((category: any) => (
-              <ListItem key={`/categories/${category.name}`} disablePadding>
-                <Link href={`/categories/${category.name}`} style={{ width: "100%" }}>
-                  <ListItemButton>
-                    <ListItemText>{category.name}</ListItemText>
-                  </ListItemButton>
-                </Link>
-              </ListItem>
-            ))} */}
-            {/* <NestedNav /> */}
-          </List>
-
+          <ExpandableNav categories={categories} />
           <Divider />
           <List>
             {session && (

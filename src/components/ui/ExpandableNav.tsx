@@ -8,13 +8,12 @@ import { SlArrowRight } from "react-icons/sl";
 // import { CategoryContext } from "../context/CategoryContext";
 
 export default function ExpandableNav({ categories }: any) {
-  console.log({ categories });
+  // console.log({ categories });
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-
     const link = e.currentTarget as HTMLAnchorElement;
     const li = link.closest("li") as HTMLLIElement;
+    const button = li?.querySelector("button") as HTMLButtonElement;
     const ul = li?.querySelector("ul") as HTMLUListElement;
     if (!ul) return;
 
@@ -26,6 +25,7 @@ export default function ExpandableNav({ categories }: any) {
     if (isExpanded) {
       link.setAttribute("data-is-expanded", "false");
       ul.style.height = "0"; // 접을 때 높이를 0으로
+      button.style.transform = "rotate(0)";
 
       // 부모 ul 높이 업데이트
       if (parentUl && isMiddle) {
@@ -34,6 +34,7 @@ export default function ExpandableNav({ categories }: any) {
     } else {
       link.setAttribute("data-is-expanded", "true");
       ul.style.height = ul.scrollHeight + "px";
+      button.style.transform = "rotate(90deg)";
 
       // 부모 ul 높이 업데이트
       if (parentUl && isMiddle) {
@@ -43,64 +44,56 @@ export default function ExpandableNav({ categories }: any) {
   };
 
   return (
-    <div
-      style={{
-        padding: "1rem",
-        height: "100vh",
-        // display: "flex",
-        // justifyContent: "center",
-        // alignItems: "center",
-        // flexDirection: "column",
-      }}
-    >
-      <ul style={{ padding: "1rem", border: "2px solid green" }}>
-        {categories?.map((category: any) => (
-          <li key={category._id}>
-            <Link
-              href={""}
-              style={linkStyle}
-              // href={`/categories/${category.name}`}
-              onClick={handleClick}
-              data-is-expanded="false"
-            >
-              <span>{category.name.replaceAll("-", " ")}</span>
+    <ul style={{ padding: "1rem" }}>
+      {categories?.map((category: any) => (
+        <li key={category._id}>
+          <Link
+            href={`/categories/${category.name}`}
+            style={linkStyle}
+            data-is-expanded="false"
+            onClick={handleClick}
+          >
+            <span>{category.name.replaceAll("-", " ")}</span>
 
-              <button>
-                <SlArrowRight />
-              </button>
-            </Link>
+            <button style={buttonStyle} onClick={(e) => e.preventDefault()}>
+              <SlArrowRight />
+            </button>
+          </Link>
 
-            <ul style={{ ...ulStyle }} className="middle">
-              {category.sub1Categories?.map((sub1Category: any) => (
-                <li key={sub1Category._id}>
-                  <Link href={""} style={linkStyle} onClick={handleClick} data-is-expanded="false">
-                    <span>{sub1Category.name.replaceAll("-", " ")}</span>
+          <ul style={ulStyle} className="middle">
+            {category.sub1Categories?.map((sub1Category: any) => (
+              <li key={sub1Category._id}>
+                <Link
+                  href={`/categories/${category.name}/${sub1Category.name}`}
+                  style={linkStyle}
+                  onClick={handleClick}
+                  data-is-expanded="false"
+                >
+                  <span>{sub1Category.name.replaceAll("-", " ")}</span>
 
-                    <button>
-                      <SlArrowRight />
-                    </button>
-                  </Link>
+                  <button style={buttonStyle} onClick={(e) => e.preventDefault()}>
+                    <SlArrowRight />
+                  </button>
+                </Link>
 
-                  <ul
-                    style={{
-                      ...ulStyle,
-                    }}
-                  >
-                    {sub1Category.sub2Categories?.map((sub2Category: any) => (
-                      <li key={sub2Category._id}>
-                        <Link href={""} style={linkStyle}>
-                          <span>{sub2Category.name.replaceAll("-", " ")}</span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    </div>
+                <ul style={ulStyle}>
+                  {sub1Category.sub2Categories?.map((sub2Category: any) => (
+                    <li key={sub2Category._id}>
+                      <Link
+                        href={`/categories/${category.name}/${sub1Category.name}/${sub2Category.name}`}
+                        style={linkStyle}
+                      >
+                        <span>{sub2Category.name.replaceAll("-", " ")}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -109,7 +102,15 @@ const linkStyle: CSSProperties = {
   justifyContent: "space-between",
   alignItems: "center",
   padding: "4px 8px",
-  border: "1px solid",
+};
+
+const buttonStyle: CSSProperties = {
+  transition: "transform 0.3s",
+  backgroundColor: "transparent",
+  // padding: "1rem",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 };
 
 const ulStyle: CSSProperties = {

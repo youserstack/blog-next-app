@@ -29,7 +29,7 @@ export const Provider = ({ children, mode }: Props) => {
       setHeaderHidden(false);
     } else {
       if (currentScrollY > previousScrollY) {
-        header.style.transform = "translateY(-70px)";
+        header.style.transform = "translateY(-100%)";
         setHeaderHidden(true); // 스크롤 내리면 헤더 숨김
       } else {
         header.style.transform = "translateY(0)";

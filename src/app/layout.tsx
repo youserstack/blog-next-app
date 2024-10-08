@@ -50,8 +50,8 @@ export default async function RootLayout({
           // session={session}
         >
           <GlobalModal />
-          <ExpandableNav categories={categories} />
-          {/* <Header categories={categories} /> */}
+          {/* <ExpandableNav categories={categories} /> */}
+          <Header categories={categories} />
 
           {children}
           <Footer />
