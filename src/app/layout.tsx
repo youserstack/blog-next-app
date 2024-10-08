@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 import dynamic from "next/dynamic";
 import "./globals.scss";
 import { Skeleton } from "@mui/material";
-import ExpandableNav from "@/components/ui/ExpandableNav";
 
 // server component
 const Header = dynamic(() => import("@/components/layout/MuiHeader"), {
@@ -39,7 +38,6 @@ export default async function RootLayout({
 }>) {
   const mode = cookies().get("mode")?.value as string;
   const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
-  // const user = JSON.parse(headers().get("user") as string);
 
   return (
     <html lang="en">
@@ -50,7 +48,6 @@ export default async function RootLayout({
           // session={session}
         >
           <GlobalModal />
-          {/* <ExpandableNav categories={categories} /> */}
           <Header categories={categories} />
 
           {children}

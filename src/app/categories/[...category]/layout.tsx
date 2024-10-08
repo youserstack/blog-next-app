@@ -1,12 +1,19 @@
+import { Box } from "@mui/material";
 import dynamic from "next/dynamic";
 
-const NestedNav = dynamic(() => import("@/components/ui/NestedNav"));
+const ExpandableNav = dynamic(() => import("@/components/ui/ExpandableNav"));
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function CategoryLayout({ children }: { children: React.ReactNode }) {
+export default async function CategoryLayout({ children }: { children: React.ReactNode }) {
+  const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
+
   return (
     <main className="category-layout">
       <section style={{ display: "flex" }}>
-        <NestedNav />
+        <Box sx={{ "& > ul": { width: "300px" }, display: { xs: "none", md: "block" } }}>
+          <ExpandableNav categories={categories} />
+        </Box>
+
         {children}
       </section>
       <section></section>

@@ -50,6 +50,7 @@ export default function ExpandableNav({ categories }: any) {
       component={"ul"}
       sx={{
         padding: "1rem",
+        whiteSpace: "nowrap",
         "& a": {
           display: "flex",
           justifyContent: "space-between",
