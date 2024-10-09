@@ -13,6 +13,9 @@ export default function ExpandableNav({ categories }: any) {
   // console.log({ categories });
   const theme = useTheme();
   const leafColor = theme.palette.primary.main;
+  const textColor = theme.palette.text.primary;
+  const textHoverColor = theme.palette.primary.light;
+  const ulBorderLeftColor = theme.palette.mode === "dark" ? "#ffffff1f" : "#0000001f";
 
   const params = useParams();
   const categorySegments = (params.category as string[])?.map((v: any) => decodeURIComponent(v));
@@ -56,11 +59,8 @@ export default function ExpandableNav({ categories }: any) {
       sx={{
         padding: "1rem",
         whiteSpace: "nowrap",
-        "& a": {
-          color: theme.palette.text.primary,
-          "&:hover": { color: theme.palette.primary.light + " !important" },
-        },
-        "& ul": { color: theme.palette.mode === "dark" ? "#ffffff1f" : "#0000001f" },
+        "& a:hover": { color: textHoverColor + " !important" },
+        "& ul": { color: ulBorderLeftColor },
       }}
     >
       {categories?.map((category: any) => {
@@ -73,7 +73,7 @@ export default function ExpandableNav({ categories }: any) {
             <Link
               href={`/categories/${category.name}`}
               data-is-expanded={isMatched ? "true" : "false"}
-              style={linkStyle(isLeaf, leafColor)}
+              style={linkStyle(isLeaf, leafColor, textColor)}
               onClick={handleClick}
             >
               <span>{category.name.replaceAll("-", " ")}</span>
@@ -97,7 +97,7 @@ export default function ExpandableNav({ categories }: any) {
                     <Link
                       href={`/categories/${category.name}/${sub1Category.name}`}
                       data-is-expanded={isMatched ? "true" : "false"}
-                      style={linkStyle(isLeaf, leafColor)}
+                      style={linkStyle(isLeaf, leafColor, textColor)}
                       onClick={handleClick}
                     >
                       <span>{sub1Category.name.replaceAll("-", " ")}</span>
@@ -117,7 +117,7 @@ export default function ExpandableNav({ categories }: any) {
                           <li key={sub2Category._id}>
                             <Link
                               href={`/categories/${category.name}/${sub1Category.name}/${sub2Category.name}`}
-                              style={linkStyle(isLeaf, leafColor)}
+                              style={linkStyle(isLeaf, leafColor, textColor)}
                             >
                               <span>{sub2Category.name.replaceAll("-", " ")}</span>
                             </Link>
@@ -136,8 +136,8 @@ export default function ExpandableNav({ categories }: any) {
   );
 }
 
-const linkStyle = (isLeaf: any, leafColor: any): CSSProperties => ({
-  color: isLeaf ? leafColor : "initial",
+const linkStyle = (isLeaf: boolean, leafColor: string, textColor: string): CSSProperties => ({
+  color: isLeaf ? leafColor : textColor,
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
@@ -146,7 +146,7 @@ const linkStyle = (isLeaf: any, leafColor: any): CSSProperties => ({
 });
 
 const buttonStyle = (isMatched: any): CSSProperties => ({
-  transform: isMatched ? "rotate(90deg)" : "initial",
+  transform: isMatched ? "rotate(90deg)" : "rotate(0)",
   transition: "transform 0.3s",
   backgroundColor: "transparent",
   padding: "1rem",

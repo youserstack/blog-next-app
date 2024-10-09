@@ -7,7 +7,7 @@ import useSWR, { mutate } from "swr";
 import Link from "next/link";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
 import Loading from "@/components/ui/Loading";
-import Pagination from "@/components/ui/Pagination";
+// import Pagination from "@/components/ui/Pagination";
 import { useEffect } from "react";
 
 const ControlArea = dynamic(() => import("@/components/areas/ControlArea"));
@@ -58,7 +58,9 @@ export default function Category() {
             );
           }, "/categories")}
         </Breadcrumbs>
+
         <CategoryCreateButton parentCategories={categorySegments} />
+
         <ControlArea />
       </div>
 

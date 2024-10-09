@@ -80,7 +80,8 @@ export default function MuiHamburgerButton({ categories }: any) {
             maxHeight: "80vh",
             overflowY: "auto", // 스크롤 가능 설정
             pointerEvents: "initial",
-            "&::-webkit-scrollbar": { display: "none" },
+            scrollbarWidth: "none",
+            // "&::-webkit-scrollbar": { display: "none" },
           }}
         >
           <List>

@@ -152,5 +152,7 @@ export async function DELETE(request: Request) {
     console.log({ deletedCategory: categories[2], deletedPosts });
   }
 
+  revalidatePath("/categories/[...category]", "layout");
+
   return Response.json({ deletedCategory: categories[categories.length - 1] }, { status: 200 });
 }

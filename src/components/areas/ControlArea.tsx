@@ -18,7 +18,7 @@ export default function ControlArea() {
     >
       {session && (
         <Button
-          sx={{ textTransform: "none", display: "flex", gap: "0.5rem" }}
+          sx={{ textTransform: "none", display: { xs: "none", md: "flex" }, gap: "0.5rem" }}
           onClick={() => openModal("post-create-modal")}
         >
           <MdCreate />
