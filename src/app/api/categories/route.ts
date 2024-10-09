@@ -1,8 +1,10 @@
 import connectDB from "@/lib/config/connectDB";
 import Category from "@/lib/models/Category";
 import Post from "@/lib/models/Post";
+import { revalidatePath } from "next/cache";
+import { NextRequest } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   console.log("\n\x1b[34m[api/categories]:::[POST]\x1b[0m");
   await connectDB();
 
@@ -21,6 +23,9 @@ export async function POST(request: Request) {
 
     const newCategory = await Category.create({ name: childCategory });
     console.log({ newCategory });
+
+    revalidatePath("/categories/[...category]", "layout");
+
     return Response.json({ newCategoryPath: `/${childCategory}` }, { status: 200 });
   }
 
@@ -37,6 +42,8 @@ export async function POST(request: Request) {
     rootCategory.sub1Categories.push({ name: childCategory, sub2Categories: [] });
     const savedCategory = await rootCategory.save();
     console.log({ savedCategory });
+
+    revalidatePath("/categories/[...category]", "layout");
 
     return Response.json(
       { newCategoryPath: `/${parentCategories.join("/")}/${childCategory}` },
@@ -63,6 +70,8 @@ export async function POST(request: Request) {
     sub1Category.sub2Categories.push({ name: childCategory });
     const savedCategory = await rootCategory.save();
     console.log({ savedCategory });
+
+    revalidatePath("/categories/[...category]", "layout");
 
     return Response.json(
       { newCategoryPath: `/${parentCategories.join("/")}/${childCategory}` },

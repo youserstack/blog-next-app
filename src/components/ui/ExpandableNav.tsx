@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, useTheme } from "@mui/material";
+import { Box, SxProps, useTheme } from "@mui/material";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CSSProperties, MouseEvent } from "react";
@@ -57,9 +57,10 @@ export default function ExpandableNav({ categories }: any) {
         padding: "1rem",
         whiteSpace: "nowrap",
         "& a": {
-          "&:hover": { color: theme.palette.primary.main },
-          "& > *": { padding: "8px", cursor: "pointer" },
+          color: theme.palette.text.primary,
+          "&:hover": { color: theme.palette.primary.light + " !important" },
         },
+        "& ul": { color: theme.palette.mode === "dark" ? "#ffffff1f" : "#0000001f" },
       }}
     >
       {categories?.map((category: any) => {
@@ -141,6 +142,7 @@ const linkStyle = (isLeaf: any, leafColor: any): CSSProperties => ({
   justifyContent: "space-between",
   alignItems: "center",
   padding: "4px 8px",
+  cursor: "pointer",
 });
 
 const buttonStyle = (isMatched: any): CSSProperties => ({
@@ -151,20 +153,15 @@ const buttonStyle = (isMatched: any): CSSProperties => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+  cursor: "pointer",
 });
 
-// 자바스크립트로 스타일을 동적으로 변경하는 부분은 sx로는 적용되지 않을수있다. 따라서 기본속성으로 적용해야한다.
+// 자바스크립트로 스타일을 동적으로 변경하는 부분은 sx로는 적용되지 않을수있다. 반드시 기본속성으로 적용해야한다.
 const ulStyle = (isMatched: any): CSSProperties => ({
   height: isMatched ? "inital" : "0",
-  transition: "all 0.3s ease-in-out", // height에 애니메이션 적용
+  transition: "all 0.3s ease-in-out",
   overflow: "hidden",
   marginLeft: "1rem",
   paddingLeft: "1rem",
-  borderLeft: "1px solid #ebebeb",
-
-  // height: "0",
-  // overflow: "hidden",
-  // marginLeft: "1rem",
-  // paddingLeft: "1rem",
-  // borderLeft: "1px solid #ebebeb",
+  borderLeft: "1px solid",
 });
