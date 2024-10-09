@@ -1,12 +1,22 @@
 "use client";
 
-import { Button, FormControl, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  IconButton,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { MdCloudUpload, MdCreate } from "react-icons/md";
 import { useContext, useState } from "react";
 import { useParams } from "next/navigation";
 import { mutate } from "swr";
 import { ModalContext } from "../context/ModalContext";
 import { useSession } from "next-auth/react";
+import { CgClose } from "react-icons/cg";
 
 export default function PostCreateModal() {
   const { data: session } = useSession();
@@ -38,26 +48,36 @@ export default function PostCreateModal() {
         mutate("categorized-posts");
       }}
       sx={{
-        minWidth: "500px",
-        maxHeight: "calc(100% - 150px)",
+        width: { xs: "90vw", sm: "70vw", md: "60vw", lg: "50vw" },
+        maxWidth: "800px",
+        maxHeight: "90vh",
         padding: "1rem",
         display: "flex",
         flexDirection: "column",
         gap: "10px",
         overflowY: "scroll",
-        scrollbarWidth: "thin",
+        scrollbarWidth: "none",
+        borderRadius: "10px",
         "& input#image": { display: "none" },
       }}
     >
-      <Typography variant="h5" sx={{ display: "flex", gap: "0.5rem" }}>
-        <MdCreate />
-        포스트 게시물 작성하기
-      </Typography>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography variant="h5" sx={{ display: "flex", gap: "0.5rem" }}>
+          <MdCreate />
+          포스트글 만들기
+        </Typography>
+
+        <Button onClick={() => closeModal()}>
+          <CgClose />
+        </Button>
+      </div>
+
       <FormControl>
         <Select value={categoryPath} name="category" id="category">
           <MenuItem value={categoryPath}>{categoryPath.replaceAll("/", " > ")}</MenuItem>
         </Select>
       </FormControl>
+
       <TextField
         type="text"
         name="userId"

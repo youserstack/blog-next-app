@@ -2,6 +2,7 @@ import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
 import User from "@/lib/models/User";
 import { uploadToCloudinary } from "@/lib/utils/uploader";
+import { revalidatePath } from "next/cache";
 
 export async function GET(request: Request) {
   // console.log("\n\x1b[32m[api/posts]:::[GET]\x1b[0m");
@@ -124,8 +125,6 @@ export async function POST(request: Request) {
   };
   const newPost = await Post.create(payload);
   console.log({ newPost });
-
-  // revalidatePath("/api/posts");
 
   return Response.json({ newPost }, { status: 200 });
 }

@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     console.log("세션", session?.user);
-  }, [session]);
+  }, [session?.user]);
 
   return (
     <AuthContext.Provider value={{}}>
