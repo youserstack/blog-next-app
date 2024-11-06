@@ -4,7 +4,20 @@ import CommentList from "../lists/CommentList";
 import { Paper, Typography } from "@mui/material";
 import Image from "next/image";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+// const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    console.error("API 요청에 실패했습니다.", res.status, res.statusText);
+    throw new Error("API 요청에 실패했습니다.");
+  }
+  try {
+    return await res.json();
+  } catch (error) {
+    console.error("JSON 파싱에 실패했습니다:", error);
+    throw error;
+  }
+};
 
 export default async function PostArticle({ postId }: any) {
   const { post } = await fetcher(`${process.env.ROOT_URL}/api/posts/${postId}`);
