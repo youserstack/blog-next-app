@@ -4,25 +4,20 @@ import CommentList from "../lists/CommentList";
 import { Paper, Typography } from "@mui/material";
 import Image from "next/image";
 
-// const fetcher = (url: string) => fetch(url).then((res) => res.json());
-const fetcher = async (url: string) => {
-  const res = await fetch(url);
-  if (!res.ok) {
-    console.error("API 요청에 실패했습니다.", res.status, res.statusText);
-    throw new Error("API 요청에 실패했습니다.");
-  }
-  try {
-    return await res.json();
-  } catch (error) {
-    console.error("JSON 파싱에 실패했습니다:", error);
-    throw error;
-  }
-};
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default async function PostArticle({ postId }: any) {
   const { post } = await fetcher(`${process.env.ROOT_URL}/api/posts/${postId}`);
 
-  if (!post) return null;
+  // if (!post || !post.author) {
+  //   console.error("서버에서 포스트글 패칭을 실패했습니다.");
+  //   if (!post) console.error("게시글이 null입니다.");
+  //   if (!post.author) console.error("게시글의 작성자가 null입니다.");
+  //   console.log({ post });
+  //   return null;
+  // }
+
+  const { _id, title, content, author, category, image, createdAt } = post;
 
   return (
     <Paper
@@ -37,28 +32,28 @@ export default async function PostArticle({ postId }: any) {
       }}
     >
       <div className="article-header" style={{ position: "relative" }}>
-        <Typography variant="h3">{post.title}</Typography>
+        <Typography variant="h3">{title}</Typography>
         <Typography variant="subtitle2" style={{ display: "flex", gap: "1rem" }}>
-          <p>작성자 : {post.author?.name}</p>
-          <p>{post.createdAt?.slice(0, 10)}</p>
-          <p>카테고리 {post.category?.replaceAll("/", " > ")}</p>
+          {/* <p>작성자 : {author.name}</p> */}
+          <p>{createdAt.slice(0, 10)}</p>
+          <p>카테고리 {category.replaceAll("/", " > ")}</p>
         </Typography>
         <ArticleOptionButton post={post} />
       </div>
 
       <div className="article-body">
         <div className="thumbnail" style={{ height: "500px" }}>
-          <Image src={post.image} alt="" width={1000} height={1000} />
+          <Image src={image} alt="" width={1000} height={1000} />
         </div>
-        <pre style={{ whiteSpace: "break-spaces" }}>{post.content}</pre>
+        <pre style={{ whiteSpace: "break-spaces" }}>{content}</pre>
       </div>
 
       <div
         className="article-footer"
         style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
       >
-        <CommentCreateForm authorImage={post.author?.image} postId={post._id} />
-        <CommentList postId={post._id} />
+        <CommentCreateForm postId={_id} />
+        <CommentList postId={_id} />
       </div>
     </Paper>
   );
