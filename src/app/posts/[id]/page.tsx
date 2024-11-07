@@ -1,9 +1,9 @@
 import Loading from "@/components/ui/Loading";
 import dynamic from "next/dynamic";
 
-const PostArticle = dynamic(() => import("@/components/articles/PostArticle"), {
-  loading: () => <Loading />,
-});
+// const PostArticle = dynamic(() => import("@/components/articles/PostArticle"), {
+//   loading: () => <Loading />,
+// });
 
 export async function generateStaticParams() {
   const response = await fetch(`${process.env.ROOT_URL}/api/static/all-posts`);
@@ -17,7 +17,8 @@ export default function PostId({ params: { id: postId } }: { params: { id: strin
   return (
     <main className="post-id">
       <section>
-        <PostArticle postId={postId} />
+        {/* <PostArticle postId={postId} /> */}
+        {/*  */}
       </section>
     </main>
   );
