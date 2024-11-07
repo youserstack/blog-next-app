@@ -1,24 +1,28 @@
+import PostArticle from "@/components/articles/PostArticle";
 import Loading from "@/components/ui/Loading";
-import dynamic from "next/dynamic";
-
-// const PostArticle = dynamic(() => import("@/components/articles/PostArticle"), {
-//   loading: () => <Loading />,
-// });
+import connectDB from "@/lib/config/connectDB";
+import Post from "@/lib/models/Post";
+import { Suspense } from "react";
 
 export async function generateStaticParams() {
-  const response = await fetch(`${process.env.ROOT_URL}/api/static/all-posts`);
-  const { posts } = await response.json();
-  const staticParams = posts.map((post: any) => ({ id: post._id }));
+  await connectDB();
+
+  const posts = await Post.find({}).select("_id");
+  const staticParams = posts.map((post: any) => ({ id: post._id.toString() }));
   console.log({ staticParams });
+
   return staticParams;
 }
 
 export default function PostId({ params: { id: postId } }: { params: { id: string } }) {
+  console.log({ postId });
+
   return (
     <main className="post-id">
       <section>
-        {/* <PostArticle postId={postId} /> */}
-        {/*  */}
+        <Suspense fallback={<Loading />}>
+          <PostArticle postId={postId} />
+        </Suspense>
       </section>
     </main>
   );
