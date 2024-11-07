@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
   // extract
   const { parentCategories: tempParentCategories, childCategory: temp } = await request.json();
-  // console.log({ parentCategories, temp });
+  // console.log({ tempParentCategories, temp });
   if (!temp.trim()) return Response.json({ error: "카테고리 누락" }, { status: 400 });
   const childCategory = temp.replace(/\s+/g, "-"); // 공백을 대시로 표기
   const parentCategories = JSON.parse(tempParentCategories);
@@ -83,10 +83,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: Request) {
-  // console.log("\n\x1b[32m[api/categories]:::[GET]\x1b[0m");
   await connectDB();
   const foundCategories = await Category.find({});
-  // console.log({ foundCategories });
   return Response.json({ categories: foundCategories }, { status: 200 });
 }
 

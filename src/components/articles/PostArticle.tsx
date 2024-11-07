@@ -19,7 +19,7 @@ export default async function PostArticle({ postId }: any) {
   //   return null;
   // }
 
-  const { _id, title, content, category, image, createdAt } = post;
+  const { _id, title, content, author, category, image, createdAt } = post;
 
   return (
     <Paper
@@ -36,7 +36,7 @@ export default async function PostArticle({ postId }: any) {
       <div className="article-header" style={{ position: "relative" }}>
         <Typography variant="h3">{title}</Typography>
         <Typography variant="subtitle2" style={{ display: "flex", gap: "1rem" }}>
-          {/* <p>작성자 : {author.name}</p> */}
+          <p>작성자 : {author.name}</p>
           <p>{createdAt.slice(0, 10)}</p>
           <p>카테고리 {category.replaceAll("/", " > ")}</p>
         </Typography>
