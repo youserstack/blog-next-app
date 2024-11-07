@@ -14,10 +14,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
     postId,
     { $inc: { views: 1 } }, // `views` 필드를 1 증가시킵니다.
     { new: true, upsert: false } // 업데이트된 포스트를 반환
-  ).populate({
-    path: "author",
-    model: User,
-  });
+  ).populate("author");
+  console.log({ foundPost });
 
   return Response.json({ post: foundPost });
 }

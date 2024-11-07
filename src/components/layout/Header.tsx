@@ -22,6 +22,7 @@ function Logo() {
 
 export default async function Header() {
   const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
+  // console.log("header", { categories });
 
   return (
     <AppBar position="fixed" sx={{ transition: "all 0.5s", zIndex: "100" }}>
