@@ -7,7 +7,9 @@ import Image from "next/image";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default async function PostArticle({ postId }: any) {
-  const { post } = await fetcher(`${process.env.ROOT_URL}/api/posts/${postId}`);
+  const url = `${process.env.ROOT_URL}/api/posts/${postId}`;
+  console.log({ url });
+  const { post } = await fetcher(url);
 
   // if (!post || !post.author) {
   //   console.error("서버에서 포스트글 패칭을 실패했습니다.");
