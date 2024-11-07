@@ -6,6 +6,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default async function CategoryLayout({ children }: { children: React.ReactNode }) {
   const { categories } = await fetcher(`${process.env.ROOT_URL}/api/categories`);
+  // console.log("category layout", { categories });
 
   return (
     <main className="category-layout">

@@ -14,7 +14,6 @@ const nextConfig = {
     NAVER_ID: process.env.NAVER_ID,
     NAVER_SECRET: process.env.NAVER_SECRET,
   },
-  reactStrictMode: false,
   images: {
     remotePatterns: [{ hostname: "res.cloudinary.com" }, { hostname: "res.cloudinary.com" }],
   },

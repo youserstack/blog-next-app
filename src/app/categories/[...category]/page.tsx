@@ -7,7 +7,6 @@ import useSWR, { mutate } from "swr";
 import Link from "next/link";
 import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
 import Loading from "@/components/ui/Loading";
-// import Pagination from "@/components/ui/Pagination";
 import { useEffect } from "react";
 
 const ControlArea = dynamic(() => import("@/components/areas/ControlArea"));

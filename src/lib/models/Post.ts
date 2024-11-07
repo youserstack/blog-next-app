@@ -19,6 +19,7 @@ const postSchema = new mongoose.Schema(
       ref: "User", // User 스키마와 연결
       required: true,
     },
+
     tags: [String], // 배열 형태의 문자열로 태그 저장
     comments: [
       {

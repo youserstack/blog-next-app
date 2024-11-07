@@ -22,6 +22,7 @@ export async function GET(request: Request) {
   if (searchWords) {
     const searchRegex = { $regex: searchWords, $options: "i" }; // $options: "i", // 대소문자 구분하지 않음
     const authorIds = await User.find({ name: searchRegex }).select("_id"); // 검색어가 포함된 사용자의 ID 목록
+    // console.log({ authorIds });
 
     query = {
       ...query,

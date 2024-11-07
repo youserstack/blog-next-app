@@ -1,16 +1,16 @@
 "use client";
 
-import { Box, SxProps, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CSSProperties, MouseEvent } from "react";
 import { SlArrowRight } from "react-icons/sl";
 
-// import { useContext } from "react";
-// import { CategoryContext } from "../context/CategoryContext";
+interface Props {
+  categories: [];
+}
 
-export default function ExpandableNav({ categories }: any) {
-  // console.log({ categories });
+export default function ExpandableNav({ categories }: Props) {
   const theme = useTheme();
   const leafColor = theme.palette.primary.main;
   const textColor = theme.palette.text.primary;
