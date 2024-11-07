@@ -4,44 +4,22 @@ import { revalidatePath } from "next/cache";
 import { uploadToCloudinary } from "@/lib/utils/uploader";
 import "@/lib/config/cloudinaryConfig";
 import { NextRequest } from "next/server";
+import User from "@/lib/models/User";
 
-// export async function GET(request: Request, { params }: { params: { id: string } }) {
-//   // console.log("\n\x1b[32m[api/posts/[id]]\x1b[0m");
-//   await connectDB();
-
-//   const postId = params.id;
-//   const foundPost = await Post.findByIdAndUpdate(
-//     postId,
-//     { $inc: { views: 1 } }, // `views` 필드를 1 증가시킵니다.
-//     { new: true, upsert: false } // 업데이트된 포스트를 반환
-//   ).populate("author");
-
-//   // let foundPost = await Post.findById(postId).populate("author");
-//   // console.log({ foundPost });
-
-//   // 문서가 있는 경우에만 views 필드를 증가시킵니다.
-//   // if (foundPost) {
-//   //   foundPost.views += 1;
-//   //   await foundPost.save(); // 변경 사항을 저장합니다.
-//   // }
-
-//   return Response.json({ post: foundPost });
-// }
 export async function GET(request: Request, { params }: { params: { id: string } }) {
-  try {
-    await connectDB();
-    const postId = params.id;
-    const foundPost = await Post.findByIdAndUpdate(
-      postId,
-      { $inc: { views: 1 } },
-      { new: true, upsert: false }
-    ).populate("author");
+  await connectDB();
 
-    return Response.json({ post: foundPost });
-  } catch (error) {
-    console.error("데이터베이스 에러:", error);
-    return Response.json({ error: "데이터를 가져오는 중 오류가 발생했습니다." }, { status: 500 });
-  }
+  const postId = params.id;
+  const foundPost = await Post.findByIdAndUpdate(
+    postId,
+    { $inc: { views: 1 } }, // `views` 필드를 1 증가시킵니다.
+    { new: true, upsert: false } // 업데이트된 포스트를 반환
+  ).populate({
+    path: "author",
+    model: User,
+  });
+
+  return Response.json({ post: foundPost });
 }
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
