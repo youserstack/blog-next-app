@@ -17,7 +17,7 @@ export default async function PostArticle({ postId }: any) {
   //   return null;
   // }
 
-  const { _id, title, content, author, category, image, createdAt } = post;
+  const { _id, title, content, category, image, createdAt } = post;
 
   return (
     <Paper
