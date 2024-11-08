@@ -28,7 +28,16 @@ export default async function RootLayout({
       <body>
         <Provider mode={mode}>
           <GlobalModal />
-          <Suspense
+
+          <Skeleton
+            component={"header"}
+            variant="rectangular"
+            animation="wave"
+            width={"100%"}
+            height={64}
+            sx={{ position: "fixed", top: "0" }}
+          />
+          {/* <Suspense
             fallback={
               <Skeleton
                 component={"header"}
@@ -41,7 +50,7 @@ export default async function RootLayout({
             }
           >
             <Header />
-          </Suspense>
+          </Suspense> */}
 
           {children}
           <Footer />

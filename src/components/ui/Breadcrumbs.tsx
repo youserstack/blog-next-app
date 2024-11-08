@@ -9,7 +9,6 @@ export default function Breadcrumbs() {
   return (
     <MuiBreadcrumbs separator="/">
       {segments
-        // reduce, slice, map, join, split
         .reduce<string[]>((acc, _, index) => {
           acc.push(segments.slice(0, index + 1).join("/"));
           return acc; // 누적된 배열을 반환
@@ -19,7 +18,7 @@ export default function Breadcrumbs() {
           const lastSegment = segments[segments.length - 1];
           return (
             <Link key={path} href={`/categories/${path}`}>
-              {lastSegment}
+              {decodeURI(lastSegment).replaceAll("-", " ")}
             </Link>
           );
         })}

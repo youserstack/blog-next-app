@@ -11,6 +11,8 @@ export default function ControlArea() {
   const { openModal } = useContext(ModalContext);
   const { data: session } = useSession();
 
+  const handleClick = () => openModal("post-create-modal");
+
   return (
     <Box
       className="control-area"
@@ -19,7 +21,7 @@ export default function ControlArea() {
       {session && (
         <Button
           sx={{ textTransform: "none", display: { xs: "none", md: "flex" }, gap: "0.5rem" }}
-          onClick={() => openModal("post-create-modal")}
+          onClick={handleClick}
         >
           <MdCreate />
           포스트 작성하기

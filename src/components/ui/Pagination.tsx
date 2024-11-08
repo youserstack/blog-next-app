@@ -1,10 +1,18 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Pagination } from "@mui/material";
+import { Pagination as MuiPagination } from "@mui/material";
 import { useState } from "react";
 
-export default function MuiPagination({ count }: { count: number }) {
+const ITEMS_PER_PAGE = 5;
+
+interface Props {
+  totalCount: number;
+}
+
+export default function Pagination({ totalCount }: Props) {
+  // page count
+  const count = Number(Math.ceil(totalCount / ITEMS_PER_PAGE)) || 0;
   const router = useRouter();
   const searchParams = useSearchParams();
   const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
@@ -17,12 +25,10 @@ export default function MuiPagination({ count }: { count: number }) {
     router.push(`?${currentParams.toString()}`);
   };
 
-  // console.log({ count });
-  // count : page count
-  if (!count) return null;
+  if (!totalCount) return null;
 
   return (
-    <Pagination
+    <MuiPagination
       count={count}
       page={page}
       onChange={handleChange}
