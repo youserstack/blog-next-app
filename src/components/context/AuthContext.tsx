@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { status, data: session } = useSession();
 
   useEffect(() => {
-    console.log("세션", session?.user);
+    // console.log("세션", session?.user);
   }, [session?.user]);
 
   return (

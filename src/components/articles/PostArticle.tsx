@@ -6,20 +6,17 @@ import Image from "next/image";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default async function PostArticle({ postId }: any) {
-  const url = `${process.env.ROOT_URL}/api/posts/${postId}`;
-  console.log({ url });
-  const { post } = await fetcher(url);
+interface Props {
+  postId: string;
+}
 
-  if (!post || !post.author) {
-    console.error("서버에서 포스트글 패칭을 실패했습니다.");
-    if (!post) console.error("게시글이 null입니다.");
-    if (!post.author) console.error("게시글의 작성자가 null입니다.");
-    console.log({ post });
+export default async function PostArticle({ postId }: Props) {
+  const { post } = await fetcher(`${process.env.ROOT_URL}/api/posts/${postId}`);
+
+  if (!post) {
+    console.error("게시글이 null입니다.");
     return null;
   }
-
-  // const { _id, title, content, author, category, image, createdAt } = post;
 
   return (
     <Paper
@@ -36,7 +33,7 @@ export default async function PostArticle({ postId }: any) {
       <div className="article-header" style={{ position: "relative" }}>
         <Typography variant="h3">{post.title}</Typography>
         <Typography variant="subtitle2" style={{ display: "flex", gap: "1rem" }}>
-          <p>작성자 : {post.author.name}</p>
+          <p>작성자 : {post.author?.name}</p>
           <p>{post.createdAt?.slice(0, 10)}</p>
           <p>카테고리 {post.category?.replaceAll("/", " > ")}</p>
         </Typography>
@@ -45,7 +42,7 @@ export default async function PostArticle({ postId }: any) {
 
       <div className="article-body">
         <div className="thumbnail" style={{ height: "500px" }}>
-          <Image src={post.image ?? ""} alt="" width={1000} height={1000} />
+          <Image src={post.image || ""} alt="" width={1000} height={1000} />
         </div>
         <pre style={{ whiteSpace: "break-spaces" }}>{post.content}</pre>
       </div>

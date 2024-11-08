@@ -51,7 +51,9 @@ export default async function LatestPostList() {
                 style={{ height: "100%", display: "flex", position: "relative" }}
               >
                 <div className="thumbnail" style={{ position: "absolute", inset: "0" }}>
-                  {post.image && <Image src={post.image} alt="alt" width={200} height={200} />}
+                  {post.image && (
+                    <Image src={post.image} alt="alt" width={200} height={200} priority />
+                  )}
                 </div>
 
                 <Box
