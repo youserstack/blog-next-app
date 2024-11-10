@@ -13,7 +13,10 @@ const items = [
 
 export default function Oauth() {
   return (
-    <div className="오픈인증" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+    <div
+      className="오픈인증"
+      style={{ width: "100%", display: "flex", flexDirection: "column", gap: "1rem" }}
+    >
       {items.map((item) => (
         <Button
           variant="contained"
