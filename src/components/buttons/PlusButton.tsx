@@ -17,7 +17,8 @@ export default function PlusButton({ hasParentCategories = true }: Props) {
   const { openModal } = useContext(ModalContext);
   const { setParentCategories } = useContext(CategoryContext);
   const params = useParams();
-  const segments = params.category as string[];
+  // "categories/${param}/..." 경로의 이외의 경로는 params가 없으므로 빈배열로 보완할 필요가 있다.
+  const segments = (params.category as string[]) || [];
 
   const handleClick = () => {
     if (!hasParentCategories) {
@@ -29,6 +30,8 @@ export default function PlusButton({ hasParentCategories = true }: Props) {
     setParentCategories(segments);
     openModal("category-create-modal");
   };
+
+  // if (!segments) return null;
 
   return (
     <Button

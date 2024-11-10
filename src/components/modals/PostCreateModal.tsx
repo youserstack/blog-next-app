@@ -25,6 +25,7 @@ export default function PostCreateModal() {
   const params = useParams();
   const segments = (params.category as string[]).map((v) => decodeURIComponent(v));
   const path = `/${segments.join("/")}`;
+  console.log({ path });
 
   const [pending, setPending] = useState(false);
 
@@ -78,7 +79,7 @@ export default function PostCreateModal() {
       </div>
 
       <FormControl>
-        <Select value={path} name="category" id="category" disabled>
+        <Select value={path} name="category" id="category">
           <MenuItem value={path}>{path.replaceAll("/", " / ").replaceAll("-", " ")}</MenuItem>
         </Select>
       </FormControl>
