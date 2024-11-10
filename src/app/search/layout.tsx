@@ -1,13 +1,15 @@
-import dynamic from "next/dynamic";
+import SearchFilters from "@/components/ui/SearchFilters";
 
-const SearchFilter = dynamic(() => import("@/components/features/SearchFilter"));
+interface Props {
+  children: React.ReactNode;
+}
 
-export default function SearchLayout({ children }: { children: React.ReactNode }) {
+export default function SearchLayout({ children }: Props) {
   return (
     <main>
       <section>
         <div className="search" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <SearchFilter />
+          <SearchFilters />
           {children}
         </div>
       </section>

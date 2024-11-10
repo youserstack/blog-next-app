@@ -1,19 +1,19 @@
 "use client";
 
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useState } from "react";
 import { CategoryContext } from "../context/CategoryContext";
 
-export default function SearchFilter() {
-  const [rootCategory, setRootCategory] = useState("");
-  const [sub1Category, setSub1Category] = useState("");
+function CategoryFilter() {
   const [sub2Category, setSub2Category] = useState("");
   const [showSub1Category, setShowSub1Category] = useState(false);
   const [showSub2Category, setShowSub2Category] = useState(false);
-  const [sort, setSort] = useState("");
+  const [rootCategory, setRootCategory] = useState("");
+  const [sub1Category, setSub1Category] = useState("");
   const searchParams = useSearchParams();
   const router = useRouter();
+
   const { categories } = useContext(CategoryContext);
 
   const updateURLParams = (key: any, value: any) => {
@@ -61,40 +61,30 @@ export default function SearchFilter() {
     updateURLParams("categoryPath", `/${rootCategory}/${sub1Category}/${sub2Category}`);
   };
 
-  const handleSortChange = (e: any) => {
-    const sort = e.target.value;
-
-    setSort(sort);
-
-    const urlSearchParams = new URLSearchParams(searchParams.toString());
-    urlSearchParams.set("sort", sort);
-    router.push(`?${urlSearchParams.toString()}`);
-  };
-
   return (
-    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        <FormControl sx={{ minWidth: "120px" }} size="small">
-          <InputLabel id="rootCategory">카테고리</InputLabel>
-          <Select
-            labelId="rootCategory"
-            value={rootCategory}
-            onChange={handleRootCategoryChange}
-            label="카테고리"
-            autoWidth
-            MenuProps={{ disableScrollLock: true }}
-          >
-            <MenuItem value="all">전체</MenuItem>
-            {categories.map((rootCategory: any) => (
-              <MenuItem key={rootCategory._id} value={rootCategory.name}>
-                {rootCategory.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+      <FormControl sx={{ minWidth: "120px" }} size="small">
+        <InputLabel id="rootCategory">카테고리</InputLabel>
+        <Select
+          labelId="rootCategory"
+          value={rootCategory}
+          onChange={handleRootCategoryChange}
+          label="카테고리"
+          autoWidth
+          MenuProps={{ disableScrollLock: true }}
+        >
+          <MenuItem value="all">전체</MenuItem>
+          {categories.map((rootCategory: any) => (
+            <MenuItem key={rootCategory._id} value={rootCategory.name}>
+              {rootCategory.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
 
-        {showSub1Category && <span>{">"}</span>}
-        {showSub1Category && (
+      {showSub1Category && (
+        <>
+          <span>{">"}</span>
           <FormControl sx={{ minWidth: "150px" }} size="small">
             <InputLabel id="sub1Category">하위 카테고리</InputLabel>
             <Select
@@ -114,10 +104,12 @@ export default function SearchFilter() {
                 ))}
             </Select>
           </FormControl>
-        )}
+        </>
+      )}
 
-        {showSub2Category && <span>{">"}</span>}
-        {showSub2Category && (
+      {showSub2Category && (
+        <>
+          <span>{">"}</span>
           <FormControl sx={{ minWidth: "150px" }} size="small">
             <InputLabel id="sub2Category">하위 카테고리</InputLabel>
             <Select
@@ -138,25 +130,52 @@ export default function SearchFilter() {
                 ))}
             </Select>
           </FormControl>
-        )}
-      </div>
+        </>
+      )}
+    </div>
+  );
+}
 
-      <FormControl sx={{ minWidth: "120px" }} size="small">
-        <InputLabel id="sort">정렬</InputLabel>
-        <Select
-          labelId="sort"
-          name="sort"
-          value={sort}
-          onChange={handleSortChange}
-          label="정렬"
-          MenuProps={{ disableScrollLock: true }}
-        >
-          <MenuItem value="asc">오름차순</MenuItem>
-          <MenuItem value="desc">내림차순</MenuItem>
-          <MenuItem value="popular">인기순</MenuItem>
-          <MenuItem value="newest">최신순</MenuItem>
-        </Select>
-      </FormControl>
+function SortFilter() {
+  const [sort, setSort] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const handleSortChange = (e: SelectChangeEvent<string>) => {
+    const sort = e.target.value;
+
+    setSort(sort);
+
+    const urlSearchParams = new URLSearchParams(searchParams.toString());
+    urlSearchParams.set("sort", sort);
+    router.push(`?${urlSearchParams.toString()}`);
+  };
+
+  return (
+    <FormControl sx={{ minWidth: "120px" }} size="small">
+      <InputLabel id="sort">정렬</InputLabel>
+      <Select
+        labelId="sort"
+        name="sort"
+        value={sort}
+        onChange={handleSortChange}
+        label="정렬"
+        MenuProps={{ disableScrollLock: true }}
+      >
+        <MenuItem value="asc">오름차순</MenuItem>
+        <MenuItem value="desc">내림차순</MenuItem>
+        <MenuItem value="popular">인기순</MenuItem>
+        <MenuItem value="newest">최신순</MenuItem>
+      </Select>
+    </FormControl>
+  );
+}
+
+export default function SearchFilters() {
+  return (
+    <Box className="검색필터" component={"div"} display={"flex"} justifyContent={"space-between"}>
+      <CategoryFilter />
+      <SortFilter />
     </Box>
   );
 }

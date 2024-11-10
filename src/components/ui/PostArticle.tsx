@@ -20,6 +20,7 @@ export default async function PostArticle({ postId }: Props) {
 
   return (
     <Paper
+      className="포스트_게시글"
       component="article"
       variant="outlined"
       sx={{
@@ -30,27 +31,31 @@ export default async function PostArticle({ postId }: Props) {
         gap: "2rem",
       }}
     >
-      <div className="article-header" style={{ position: "relative" }}>
-        <Typography variant="h3">{post.title}</Typography>
-        <Typography variant="subtitle2" style={{ display: "flex", gap: "1rem" }}>
-          <p>작성자 : {post.author?.name}</p>
-          <p>{post.createdAt?.slice(0, 10)}</p>
-          <p>카테고리 {post.category?.replaceAll("/", " > ")}</p>
-        </Typography>
+      <div
+        className="상단"
+        style={{ position: "relative", display: "flex", justifyContent: "space-between" }}
+      >
+        <div>
+          <Typography variant="h3">{post.title}</Typography>
+          <Typography variant="subtitle2" style={{ display: "flex", gap: "1rem" }}>
+            <p>작성자 : {post.author?.name}</p>
+            <p>{post.createdAt?.slice(0, 10)}</p>
+            <p>카테고리 {post.category?.replaceAll("/", " > ")}</p>
+          </Typography>
+        </div>
+
         <ArticleOptionButton post={post} />
       </div>
 
-      <div className="article-body">
+      <div className="중간" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <div className="thumbnail" style={{ height: "500px" }}>
           <Image src={post.image || ""} alt="" width={1000} height={1000} />
         </div>
+
         <pre style={{ whiteSpace: "break-spaces" }}>{post.content}</pre>
       </div>
 
-      <div
-        className="article-footer"
-        style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-      >
+      <div className="하단" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <CommentCreateForm postId={post._id} />
         <CommentList postId={post._id} />
       </div>

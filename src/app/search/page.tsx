@@ -6,7 +6,7 @@ import PostList from "@/components/lists/PostList";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 
-const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Search() {
   const searchParams = useSearchParams();
@@ -15,9 +15,9 @@ export default function Search() {
   if (isValidating) return <Loading />;
 
   return (
-    <article style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       <PostList posts={data.posts} />
       <Pagination totalCount={data.totalCount} />
-    </article>
+    </div>
   );
 }

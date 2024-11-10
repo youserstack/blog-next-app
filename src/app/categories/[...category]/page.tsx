@@ -20,6 +20,7 @@ export default function Category() {
   const searchParams = useSearchParams();
   const categoryPath = "/" + (params.category as string[]).join("/");
   const page = searchParams?.get("page") || "1";
+
   const { isValidating, data } = useSWR("categorized-posts", () =>
     fetcher(`/api/posts?categoryPath=${categoryPath}&page=${page}`)
   );

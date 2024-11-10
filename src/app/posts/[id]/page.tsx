@@ -1,4 +1,4 @@
-import PostArticle from "@/components/articles/PostArticle";
+import PostArticle from "@/components/ui/PostArticle";
 import Loading from "@/components/ui/Loading";
 import connectDB from "@/lib/config/connectDB";
 import Post from "@/lib/models/Post";
@@ -11,9 +11,9 @@ export async function generateStaticParams() {
   return staticParams;
 }
 
-export default function PostId({ params: { id: postId } }: { params: { id: string } }) {
+export default function PostDetail({ params: { id: postId } }: { params: { id: string } }) {
   return (
-    <main className="post-id">
+    <main className="포스트_상세페이지">
       <section>
         <Suspense fallback={<Loading />}>
           <PostArticle postId={postId} />

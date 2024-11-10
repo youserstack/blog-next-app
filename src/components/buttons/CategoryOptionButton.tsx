@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 
 export default function CategoryOptionButton() {
   const params = useParams();
-  const categorySegments = (params.category as string[]).map((v: any) => decodeURIComponent(v));
+  const categorySegments = (params.category as string[]).map((v) => decodeURIComponent(v));
   const rootCategory = categorySegments[0];
   const { setParentCategories } = useContext(CategoryContext);
   const { openModal } = useContext(ModalContext);
