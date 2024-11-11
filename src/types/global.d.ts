@@ -8,10 +8,32 @@ interface IPost {
   comments?: Types.ObjectId[];
   image?: string;
   views: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface LatestPostsResponse {
   posts: IPost[];
+}
+
+interface IComment {
+  _id: Types.ObjectId;
+  content: string;
+  author: Types.ObjectId; // User와 연결된 ObjectId
+  post: Types.ObjectId; // Post와 연결된 ObjectId
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface ICategory {
+  _id: Types.ObjectId;
+  name: string;
+  sub1Categories: {
+    name: string;
+    sub2Categories: {
+      name: string;
+    }[];
+  }[];
+  createdAt: string;
+  updatedAt: string;
 }

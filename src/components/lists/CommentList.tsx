@@ -35,7 +35,7 @@ export default function CommentList({ postId }: Props) {
         gap: "1rem",
       }}
     >
-      {data.comments.map((comment: any) => {
+      {data.comments.map((comment: IComment) => {
         if (!comment) {
           console.error("해당 댓글이 존재하지 않습니다.");
           return null;

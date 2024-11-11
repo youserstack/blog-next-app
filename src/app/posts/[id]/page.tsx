@@ -8,7 +8,7 @@ export async function generateStaticParams() {
   const response = await fetch(`${process.env.ROOT_URL}/api/static/all-posts`);
   if (!response.ok) return new Error("정적 페이지 경로 생성 에러발생");
   const { posts } = await response.json();
-  return posts.map((post: any) => ({ id: post._id.toString() }));
+  return posts.map((post: IPost) => ({ id: post._id.toString() }));
 }
 
 export default function PostDetail({ params: { id: postId } }: { params: { id: string } }) {

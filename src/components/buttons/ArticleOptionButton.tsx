@@ -7,7 +7,11 @@ import { MdEdit } from "react-icons/md";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-export default function ArticleOptionButton({ post }: any) {
+interface Props {
+  post: IPost;
+}
+
+export default function ArticleOptionButton({ post }: Props) {
   const { data: session } = useSession();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);

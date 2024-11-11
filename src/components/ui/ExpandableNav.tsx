@@ -18,7 +18,7 @@ export default function ExpandableNav({ categories }: Props) {
   const ulBorderLeftColor = theme.palette.mode === "dark" ? "#ffffff1f" : "#0000001f";
 
   const params = useParams();
-  const categorySegments = (params.category as string[])?.map((v: any) => decodeURIComponent(v));
+  const categorySegments = (params.category as string[])?.map((v) => decodeURIComponent(v));
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     const link = e.currentTarget as HTMLAnchorElement;
@@ -57,15 +57,13 @@ export default function ExpandableNav({ categories }: Props) {
     <Box
       component={"ul"}
       sx={{
-        width: "300px",
         padding: "1rem",
         whiteSpace: "nowrap",
-        display: { xs: "none", md: "block" },
         "& a:hover": { color: textHoverColor + " !important" },
         "& ul": { color: ulBorderLeftColor },
       }}
     >
-      {categories?.map((category: any) => {
+      {categories?.map((category: ICategory) => {
         const isMatched =
           categorySegments && categorySegments.length >= 1 && category.name === categorySegments[0];
         const isLeaf =

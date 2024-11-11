@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { uploadToCloudinary } from "@/lib/utils/uploader";
 import "@/lib/config/cloudinaryConfig";
 import { NextRequest } from "next/server";
-import User from "@/lib/models/User";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   await connectDB();

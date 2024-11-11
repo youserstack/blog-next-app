@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       priority: 1,
     },
-    ...posts.map((post: any) => ({
+    ...posts.map((post: IPost) => ({
       url: `${process.env.ROOT_URL}/product/${post._id}`,
       lastModified: new Date(),
     })),
