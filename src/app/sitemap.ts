@@ -14,20 +14,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...posts.map((post: any) => ({
       url: `${process.env.ROOT_URL}/product/${post._id}`,
-      lastModified: new Date(post.updatedAt),
+      lastModified: new Date(),
     })),
   ];
   console.log({ sitemap });
 
-  return [
-    {
-      url: process.env.ROOT_URL,
-      lastModified: new Date(),
-      priority: 1,
-    },
-    ...posts.map((post: any) => ({
-      url: `${process.env.ROOT_URL}/product/${post._id}`,
-      lastModified: new Date(post.updatedAt),
-    })),
-  ];
+  return sitemap;
 }
