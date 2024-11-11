@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-const SigninTabForm = dynamic(() => import("@/components/ui/SigninTabForm"), { ssr: false });
+const AuthTabs = dynamic(() => import("@/components/ui/AuthTabs"), { ssr: false });
 
 export default function Signin() {
   return (
@@ -15,7 +15,7 @@ export default function Signin() {
           alignItems: "center",
         }}
       >
-        <SigninTabForm />
+        <AuthTabs />
       </section>
     </main>
   );

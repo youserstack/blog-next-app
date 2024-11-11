@@ -17,13 +17,7 @@ const defaultCategoryContext: CategoryContextType = {
 };
 
 export const CategoryContext = createContext<CategoryContextType>(defaultCategoryContext);
-export const CategoryProvider = ({
-  children,
-}: // categories: storedCategories,
-{
-  children: React.ReactNode;
-  // categories: any[];
-}) => {
+export const CategoryProvider = ({ children }: { children: React.ReactNode }) => {
   const [categories, setCategories] = useState<any[]>([]);
   const [parentCategories, setParentCategories] = useState<string[]>([]);
 

@@ -28,6 +28,7 @@ export default async function RootLayout({
       <body>
         <Provider mode={mode}>
           <GlobalModal />
+
           <Suspense
             fallback={
               <Skeleton

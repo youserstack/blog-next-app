@@ -1,5 +1,5 @@
 import { Box, Button, List, ListItem, Paper } from "@mui/material";
-import CategoryCreateButton from "@/components/buttons/CategoryCreateButton";
+import PlusButton from "@/components/buttons/PlusButton";
 import Link from "next/link";
 
 export default function Nav({ categories }: any) {
@@ -88,7 +88,7 @@ export default function Nav({ categories }: any) {
           );
         })}
 
-        <CategoryCreateButton parentCategories={[]} />
+        <PlusButton hasParentCategories={false} />
       </List>
     </Box>
   );

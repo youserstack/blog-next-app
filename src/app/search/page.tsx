@@ -1,25 +1,23 @@
 "use client";
 
 import Loading from "@/components/ui/Loading";
-import MuiPagination from "@/components/ui/MuiPagination";
+import Pagination from "@/components/ui/Pagination";
 import PostList from "@/components/lists/PostList";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 
-const ITEMS_PER_PAGE = 5;
-const fetcher = (url: string) => fetch(url, { cache: "no-cache" }).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Search() {
   const searchParams = useSearchParams();
-  const url = `/api/posts?${searchParams.toString()}`;
-  const { isValidating, data } = useSWR(url, fetcher);
+  const { isValidating, data } = useSWR(`/api/posts?${searchParams.toString()}`, fetcher);
 
-  if (isValidating || !data) return <Loading />;
-  const { posts, totalCount } = data;
+  if (isValidating) return <Loading />;
+
   return (
-    <article style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-      <PostList posts={posts} />
-      <MuiPagination count={Number(Math.ceil(totalCount / ITEMS_PER_PAGE))} />
-    </article>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <PostList posts={data.posts} />
+      <Pagination totalCount={data.totalCount} />
+    </div>
   );
 }

@@ -21,32 +21,38 @@ import { CgClose } from "react-icons/cg";
 export default function PostCreateModal() {
   const { data: session } = useSession();
   const { closeModal } = useContext(ModalContext);
-  const { category }: any = useParams();
-  const categoryPath = decodeURI(category.map((v: any) => `/${v}`).join(""));
+
+  const params = useParams();
+  const segments = (params.category as string[]).map((v) => decodeURIComponent(v));
+  const path = `/${segments.join("/")}`;
+  console.log({ path });
+
   const [pending, setPending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPending(true);
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const response = await fetch(`${process.env.ROOT_URL}/api/posts`, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    console.log("생성된 포스트글", { data });
+
+    setPending(false);
+    closeModal();
+    mutate("categorized-posts");
+  };
 
   return (
     <Paper
       component="form"
       className="post-create-modal"
       elevation={5}
-      onSubmit={async (e) => {
-        e.preventDefault();
-        setPending(true);
-
-        const form = e.target as HTMLFormElement;
-        const formData = new FormData(form);
-        const response = await fetch(`${process.env.ROOT_URL}/api/posts`, {
-          method: "POST",
-          body: formData,
-        });
-        const data = await response.json();
-        console.log("생성된 포스트글", { data });
-
-        setPending(false);
-        closeModal();
-        mutate("categorized-posts");
-      }}
+      onSubmit={handleSubmit}
       sx={{
         width: { xs: "90vw", sm: "70vw", md: "60vw", lg: "50vw" },
         maxWidth: "800px",
@@ -73,8 +79,8 @@ export default function PostCreateModal() {
       </div>
 
       <FormControl>
-        <Select value={categoryPath} name="category" id="category">
-          <MenuItem value={categoryPath}>{categoryPath.replaceAll("/", " > ")}</MenuItem>
+        <Select value={path} name="category" id="category">
+          <MenuItem value={path}>{path.replaceAll("/", " / ").replaceAll("-", " ")}</MenuItem>
         </Select>
       </FormControl>
 

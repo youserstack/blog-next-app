@@ -6,7 +6,11 @@ import Image from "next/image";
 import useSWR from "swr";
 import Loading from "../ui/Loading";
 
-export default function CommentList({ postId }: any) {
+interface Props {
+  postId: string;
+}
+
+export default function CommentList({ postId }: Props) {
   const { isValidating, data } = useSWR("post-comments", () =>
     fetch(`/api/comments?postId=${postId}`, { cache: "no-cache" }).then((res) => res.json())
   );

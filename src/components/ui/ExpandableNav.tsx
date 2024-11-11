@@ -57,8 +57,10 @@ export default function ExpandableNav({ categories }: Props) {
     <Box
       component={"ul"}
       sx={{
+        width: "300px",
         padding: "1rem",
         whiteSpace: "nowrap",
+        display: { xs: "none", md: "block" },
         "& a:hover": { color: textHoverColor + " !important" },
         "& ul": { color: ulBorderLeftColor },
       }}
