@@ -1,14 +1,14 @@
 import PostArticle from "@/components/ui/PostArticle";
 import Loading from "@/components/ui/Loading";
 import connectDB from "@/lib/config/connectDB";
-import Post from "@/lib/models/Post";
 import { Suspense } from "react";
 
 export async function generateStaticParams() {
   await connectDB();
-  const posts = await Post.find({}).select("_id");
-  const staticParams = posts.map((post: any) => ({ id: post._id.toString() }));
-  return staticParams;
+  const response = await fetch(`${process.env.ROOT_URL}/api/static/all-posts`);
+  if (!response.ok) return new Error("정적 페이지 경로 생성 에러발생");
+  const { posts } = await response.json();
+  return posts.map((post: any) => ({ id: post._id.toString() }));
 }
 
 export default function PostDetail({ params: { id: postId } }: { params: { id: string } }) {
