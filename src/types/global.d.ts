@@ -12,15 +12,11 @@ interface IPost {
   updatedAt: string;
 }
 
-interface LatestPostsResponse {
-  posts: IPost[];
-}
-
 interface IComment {
   _id: Types.ObjectId;
   content: string;
-  author: Types.ObjectId; // User와 연결된 ObjectId
-  post: Types.ObjectId; // Post와 연결된 ObjectId
+  author: Types.ObjectId;
+  post: Types.ObjectId;
   createdAt: string;
   updatedAt: string;
 }
@@ -29,8 +25,10 @@ interface ICategory {
   _id: Types.ObjectId;
   name: string;
   sub1Categories: {
+    _id: Types.ObjectId;
     name: string;
     sub2Categories: {
+      _id: Types.ObjectId;
       name: string;
     }[];
   }[];

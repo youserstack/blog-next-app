@@ -16,15 +16,16 @@ function CategoryFilter() {
 
   const { categories } = useContext(CategoryContext);
 
-  const updateURLParams = (key: any, value: any) => {
+  const updateURLParams = (key: string, value: string) => {
     const urlSearchParams = new URLSearchParams(searchParams.toString());
     urlSearchParams.set(key, value);
     router.push(`?${urlSearchParams.toString()}`);
   };
 
-  const handleRootCategoryChange = (e: any) => {
+  const handleRootCategoryChange = (e: SelectChangeEvent<string>) => {
     const rootCategory = e.target.value;
-    const selectedRootCategory = categories.find((v: any) => v.name === rootCategory);
+    const selectedRootCategory = categories.find((v) => v.name === rootCategory);
+    if (!selectedRootCategory) return;
 
     setRootCategory(rootCategory);
     setSub1Category("");
@@ -40,11 +41,12 @@ function CategoryFilter() {
     updateURLParams("categoryPath", `/${rootCategory}`);
   };
 
-  const handleSub1CategoryChange = (e: any) => {
+  const handleSub1CategoryChange = (e: SelectChangeEvent<string>) => {
     const sub1Category = e.target.value;
     const selectedSub1Category = categories
-      .find((v: any) => v.name === rootCategory)
-      .sub1Categories.find((v: any) => v.name === sub1Category);
+      .find((v) => v.name === rootCategory)
+      ?.sub1Categories.find((v) => v.name === sub1Category);
+    if (!selectedSub1Category) return;
 
     setSub1Category(sub1Category);
     setSub2Category("");
@@ -53,7 +55,7 @@ function CategoryFilter() {
     updateURLParams("categoryPath", `/${rootCategory}/${sub1Category}`);
   };
 
-  const handleSub2CategoryChange = (e: any) => {
+  const handleSub2CategoryChange = (e: SelectChangeEvent<string>) => {
     const sub2Category = e.target.value;
 
     setSub2Category(sub2Category);
@@ -74,7 +76,7 @@ function CategoryFilter() {
           MenuProps={{ disableScrollLock: true }}
         >
           <MenuItem value="all">전체</MenuItem>
-          {categories.map((rootCategory: any) => (
+          {categories.map((rootCategory) => (
             <MenuItem key={rootCategory._id} value={rootCategory.name}>
               {rootCategory.name}
             </MenuItem>
@@ -96,8 +98,8 @@ function CategoryFilter() {
               MenuProps={{ disableScrollLock: true }}
             >
               {categories
-                .find((v: any) => v.name === rootCategory)
-                ?.sub1Categories.map((sub1Category: any) => (
+                .find((v) => v.name === rootCategory)
+                ?.sub1Categories.map((sub1Category) => (
                   <MenuItem key={sub1Category._id} value={sub1Category.name}>
                     {sub1Category.name}
                   </MenuItem>
@@ -121,9 +123,9 @@ function CategoryFilter() {
               MenuProps={{ disableScrollLock: true }}
             >
               {categories
-                .find((v: any) => v.name === rootCategory)
-                ?.sub1Categories.find((v: any) => v.name === sub1Category)
-                ?.sub2Categories.map((sub2Category: any) => (
+                .find((v) => v.name === rootCategory)
+                ?.sub1Categories.find((v) => v.name === sub1Category)
+                ?.sub2Categories.map((sub2Category) => (
                   <MenuItem key={sub2Category._id} value={sub2Category.name}>
                     {sub2Category.name}
                   </MenuItem>

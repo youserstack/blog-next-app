@@ -5,7 +5,11 @@ import { IoIosMore } from "react-icons/io";
 import { useState } from "react";
 import { mutate } from "swr";
 
-export default function CommentOptionButton({ commentId }: any) {
+interface Props {
+  commentId: string;
+}
+
+export default function CommentOptionButton({ commentId }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
 

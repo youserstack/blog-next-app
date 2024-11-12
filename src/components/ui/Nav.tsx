@@ -2,7 +2,11 @@ import { Box, Button, List, ListItem, Paper } from "@mui/material";
 import PlusButton from "@/components/buttons/PlusButton";
 import Link from "next/link";
 
-export default function Nav({ categories }: any) {
+interface Props {
+  categories: ICategory[];
+}
+
+export default function Nav({ categories }: Props) {
   return (
     <Box
       component="nav"
@@ -11,7 +15,7 @@ export default function Nav({ categories }: any) {
     >
       {/* 루트-카테고리-리스트 */}
       <List className="categories 루트-카테고리-리스트" sx={{ display: "flex" }}>
-        {categories.map((category: any) => {
+        {categories.map((category) => {
           const rootCategoryName = category.name;
           const rootCategoryLabel = rootCategoryName.replaceAll("-", " ");
           const rootCategoryPath = `/categories/${rootCategoryName}`;
@@ -36,7 +40,7 @@ export default function Nav({ categories }: any) {
                 sx={{ display: "none", position: "absolute", top: "100%" }}
               >
                 <Paper elevation={3}>
-                  {category.sub1Categories?.map((sub1Category: any) => {
+                  {category.sub1Categories?.map((sub1Category) => {
                     const sub1CategoryName = sub1Category.name;
                     const sub1CategoryLabel = sub1CategoryName.replaceAll("-", " ");
                     const sub1CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}`;
@@ -64,7 +68,7 @@ export default function Nav({ categories }: any) {
                           }}
                         >
                           <Paper elevation={3}>
-                            {sub1Category.sub2Categories?.map((sub2Category: any) => {
+                            {sub1Category.sub2Categories?.map((sub2Category) => {
                               const sub2CategoryName = sub2Category.name;
                               const sub2CategoryLabel = sub2CategoryName.replaceAll("-", " ");
                               const sub2CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}/${sub2CategoryName}`;

@@ -13,7 +13,15 @@ interface Props {
   // user: string;
 }
 
-export const Context = createContext({});
+interface IContext {
+  headerHidden: boolean;
+  setHeaderHidden: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const Context = createContext<IContext>({
+  headerHidden: false,
+  setHeaderHidden: () => {},
+});
 export const Provider = ({ children, mode }: Props) => {
   const [previousScrollY, setPreviousScrollY] = useState(0);
   const [headerHidden, setHeaderHidden] = useState(false); // 헤더 숨김 상태 관리
