@@ -47,7 +47,7 @@ export default function MuiSearchBar() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const search = (searchWords: string) => router.push(`/search?searchWords=${searchWords}`);
-  const { setHeaderHidden }: any = useContext(Context); // 헤더 숨김 상태 가져오기
+  const { setHeaderHidden } = useContext(Context); // 헤더 숨김 상태 가져오기
 
   return (
     <Search className="검색" sx={{ width: { xs: "70%", md: "100%" } }}>

@@ -2,7 +2,6 @@
 
 import { useParams, useSearchParams } from "next/navigation";
 import { Box } from "@mui/material";
-import dynamic from "next/dynamic";
 import useSWR, { mutate } from "swr";
 import PlusButton from "@/components/buttons/PlusButton";
 import Loading from "@/components/ui/Loading";
@@ -10,9 +9,9 @@ import { useEffect } from "react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import PostCreateButton from "@/components/buttons/PostCreateButton";
 import CategoryOptionButton from "@/components/buttons/CategoryOptionButton";
+import PostList from "@/components/lists/PostList";
+import Pagination from "@/components/ui/Pagination";
 
-const PostList = dynamic(() => import("@/components/lists/PostList"));
-const Pagination = dynamic(() => import("@/components/ui/Pagination"));
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Category() {

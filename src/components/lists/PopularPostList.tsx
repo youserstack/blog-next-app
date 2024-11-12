@@ -36,7 +36,7 @@ export default async function PopularPostList() {
             scrollbarWidth: "none", // Firefox에서 스크롤바 숨기기
           }}
         >
-          {posts.map((post: any) => (
+          {posts.map((post: IPost) => (
             <Paper
               key={post._id}
               variant="outlined"

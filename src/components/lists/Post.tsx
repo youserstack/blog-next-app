@@ -4,7 +4,11 @@ import { Card, Typography, useTheme } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Post({ post }: any) {
+interface Props {
+  post: IPost;
+}
+
+export default function Post({ post }: Props) {
   const theme = useTheme();
   const primary = theme.palette.primary.main;
 

@@ -6,7 +6,11 @@ import Link from "next/link";
 
 const ITEMS_PER_PAGE = 5;
 
-export default function Pagination({ totalCount }: any) {
+interface Props {
+  totalCount: number;
+}
+
+export default function Pagination({ totalCount }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 

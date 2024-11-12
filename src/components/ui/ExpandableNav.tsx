@@ -7,7 +7,7 @@ import { CSSProperties, MouseEvent } from "react";
 import { SlArrowRight } from "react-icons/sl";
 
 interface Props {
-  categories: [];
+  categories: ICategory[];
 }
 
 export default function ExpandableNav({ categories }: Props) {
@@ -18,7 +18,7 @@ export default function ExpandableNav({ categories }: Props) {
   const ulBorderLeftColor = theme.palette.mode === "dark" ? "#ffffff1f" : "#0000001f";
 
   const params = useParams();
-  const categorySegments = (params.category as string[])?.map((v: any) => decodeURIComponent(v));
+  const categorySegments = (params.category as string[])?.map((v) => decodeURIComponent(v));
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     const link = e.currentTarget as HTMLAnchorElement;
@@ -57,15 +57,13 @@ export default function ExpandableNav({ categories }: Props) {
     <Box
       component={"ul"}
       sx={{
-        width: "300px",
         padding: "1rem",
         whiteSpace: "nowrap",
-        display: { xs: "none", md: "block" },
         "& a:hover": { color: textHoverColor + " !important" },
         "& ul": { color: ulBorderLeftColor },
       }}
     >
-      {categories?.map((category: any) => {
+      {categories?.map((category: ICategory) => {
         const isMatched =
           categorySegments && categorySegments.length >= 1 && category.name === categorySegments[0];
         const isLeaf =
@@ -86,7 +84,7 @@ export default function ExpandableNav({ categories }: Props) {
             </Link>
 
             <ul style={ulStyle(isMatched)} className="middle">
-              {category.sub1Categories?.map((sub1Category: any) => {
+              {category.sub1Categories?.map((sub1Category) => {
                 const isMatched =
                   categorySegments &&
                   categorySegments.length >= 2 &&
@@ -110,7 +108,7 @@ export default function ExpandableNav({ categories }: Props) {
                     </Link>
 
                     <ul style={ulStyle(isMatched)}>
-                      {sub1Category.sub2Categories?.map((sub2Category: any) => {
+                      {sub1Category.sub2Categories?.map((sub2Category) => {
                         const isLeaf =
                           categorySegments &&
                           sub2Category.name === categorySegments[categorySegments.length - 1];
@@ -147,7 +145,7 @@ const linkStyle = (isLeaf: boolean, leafColor: string, textColor: string): CSSPr
   cursor: "pointer",
 });
 
-const buttonStyle = (isMatched: any): CSSProperties => ({
+const buttonStyle = (isMatched: boolean): CSSProperties => ({
   transform: isMatched ? "rotate(90deg)" : "rotate(0)",
   transition: "transform 0.3s",
   backgroundColor: "transparent",
@@ -159,7 +157,7 @@ const buttonStyle = (isMatched: any): CSSProperties => ({
 });
 
 // 자바스크립트로 스타일을 동적으로 변경하는 부분은 sx로는 적용되지 않을수있다. 반드시 기본속성으로 적용해야한다.
-const ulStyle = (isMatched: any): CSSProperties => ({
+const ulStyle = (isMatched: boolean): CSSProperties => ({
   height: isMatched ? "inital" : "0",
   transition: "all 0.3s ease-in-out",
   overflow: "hidden",

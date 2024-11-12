@@ -22,7 +22,11 @@ import { Squeeze as Hamburger } from "hamburger-react";
 import ExpandableNav from "./ExpandableNav";
 import { usePathname } from "next/navigation";
 
-export default function MuiHamburgerButton({ categories }: any) {
+interface Props {
+  categories: ICategory[];
+}
+
+export default function MuiHamburgerButton({ categories }: Props) {
   const { data: session } = useSession();
   const { mode, toggleMode } = useContext(ThemeContext);
   const [open, setOpen] = useState(false);

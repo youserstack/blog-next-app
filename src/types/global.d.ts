@@ -1,17 +1,44 @@
+interface IUser {
+  id: string;
+  name?: string;
+  email?: string;
+  image?: string;
+}
+
 interface IPost {
-  _id: Types.ObjectId;
+  _id: string;
   category: string;
   title: string;
   content: string;
-  author: Types.ObjectId;
+  author: IUser;
   tags?: string[];
-  comments?: Types.ObjectId[];
+  comments?: IComment[];
   image?: string;
   views: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
-interface LatestPostsResponse {
-  posts: IPost[];
+interface IComment {
+  _id: string;
+  content: string;
+  author: IUser;
+  post: IPost;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface ICategory {
+  _id: string;
+  name: string;
+  sub1Categories: {
+    _id: string;
+    name: string;
+    sub2Categories: {
+      _id: string;
+      name: string;
+    }[];
+  }[];
+  createdAt: string;
+  updatedAt: string;
 }

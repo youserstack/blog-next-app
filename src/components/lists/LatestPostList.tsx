@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import HorizontalScrollButton from "../ui/HorizontalScrollButton";
 
-const fetcher = async (url: string): Promise<LatestPostsResponse> => {
+const fetcher = async (url: string): Promise<{ posts: IPost[] }> => {
   const response = await fetch(url, { next: { revalidate: 60 } });
   if (!response.ok) throw new Error("최신글 데이터 요청 실패");
   return response.json();

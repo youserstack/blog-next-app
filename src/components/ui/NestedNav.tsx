@@ -14,7 +14,7 @@ export default function NestedNav() {
   const { categories } = useContext(CategoryContext);
 
   const params = useParams();
-  const categorySegments = (params.category as string[]).map((v: any) => decodeURIComponent(v));
+  const categorySegments = (params.category as string[]).map((v) => decodeURIComponent(v));
 
   // console.log(params);
 
@@ -56,7 +56,7 @@ export default function NestedNav() {
     >
       <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         {/* rootCategories */}
-        {categories.map((category: any) => {
+        {categories.map((category) => {
           const rootCategoryName = category.name;
           const rootCategoryLabel = rootCategoryName.replaceAll("-", " ");
           const rootCategoryPath = `/categories/${rootCategoryName}`;
@@ -78,7 +78,7 @@ export default function NestedNav() {
 
               <ul className="sub1-categories" style={subListStyle(isMatched)}>
                 {/* sub1Categories */}
-                {category.sub1Categories?.map((sub1Category: any) => {
+                {category.sub1Categories?.map((sub1Category) => {
                   const sub1CategoryName = sub1Category.name;
                   const sub1CategoryLabel = sub1CategoryName.replaceAll("-", " ");
                   const sub1CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}`;
@@ -107,7 +107,7 @@ export default function NestedNav() {
 
                       <ul className="sub2-categories" style={subListStyle(isMatched)}>
                         {/* sub2Categories */}
-                        {sub1Category.sub2Categories?.map((sub2Category: any) => {
+                        {sub1Category.sub2Categories?.map((sub2Category) => {
                           const sub2CategoryName = sub2Category.name;
                           const sub2CategoryLabel = sub2CategoryName.replaceAll("-", " ");
                           const sub2CategoryPath = `/categories/${rootCategoryName}/${sub1CategoryName}/${sub2CategoryName}`;
@@ -134,14 +134,14 @@ export default function NestedNav() {
   );
 }
 
-const linkStyle = (isLeaf: any, leafColor: any): CSSProperties => ({
+const linkStyle = (isLeaf: boolean, leafColor: string): CSSProperties => ({
   color: isLeaf ? leafColor : "initial",
   height: "2rem",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
 });
-const arrowButtonStyle = (isMatched: any): CSSProperties => ({
+const arrowButtonStyle = (isMatched: boolean): CSSProperties => ({
   transform: isMatched ? "rotate(90deg)" : "initial",
   transition: "transform 0.3s",
   backgroundColor: "transparent",
@@ -150,7 +150,7 @@ const arrowButtonStyle = (isMatched: any): CSSProperties => ({
   justifyContent: "center",
   alignItems: "center",
 });
-const subListStyle = (isMatched: any): CSSProperties => ({
+const subListStyle = (isMatched: boolean): CSSProperties => ({
   maxHeight: isMatched ? "100vh" : "0",
   transition: "opacity 0.15s ease 0s, max-height 0.3s ease-in-out 0s",
   overflow: "hidden",
