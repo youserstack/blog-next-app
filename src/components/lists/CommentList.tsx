@@ -41,7 +41,7 @@ export default function CommentList({ postId }: Props) {
           return null;
         }
 
-        const { _id, content, post, author } = comment;
+        const { _id, content, author } = comment;
         const name = author.name;
         if (!author.image) console.error("댓글 사용자 이미지가 존재하지 않습니다.");
         const image = author.image ?? "no image url"; // 이미지없는경우 기본값으로
@@ -67,7 +67,7 @@ export default function CommentList({ postId }: Props) {
               <Button>답글</Button>
             </div>
 
-            <CommentOptionButton commentId={_id} postId={post._id} />
+            <CommentOptionButton commentId={_id} />
           </li>
         );
       })}

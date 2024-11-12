@@ -13,6 +13,18 @@ export default function CommentOptionButton({ commentId }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
 
+  const handleClick = async (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    e.preventDefault();
+
+    const response = await fetch(`${process.env.ROOT_URL}/api/comments/${commentId}`, {
+      method: "delete",
+    });
+    const data = await response.json();
+
+    console.log("삭제된 댓글", data);
+    mutate("post-comments");
+  };
+
   return (
     <div>
       <Button onClick={(e) => setAnchorEl(e.currentTarget)}>
@@ -21,21 +33,7 @@ export default function CommentOptionButton({ commentId }: Props) {
 
       <Popper open={isOpen}>
         <Menu anchorEl={anchorEl} open={isOpen} onClose={() => setAnchorEl(null)}>
-          <MenuItem
-            onClick={async (e) => {
-              e.preventDefault();
-
-              const response = await fetch(`${process.env.ROOT_URL}/api/comments/${commentId}`, {
-                method: "delete",
-              });
-              const data = await response.json();
-
-              console.log("삭제된 댓글", data);
-              mutate("post-comments");
-            }}
-          >
-            삭제
-          </MenuItem>
+          <MenuItem onClick={handleClick}>삭제</MenuItem>
         </Menu>
       </Popper>
     </div>
