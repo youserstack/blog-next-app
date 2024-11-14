@@ -12,7 +12,7 @@ export default async function CategoryLayout({ children }: Props) {
   return (
     <main className="category-layout">
       <section style={{ display: "flex" }}>
-        <ExpandableNav categories={categories} />
+        <ExpandableNav categories={categories} isResponsive />
         {children}
       </section>
     </main>

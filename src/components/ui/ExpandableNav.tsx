@@ -8,9 +8,10 @@ import { SlArrowRight } from "react-icons/sl";
 
 interface Props {
   categories: ICategory[];
+  isResponsive?: boolean;
 }
 
-export default function ExpandableNav({ categories }: Props) {
+export default function ExpandableNav({ categories, isResponsive }: Props) {
   const theme = useTheme();
   const leafColor = theme.palette.primary.main;
   const textColor = theme.palette.text.primary;
@@ -59,8 +60,10 @@ export default function ExpandableNav({ categories }: Props) {
       sx={{
         padding: "1rem",
         whiteSpace: "nowrap",
+        minWidth: "300px",
         "& a:hover": { color: textHoverColor + " !important" },
         "& ul": { color: ulBorderLeftColor },
+        display: isResponsive ? { xs: "none", md: "block" } : "block",
       }}
     >
       {categories?.map((category: ICategory) => {
